@@ -1,0 +1,71 @@
+# ====================
+# خاص بـ Node.js / Vue.js
+# ====================
+
+# مجلدات الاعتماديات (الأهم)
+node_modules/
+School_Academy_Front/node_modules/
+
+# مجلدات البناء والترجمة
+dist/
+School_Academy_Front/dist/
+build/
+School_Academy_Front/build/
+.vite/
+
+# ملفات السجلات (Logs)
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# متغيرات البيئة (الأسرار والمفاتيح)
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+
+# ملفات التخزين المؤقت (Cache)
+.cache/
+.parcel-cache/
+.temp/
+*.tsbuildinfo
+
+# ====================
+# خاص بـ Visual Studio Code
+# ====================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# ====================
+# خاص بـ Visual Studio IDE (إذا كنت تستخدم النسخة الكاملة)
+# ====================
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ====================
+# خاص بنظام التشغيل (Windows / Mac / Linux)
+# ====================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+
+# ====================
+# ملفات أخرى مؤقتة
+# ====================
+*.swp
+*.swo
+*~
+.idea/
+*.iml

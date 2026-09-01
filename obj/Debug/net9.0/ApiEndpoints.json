@@ -1,0 +1,2416 @@
+[
+  {
+    "ContainingType": "School_Academy.Controllers.Address.AddressController",
+    "Method": "GetById",
+    "RelativePath": "api/Address/GetAddressBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.AddressController",
+    "Method": "Add",
+    "RelativePath": "api/Address/NewAddress",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Address.Address.Command.NewAddressCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.AddressController",
+    "Method": "Update",
+    "RelativePath": "api/Address/UpdateAddress",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Address.Address.Command.UpdateAddressCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentController",
+    "Method": "Delete",
+    "RelativePath": "api/Assignment/DeleteAssignment",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Assignment.Assignment.Command.DeleteAssignmentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentController",
+    "Method": "GetBy",
+    "RelativePath": "api/Assignment/GetAssignmentBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ID",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentController",
+    "Method": "GetList",
+    "RelativePath": "api/Assignment/GetAssignmentList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentController",
+    "Method": "Add",
+    "RelativePath": "api/Assignment/NewAssignment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Assignment.Assignment.Command.NewAssignmentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentController",
+    "Method": "Update",
+    "RelativePath": "api/Assignment/UpdateAssignment",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Assignment.Assignment.Command.UpdateAssignmentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentNominationController",
+    "Method": "Delete",
+    "RelativePath": "api/AssignmentNomination/DeleteAssignmentNomination",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Assignment.AssignmentNomination.Command.DeleteAssignmentNominationCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentNominationController",
+    "Method": "GetBy",
+    "RelativePath": "api/AssignmentNomination/GetAssignmentNominationBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AssignmentNominationID",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentNominationController",
+    "Method": "GetList",
+    "RelativePath": "api/AssignmentNomination/GetAssignmentNominationList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentNominationController",
+    "Method": "Add",
+    "RelativePath": "api/AssignmentNomination/NewAssignmentNomination",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Assignment.AssignmentNomination.Command.NewAssignmentNominationCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentNominationController",
+    "Method": "Update",
+    "RelativePath": "api/AssignmentNomination/UpdateAssignmentNomination",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Assignment.Assignment.Command.UpdateAssignmentNominationCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentScopeController",
+    "Method": "Delete",
+    "RelativePath": "api/AssignmentScope/DeleteAssignmentScope",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Assignment.AssignmentScope.Command.DeleteAssignmentScopeCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentScopeController",
+    "Method": "GetBy",
+    "RelativePath": "api/AssignmentScope/GetAssignmentScopeBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ID",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentScopeController",
+    "Method": "GetList",
+    "RelativePath": "api/AssignmentScope/GetAssignmentScopeList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentScopeController",
+    "Method": "GetCanNominateList",
+    "RelativePath": "api/AssignmentScope/GetCanNominateList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "studentEnrollmentID",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentScopeController",
+    "Method": "Add",
+    "RelativePath": "api/AssignmentScope/NewAssignmentScope",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Assignment.AssignmentScope.Command.NewAssignmentScopeCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentScopeController",
+    "Method": "Update",
+    "RelativePath": "api/AssignmentScope/UpdateAssignmentScope",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Assignment.AssignmentScope.Command.UpdateAssignmentScopeCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentScopeInfoController",
+    "Method": "Delete",
+    "RelativePath": "api/AssignmentScopeInfo/DeleteAssignmentScopeInfo",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Assignment.AssignmentScopeInfo.Command.DeleteAssignmentScopeInfoCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentScopeInfoController",
+    "Method": "GetBy",
+    "RelativePath": "api/AssignmentScopeInfo/GetAssignmentScopeInfoBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AssignmentScopeInfoID",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentScopeInfoController",
+    "Method": "GetList",
+    "RelativePath": "api/AssignmentScopeInfo/GetAssignmentScopeInfoList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentScopeInfoController",
+    "Method": "Add",
+    "RelativePath": "api/AssignmentScopeInfo/NewAssignmentScopeInfo",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Assignment.AssignmentScopeInfo.Command.NewAssignmentScopeInfoCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentScopeInfoController",
+    "Method": "Update",
+    "RelativePath": "api/AssignmentScopeInfo/UpdateAssignmentScopeInfo",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Assignment.AssignmentScopeInfo.Command.UpdateAssignmentScopeInfoCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.AuthController",
+    "Method": "GetRoles",
+    "RelativePath": "api/Auth/GetAllRolePermissions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "RoleId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.AuthController",
+    "Method": "GetRoles",
+    "RelativePath": "api/Auth/GetAllRoles",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.AuthController",
+    "Method": "Permissions",
+    "RelativePath": "api/Auth/GetPermissions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/Auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Authentication.Login.Command.LoginCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.AuthController",
+    "Method": "Register",
+    "RelativePath": "api/Auth/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Authentication.Register.Command.RegisterCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.AuthController",
+    "Method": "UpdateRolePermissions",
+    "RelativePath": "api/Auth/UpdateRolePermissions",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Authentication.RolePermission.Command.UpdateRolePermissionsCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.CityController",
+    "Method": "GetById",
+    "RelativePath": "api/City/GetCityByID",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.CityController",
+    "Method": "GetList",
+    "RelativePath": "api/City/GetCityList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.CityController",
+    "Method": "Add",
+    "RelativePath": "api/City/NewCity",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Address.City.Command.NewCityCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.CityController",
+    "Method": "Update",
+    "RelativePath": "api/City/UpdateCity",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Address.City.Command.UpdateCityCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.ClassController",
+    "Method": "Delete",
+    "RelativePath": "api/Class/DeleteClass",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Institute.Class.Command.DeleteClassCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.ClassController",
+    "Method": "GetBy",
+    "RelativePath": "api/Class/GetClassBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.Application.Services.Institute.Class.Query.GetClassByQuery",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.ClassController",
+    "Method": "GetList",
+    "RelativePath": "api/Class/GetClassList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.ClassController",
+    "Method": "IsExistBy",
+    "RelativePath": "api/Class/IsExistClassBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.Application.Services.Institute.Class.Query.IsExistClassByQuery",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.ClassController",
+    "Method": "Add",
+    "RelativePath": "api/Class/NewClass",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Institute.Class.Command.NewClassCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.ClassController",
+    "Method": "Update",
+    "RelativePath": "api/Class/UpdateClass",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Institute.Class.Command.UpdateClassCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.CountryController",
+    "Method": "GetById",
+    "RelativePath": "api/Country/GetCountryByID",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.CountryController",
+    "Method": "GetList",
+    "RelativePath": "api/Country/GetCountryList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.CountryController",
+    "Method": "Add",
+    "RelativePath": "api/Country/NewCountry",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Address.Country.Command.NewCountryCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.CountryController",
+    "Method": "Update",
+    "RelativePath": "api/Country/UpdateCountry",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Address.Country.Command.UpdateCountryCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.DailyEvaluationController",
+    "Method": "Delete",
+    "RelativePath": "api/DailyEvaluation/DeleteDailyEvaluation",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Progress.DailyEvaluation.Command.DeleteDailyEvaluationCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.DailyEvaluationController",
+    "Method": "GetBy",
+    "RelativePath": "api/DailyEvaluation/GetDailyEvaluationBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.DailyEvaluationController",
+    "Method": "GetList",
+    "RelativePath": "api/DailyEvaluation/GetDailyEvaluationList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.DailyEvaluationController",
+    "Method": "GetlastDailyEvaluation",
+    "RelativePath": "api/DailyEvaluation/GetlastDailyEvaluation",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "StudentEnrollmentID",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "StageInfoID",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.DailyEvaluationController",
+    "Method": "IsExistBy",
+    "RelativePath": "api/DailyEvaluation/IsExistDailyEvaluationeBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.Application.Services.Progress.DailyEvaluation.Query.IsExistDailyEvaluationByQuery",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.DailyEvaluationController",
+    "Method": "Add",
+    "RelativePath": "api/DailyEvaluation/NewDailyEvaluation",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Progress.DailyEvaluation.Command.NewDailyEvaluationCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.DailyEvaluationController",
+    "Method": "Update",
+    "RelativePath": "api/DailyEvaluation/UpdateDailyEvaluation",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Progress.DailyEvaluation.Command.UpdateDailyEvaluationCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.DistrictController",
+    "Method": "GetById",
+    "RelativePath": "api/District/GetDistrictByID/{param}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "param",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "paramType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.DistrictController",
+    "Method": "GetList",
+    "RelativePath": "api/District/GetDistrictList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.DistrictController",
+    "Method": "GetListByCityId",
+    "RelativePath": "api/District/GetDistrictListByCityID/{cityId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cityId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.DistrictController",
+    "Method": "Add",
+    "RelativePath": "api/District/NewDistrict",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Address.District.Command.NewDistrictCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.DistrictController",
+    "Method": "Update",
+    "RelativePath": "api/District/UpdateDistrict",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Address.District.Command.UpdateDistrictCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.GroupController",
+    "Method": "Delete",
+    "RelativePath": "api/Group/DeleteGroup",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Institute.Group.Command.DeleteGroupCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.GroupController",
+    "Method": "GetBy",
+    "RelativePath": "api/Group/GetGroupBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.GroupController",
+    "Method": "GetList",
+    "RelativePath": "api/Group/GetGroupList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.GroupController",
+    "Method": "GetGroupsByTeacherID",
+    "RelativePath": "api/Group/GetGroupsByTeacherID",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "TeacherID",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.GroupController",
+    "Method": "IsExistBy",
+    "RelativePath": "api/Group/IsExistGroupBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.GroupController",
+    "Method": "Add",
+    "RelativePath": "api/Group/NewGroup",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Institute.Group.Command.NewGroupCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.GroupController",
+    "Method": "Update",
+    "RelativePath": "api/Group/UpdateGroup",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Institute.Group.Command.UpdateGroupCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.InstituteController",
+    "Method": "Delete",
+    "RelativePath": "api/Institute/DeleteInstitute",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Institute.Institute.Command.DeleteInstituteCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.InstituteController",
+    "Method": "GetBy",
+    "RelativePath": "api/Institute/GetInstituteBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.InstituteController",
+    "Method": "GetList",
+    "RelativePath": "api/Institute/GetInstituteList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.InstituteController",
+    "Method": "IsExistBy",
+    "RelativePath": "api/Institute/IsExistInstituteBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.Application.Services.Institute.Institute.Query.IsExistInstituteByQuery",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.InstituteController",
+    "Method": "Add",
+    "RelativePath": "api/Institute/NewInstitute",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Institute.Institute.Command.NewInstituteCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.InstituteController",
+    "Method": "Update",
+    "RelativePath": "api/Institute/UpdateInstitute",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Institute.Institute.Command.UpdateInstituteCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.InstituteClassController",
+    "Method": "Delete",
+    "RelativePath": "api/InstituteClass/DeleteInstituteClass",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Institute.InstituteClass.Command.DeleteInstituteClassCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.InstituteClassController",
+    "Method": "GetBy",
+    "RelativePath": "api/InstituteClass/GetInstituteClassBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.InstituteClassController",
+    "Method": "GetList",
+    "RelativePath": "api/InstituteClass/GetInstituteClassList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.InstituteClassController",
+    "Method": "IsExistBy",
+    "RelativePath": "api/InstituteClass/IsExistInstituteClassBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.Application.Services.Institute.InstituteClass.Query.IsExistInstituteClassByQuery",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.InstituteClassController",
+    "Method": "Add",
+    "RelativePath": "api/InstituteClass/NewInstituteClass",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Institute.InstituteClass.Command.NewInstituteClassCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.InstituteClassController",
+    "Method": "Update",
+    "RelativePath": "api/InstituteClass/UpdateInstituteClass",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Institute.InstituteClass.Command.UpdateInstituteClassCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.NeighborhoodController",
+    "Method": "GetById",
+    "RelativePath": "api/Neighborhood/GetNeighborhoodByID/{param}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "param",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "paramType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.NeighborhoodController",
+    "Method": "GetList",
+    "RelativePath": "api/Neighborhood/GetNeighborhoodList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.NeighborhoodController",
+    "Method": "Add",
+    "RelativePath": "api/Neighborhood/NewNeighborhood",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Address.Neighborhood.Command.NewNeighborhoodCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.NeighborhoodController",
+    "Method": "Update",
+    "RelativePath": "api/Neighborhood/UpdateNeighborhood",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Address.Neighborhood.Command.UpdateNeighborhoodCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.PersonController",
+    "Method": "Delete",
+    "RelativePath": "api/Person/DeletePerson",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Person.Person.Command.DeletePersonCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.PersonController",
+    "Method": "GetBy",
+    "RelativePath": "api/Person/GetPersonBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.PersonController",
+    "Method": "GetList",
+    "RelativePath": "api/Person/GetPersonList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.PersonController",
+    "Method": "IsExistBy",
+    "RelativePath": "api/Person/IsExistPersonBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.Application.Services.Person.Person.Query.IsExistPersonByQuery",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.PersonController",
+    "Method": "Add",
+    "RelativePath": "api/Person/NewPerson",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Person.Person.Command.NewPersonCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.PersonController",
+    "Method": "Update",
+    "RelativePath": "api/Person/UpdatePerson",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Person.Person.Command.UpdatePersonCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.ProgramController",
+    "Method": "Delete",
+    "RelativePath": "api/Program/DeleteProgram",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Institute.Institute.Command.DeleteProgramCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.ProgramController",
+    "Method": "GetBy",
+    "RelativePath": "api/Program/GetProgramBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.ProgramController",
+    "Method": "GetList",
+    "RelativePath": "api/Program/GetProgramList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.ProgramController",
+    "Method": "IsExistBy",
+    "RelativePath": "api/Program/IsExistProgrameBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.Application.Services.Institute.Institute.Query.IsExistProgramByQuery",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.ProgramController",
+    "Method": "Add",
+    "RelativePath": "api/Program/NewProgram",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Institute.Program.Command.NewProgramCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.ProgramController",
+    "Method": "Update",
+    "RelativePath": "api/Program/UpdateProgram",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Institute.Program.Command.UpdateProgramCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.ResultController",
+    "Method": "Delete",
+    "RelativePath": "api/Result/DeleteResult",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Assignment.Result.Command.DeleteResultCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.ResultController",
+    "Method": "GetBy",
+    "RelativePath": "api/Result/GetResultBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ID",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.ResultController",
+    "Method": "GetList",
+    "RelativePath": "api/Result/GetResultList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.ResultController",
+    "Method": "Add",
+    "RelativePath": "api/Result/NewResult",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Assignment.Result.Command.NewResultCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.ResultController",
+    "Method": "Update",
+    "RelativePath": "api/Result/UpdateResult",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Assignment.Result.Command.UpdateResultCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.SessionController",
+    "Method": "Delete",
+    "RelativePath": "api/Session/DeleteSession",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Progress.Session.Command.DeleteSessionCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.SessionController",
+    "Method": "GetBy",
+    "RelativePath": "api/Session/GetSessionBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.SessionController",
+    "Method": "GetList",
+    "RelativePath": "api/Session/GetSessionList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.SessionController",
+    "Method": "IsExistBy",
+    "RelativePath": "api/Session/IsExistSessioneBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.Application.Services.Progress.Session.Query.IsExistSessionByQuery",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.SessionController",
+    "Method": "Add",
+    "RelativePath": "api/Session/NewSession",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Progress.Session.Command.NewSessionCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.SessionController",
+    "Method": "Update",
+    "RelativePath": "api/Session/UpdateSession",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Progress.Session.Command.UpdateSessionCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.StageController",
+    "Method": "Delete",
+    "RelativePath": "api/Stage/DeleteStage",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Progress.Stage.Command.DeleteStageCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.StageController",
+    "Method": "GetBy",
+    "RelativePath": "api/Stage/GetStageBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.StageController",
+    "Method": "GetList",
+    "RelativePath": "api/Stage/GetStageList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.StageController",
+    "Method": "IsExistBy",
+    "RelativePath": "api/Stage/IsExistStageeBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.Application.Services.Progress.Stage.Query.IsExistStageByQuery",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.StageController",
+    "Method": "Add",
+    "RelativePath": "api/Stage/NewStage",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Progress.Stage.Command.NewStageCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.StageController",
+    "Method": "Update",
+    "RelativePath": "api/Stage/UpdateStage",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Progress.Stage.Command.UpdateStageCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.StageInfoController",
+    "Method": "Delete",
+    "RelativePath": "api/StageInfo/DeleteStageInfo",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Progress.StageInfo.Command.DeleteStageInfoCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.StageInfoController",
+    "Method": "GetBy",
+    "RelativePath": "api/StageInfo/GetStageInfoBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.StageInfoController",
+    "Method": "GetList",
+    "RelativePath": "api/StageInfo/GetStageInfoList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.StageInfoController",
+    "Method": "GetStudentStageInfo",
+    "RelativePath": "api/StageInfo/GetStudentStageInfo",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "enrollmentID",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.StageInfoController",
+    "Method": "IsExistBy",
+    "RelativePath": "api/StageInfo/IsExistStageInfoeBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.Application.Services.Progress.StageInfo.Query.IsExistStageInfoByQuery",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.StageInfoController",
+    "Method": "Add",
+    "RelativePath": "api/StageInfo/NewStageInfo",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Progress.StageInfo.Command.NewStageInfoCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.StageInfoController",
+    "Method": "Update",
+    "RelativePath": "api/StageInfo/UpdateStageInfo",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Progress.StageInfo.Command.UpdateStageInfoCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.StudentController",
+    "Method": "Delete",
+    "RelativePath": "api/Student/DeleteStudent",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Person.Student.Command.DeleteStudentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.StudentController",
+    "Method": "GetBy",
+    "RelativePath": "api/Student/GetStudentBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.StudentController",
+    "Method": "GetList",
+    "RelativePath": "api/Student/GetStudentList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.StudentController",
+    "Method": "IsExistBy",
+    "RelativePath": "api/Student/IsExistStudentBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.Application.Services.Person.Student.Query.IsExistStudentByQuery",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.StudentController",
+    "Method": "Add",
+    "RelativePath": "api/Student/NewStudent",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Person.Student.Command.NewStudentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.StudentController",
+    "Method": "Update",
+    "RelativePath": "api/Student/UpdateStudent",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Person.Student.Command.UpdateStudentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Enrollment.StudentEnrollmentController",
+    "Method": "Delete",
+    "RelativePath": "api/StudentEnrollment/DeleteStudentEnrollment",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Enrollment.StudentEnrollment.Command.DeleteStudentEnrollmentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Enrollment.StudentEnrollmentController",
+    "Method": "GetBy",
+    "RelativePath": "api/StudentEnrollment/GetStudentEnrollmentBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Enrollment.StudentEnrollmentController",
+    "Method": "GetList",
+    "RelativePath": "api/StudentEnrollment/GetStudentEnrollmentList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Enrollment.StudentEnrollmentController",
+    "Method": "IsExistBy",
+    "RelativePath": "api/StudentEnrollment/IsExistStudentEnrollmentBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Enrollment.StudentEnrollmentController",
+    "Method": "Add",
+    "RelativePath": "api/StudentEnrollment/NewStudentEnrollment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Enrollment.StudentEnrollment.Command.NewStudentEnrollmentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Enrollment.StudentEnrollmentController",
+    "Method": "Update",
+    "RelativePath": "api/StudentEnrollment/UpdateStudentEnrollment",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Enrollment.StudentEnrollment.Command.UpdateStudentEnrollmentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Progress.StudentStageController",
+    "Method": "Delete",
+    "RelativePath": "api/StudentStage/DeleteStudentStage",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Progress.StudentStage.Command.DeleteStudentStageCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Progress.StudentStageController",
+    "Method": "GetBy",
+    "RelativePath": "api/StudentStage/GetStudentStageBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Progress.StudentStageController",
+    "Method": "GetList",
+    "RelativePath": "api/StudentStage/GetStudentStageList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Progress.StudentStageController",
+    "Method": "IsExistBy",
+    "RelativePath": "api/StudentStage/IsExistStudentStageeBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.Application.Services.Progress.StudentStage.Query.IsExistStudentStageByQuery",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Progress.StudentStageController",
+    "Method": "Add",
+    "RelativePath": "api/StudentStage/NewStudentStage",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Progress.StudentStage.Command.NewStudentStageCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Progress.StudentStageController",
+    "Method": "Update",
+    "RelativePath": "api/StudentStage/UpdateStudentStage",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Progress.StudentStage.Command.UpdateStudentStageCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.TeacherController",
+    "Method": "Delete",
+    "RelativePath": "api/Teacher/DeleteTeacher",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Person.Teacher.Command.DeleteTeacherCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.TeacherController",
+    "Method": "GetBy",
+    "RelativePath": "api/Teacher/GetTeacherBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.TeacherController",
+    "Method": "GetList",
+    "RelativePath": "api/Teacher/GetTeacherList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.TeacherController",
+    "Method": "IsExistBy",
+    "RelativePath": "api/Teacher/IsExistTeacherBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.Application.Services.Person.Teacher.Query.IsExistTeacherByQuery",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.TeacherController",
+    "Method": "Add",
+    "RelativePath": "api/Teacher/NewTeacher",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Person.Teacher.Command.NewTeacherCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.TeacherController",
+    "Method": "Update",
+    "RelativePath": "api/Teacher/UpdateTeacher",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Person.Teacher.Command.UpdateTeacherCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Enrollment.TeachingAssignmentController",
+    "Method": "Delete",
+    "RelativePath": "api/TeachingAssignment/DeleteTeachingAssignment",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Enrollment.TeachingAssignment.Command.DeleteTeachingAssignmentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Enrollment.TeachingAssignmentController",
+    "Method": "GetTeacherGroupList",
+    "RelativePath": "api/TeachingAssignment/GetTeacherGroups",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Enrollment.TeachingAssignmentController",
+    "Method": "GetBy",
+    "RelativePath": "api/TeachingAssignment/GetTeachingAssignmentBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Enrollment.TeachingAssignmentController",
+    "Method": "GetList",
+    "RelativePath": "api/TeachingAssignment/GetTeachingAssignmentList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Enrollment.TeachingAssignmentController",
+    "Method": "IsExistBy",
+    "RelativePath": "api/TeachingAssignment/IsExistTeachingAssignmentBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Enrollment.TeachingAssignmentController",
+    "Method": "Add",
+    "RelativePath": "api/TeachingAssignment/NewTeachingAssignment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Enrollment.TeachingAssignment.Command.NewTeachingAssignmentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Enrollment.TeachingAssignmentController",
+    "Method": "Update",
+    "RelativePath": "api/TeachingAssignment/UpdateTeachingAssignment",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Enrollment.TeachingAssignment.Command.UpdateTeachingAssignmentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Services\Authentication\Permission\DTO\" />
+    <Folder Include="Services\Authentication\Permission\Mapper\" />
+    <Folder Include="Services\Authentication\Permission\Validateor\" />
+    <Folder Include="Services\Authentication\Register\DTO\" />
+    <Folder Include="Services\Authentication\Register\Mapper\" />
+    <Folder Include="Services\Authentication\RolePermission\Mapper\" />
+    <Folder Include="Services\Authentication\Role\Command\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Abstractions\Person\StudentRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="FluentValidation" Version="12.1.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+    <PackageReference Include="Gridify" Version="2.19.1" />
+    <PackageReference Include="Gridify.EntityFramework" Version="2.19.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.17" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\System.Domain\System.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

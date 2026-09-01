@@ -1,0 +1,1019 @@
+/* ==========================================================================
+   نظام التصميم الشامل للموقع التعليمي / المدرسي (School Educational CSS Design System)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. استيراد الخطوط (Fonts Import)
+   -------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* --------------------------------------------------------------------------
+   2. المتغيرات الرئيسية (Root Variables)
+   -------------------------------------------------------------------------- */
+:root {
+  /* ألوان النظام الأساسية والتفاعلية (Core Theme Colors) */
+  --primary-color: #1e3a8a;          /* أزرق داكن للمدرسة (رصين ورسمي) */
+  --primary-color-hover: #172554;
+  --primary-color-light: #eff6ff;     /* خلفيات ناعمة وتأثيرات تركيز */
+
+  --secondary-color: #0ea5e9;        /* أزرق فاتح/سماوي (حيوي ومودرن) */
+  --secondary-color-hover: #0284c7;
+  --secondary-color-light: #f0f9ff;
+
+  --accent-color: #f97316;           /* لون تنبيه/برتقالي تحفيزي وجذاب للأنشطة والروابط */
+  --accent-color-hover: #ea580c;
+  --accent-color-light: #fff7ed;
+
+  /* ألوان حالات النظام (Status Colors) */
+  --success-color: #10b981;          /* ناجح / مقبول / مكتمل */
+  --success-color-hover: #059669;
+  --success-color-light: #ecfdf5;
+
+  --danger-color: #ef4444;           /* غائب / مرفوض / راسب / خطأ */
+  --danger-color-hover: #dc2626;
+  --danger-color-light: #fef2f2;
+
+  --warning-color: #f59e0b;          /* تنبيه / قيد الانتظار */
+  --warning-color-hover: #d97706;
+  --warning-color-light: #fefbeb;
+
+  /* الألوان المحايدة للنصوص والخلفيات (Neutral Colors) */
+  --text-color: #1f2937;             /* لون النص الأساسي (رمادي داكن جداً لراحة العين) */
+  --text-muted: #6b7280;             /* نصوص فرعية وتفاصيل ثانوية */
+  --text-light: #9ca3af;             /* نصوص إرشادية وتلميحات */
+  --bg-body: #f8fafc;                /* خلفية الموقع العامة (رمادي-أزرق ناعم للغاية) */
+  --bg-card: #ffffff;                /* خلفية البطاقات والصناديق */
+  --bg-light: #f3f4f6;               /* خلفية الحقول والعناصر الداخلية المغايرة */
+  --border-color: #e5e7eb;           /* لون الحدود الافتراضي */
+  --border-color-hover: #d1d5db;     /* لون الحدود عند تمرير المؤشر */
+
+  /* عائلة الخطوط (Typography Families) */
+  --font-base: 'Cairo', 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-headings: 'Cairo', 'Outfit', system-ui, -apple-system, sans-serif;
+
+  /* مقياس التباعد (Spacing Scale) */
+  --spacing-xs: 0.25rem;   /* 4px */
+  --spacing-sm: 0.5rem;    /* 8px */
+  --spacing-md: 1rem;      /* 16px */
+  --spacing-lg: 1.5rem;    /* 24px */
+  --spacing-xl: 2rem;      /* 32px */
+  --spacing-xxl: 3rem;     /* 48px */
+
+  /* أنصاف أقطار الحواف (Border Radius) */
+  --radius-sm: 0.25rem;    /* 4px - للحواف الصغيرة */
+  --radius-md: 0.5rem;     /* 8px - للأزرار والحقول القياسية */
+  --radius-lg: 0.75rem;    /* 12px - للبطاقات والقوائم والصناديق */
+  --radius-xl: 1rem;       /* 16px - للعناصر الكبيرة والمودال */
+  --radius-round: 9999px;  /* دائري تماماً للكبسولات والصور الشخصية */
+
+  /* ظلال العناصر لإعطاء بعد بصري (Box Shadows) */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+
+  /* حركات وتأثيرات النقل (Transitions) */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-slow: 0.4s ease;
+
+  /* حاوية العرض الأقصى (Layout Container Width) */
+  --container-max-width: 1280px;
+}
+
+/* --------------------------------------------------------------------------
+   3. إعادة الضبط الأساسي (Reset / Base Styles)
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-base);
+  background-color: var(--bg-body);
+  color: var(--text-color);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* --------------------------------------------------------------------------
+   4. العناوين والنصوص الإنشائية (Typography)
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headings);
+  color: var(--primary-color);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: var(--spacing-sm);
+}
+
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.1rem; }
+h6 { font-size: 1rem; }
+
+p {
+  margin-bottom: var(--spacing-md);
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+/* الروابط (Links) */
+a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--secondary-color-hover);
+  text-decoration: underline;
+}
+
+/* القوائم التعليمية والقياسية (Lists) */
+ul, ol {
+  margin-bottom: var(--spacing-md);
+  padding-inline-start: var(--spacing-lg);
+}
+
+li {
+  margin-bottom: var(--spacing-xs);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   5. الأزرار (Buttons Component)
+   -------------------------------------------------------------------------- */
+/* التنسيق الأساسي للمكون .btn ولكافة أزرار المشروع */
+button,
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  font-family: var(--font-base);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--transition-fast);
+  text-align: center;
+  vertical-align: middle;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+/* الأزرار الافتراضية تقرن باللون الرئيسي للمدرسة (Default color primary) */
+button:not(.btn-secondary):not(.btn-accent):not(.btn-success):not(.btn-danger):not(.btn-warning):not([class*="btn-outline-"]):not([class*="btn-light-"]):not(.btn-sm),
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--bg-card);
+}
+button:not(.btn-secondary):not(.btn-accent):not(.btn-success):not(.btn-danger):not(.btn-warning):not([class*="btn-outline-"]):not([class*="btn-light-"]):not(.btn-sm):hover,
+.btn-primary:hover {
+  background-color: var(--primary-color-hover);
+  color: var(--bg-card);
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+button:not(.btn-secondary):not(.btn-accent):not(.btn-success):not(.btn-danger):not(.btn-warning):not([class*="btn-outline-"]):not([class*="btn-light-"]):not(.btn-sm):active,
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* زر معطل (Disabled State) */
+button:disabled,
+.btn:disabled,
+.btn.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* زر التركيز الفعال (Focus Visible) للوصولية وسهولة التنقل بالكي بورد */
+button:focus-visible,
+.btn:focus-visible {
+  outline: 3px solid var(--primary-color-light);
+  outline-offset: 1px;
+}
+
+/* كلاسات الألوان الفرعية للأزرار */
+
+/* Secondary Button */
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: var(--bg-card);
+}
+.btn-secondary:hover {
+  background-color: var(--secondary-color-hover);
+  color: var(--bg-card);
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* Accent Button */
+.btn-accent {
+  background-color: var(--accent-color);
+  color: var(--bg-card);
+}
+.btn-accent:hover {
+  background-color: var(--accent-color-hover);
+  color: var(--bg-card);
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.btn-accent:active {
+  transform: translateY(0);
+}
+
+/* Success Button */
+.btn-success {
+  background-color: var(--success-color);
+  color: var(--bg-card);
+}
+.btn-success:hover {
+  background-color: var(--success-color-hover);
+  color: var(--bg-card);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.btn-success:active {
+  transform: translateY(0);
+}
+
+/* Danger Button */
+.btn-danger {
+  background-color: var(--danger-color);
+  color: var(--bg-card);
+}
+.btn-danger:hover {
+  background-color: var(--danger-color-hover);
+  color: var(--bg-card);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.btn-danger:active {
+  transform: translateY(0);
+}
+
+/* Warning Button */
+.btn-warning {
+  background-color: var(--warning-color);
+  color: #1f2937; /* نص داكن للوضوح المقروء فوق اللون البرتقالي والأصفر */
+}
+.btn-warning:hover {
+  background-color: var(--warning-color-hover);
+  color: #1f2937;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.btn-warning:active {
+  transform: translateY(0);
+}
+
+/* Outline Buttons (أزرار شفافة بحدود ملونة) */
+.btn-outline-primary {
+  background-color: transparent;
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  color: var(--bg-card);
+  text-decoration: none;
+}
+
+.btn-outline-secondary {
+  background-color: transparent;
+  border-color: var(--secondary-color);
+  color: var(--secondary-color);
+}
+.btn-outline-secondary:hover {
+  background-color: var(--secondary-color);
+  color: var(--bg-card);
+  text-decoration: none;
+}
+
+.btn-outline-success {
+  background-color: transparent;
+  border-color: var(--success-color);
+  color: var(--success-color);
+}
+.btn-outline-success:hover {
+  background-color: var(--success-color);
+  color: var(--bg-card);
+}
+
+.btn-outline-danger {
+  background-color: transparent;
+  border-color: var(--danger-color);
+  color: var(--danger-color);
+}
+.btn-outline-danger:hover {
+  background-color: var(--danger-color);
+  color: var(--bg-card);
+}
+
+/* Light / Soft Buttons (تصاميم مودرن مريحة للعين بخلفية باهتة وحضور مميز) */
+.btn-light-primary {
+  background-color: var(--primary-color-light);
+  color: var(--primary-color);
+}
+.btn-light-primary:hover {
+  background-color: var(--primary-color);
+  color: var(--bg-card);
+}
+
+.btn-light-secondary {
+  background-color: var(--secondary-color-light);
+  color: var(--secondary-color);
+}
+.btn-light-secondary:hover {
+  background-color: var(--secondary-color);
+  color: var(--bg-card);
+}
+
+/* زر صغير (Small Button Variant) */
+.btn-sm {
+  padding: 0.375rem 0.75rem !important;
+  font-size: 0.85rem !important;
+}
+
+/* --------------------------------------------------------------------------
+   6. الجداول المدرسية والتعليمية (Tables Component)
+   -------------------------------------------------------------------------- */
+/* حاوية الجداول لضمان التجاوب على الشاشات الصغيرة */
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  background-color: var(--bg-card);
+}
+
+table,
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: start;
+  font-size: 0.95rem;
+  background-color: var(--bg-card);
+  margin-bottom: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+table th,
+.table th,
+table td,
+.table td {
+  padding: 0.875rem 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+/* رأس الجدول المميز والجاهز */
+table thead th,
+.table thead th {
+  background-color: var(--primary-color-light);
+  color: var(--primary-color);
+  font-weight: 700;
+  border-bottom: 2px solid var(--border-color);
+  font-size: 0.9rem;
+}
+
+/* تظليل الصفوف المتناوب (Zebra Striping) */
+table tbody tr:nth-child(even),
+.table-striped tbody tr:nth-child(even) {
+  background-color: var(--bg-body);
+}
+
+/* تأثير التمرير الفوقي (Hover effect) */
+table tbody tr,
+.table-hover tbody tr {
+  transition: background-color var(--transition-fast);
+}
+table tbody tr:hover,
+.table-hover tbody tr:hover {
+  background-color: var(--secondary-color-light) !important;
+}
+
+/* إضافة حواف كاملة على الجدول */
+.table-bordered {
+  border: 1px solid var(--border-color);
+}
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid var(--border-color);
+}
+
+/* بدون حدود داخلية */
+.table-borderless th,
+.table-borderless td {
+  border: 0;
+}
+
+/* لتنسيق الأزرار التشغيلية الافتراضية داخل الجداول تلقائيًا */
+table td button,
+.table td button {
+  padding: 0.35rem 0.75rem !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  border-radius: var(--radius-sm) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-inline-end: 0.35rem;
+}
+
+/* الزر الأول بالجدول (معلومات / تفاصيل / متابعة) */
+table td button:nth-of-type(1),
+.table td button:nth-of-type(1) {
+  background-color: var(--primary-color-light) !important;
+  color: var(--primary-color) !important;
+  border: 1px solid transparent !important;
+}
+table td button:nth-of-type(1):hover,
+.table td button:nth-of-type(1):hover {
+  background-color: var(--primary-color) !important;
+  color: var(--bg-card) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+/* الزر الثاني بالجدول (تحديث / تعديل) */
+table td button:nth-of-type(2),
+.table td button:nth-of-type(2) {
+  background-color: var(--secondary-color-light) !important;
+  color: var(--secondary-color) !important;
+  border: 1px solid transparent !important;
+}
+table td button:nth-of-type(2):hover,
+.table td button:nth-of-type(2):hover {
+  background-color: var(--secondary-color) !important;
+  color: var(--bg-card) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+/* الزر الثالث بالجدول (إضافي / تعديل مكرر) */
+table td button:nth-of-type(3),
+.table td button:nth-of-type(3) {
+  background-color: var(--accent-color-light) !important;
+  color: var(--accent-color) !important;
+  border: 1px solid transparent !important;
+}
+table td button:nth-of-type(3):hover,
+.table td button:nth-of-type(3):hover {
+  background-color: var(--accent-color) !important;
+  color: var(--bg-card) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+/* زر الحذف الأخير بالجدول (يكون دائِماً أحمر) */
+table td button:last-of-type,
+.table td button:last-of-type {
+  background-color: var(--danger-color-light) !important;
+  color: var(--danger-color) !important;
+  border: 1px solid transparent !important;
+}
+table td button:last-of-type:hover,
+.table td button:last-of-type:hover {
+  background-color: var(--danger-color) !important;
+  color: var(--bg-card) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+/* --------------------------------------------------------------------------
+   7. النماذج وحقول الإدخال (Forms / Inputs)
+   -------------------------------------------------------------------------- */
+.form-group {
+  margin-bottom: var(--spacing-md);
+}
+
+/* عناوين الحقول (Labels) */
+label,
+.form-label {
+  display: inline-block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-xs);
+}
+
+/* حقول الإدخال والقوائم والتاكست إريا الافتراضية بالكامل */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+input[type="date"],
+textarea,
+select,
+.form-control,
+.form-select,
+.form-textarea {
+  display: block;
+  width: 100%;
+  font-family: var(--font-base);
+  font-size: 0.95rem;
+  padding: 0.625rem 0.875rem;
+  color: var(--text-color);
+  background-color: var(--bg-card);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+/* متطلبات خاصة بالتاكست اريا وقوائم التحديد */
+textarea,
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+select,
+.form-select {
+  padding-inline-end: 2rem;
+  cursor: pointer;
+}
+
+/* حقول الإدخال في حالة التركيز (Focus State) */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="date"]:focus,
+textarea:focus,
+select:focus,
+.form-control:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 4px var(--secondary-color-light);
+  outline: none;
+}
+
+/* حالة التعطيل للحقول */
+input:disabled,
+select:disabled,
+textarea:disabled,
+.form-control:disabled,
+.form-select:disabled,
+.form-textarea:disabled {
+  background-color: var(--bg-light);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* فلاتر البحث داخل النماذج (تلقائيًا بصف واحد متناسق) */
+.form-filter {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: var(--spacing-sm) !important;
+  margin-bottom: var(--spacing-md) !important;
+  padding: var(--spacing-md) !important;
+  background-color: var(--bg-body) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-md) !important;
+}
+.form-filter label {
+  margin-bottom: 0 !important;
+}
+.form-filter input,
+.form-filter select {
+  width: auto !important;
+  flex-grow: 1 !important;
+  min-width: 150px !important;
+}
+.form-filter button {
+  width: auto !important;
+}
+
+/* الصناديق التفاعلية مثل الصح والاختيار (Checkboxes and Radios) */
+.form-check {
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--spacing-sm) !important;
+  margin-bottom: var(--spacing-sm) !important;
+  cursor: pointer !important;
+}
+
+input[type="checkbox"],
+input[type="radio"],
+.form-check-input {
+  width: 1.15rem !important;
+  height: 1.15rem !important;
+  cursor: pointer !important;
+  accent-color: var(--primary-color) !important;
+  vertical-align: middle !important;
+  display: inline-block !important;
+}
+
+/* --------------------------------------------------------------------------
+   8. البطاقات والصناديق التعليمية (Cards Component)
+   -------------------------------------------------------------------------- */
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+/* تأثير التمرير على الكارد للمزيد من الحيوية والتفاعل */
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* أجزاء البطاقة */
+.card-header {
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--bg-body);
+  border-bottom: 1px solid var(--border-color);
+  font-weight: 700;
+}
+
+.card-body {
+  padding: var(--spacing-lg);
+  flex-grow: 1;
+}
+
+.card-footer {
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--bg-body);
+  border-top: 1px solid var(--border-color);
+  margin-top: auto;
+}
+
+/* --------------------------------------------------------------------------
+   9. الشارات وعلامات التقييم (Badges / Tags)
+   -------------------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25em 0.6em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: var(--radius-round);
+}
+
+.badge-primary   { background-color: var(--primary-color-light); color: var(--primary-color); }
+.badge-secondary { background-color: var(--secondary-color-light); color: var(--secondary-color); }
+.badge-accent    { background-color: var(--accent-color-light); color: var(--accent-color); }
+.badge-success   { background-color: var(--success-color-light); color: var(--success-color); }
+.badge-danger    { background-color: var(--danger-color-light); color: var(--danger-color); }
+.badge-warning   { background-color: var(--warning-color-light); color: var(--warning-color-hover); }
+
+/* --------------------------------------------------------------------------
+   10. كلاسات التباعد والمساعدة (Utilities)
+   -------------------------------------------------------------------------- */
+
+/* كلاسات التلوين السريعة للنصوص والخلفيات */
+.text-primary   { color: var(--primary-color) !important; }
+.text-secondary { color: var(--secondary-color) !important; }
+.text-accent    { color: var(--accent-color) !important; }
+.text-success   { color: var(--success-color) !important; }
+.text-danger    { color: var(--danger-color) !important; }
+.text-warning   { color: var(--warning-color-hover) !important; }
+.text-muted     { color: var(--text-muted) !important; }
+.text-light     { color: var(--text-light) !important; }
+
+.bg-primary   { background-color: var(--primary-color) !important; color: #ffffff !important; }
+.bg-secondary { background-color: var(--secondary-color) !important; color: #ffffff !important; }
+.bg-accent    { background-color: var(--accent-color) !important; color: #ffffff !important; }
+.bg-success   { background-color: var(--success-color) !important; color: #ffffff !important; }
+.bg-danger    { background-color: var(--danger-color) !important; color: #ffffff !important; }
+.bg-warning   { background-color: var(--warning-color) !important; color: #1f2937 !important; }
+.bg-light     { background-color: var(--bg-light) !important; }
+.bg-body      { background-color: var(--bg-body) !important; }
+.bg-card      { background-color: var(--bg-card) !important; }
+
+/* كلاسات المحاذاة والوزن */
+.text-center { text-align: center !important; }
+.text-start  { text-align: start !important; }
+.text-end    { text-align: end !important; }
+
+.font-bold   { font-weight: 700 !important; }
+.font-medium { font-weight: 500 !important; }
+.font-normal { font-weight: 400 !important; }
+
+/* الهوامش الخارجية (Margins) */
+.m-0  { margin: 0 !important; }
+.m-1  { margin: var(--spacing-xs) !important; }
+.m-2  { margin: var(--spacing-sm) !important; }
+.m-3  { margin: var(--spacing-md) !important; }
+.m-4  { margin: var(--spacing-lg) !important; }
+.m-5  { margin: var(--spacing-xl) !important; }
+
+.mt-0 { margin-top: 0 !important; }
+.mt-1 { margin-top: var(--spacing-xs) !important; }
+.mt-2 { margin-top: var(--spacing-sm) !important; }
+.mt-3 { margin-top: var(--spacing-md) !important; }
+.mt-4 { margin-top: var(--spacing-lg) !important; }
+.mt-5 { margin-top: var(--spacing-xl) !important; }
+
+.mb-0 { margin-bottom: 0 !important; }
+.mb-1 { margin-bottom: var(--spacing-xs) !important; }
+.mb-2 { margin-bottom: var(--spacing-sm) !important; }
+.mb-3 { margin-bottom: var(--spacing-md) !important; }
+.mb-4 { margin-bottom: var(--spacing-lg) !important; }
+.mb-5 { margin-bottom: var(--spacing-xl) !important; }
+
+.ms-0 { margin-inline-start: 0 !important; }
+.ms-1 { margin-inline-start: var(--spacing-xs) !important; }
+.ms-2 { margin-inline-start: var(--spacing-sm) !important; }
+.ms-3 { margin-inline-start: var(--spacing-md) !important; }
+.ms-4 { margin-inline-start: var(--spacing-lg) !important; }
+.ms-5 { margin-inline-start: var(--spacing-xl) !important; }
+
+.me-0 { margin-inline-end: 0 !important; }
+.me-1 { margin-inline-end: var(--spacing-xs) !important; }
+.me-2 { margin-inline-end: var(--spacing-sm) !important; }
+.me-3 { margin-inline-end: var(--spacing-md) !important; }
+.me-4 { margin-inline-end: var(--spacing-lg) !important; }
+.me-5 { margin-inline-end: var(--spacing-xl) !important; }
+
+.mx-auto { margin-inline: auto !important; }
+
+/* الحشو الداخلي (Padding) */
+.p-0  { padding: 0 !important; }
+.p-1  { padding: var(--spacing-xs) !important; }
+.p-2  { padding: var(--spacing-sm) !important; }
+.p-3  { padding: var(--spacing-md) !important; }
+.p-4  { padding: var(--spacing-lg) !important; }
+.p-5  { padding: var(--spacing-xl) !important; }
+
+.pt-0 { padding-top: 0 !important; }
+.pt-1 { padding-top: var(--spacing-xs) !important; }
+.pt-2 { padding-top: var(--spacing-sm) !important; }
+.pt-3 { padding-top: var(--spacing-md) !important; }
+.pt-4 { padding-top: var(--spacing-lg) !important; }
+.pt-5 { padding-top: var(--spacing-xl) !important; }
+
+.pb-0 { padding-bottom: 0 !important; }
+.pb-1 { padding-bottom: var(--spacing-xs) !important; }
+.pb-2 { padding-bottom: var(--spacing-sm) !important; }
+.pb-3 { padding-bottom: var(--spacing-md) !important; }
+.pb-4 { padding-bottom: var(--spacing-lg) !important; }
+.pb-5 { padding-bottom: var(--spacing-xl) !important; }
+
+/* الظلال والإنحناءات (Custom classes) */
+.shadow-sm { box-shadow: var(--shadow-sm) !important; }
+.shadow-md { box-shadow: var(--shadow-md) !important; }
+.shadow-lg { box-shadow: var(--shadow-lg) !important; }
+.shadow-none { box-shadow: none !important; }
+
+.rounded-sm   { border-radius: var(--radius-sm) !important; }
+.rounded-md   { border-radius: var(--radius-md) !important; }
+.rounded-lg   { border-radius: var(--radius-lg) !important; }
+.rounded-xl   { border-radius: var(--radius-xl) !important; }
+.rounded-full { border-radius: var(--radius-round) !important; }
+
+/* --------------------------------------------------------------------------
+   11. أنظمة التخطيط المعاصرة (Layout System - Flex & Grid)
+   -------------------------------------------------------------------------- */
+.flex {
+  display: flex !important;
+}
+.flex-column {
+  flex-direction: column !important;
+}
+.align-center {
+  align-items: center !important;
+}
+.justify-between {
+  justify-content: space-between !important;
+}
+.justify-center {
+  justify-content: center !important;
+}
+.flex-wrap {
+  flex-wrap: wrap !important;
+}
+
+/* فليكس وجريد مع جاب مخصص */
+.gap-1 { gap: var(--spacing-xs) !important; }
+.gap-2 { gap: var(--spacing-sm) !important; }
+.gap-3 { gap: var(--spacing-md) !important; }
+.gap-4 { gap: var(--spacing-lg) !important; }
+.gap-5 { gap: var(--spacing-xl) !important; }
+
+/* نظام شبكي متجاوب ومباشر للاستعمال السريع */
+.grid {
+  display: grid !important;
+  gap: var(--spacing-md);
+}
+
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+.grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+
+/* استعلامات الوسائط للتجاوب الشبكي التلقائي (CSS Grid Responsive Breakpoints) */
+@media (max-width: 1024px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-cols-3,
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4 {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  }
+}
+
+/* حاوية محددة العرض ومنتصفة */
+.container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--spacing-md);
+  max-width: var(--container-max-width);
+}
+
+/* --------------------------------------------------------------------------
+   12. شاشات المصادقة والدخول (Authentication Views Styling)
+   -------------------------------------------------------------------------- */
+.auth-container {
+  max-width: 450px !important;
+  width: 100%;
+  margin: var(--spacing-xl) auto !important;
+  background-color: var(--bg-card) !important;
+  padding: var(--spacing-xl) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-lg) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.auth-container h2 {
+  text-align: center !important;
+  margin-bottom: var(--spacing-lg) !important;
+  color: var(--primary-color) !important;
+  font-weight: 800 !important;
+}
+
+.auth-container button[type="submit"] {
+  width: 100% !important;
+  margin-top: var(--spacing-md) !important;
+  padding: 0.75rem var(--spacing-lg) !important;
+  font-size: 1rem !important;
+}
+
+.alert-error {
+  background-color: var(--danger-color-light) !important;
+  color: var(--danger-color) !important;
+  padding: var(--spacing-sm) var(--spacing-md) !important;
+  border-radius: var(--radius-md) !important;
+  margin-bottom: var(--spacing-md) !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  border: 1px solid rgba(239, 68, 68, 0.2) !important;
+}
+
+.error {
+  color: var(--danger-color) !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  display: block;
+  margin-top: var(--spacing-xs) !important;
+}
+
+/* --------------------------------------------------------------------------
+   13. شريط الرأس وقوائم التنقل (Header Navigation Styling)
+   -------------------------------------------------------------------------- */
+header.header {
+  background-color: var(--bg-card) !important;
+  border-bottom: 2px solid var(--border-color) !important;
+  box-shadow: var(--shadow-sm) !important;
+  padding: var(--spacing-sm) var(--spacing-lg) !important;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg) !important;
+  margin-bottom: var(--spacing-lg) !important;
+}
+
+header.header nav {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: var(--spacing-md) !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+header.header .logo {
+  font-family: var(--font-headings) !important;
+  font-size: 1.5rem !important;
+  font-weight: 800 !important;
+  color: var(--primary-color) !important;
+  letter-spacing: 0.5px !important;
+}
+
+header.header .links {
+  display: flex !important;
+  gap: var(--spacing-xs) !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+header.header .links a {
+  color: var(--text-muted) !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  padding: 0.5rem 0.85rem !important;
+  border-radius: var(--radius-md) !important;
+  transition: all var(--transition-fast) !important;
+  text-decoration: none !important;
+}
+
+header.header .links a:hover {
+  background-color: var(--primary-color-light) !important;
+  color: var(--primary-color) !important;
+}
+
+header.header .links a.router-link-active,
+header.header .links a.router-link-exact-active {
+  background-color: var(--primary-color) !important;
+  color: var(--bg-card) !important;
+}
+
+header.header .user {
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--spacing-sm) !important;
+}
+
+header.header .user-name {
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  color: var(--primary-color) !important;
+  background-color: var(--primary-color-light) !important;
+  padding: var(--spacing-xs) var(--spacing-sm) !important;
+  border-radius: var(--radius-round) !important;
+}
+
+header.header button {
+  padding: 0.5rem 1rem !important;
+  font-size: 0.85rem !important;
+}
+
