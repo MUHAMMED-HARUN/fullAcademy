@@ -19,9 +19,11 @@ set /p commitMessage="Enter commit message: "
 if "%commitMessage%"=="" set commitMessage=Update
 git commit -m "%commitMessage%"
 
-git fetch origin
-git merge origin/main
-git push origin main
+echo Switching/Creating newMain branch...
+git checkout -B newMain
+
+echo Pushing to newMain on GitHub...
+git push -u origin newMain
 
 echo Done.
 pause
