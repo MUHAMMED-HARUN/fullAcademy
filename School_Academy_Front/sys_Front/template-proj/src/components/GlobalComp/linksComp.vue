@@ -1,5 +1,5 @@
 <template>
-  <router-link v-if="canVisable(-1)" to="/">Home</router-link> |
+  <router-link v-if="canVisable(-1)" to="/">الرئيسية</router-link> |
   <router-link v-if="canVisable(-1)" to="/register">register</router-link>
   <router-link v-if="canVisable(1)" to="/roles">Roles</router-link>
   <router-link v-if="canVisable(1)" to="/country">Country</router-link>

@@ -14,13 +14,13 @@ using System.Infrastructure.Persistence;
 
 namespace System.Infrastructure.Repositories.Address
 {
-    public class AddressService : IAddressRepository
+    public class enericService : IAddressRepository
     {
         private readonly AppDbContext _context;
         private readonly DbSet<clsAddress> _dbSet;
         private readonly DbSet<clsPerson> _dbPersonSet;
         private readonly DbSet<clsInstitute> _dbInstituteSet;
-        public AddressService( AppDbContext context)
+        public enericService( AppDbContext context)
         {
             _context = context;
             _dbSet = _context.Set<clsAddress>();

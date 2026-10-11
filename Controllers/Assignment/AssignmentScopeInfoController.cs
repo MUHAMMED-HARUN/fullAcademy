@@ -85,7 +85,19 @@ namespace School_Academy.Controllers.Assignment
 
             return Ok(result);
         }
-     
+        [HttpGet("fetchAssignmentScopeinfosForAssigment")]
+        public async Task<IActionResult> fetchAssignmentScopeinfosForAssigment([FromQuery] GetByAssigmentIDQuery query)
+        {
+
+            var result = await _mediator.Send(query);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(new { errors = result.Error });
+            }
+
+            return Ok(result);
+        }
 
     }
 }

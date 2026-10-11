@@ -41,6 +41,15 @@ class AssignmentScopeinfoRepositories {
     );
     return response;
   }
+  async fetchAssignmentScopeinfosForAssigment(param) {
+    const response = await clsUtil.FeachRequset(
+      `${baseUrl}/fetchAssignmentScopeinfosForAssigment`,
+      enApiType.get,
+      { params: param },
+      "خطأ في الخادم أثناء جلب بيانات التسجيل"
+    );
+    return response;
+  }
 
   async Delete(param) {
     const response = await clsUtil.FeachRequset(

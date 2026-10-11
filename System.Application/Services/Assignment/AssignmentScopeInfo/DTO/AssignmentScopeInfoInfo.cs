@@ -4,7 +4,7 @@ namespace System.Application.Services.Assignment.AssignmentScopeInfo.DTO
 {
     public class AssignmentScopeInfoInfo
     {
-        
+
         public string AssignmentScopeInfoID { get; set; }
         public short MaxScore { get; set; }
         public short MinPassScore { get; set; }

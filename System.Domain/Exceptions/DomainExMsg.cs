@@ -78,5 +78,21 @@ namespace System.Domain.Exceptions
         public static DomainExceptionObj AssignmentNomination_StudentEnrollmentIDRequired { get; internal set; }
         public static DomainExceptionObj AssignmentNomination_AssignmentScopeIDRequired { get; internal set; }
         public static DomainExceptionObj AssignmentNomination_NominatedByIDRequired { get; internal set; }
+        public static DomainExceptionObj Attendance_DateRequired { get; internal set; }
+        public static DomainExceptionObj Attendance_CheckOutBeforeCheckIn { get; internal set; }
+        public static DomainExceptionObj Attendance_AttendeeIDRequired { get; internal set; }
+        public static DomainExceptionObj LeaveRequest_ApproverRequired { get; internal set; }
+        public static DomainExceptionObj LeaveRequest_CannotCancelApprovedLeave { get; internal set; }
+        public static DomainExceptionObj LeaveRequest_RejectionReasonRequired { get; internal set; }
+        public static DomainExceptionObj LeaveRequest_ReasonRequired { get; internal set; }
+        public static DomainExceptionObj LeaveRequest_EndDateInvalid { get; internal set; }
+        public static DomainExceptionObj LeaveRequest_StartDateRequired { get; internal set; }
+        public static DomainExceptionObj LeaveRequest_ApplicantIDRequired { get; internal set; }
+        public static DomainExceptionObj LeaveRequest_EntityIDRequired { get; internal set; }
+        public static DomainExceptionObj LeaveRequest_StartDateAfterEndDate { get; internal set; }
+        public static DomainExceptionObj Attendance_LeaveRequestIDRequired { get; internal set; }
+        public static DomainExceptionObj Guardian_PersonIDRequired { get; internal set; }
+        public static DomainExceptionObj StudentGuardian_StudentIDRequired { get; internal set; }
+        public static DomainExceptionObj StudentGuardian_GuardianIDRequired { get; internal set; }
     }
 }

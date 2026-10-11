@@ -23,7 +23,17 @@ export default class AssignmentScopeInfoMapper {
       assignmentScopeName: DataReq.AssignmentScopeName,
     };
   }
-
+  static MapFromApiDTOToAssigmetSelect(dataList) {
+    if (!dataList) return [];
+    return dataList.map((list) => {
+      return {
+        assignmentScopeInfoID: list.AssignmentScopeInfoID,
+        maxScore: list.MaxScore,
+        minPassScore: list.MinPassScore,
+        stageInfoMatterNameName: list.StageInfoMatterNameName,
+      };
+    });
+  }
   static mapListApiToAssignmentScopeInfos(dataList) {
     if (!dataList) return [];
     return dataList.map((list) => {

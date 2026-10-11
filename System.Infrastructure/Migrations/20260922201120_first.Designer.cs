@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace System.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260901202614_UpdateAssigment")]
-    partial class UpdateAssigment
+    [Migration("20260922201120_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -280,6 +280,127 @@ namespace System.Infrastructure.Migrations
                     b.HasIndex("NeighborhoodID");
 
                     b.ToTable("Addresses", (string)null);
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.Attendance.clsAttendance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AttendeeID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AttendeeType")
+                        .HasColumnType("int");
+
+                    b.Property<TimeOnly?>("CheckInTime")
+                        .HasColumnType("time");
+
+                    b.Property<TimeOnly?>("CheckOutTime")
+                        .HasColumnType("time");
+
+                    b.Property<Guid?>("ContextID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("DeletedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("LeaveRequestID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly?>("ModifiedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LeaveRequestID");
+
+                    b.ToTable("Attendances", (string)null);
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.Attendance.clsLeaveRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ApprovedByID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AttendeeType")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("DeletedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("EndDate")
+                        .HasColumnType("date");
+
+                    b.Property<Guid>("EntityID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("LeaveType")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly?>("ModifiedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Reason")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("RejectionReason")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LeaveRequests", (string)null);
                 });
 
             modelBuilder.Entity("System.Domain.Entities.Institue.clsInstitute", b =>
@@ -1573,7 +1694,7 @@ namespace System.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@APP.COM",
                             NormalizedUserName = "ADMIN@APP.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJ3K3xV8k04nZmYk1o0M7K9L2xQ4v8L0M7K9L2xQ4v8L0M7K9L==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEG3k8X+L9vL2Y3jR1K8sQ1M3N7xP4V8L0M7K9L2xQ4v8L0M7K9L=",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "d739f400-36a2-4a0f-90e6-54737c041441",
                             TwoFactorEnabled = false,
@@ -1665,6 +1786,16 @@ namespace System.Infrastructure.Migrations
                     b.Navigation("District");
 
                     b.Navigation("Neighborhood");
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.Attendance.clsAttendance", b =>
+                {
+                    b.HasOne("System.Domain.Entities.Attendance.clsLeaveRequest", "LeaveRequest")
+                        .WithMany()
+                        .HasForeignKey("LeaveRequestID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("LeaveRequest");
                 });
 
             modelBuilder.Entity("System.Domain.Entities.Institue.clsInstitute", b =>

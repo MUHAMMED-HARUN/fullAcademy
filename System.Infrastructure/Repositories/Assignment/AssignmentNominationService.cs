@@ -3,6 +3,7 @@ using System.Application.Abstractions.Assignment;
 using System.Application.Common;
 using System.Application.Services.Assignment.AssignmentNomination.DTO;
 using System.Domain.Entities;
+using System.Domain.Enums.Enrollment;
 using System.Infrastructure.Persistence;
 using System.Threading.Tasks.Dataflow;
 
@@ -44,7 +45,10 @@ namespace System.Infrastructure.Repositories.Assignment
               x.StudentEnrollment.Student.Person.FatherName+ " " +
               x.StudentEnrollment.Student.Person.LastName+ " " ,
                 NominationState = x.NominationState.ToString()
+               ,CanStartAssigment = !_context.Assignments.Any(a=>a.AssignmentNominationID==x.Id &&
+               (a.IsActive==true && a.AssignmentState!=enAssignmentType.Canceled))
             }).ToListAsync();
+    
         }
 
         public async Task<AssignmentNominationInfo> GetBy(Guid id)
@@ -79,7 +83,7 @@ namespace System.Infrastructure.Repositories.Assignment
         {
           return await  _set.AnyAsync(x => x.StudentEnrollmentID == StudentEnrollmentID && 
           x.AssignmentScopeID == AssignmentScopeID &&
-          x.NominationState == Domain.Enums.Enrollment.enAssignmentType.Completed &&
+          x.NominationState == Domain.Enums.Enrollment.enAssignmentType.Completed ||
           x.NominationState == Domain.Enums.Enrollment.enAssignmentType.inProgress&&
           x.IsActive==true &&
           x.DeletedAt==null);

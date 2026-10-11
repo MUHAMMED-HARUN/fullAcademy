@@ -44,8 +44,22 @@ namespace System.Infrastructure.Repositories.Assignment
                 StudentName = x.AssignmentNomination.StudentEnrollment.Student.Person.FirstName + " " +
                  x.AssignmentNomination.StudentEnrollment.Student.Person.FatherName + " " +
                   x.AssignmentNomination.StudentEnrollment.Student.Person.LastName,
-                AssignmentScopeID = x.AssignmentNomination.AssignmentScopeID.ToString()
+                AssignmentScopeID = x.AssignmentNomination.AssignmentScopeID.ToString(),
+                CanAddResult =
+                // ÇáÍÇáÉ ÇáÃæáì: áÇ ÊæÌÏ Ãí äÊíÌÉ ãÓÌáÉ áåÐÇ ÇáÇãÊÍÇä äåÇÆíÇð
+                !_context.Results.Any(r => r.AssignmentID == x.Id && r.IsActive)
+                ||
+                // ÇáÍÇáÉ ÇáËÇäíÉ: ÇáÇãÊÍÇä äÔØ¡ æáã íÊã ÅÏÎÇá äÊÇÆÌ áßá ÇáäØÇÞÇÊ ÇáÝÑÚíÉ ÇáãÊÇÍÉ ÈÚÏ
+                (
+                    x.IsActive &&
+                    _context.Results.Count(r => r.AssignmentID == x.Id && r.IsActive)
+                    <
+                    _context.AssignmentScopeInfos.Count(a => a.AssignmentScopeID == x.AssignmentNomination.AssignmentScopeID && a.IsActive)
+                )
+                , TotalScore = x.TotalScore
             }).ToListAsync();
+      
+
         }
 
         public async Task<AssignmentInfo> GetBy(Guid id)

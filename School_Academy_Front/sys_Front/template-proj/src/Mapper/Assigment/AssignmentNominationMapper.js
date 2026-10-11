@@ -35,6 +35,7 @@ export default class AssignmentNominationMapper {
         assignmentScopeName: list.AssignmentScopeName,
         nominationState: list.NominationState,
         date: list.Date,
+        canStartAssigment: list.CanStartAssigment,
       };
     });
   }

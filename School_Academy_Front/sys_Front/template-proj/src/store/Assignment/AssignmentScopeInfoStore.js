@@ -42,7 +42,21 @@ export const useAssignmentScopeinfoStore = defineStore("AssignmentScopeinfos", {
       this.loading = false;
       return result;
     },
-
+    async fetchAssignmentScopeinfosForAssigment(command) {
+      this.loading = true;
+      this.error = null;
+      const result =
+        await AssignmentScopeinfo_service.fetchAssignmentScopeinfosForAssigment(
+          command
+        );
+      if (result.success) {
+        this.AssignmentScopeinfos = result.data;
+      } else {
+        this.error = result.errors;
+      }
+      this.loading = false;
+      return result;
+    },
     async addAssignmentScopeinfo(payload) {
       this.loading = true;
       this.error = null;

@@ -56,10 +56,12 @@ export default {
     async OnAddResult(e) {
       this.StudentName = e.studentName;
       this.asignmentID = e.assignmentID;
+
+      await this.AssignmentScopeinfoStore.fetchAssignmentScopeinfosForAssigment(
+        { AssignmentID: e.assignmentID }
+      );
       this.AssignmentScopeinfoData =
-        this.AssignmentScopeinfoStore.AssignmentScopeinfos?.filter(
-          (a) => a.assignmentScopeID == e.assignmentScopeID
-        );
+        this.AssignmentScopeinfoStore.AssignmentScopeinfos;
       this.showNewResult = true;
     },
     async AddResultSubmit(e) {

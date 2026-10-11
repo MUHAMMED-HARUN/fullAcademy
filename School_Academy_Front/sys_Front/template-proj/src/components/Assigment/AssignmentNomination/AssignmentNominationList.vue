@@ -23,7 +23,10 @@
             <button @click="ShowInfo(assigNomin)">معلومات</button>
             <button @click="ShowUpdate(assigNomin)">تحديث</button>
             <button @click="ShowDelete(assigNomin)">حذف</button>
-            <button @click="ShowNewAssignment(assigNomin)">
+            <button
+              v-if="assigNomin.canStartAssigment"
+              @click="ShowNewAssignment(assigNomin)"
+            >
               ابدا الاختبار
             </button>
           </td>

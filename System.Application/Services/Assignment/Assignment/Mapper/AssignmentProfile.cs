@@ -6,9 +6,9 @@ using System.Domain.Entities;
 
 namespace System.Application.Services.Assignment.Assignment.Mapper
 {
-    public class AssignmentProfile : Profile
+    public class AttendanceProfile : Profile
     {
-        public AssignmentProfile()
+        public AttendanceProfile()
         {
             CreateMap<NewAssignmentCommand, clsAssignment>()
                 .ConstructUsing(src => new clsAssignment(

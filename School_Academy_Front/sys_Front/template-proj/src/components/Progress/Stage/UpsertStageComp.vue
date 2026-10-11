@@ -27,7 +27,7 @@
       <div class="form-group">
         <label>المرحلة السابقة:</label>
         <select v-model="formData.prevStageID">
-          <option value="" disabled>اختر نوع المادة</option>
+          <option value="" disabled>اختر الفصل السابق</option>
           <option
             v-for="stage in Stages"
             :value="stage.StageID"

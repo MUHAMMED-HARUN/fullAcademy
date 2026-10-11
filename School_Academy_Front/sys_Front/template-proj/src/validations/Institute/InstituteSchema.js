@@ -7,7 +7,7 @@ export const InstituteSchema = z.object({
     .string({ required_error: "  مطلوب" })
     .min(2, "  يجب أن يكون حرفين على الأقل")
     .max(100, "  طويل جداً"),
-  notes: z
+  note: z
     .string({ required_error: "  مطلوب" })
     .min(2, "  يجب أن يكون حرفين على الأقل")
     .max(100, "  طويل جداً"),

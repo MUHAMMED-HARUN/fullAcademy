@@ -27,7 +27,18 @@ class AssignmentScopeinfoService {
     }
     return new TResult(null, false, rees.errors);
   }
-
+  async fetchAssignmentScopeinfosForAssigment(command) {
+    const rees =
+      await AssignmentScopeinfo_repositories.fetchAssignmentScopeinfosForAssigment(
+        command
+      );
+    var dto;
+    if (rees.success) {
+      dto = AssignmentScopeinfoMapper.MapFromApiDTOToAssigmetSelect(rees.data);
+      return new TResult(dto, rees.success, rees.errors);
+    }
+    return new TResult(null, false, rees.errors);
+  }
   async create(data) {
     alert("s");
     const validation = validate1(data, AssignmentScopeInfoSchema);

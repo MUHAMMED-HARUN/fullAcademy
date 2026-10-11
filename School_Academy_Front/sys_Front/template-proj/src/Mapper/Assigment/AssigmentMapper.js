@@ -22,6 +22,7 @@ export default class StageMapper {
       assigmentScopeName: DataReq.AssigmentScopeName,
       isPassed: DataReq.IsPassed,
       assignmentScopeID: DataReq.AssignmentScopeID,
+      totalScore: DataReq.TotalScore,
     };
   }
 
@@ -37,6 +38,8 @@ export default class StageMapper {
         assigmentScopeName: list.AssigmentScopeName,
         isPassed: list.IsPassed,
         assignmentScopeID: list.AssignmentScopeID,
+        canAddResult: list.CanAddResult,
+        totalScore: list.TotalScore,
       };
     });
   }

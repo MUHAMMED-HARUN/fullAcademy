@@ -308,6 +308,22 @@
   },
   {
     "ContainingType": "School_Academy.Controllers.Assignment.AssignmentScopeInfoController",
+    "Method": "fetchAssignmentScopeinfosForAssigment",
+    "RelativePath": "api/AssignmentScopeInfo/fetchAssignmentScopeinfosForAssigment",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AssignmentID",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Assignment.AssignmentScopeInfoController",
     "Method": "GetBy",
     "RelativePath": "api/AssignmentScopeInfo/GetAssignmentScopeInfoBy",
     "HttpMethod": "GET",
@@ -359,6 +375,22 @@
       {
         "Name": "command",
         "Type": "System.Application.Services.Assignment.AssignmentScopeInfo.Command.UpdateAssignmentScopeInfoCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Attendance.AttendancesController",
+    "Method": "Add",
+    "RelativePath": "api/Attendances/NewAttendance",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Attendance.Attendance.Command.NewAttendanceCommand",
         "IsRequired": true
       }
     ],

@@ -12,7 +12,7 @@ namespace System.Application.Services.Assignment.AssignmentNomination.Command
 {
     public class NewAssignmentNominationCommandHandler : IRequestHandler<NewAssignmentNominationCommand, TResult<string>>
     {
-        private readonly IAssignmentNominationRepository _repo;
+        private readonly IAssignmentNominationRepository     _repo;
         private readonly ICurrentUserService _currentUserService;
         private readonly IMapper _mapper;
 

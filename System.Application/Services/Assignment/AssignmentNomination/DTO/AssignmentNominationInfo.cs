@@ -12,5 +12,6 @@ namespace System.Application.Services.Assignment.AssignmentNomination.DTO
         public string AssignmentScopeName { get; set; }
         public string Date { get; set; }
         public string NominationState { get; set; }
+        public bool CanStartAssigment { get; set; }
     }
 }

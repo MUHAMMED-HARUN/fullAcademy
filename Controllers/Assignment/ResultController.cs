@@ -45,7 +45,7 @@ namespace School_Academy.Controllers.Assignment
         [HttpDelete("DeleteResult")]
         public async Task<IActionResult> Delete([FromBody] DeleteResultCommand command)
         {
-            var result = await _mediator.Send(command);
+                var result = await _mediator.Send(command);
 
             if (!result.IsSuccess)
             {

@@ -9,7 +9,7 @@
     <PopapComp v-if="showUpsert" @close="onpopaClose">
       <UpsertSessionComp
         :errors="SessionStore.error"
-        :-sessions="GetSessionByType(`موضوع`)"
+        :-sessions="GetSessionByType(0)"
         @on-submit="OnSubmitUpsert"
       />
     </PopapComp>
@@ -89,7 +89,7 @@ export default {
       this.SessionStore.selectedSession = null;
     },
     GetSessionByType(type) {
-      this.SessionStore.sessions.filter((i) => i.type === type);
+      return this.SessionStore.sessions.filter((i) => i.type === type);
     },
   },
   mounted() {

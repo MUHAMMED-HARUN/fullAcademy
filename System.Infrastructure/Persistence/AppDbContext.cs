@@ -5,6 +5,7 @@ using System.Application.Services.Assignment.AssignmentScope.DTO;
 using System.Application.Services.Enrollment.StudentEnrollment.DTO;
 using System.Domain.Entities;
 using System.Domain.Entities.Address;
+using System.Domain.Entities.Attendance;
 using System.Domain.Entities.BaseClass;
 using System.Domain.Entities.Institue;
 using System.Domain.Entities.Person;
@@ -51,6 +52,9 @@ namespace System.Infrastructure.Persistence
         public DbSet<clsAssignmentScopeinfo> AssignmentScopeInfos { get; set; }
         public DbSet<clsAssignmentNomination> AssignmentNominations { get; set; }
         public DbSet<clsResult> Results { get; set; }
+
+        // Attendance
+                public DbSet<clsAttendance> Attendances { get; set; }
 
         // views
         public DbSet<StudentEnrollmentInfoView> vw_StudentEnrollmentInfo { get; set; }

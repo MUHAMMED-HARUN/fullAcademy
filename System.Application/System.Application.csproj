@@ -8,6 +8,9 @@
 
   <ItemGroup>
     <Folder Include="Interfaces\" />
+    <Folder Include="Services\Assignment\Assignment\DTO\" />
+    <Folder Include="Services\Attendance\Attendance\DTO\" />
+    <Folder Include="Services\Attendance\Attendance\Query\" />
     <Folder Include="Services\Authentication\Permission\DTO\" />
     <Folder Include="Services\Authentication\Permission\Mapper\" />
     <Folder Include="Services\Authentication\Permission\Validateor\" />

@@ -40,7 +40,7 @@ namespace System.Application.Services.Assignment.Assignment.Command
             request.CommitteeID = _currentUserService.EntityId;
             request.CommitteeType = _currentUserService.Role == "Teacher" ? enCommitteeType.Teacher : enCommitteeType.User;
             request.AssignmentState = enAssignmentType.inProgress;
-
+             
             clsAssignment entity = _mapper.Map<NewAssignmentCommand, clsAssignment>(request);
             entity.SetCreated(_currentUserService.UserId.ToString());
 

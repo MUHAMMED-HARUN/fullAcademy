@@ -22,6 +22,9 @@ using System.Infrastructure.Repositories.Assignment;
 using System.Reflection;
 using System.Infrastructure.Repositories.Progress;
 using System.Application.Abstractions.Progress;
+using System.Application.Abstractions.Attendance;
+using System.Infrastructure.Repositories.Attendance;
+using System.Application.Abstractions;
 
 namespace System.Infrastructure
 {
@@ -53,7 +56,7 @@ namespace System.Infrastructure
                 services.AddScoped<IJwtTokenGenerator, JwtTokenGeneratorService>();
 
                 // Address Session
-                services.AddScoped<IAddressRepository, AddressService>();
+                services.AddScoped<IAddressRepository, enericService>();
                 services.AddScoped<ICountryRepository, CountryService>();
                 services.AddScoped<ICityRepository, CityService>();
                 services.AddScoped<IDistrictRepository, DistrictService>();
@@ -86,6 +89,14 @@ namespace System.Infrastructure
                 services.AddScoped<IAssignmentScopeInfoRepository, AssignmentScopeInfoService>();
                 services.AddScoped<IAssignmentNominationRepository, AssignmentNominationService>();
                 services.AddScoped<IResultRepository, ResultService>();
+
+
+                // Attendance Service 
+                services.AddScoped<IAttendanceRepository, AttendanceService>();
+
+
+                // GenericService
+                services.AddScoped(typeof(IGeneric<>), typeof(GenericService<>));
 
                 return services;
             }

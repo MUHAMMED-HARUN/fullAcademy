@@ -12,5 +12,7 @@ namespace System.Application.Services.Assignment.Assignment.DTO
         public string StudentName {  get; set; }
         public string AssigmentScopeName{  get; set; }
         public bool? IsPassed { get; set; }
+        public bool CanAddResult { get; set; }
+        public double? TotalScore { get; set; }
     }
 }

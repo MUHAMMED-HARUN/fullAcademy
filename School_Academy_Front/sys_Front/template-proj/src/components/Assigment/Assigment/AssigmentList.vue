@@ -8,6 +8,7 @@
           <th>حالة الامتحان</th>
           <th>تاريخ التنفيذ</th>
           <th>نتيجة الامتحان</th>
+          <th>نتيجة</th>
           <th>الاجرائات</th>
         </tr>
       </thead>
@@ -18,11 +19,14 @@
           <td>{{ assig.assignmentState }}</td>
           <td>{{ assig.scheduledDate }}</td>
           <td>{{ assig.isPassed }}</td>
+          <td>{{ assig.totalScore }}</td>
           <td>
             <button @click="ShowInfo(assig)">معلومات</button>
             <button @click="ShowUpdate(assig)">تحديث</button>
             <button @click="ShowDelete(assig)">حذف</button>
-            <button @click="showAddResult(assig)">اضافة نتيجة</button>
+            <button v-if="assig.canAddResult" @click="showAddResult(assig)">
+              اضافة نتيجة
+            </button>
           </td>
         </tr>
       </tbody>

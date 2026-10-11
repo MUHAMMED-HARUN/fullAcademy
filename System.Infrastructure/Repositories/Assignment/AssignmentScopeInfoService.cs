@@ -45,6 +45,33 @@ namespace System.Infrastructure.Repositories.Assignment
             }).ToListAsync();
         }
 
+
+        public async Task<List<AssignmentScopeInfoInfo>> GetListForAssigmet(Guid assimentID)
+        {
+            var scopeId = await _context.Assignments
+        .Where(a => a.Id == assimentID)
+        .Select(a => a.AssignmentNomination.AssignmentScopeID)
+        .FirstOrDefaultAsync();
+
+            return await _set
+           .Where(x => x.AssignmentScopeID == scopeId &&
+               // ?? ÅÖÇÝÉ ÚáÇãÉ ÇáäÝí (!) áÌáÈ ÇáäØÇÞÇÊ ÇáÊí áíÓ áåÇ äÊíÌÉ ãÓÌáÉ ãÚ åÐÇ ÇáÇãÊÍÇä ÈÚÏ
+               !_context.Results.Any(r => r.AssignmentID == assimentID &&
+                   r.AssignmentScopeInfoID == x.Id && r.IsActive == true)
+           )
+                .Select(x => new AssignmentScopeInfoInfo
+            {
+                AssignmentScopeInfoID = x.Id.ToString(),
+                MaxScore = x.MaxScore,
+                MinPassScore = x.MinPassScore,
+                StageInfoMatterNameName = x.StageInfo.Matter.Name,
+             
+            }).ToListAsync();
+          
+
+        }
+
+
         public async Task<AssignmentScopeInfoInfo> GetBy(Guid id)
         {
             return await _set.Where(x => x.Id == id)

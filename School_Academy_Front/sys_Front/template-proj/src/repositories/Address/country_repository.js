@@ -5,7 +5,7 @@ class CountryRepository {
   async addCountry(countryData) {
     const response = await clsUtil.FeachRequset(
       `/Country/NewCountry`,
-      enApiType.put,
+      enApiType.post,
       countryData,
       "حدث خطأ أثناء إضافة الدولة"
     );
