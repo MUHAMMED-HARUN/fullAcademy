@@ -18,13 +18,45 @@ class StageService {
   async getBy(command) {
     const rees = await Stage_repositories.getBy(command);
     var dto;
-    console.log(rees);
     if (rees.success) {
       dto = StageMapper.MapFromApiDTO(rees.data);
-      console.log("dto", dto);
       return new TResult(dto, rees.success, rees.errors);
     }
     return new TResult(null, false, rees.errors);
+  }
+
+  async getAllFilter(params = {}) {
+    const response = await Stage_repositories.getListFilter(params);
+    if (!response.success) return new TResult(null, false, response.errors);
+
+    const paging = response.data || {};
+    const items = paging.Data ?? paging.data ?? [];
+    return new TResult(
+      {
+        items: StageMapper.mapListApiToStageLookups(items),
+        count: paging.Count ?? paging.count ?? 0,
+      },
+      true,
+      response.errors
+    );
+  }
+
+  async searchPreviousStages({ term, classID, excludeStageID }) {
+    const safeTerm = String(term ?? "")
+      .trim()
+      .replace(/[,*|^$!=()/]/g, " ")
+      .trim();
+    if (!safeTerm || !classID) return new TResult([], true, null);
+
+    const result = await this.getAllFilter({
+      Page: 1,
+      PageSize: 10,
+      Filter: `StageName=*${safeTerm}`,
+      ClassID: classID,
+      ExcludeStageID: excludeStageID || "",
+    });
+    if (!result.success) return result;
+    return new TResult(result.data?.items || [], true, result.errors);
   }
 
   async create(data) {
@@ -47,9 +79,7 @@ class StageService {
 
   async delete(data) {
     if (data) {
-      return await Stage_repositories.Delete({
-        EnrollmentID: data,
-      });
+      return await Stage_repositories.Delete(data);
     }
     return new TResult(null, false, ["بيانات غير صالحة للحذف"]);
   }

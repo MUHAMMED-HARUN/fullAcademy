@@ -7,34 +7,38 @@
         <input v-model="formData.name" type="text" />
         <ValidationError :messages="errors?.name" />
       </div>
+
       <div class="form-group">
         <label>مستوى الصف:</label>
-        <input v-model="formData.level" type="number" />
+        <input v-model.number="formData.level" type="number" />
         <ValidationError :messages="errors?.level" />
       </div>
+
       <div class="form-group">
         <label>ملاحظات:</label>
         <input v-model="formData.notes" type="text" />
         <ValidationError :messages="errors?.notes" />
       </div>
-      <div class="form-filter">
-        <label>نوع البحث</label>
-        <select v-model="searchType">
-          <option selected :value="this.enSearchType.ProgramName">
-            بحث باسم المشروع
-          </option>
-          <option disabled :value="enSearchType.ProgramID">
-            بحث بـ ID المشروع
-          </option>
-        </select>
-        <input v-model="searchValue" type="text" />
-        <button @click.prevent.stop="onSearchProgram">بحث</button>
+
+      <div class="form-group">
+        <label>البرنامج:</label>
+        <GenericSearchByFilter
+          :filter-types="programFilterTypes"
+          :results="programResults"
+          id-field="programID"
+          name-field="name"
+          placeholder="ابحث عن برنامج"
+          :loading="isSearching"
+          v-model:model-value="formData.programID"
+          v-model:name-value="programName"
+          @search="onSearchProgram"
+          @select="onProgramSelected"
+          @clear="clearProgramSelection"
+        />
+        <ValidationError :messages="errors?.programID" />
+        <ProgramCard v-if="showCard" :-data-req="programDataCard" />
       </div>
 
-      <div class="program-card">
-        <ProgramCard v-if="showCard" :-data-req="programData" />
-        <ValidationError :messages="errors?.programID" />
-      </div>
       <div class="form-group">
         <button type="submit">حفظ</button>
       </div>
@@ -44,14 +48,16 @@
 
 <script>
 import ValidationError from "@/components/general/ValidationError.vue";
-import { useClassStore } from "@/store/Institute/ClassStore.js";
+import GenericSearchByFilter from "@/components/general/GenericSearchByFilter.vue";
 import ProgramCard from "../Program/ProgramCard.vue";
-const enSearchType = Object.freeze({ ProgramName: 1, ProgramID: 0 });
+import { useClassStore } from "@/store/Institute/ClassStore.js";
+import { useProgramStore } from "@/store/Institute/useProgramStore";
 
 export default {
   name: "UpsertClassComp",
   components: {
     ValidationError,
+    GenericSearchByFilter,
     ProgramCard,
   },
   props: {
@@ -67,6 +73,7 @@ export default {
   data() {
     return {
       ClassStore: useClassStore(),
+      ProgramStore: useProgramStore(),
       formData: {
         classID: "",
         name: "",
@@ -74,9 +81,11 @@ export default {
         level: 1,
         programID: "",
       },
-      enSearchType: enSearchType,
-      searchType: enSearchType.nationalNumber,
-      searchValue: "",
+      programFilterTypes: [{ value: 1, label: "بحث باسم البرنامج" }],
+      programResults: [],
+      programName: "",
+      programDataCard: null,
+      isSearching: false,
       showCard: false,
     };
   },
@@ -90,10 +99,35 @@ export default {
     onSubmit() {
       this.$emit("onSubmit", this.formData);
     },
-    onSearchProgram() {
-      this.$emit("onSearchProgram", this.searchType, this.searchValue);
+    async onSearchProgram(payload) {
+      this.isSearching = true;
+      await this.ProgramStore.fetchPrograms();
+      const q = String(payload.value || "").toLowerCase();
+      this.programResults = (this.ProgramStore.programs || []).filter((p) =>
+        String(p.name || "")
+          .toLowerCase()
+          .includes(q)
+      );
+      this.isSearching = false;
     },
-
+    onProgramSelected(item) {
+      this.FillProgramDataCard(item);
+    },
+    FillProgramDataCard(data) {
+      this.programDataCard = data;
+      if (this.programDataCard && this.programDataCard.programID) {
+        this.formData.programID = this.programDataCard.programID;
+        this.programName = this.programDataCard.name;
+        this.showCard = true;
+      } else {
+        this.programDataCard = null;
+        this.showCard = false;
+      }
+    },
+    clearProgramSelection() {
+      this.programDataCard = null;
+      this.showCard = false;
+    },
     fillSelectedClass() {
       if (this.ClassStore.selectedClass) {
         const entity = this.ClassStore.selectedClass;
@@ -108,9 +142,9 @@ export default {
     },
     handle(data, isFound) {
       if (isFound) {
-        this.formData.programID = data.programID;
-        this.showCard = true;
+        this.FillProgramDataCard(data);
       } else {
+        this.programDataCard = null;
         this.showCard = false;
       }
     },
@@ -122,9 +156,7 @@ export default {
   watch: {
     programData: {
       handler(data) {
-        console.log("prog data", data);
-        // تصحيح المنطق: التحقق من وجود البيانات مرة واحدة
-        if (data.programID != null) {
+        if (data && data.programID != null) {
           this.handle(data, true);
         } else {
           this.handle(null, false);

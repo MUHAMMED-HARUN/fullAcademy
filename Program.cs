@@ -33,7 +33,7 @@
 //{
 //    options.AddPolicy("AllowVueApp", policy =>
 //    {
-//        policy.WithOrigins("http://localhost:8080", "http://192.168.1.13:8080") // ÑÇÈØ ÇáÜ Vue
+//        policy.WithOrigins("http://localhost:8080", "http://192.168.1.13:8080") // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Vue
 //              .AllowAnyHeader()
 //              .AllowAnyMethod();
 //    });
@@ -65,7 +65,7 @@
 //    app.UseSwaggerUI(c =>
 //    {
 //        c.SwaggerEndpoint("/swagger/v1/swagger.json", "SchoolSys API v1");
-//        c.RoutePrefix = "swagger"; // ÇáÇİÊÑÇÖí
+//        c.RoutePrefix = "swagger"; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //    });
 //}
 //app.UseHttpsRedirection();
@@ -79,16 +79,18 @@
 using School_Academy.Services;
 using System.Application;
 using System.Application.Abstractions.Auth;
-using System.Application.Services.Authentication.Permission.Query;
 using System.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Security.Claims;
+using School_Academy.Middlewares;
+using System.Domain.Entities.Permissions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. ÅÖÇİÉ ÎÏãÇÊ ÇáãÕÇÏŞÉ (Authentication) ÈÇÓÊÎÏÇã JWT Bearer
-// íÌÈ Ãä íÊã Ğáß ŞÈá ÇÓÊÏÚÇÁ AddAuthorization
+// 1. ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (Authentication) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ JWT Bearer
+// ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ AddAuthorization
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -96,7 +98,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    // ŞÑÇÁÉ ÅÚÏÇÏÇÊ JWT ãä appsettings.json (íÌÈ Ãä Êßæä ãæÌæÏÉ)
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ JWT ï¿½ï¿½ appsettings.json (ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
     var jwtSettings = builder.Configuration.GetSection("JwtSettings");
     var secretKey = jwtSettings["Secret"] ?? throw new InvalidOperationException("JWT Secret not configured.");
     var issuer = jwtSettings["Issuer"] ?? "SchoolAcademy";
@@ -113,14 +115,14 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
     };
 
-    // (ÇÎÊíÇÑí) áÊÓåíá ÊÕÍíÍ ÇáÃÎØÇÁ İí ÈíÆÉ ÇáÊØæíÑ
+    // (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     if (builder.Environment.IsDevelopment())
     {
         options.RequireHttpsMetadata = false;
     }
 });
 
-// 2. ÅÖÇİÉ ÎÏãÇÊ ÇáÊÍßã æÇáÜ DI ÇáÃÎÑì
+// 2. ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ DI ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 builder.Services.AddControllers(options =>
 {
     options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
@@ -139,12 +141,12 @@ builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplication();
 
-// 3. ÊÓÌíá ÎÏãÇÊ Swagger/OpenAPI
+// 3. ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Swagger/OpenAPI
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    // ÅÖÇİÉ ÏÚã JWT İí Swagger (áÊÊãßä ãä ÇÎÊÈÇÑ ÇáãÕÇÏŞÉ)
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ JWT ï¿½ï¿½ Swagger (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -152,7 +154,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Description = "ÃÏÎá ÇáÊæßä JWT İí ÇáÍŞá: Bearer {token}"
+        Description = "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ JWT ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½: Bearer {token}"
     });
     c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
     {
@@ -170,7 +172,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// 4. ÓíÇÓÇÊ CORS
+// 4. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowVueApp", policy =>
@@ -178,33 +180,33 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("http://localhost:8080", "http://192.168.1.13:8080")
               .AllowAnyHeader()
               .AllowAnyMethod()
-              .AllowCredentials(); // ÅĞÇ ßäÊ ÊÓÊÎÏã Cookies Ãæ ÌáÓÇÊ¡ áßä ãÚ JWT áíÓ ÖÑæÑíÇğ ÚÇÏÉ
+              .AllowCredentials(); // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Cookies ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ê¡ ï¿½ï¿½ï¿½ ï¿½ï¿½ JWT ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     });
 });
 
-// 5. ÓíÇÓÇÊ ÇáÊİæíÖ (Authorization)
-builder.Services.AddAuthorization(async options =>
+// 5. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (Authorization)
+builder.Services.AddAuthorization(options =>
 {
-    // ÊÍãíá ÇáÕáÇÍíÇÊ ãä ŞÇÚÏÉ ÇáÈíÇäÇÊ Ãæ ãÕÏÑ ÂÎÑ
-    var handler = new GetAllPermissionHandler();
-    var permissionRes = await handler.Handle(null, CancellationToken.None);
-    if (permissionRes?.Value != null)
+    static bool IsAdmin(ClaimsPrincipal user) =>
+        user.HasClaim("Role", "Admin") ||
+        user.HasClaim(ClaimTypes.Role, "Admin");
+
+    foreach (var permission in clsPermission.AllPermissions())
     {
-        foreach (var per in permissionRes.Value)
-        {
-            options.AddPolicy(per.Name, policy => policy.RequireClaim("Permission", per.Name));
-        }
+        options.AddPolicy(permission.Name, policy => policy.RequireAssertion(context =>
+            IsAdmin(context.User) || context.User.Claims.Any(claim =>
+                claim.Type == "Permission" &&
+                clsPermission.NormalizePermissionName(claim.Value) == permission.Name)));
     }
-    // ÓíÇÓÉ ÚÇãÉ ÊÊØáÈ æÌæÏ Ãí ÕáÇÍíÉ (Permission)
+
     options.AddPolicy("Permission", policy => policy.RequireAssertion(context =>
-    {
-        return context.User.HasClaim(c => c.Type == "Permission");
-    }));
+        IsAdmin(context.User) || context.User.HasClaim(claim => claim.Type == "Permission")));
 });
 
 var app = builder.Build();
 
-// 6. ÊÑÊíÈ Middlewares ÇáÕÍíÍ
+// 6. ï¿½ï¿½ï¿½ï¿½ï¿½ Middlewares ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseCors("AllowVueApp");
 
 if (app.Environment.IsDevelopment())
@@ -219,9 +221,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// 7. ÊÑÊíÈ ãåã: Authentication ŞÈá Authorization
-app.UseAuthentication(); // åĞå ÇáÎÏãÉ ÊŞæã Èİß ÇáÊæßä æãáÁ HttpContext.User
-app.UseAuthorization();  // åĞå ÇáÎÏãÉ ÊŞæã ÈÊØÈíŞ ÇáÓíÇÓÇÊ
+// 7. ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½: Authentication ï¿½ï¿½ï¿½ Authorization
+app.UseAuthentication(); // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ HttpContext.User
+app.UseAuthorization();  // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 app.MapControllers();
 

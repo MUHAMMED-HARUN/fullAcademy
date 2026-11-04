@@ -1,7 +1,7 @@
 import TResult from "@/Generic/TResult";
 import ProgramMapper from "@/Mapper/Institute/ProgramMapper";
 import program_repositories from "@/repositories/Institute/ProgramRepositories";
-import { ProgramuteSchema } from "@/validations/Institute/ProgramSchema";
+import { ProgramSchema } from "@/validations/Institute/ProgramSchema";
 import { validate1 } from "@/validations/validator";
 class ProgramService {
   async getAll() {
@@ -18,7 +18,7 @@ class ProgramService {
   }
 
   async create(data) {
-    const validation = validate1(data, ProgramuteSchema);
+    const validation = validate1(data, ProgramSchema);
     if (!validation.isValid) {
       return new TResult(null, validation.isValid, validation.errors);
     }
@@ -27,7 +27,7 @@ class ProgramService {
   }
 
   async update(data) {
-    const validation = validate1(data, ProgramuteSchema);
+    const validation = validate1(data, ProgramSchema);
     if (!validation.isValid) {
       return new TResult(null, validation.isValid, validation.errors);
     }

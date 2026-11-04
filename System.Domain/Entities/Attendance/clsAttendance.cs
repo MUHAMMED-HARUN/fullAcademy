@@ -1,15 +1,28 @@
-﻿using System;
+using System;
 using System.Domain.Entities.BaseClass;
 using System.Domain.Enums.Attendance;
 using System.Domain.Exceptions;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace System.Domain.Entities.Attendance
 {
     public class clsAttendance : clsBaseClass
     {
-        public static Expression<Func<clsAttendance, bool>> GetByAttendeesAndDate(IEnumerable<Guid> attendeeIds, DateOnly date) =>
+        public static Expression<Func<clsAttendance, bool>> GetByAttendees_Date(IEnumerable<Guid> attendeeIds, DateOnly date) =>
           a => attendeeIds.Contains(a.AttendeeID) && a.Date == date && a.IsActive == true;
+        public static Expression<Func<clsAttendance, bool>> GetByAttendees_Date_Context(
+            IEnumerable<Guid> attendeeIds,
+            DateOnly date,
+            IEnumerable<Guid> contextId =null,
+            IEnumerable<enContextType> contextType = null)
+        {
+            return a => attendeeIds.Contains(a.AttendeeID)
+                        && a.Date == date
+                        && a.IsActive == true
+                        && (contextId == null || !contextId.Any() || contextId.Contains(a.ContextID.Value))
+                        && (contextType == null || !contextType.Any() || contextType.Contains(a.ContextType.Value));
+        }
         public Guid AttendeeID { get; private set; }
         public enAttendeeType AttendeeType { get; private set; }
         public DateOnly Date { get; private set; }
@@ -17,6 +30,7 @@ namespace System.Domain.Entities.Attendance
         public TimeOnly? CheckOutTime { get; private set; }
         public AttendanceStatus Status { get; private set; }
         public Guid? ContextID { get; private set; } // اختياري: معرف الحلقة أو Session
+        public enContextType? ContextType { get; private set; }
         public Guid? LeaveRequestID { get; private set; } // مرجع طلب الإذن المرتبط إن وجد
         public string? Notes { get; private set; }
 
@@ -32,6 +46,7 @@ namespace System.Domain.Entities.Attendance
             TimeOnly? checkInTime = null,
             TimeOnly? checkOutTime = null,
             Guid? contextId = null,
+            enContextType? contextType = null,
             Guid? leaveRequestId = null,
             string? notes = null)
         {
@@ -39,8 +54,8 @@ namespace System.Domain.Entities.Attendance
             SetDate(date);
             SetStatus(status);
             SetTimes(checkInTime, checkOutTime);
+            SetContext(contextId, contextType);
 
-            ContextID = contextId;
             LeaveRequestID = leaveRequestId;
             Notes = notes;
 
@@ -90,6 +105,11 @@ namespace System.Domain.Entities.Attendance
 
         public void SetNotes(string? notes) { Notes = notes; }
         public void SetContextID(Guid? contextId) { ContextID = contextId; }
+        public void SetContext(Guid? contextId, enContextType? contextType)
+        {
+            ContextID = contextId;
+            ContextType = contextType;
+        }
         public void SetLeaveRequestID(Guid? leaveRequestId) { LeaveRequestID = leaveRequestId; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using System;
 using System.Application.Abstractions.Auth;
 using System.Application.Abstractions.Person;
@@ -14,18 +13,16 @@ namespace System.Application.Services.Person.Person.Command
     {
         private readonly IPersonRepository _personRepository;
         private readonly ICurrentUserService _currentUserService;
-        private readonly IMapper _mapper;
-        public DeletePersonCommandHandler(IPersonRepository personRepository ,ICurrentUserService currentUser,IMapper mapper)
+        public DeletePersonCommandHandler(IPersonRepository personRepository, ICurrentUserService currentUser)
         {
             _personRepository = personRepository;
             _currentUserService = currentUser;
-           _mapper = mapper;
         }
         public async Task<TResult<string>> Handle(DeletePersonCommand request, CancellationToken cancellationToken)
         {
             clsPerson entity = await _personRepository.GetEntityBy(request.PersonID, enPersonParamType.ID);
             if (entity == null)
-                return TResult<string>.Fail(ApplicationExMsg.FailToFindStudent);
+                return TResult<string>.Fail(ApplicationExMsg.NotFound);
 
             entity.SetDeleted(_currentUserService.UserId.ToString());
            await _personRepository.Update(entity);

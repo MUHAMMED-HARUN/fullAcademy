@@ -1,24 +1,20 @@
 import TResult from "@/Generic/TResult";
 import TeacherMapper from "@/Mapper/Person/TeacherMapper";
 import Teacher_repositories from "@/repositories/Person/TeacherRepositories";
-import { TeacherSchema } from "@/validations/Person/TeacherSchema";
+import {
+  NewTeacherSchema,
+  TeacherLookupSchema,
+  UpdateTeacherSchema,
+} from "@/validations/Person/TeacherSchema";
+import { GuidSchema } from "@/validations/Person/guidSchema";
 import { validate1 } from "@/validations/validator";
 
 class TeacherService {
   async getAll(filter) {
     const rees = await Teacher_repositories.getList(filter);
     if (rees.success) {
-      const pagingObj = rees.data || {};
-
-      // استخراج القائمة والعدد الإجمالي من كائن Paging<T>
-      const rawList = pagingObj.Data || pagingObj.data || [];
-      const totalCount = pagingObj.Count ?? pagingObj.count ?? 0;
-
-      // تحويل البيانات عبر الـ Mapper
-      const dto = TeacherMapper.mapListApiToTeacher(rawList);
-
       return new TResult(
-        { items: dto, count: totalCount },
+        TeacherMapper.mapPagingApiToTeacher(rees.data),
         rees.success,
         rees.errors
       );
@@ -27,27 +23,32 @@ class TeacherService {
   }
 
   async getBy(command) {
-    var res = await Teacher_repositories.getBy(command);
-    if (res.success) {
-      const dto = TeacherMapper.MapFromApiDTO(res.data);
-      return new TResult(dto, res.success, res.errors);
+    const validation = validate1(command, TeacherLookupSchema);
+    if (!validation.isValid) {
+      return new TResult(null, false, validation.errors);
     }
-    return new TResult(null, false, res.errors);
+
+    const result = await Teacher_repositories.getBy(command);
+    if (result.success) {
+      const dto = TeacherMapper.MapFromApiDTO(result.data);
+      return new TResult(dto, result.success, result.errors);
+    }
+    return new TResult(null, false, result.errors);
   }
 
   async create(data) {
-    const validation = validate1(data, TeacherSchema);
+    const validation = validate1(data, NewTeacherSchema);
     if (!validation.isValid) {
-      return new TResult(null, validation.isValid, validation.errors);
+      return new TResult(null, false, validation.errors);
     }
     const payload = TeacherMapper.mapUpsertToApi(data);
     return await Teacher_repositories.add(payload);
   }
 
   async update(data) {
-    const validation = validate1(data, TeacherSchema);
+    const validation = validate1(data, UpdateTeacherSchema);
     if (!validation.isValid) {
-      return new TResult(null, validation.isValid, validation.errors);
+      return new TResult(null, false, validation.errors);
     }
 
     const payload = TeacherMapper.mapUpsertToApi(data);
@@ -55,10 +56,13 @@ class TeacherService {
   }
 
   async delete(data) {
-    if (data) {
+    const validation = GuidSchema.safeParse(data);
+    if (validation.success) {
       return await Teacher_repositories.Delete({ TeacherID: data });
     }
-    return new TResult(null, false, ["Invalid data for deletion"]);
+    return new TResult(null, false, {
+      teacherID: validation.error.issues[0]?.message || "معرّف المعلم غير صالح",
+    });
   }
 }
 

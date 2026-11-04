@@ -1,25 +1,55 @@
 <template>
-  <div>
-    <table>
+  <div class="table-responsive" dir="rtl">
+    <table class="data-table">
       <thead>
         <tr>
           <th>اسم المرحلة</th>
-          <th>المشروع</th>
+          <th>الصف</th>
           <th>المرحلة السابقة</th>
           <th>ملاحظات</th>
+          <th>الإجراءات</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="stage in Stages" :key="stage.stageID">
+        <tr v-for="stage in stages" :key="stage.stageID">
           <td>{{ stage.name }}</td>
-          <td>{{ stage.programName }}</td>
-          <td>{{ stage.prevStageName }}</td>
+          <td>{{ stage.className }}</td>
+          <td>{{ stage.prevStageName || "—" }}</td>
           <td>{{ stage.note }}</td>
 
           <td>
-            <button @click="ShowInfoStage(stage)">معلومات</button>
-            <button @click="ShowUpdateStage(stage)">تحديث</button>
-            <button @click="ShowDeleteStage(stage)">حذف</button>
+            <button
+              v-if="canCreate"
+              type="button"
+              class="btn btn-sm btn-primary"
+              @click="$emit('add-stage-info', stage)"
+            >
+              إضافة تفاصيل
+            </button>
+            <button
+              v-if="canRead"
+              type="button"
+              class="btn btn-sm btn-outline-secondary"
+              @click="$emit('show-info', stage)"
+            >
+              معلومات
+            </button>
+            <button
+              v-if="canUpdate"
+              type="button"
+              class="btn btn-sm btn-outline-primary"
+              @click="$emit('show-update', stage)"
+            >
+              تحديث
+            </button>
+            <button
+              v-if="canDelete"
+              type="button"
+              class="btn btn-sm btn-outline-danger"
+              @click="$emit('show-delete', stage)"
+            >
+              حذف
+            </button>
           </td>
         </tr>
       </tbody>
@@ -30,23 +60,15 @@
 export default {
   name: "StageList",
   props: {
-    Stages: {
+    stages: {
       type: Array,
       required: true,
     },
+    canRead: { type: Boolean, default: false },
+    canCreate: { type: Boolean, default: false },
+    canUpdate: { type: Boolean, default: false },
+    canDelete: { type: Boolean, default: false },
   },
-  emits: ["ShowUpdateStage", "ShowDeleteStage", "ShowInfoStage"],
-  methods: {
-    async ShowUpdateStage(Data) {
-      this.$emit("ShowUpdateStage", Data);
-    },
-
-    async ShowDeleteStage(Data) {
-      this.$emit("ShowDeleteStage", Data);
-    },
-    async ShowInfoStage(Data) {
-      this.$emit("ShowInfoStage", Data);
-    },
-  },
+  emits: ["show-update", "show-delete", "show-info", "add-stage-info"],
 };
 </script>

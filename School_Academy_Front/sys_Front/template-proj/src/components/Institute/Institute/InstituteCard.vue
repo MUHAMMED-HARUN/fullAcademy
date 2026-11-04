@@ -1,28 +1,33 @@
 <template>
-  <div>
-    <div class="card-header"></div>
-    <div class="card-item">
-      <div class="item-name">اسم المعهد:</div>
-      <div class="item-value">{{ this.DataReq?.name }}</div>
-    </div>
-    <div class="card-item">
-      <div class="item-name">عنوان المعهد:</div>
-      <div class="item-value">{{ this.DataReq?.address }}</div>
-    </div>
-    <div class="card-item">
-      <div class="item-name">الملاحظات:</div>
-      <div class="item-value">{{ this.DataReq?.note }}</div>
+  <div
+    class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/3"
+  >
+    <div class="flex items-start justify-between gap-3">
+      <div>
+        <h4 class="text-base font-semibold text-gray-800 dark:text-white/90">
+          {{ DataReq?.name || "—" }}
+        </h4>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          {{ DataReq?.address || "لا يوجد عنوان" }}
+        </p>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          {{ DataReq?.note || "لا توجد ملاحظات" }}
+        </p>
+      </div>
+      <span
+        class="rounded-lg bg-brand-50 px-2.5 py-1 text-xs font-medium text-brand-500 dark:bg-brand-500/15 dark:text-brand-400"
+      >
+        Institute
+      </span>
     </div>
   </div>
 </template>
-<script>
-export default {
-  name: "InstituteCard",
-  props: {
-    DataReq: {
-      type: Object,
-      required: true,
-    },
+
+<script setup>
+defineProps({
+  DataReq: {
+    type: Object,
+    required: true,
   },
-};
+});
 </script>

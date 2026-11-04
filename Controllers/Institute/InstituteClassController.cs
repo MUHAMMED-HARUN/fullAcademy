@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Application.Services.Institute.Institute.Command;
 using System.Application.Services.Institute.Institute.Query;
@@ -11,6 +12,7 @@ namespace School_Academy.Controllers.Institute
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class InstituteClassController : ControllerBase
     {
 
@@ -20,6 +22,7 @@ namespace School_Academy.Controllers.Institute
             _mediator = mediator;
         }
         [HttpPost("NewInstituteClass")]
+        [Authorize(Policy = "Can_Create_InstituteClass")]
         public async Task<IActionResult> Add([FromBody] NewInstituteClassCommand command)
         {
             var result = await _mediator.Send(command);
@@ -32,7 +35,22 @@ namespace School_Academy.Controllers.Institute
             return Ok(result);
         }
 
+        [HttpPost("NewInstituteClassByRange")]
+        [Authorize(Policy = "Can_Create_InstituteClass")]
+        public async Task<IActionResult> AddByRange([FromBody] NewInstituteClassByRangeCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(new { errors = result.Error });
+            }
+
+            return Ok(result);
+        }
+
         [HttpPut("UpdateInstituteClass")]
+        [Authorize(Policy = "Can_Update_InstituteClass")]
         public async Task<IActionResult> Update([FromBody] UpdateInstituteClassCommand command)
         {
             var result = await _mediator.Send(command);
@@ -46,6 +64,7 @@ namespace School_Academy.Controllers.Institute
         }
 
         [HttpDelete("DeleteInstituteClass")]
+        [Authorize(Policy = "Can_Delete_InstituteClass")]
         public async Task<IActionResult> Delete([FromBody] DeleteInstituteClassCommand command)
         {
             var result = await _mediator.Send(command);
@@ -59,6 +78,7 @@ namespace School_Academy.Controllers.Institute
         }
 
         [HttpGet("GetInstituteClassList")]
+        [Authorize(Policy = "Can_Read_InstituteClass")]
         public async Task<IActionResult> GetList()
         {
             var query = new GetAllInstituteClassQuery();
@@ -73,6 +93,7 @@ namespace School_Academy.Controllers.Institute
         }
 
         [HttpGet("GetInstituteClassBy")]
+        [Authorize(Policy = "Can_Read_InstituteClass")]
         public async Task<IActionResult> GetBy([FromQuery] GetInstituteClassByQuery query )
         {
                    
@@ -86,6 +107,7 @@ namespace School_Academy.Controllers.Institute
             return Ok(result);
         }
         [HttpGet("IsExistInstituteClassBy")]
+        [Authorize(Policy = "Can_Read_InstituteClass")]
         public async Task<IActionResult> IsExistBy(IsExistInstituteClassByQuery query)
         {
 

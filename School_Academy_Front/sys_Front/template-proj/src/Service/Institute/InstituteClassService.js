@@ -1,7 +1,10 @@
 import TResult from "@/Generic/TResult";
 import InstituteClassMapper from "@/Mapper/Institute/InstituteClassMapper";
 import InstituteClass_repositories from "@/repositories/Institute/InstituteClassRepository";
-import { InstituteClassSchema } from "@/validations/Institute/InstituteClassSchema";
+import {
+  InstituteClassByRangeSchema,
+  InstituteClassSchema,
+} from "@/validations/Institute/InstituteClassSchema";
 import { validate1 } from "@/validations/validator";
 class InstituteClassService {
   async getAll() {
@@ -29,6 +32,23 @@ class InstituteClassService {
     }
     const payload = InstituteClassMapper.mapUpsertToApi(data);
     return await InstituteClass_repositories.add(payload);
+  }
+
+  async createByRange(data) {
+    const validation = validate1(data, InstituteClassByRangeSchema);
+    if (!validation.isValid) {
+      return new TResult(null, false, validation.errors);
+    }
+
+    const payload = InstituteClassMapper.mapBulkUpsertToApi(data);
+    const result = await InstituteClass_repositories.addByRange(payload);
+    if (!result.success) return result;
+
+    return new TResult(
+      InstituteClassMapper.mapBulkResultFromApi(result.data),
+      result.success,
+      result.errors
+    );
   }
 
   async update(data) {

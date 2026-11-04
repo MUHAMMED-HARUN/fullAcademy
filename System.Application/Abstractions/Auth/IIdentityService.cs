@@ -16,7 +16,7 @@ namespace System.Application.Abstractions.Auth
         Task<bool> IsInRoleAsync(Guid userId, string role);
         Task<bool> AuthorizeAsync(Guid userId, string policyName);
         Task<List<RoleInfo>> getRoles();
-        Task<List<RolePermissionsInfo>> GetRolePermissions(string RoleID);
+        Task<List<RolePermissionsInfo>?> GetRolePermissions(string RoleID);
         Task<bool> DeleteClaims(RolePermissionChangeDto toDelete);
         Task<bool> AddClaims(RolePermissionChangeDto toAdd);
         Task<bool> SetUserRole(string  roleID, string userId);

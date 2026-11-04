@@ -32,6 +32,15 @@ class StageRepositories {
     return response;
   }
 
+  async getListFilter(params) {
+    return await clsUtil.FeachRequset(
+      `${baseUrl}/GetStageListFilter`,
+      enApiType.get,
+      { params },
+      "خطأ في الخادم أثناء البحث عن المراحل"
+    );
+  }
+
   async getBy(param) {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/GetStageBy`,
@@ -42,11 +51,11 @@ class StageRepositories {
     return response;
   }
 
-  async Delete(param) {
+  async Delete(stageID) {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/DeleteStage`,
       enApiType.delete,
-      param,
+      { StageID: stageID },
       "خطأ في الخادم أثناء حذف التسجيل"
     );
     return response;
@@ -56,7 +65,7 @@ class StageRepositories {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/IsExistStageBy`,
       enApiType.get,
-      param,
+      { params: param },
       "خطأ في الخادم أثناء جلب بيانات التسجيل"
     );
     return response;

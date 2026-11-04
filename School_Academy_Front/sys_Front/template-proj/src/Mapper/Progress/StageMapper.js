@@ -4,8 +4,8 @@ export default class StageMapper {
       StageID: dataSchema.stageID,
       StageName: dataSchema.name,
       StageNote: dataSchema.note,
-      ProgramID: dataSchema.programID,
-      PrevStageID: dataSchema.prevStageID,
+      ClassID: dataSchema.classID,
+      PrevStageID: dataSchema.prevStageID || null,
     };
   }
 
@@ -15,10 +15,10 @@ export default class StageMapper {
       stageID: DataReq.StageID,
       name: DataReq.StageName,
       note: DataReq.StageNote,
-      programID: DataReq.ProgramID,
-      programName: DataReq.ProgramName,
-      prevStageID: DataReq.PrevStageID,
-      prevStageName: DataReq.PrevStageName,
+      classID: DataReq.ClassID,
+      className: DataReq.ClassName,
+      prevStageID: DataReq.PrevStageID || "",
+      prevStageName: DataReq.PrevStageName || "",
     };
   }
 
@@ -29,11 +29,15 @@ export default class StageMapper {
         stageID: list.StageID,
         name: list.StageName,
         note: list.StageNote,
-        programID: list.ProgramID,
-        programName: list.ProgramName,
-        prevStageID: list.PrevStageID,
-        prevStageName: list.PrevStageName,
+        classID: list.ClassID,
+        className: list.ClassName,
+        prevStageID: list.PrevStageID || "",
+        prevStageName: list.PrevStageName || "",
       };
     });
+  }
+
+  static mapListApiToStageLookups(dataList) {
+    return this.mapListApiToStages(dataList);
   }
 }

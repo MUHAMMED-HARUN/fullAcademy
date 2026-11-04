@@ -1,25 +1,42 @@
 import TResult from "@/Generic/TResult";
 import AddressMapper from "@/Mapper/Address/addressMapper";
 import address_repositories from "@/repositories/Address/address_repositories";
-import { addressSchema } from "@/validations/Address/addressSchema";
+import {
+  AddressLookupSchema,
+  NewAddressSchema,
+  UpdateAddressSchema,
+} from "@/validations/Address/addressSchema";
 import { validate1 } from "@/validations/validator";
 class AddressService {
-  async getAll() {
-    const rees = await address_repositories.getList();
-    var dto;
-    if (rees.success) {
-      dto = AddressMapper.mapListApiToAddress(rees.data);
-      return new TResult(dto, rees.success, rees.errors);
+  async getBy(criteria) {
+    const source =
+      typeof criteria === "string" ? { param: criteria } : criteria || {};
+    const validation = validate1(
+      {
+        param: source.Param ?? source.param,
+        paramType: Number(source.ParamType ?? source.paramType ?? 1),
+      },
+      AddressLookupSchema
+    );
+    if (!validation.isValid) {
+      return new TResult(null, false, validation.errors);
     }
-    return new TResult(null, false, rees.errors);
-  }
 
-  async getBy(param) {
-    return await address_repositories.getBy(param);
+    const result = await address_repositories.getBy({
+      Param: source.Param ?? source.param,
+      ParamType: Number(source.ParamType ?? source.paramType ?? 1),
+    });
+    if (!result.success) return result;
+
+    return new TResult(
+      AddressMapper.MapFromApiDTO(result.data),
+      result.success,
+      result.errors
+    );
   }
 
   async create(data) {
-    const validation = validate1(data, addressSchema);
+    const validation = validate1(data, NewAddressSchema);
     if (!validation.isValid) {
       return new TResult(null, validation.isValid, validation.errors);
     }
@@ -28,7 +45,7 @@ class AddressService {
   }
 
   async update(data) {
-    const validation = validate1(data, addressSchema);
+    const validation = validate1(data, UpdateAddressSchema);
     if (!validation.isValid) {
       return new TResult(null, validation.isValid, validation.errors);
     }

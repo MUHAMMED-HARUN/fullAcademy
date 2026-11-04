@@ -1,10 +1,17 @@
-﻿namespace System.Domain.Enums.Attendance
+namespace System.Domain.Enums.Attendance
 {
     public enum enAttendeeType
     {
         Student = 1,
         Teacher = 2,
         Employee = 3
+    }
+
+    public enum enContextType
+    {
+        None = 0,
+        Group = 1,
+        Session = 2
     }
 
     public enum AttendanceStatus

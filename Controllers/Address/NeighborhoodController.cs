@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Application.Services.Address.Neighborhood.Command;
 using System.Application.Services.Address.Neighborhood.Query;
@@ -9,6 +10,7 @@ namespace School_Academy.Controllers.Address
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class NeighborhoodController : ControllerBase
     {
 
@@ -19,6 +21,7 @@ namespace School_Academy.Controllers.Address
         }
 
         [HttpPost("NewNeighborhood")]
+        [Authorize(Policy = "Can_Create_Neighborhood")]
         public async Task<IActionResult> Add([FromBody] NewNeighborhoodCommand command)
         {
             var result = await _mediator.Send(command);
@@ -32,6 +35,7 @@ namespace School_Academy.Controllers.Address
         }
 
         [HttpPut("UpdateNeighborhood")]
+        [Authorize(Policy = "Can_Update_Neighborhood")]
         public async Task<IActionResult> Update([FromBody] UpdateNeighborhoodCommand command)
         {
             var result = await _mediator.Send(command);
@@ -45,9 +49,9 @@ namespace School_Academy.Controllers.Address
         }
 
         [HttpGet("GetNeighborhoodList")]
-        public async Task<IActionResult> GetList()
+        [Authorize(Policy = "Can_Read_Neighborhood")]
+        public async Task<IActionResult> GetList([FromQuery] GetAllNeighborhoodQuery query)
         {
-            var query = new GetAllNeighborhoodQuery();
             var result = await _mediator.Send(query);
 
             if (!result.IsSuccess)
@@ -58,11 +62,41 @@ namespace School_Academy.Controllers.Address
             return Ok(result);
         }
 
+        [HttpGet("GetNeighborhoodOptions")]
+        [Authorize(Policy = "Can_Read_Neighborhood")]
+        public async Task<IActionResult> GetOptions()
+        {
+            var result = await _mediator.Send(new GetNeighborhoodOptionsQuery());
+            if (!result.IsSuccess)
+                return BadRequest(new { errors = result.Error });
+            return Ok(result);
+        }
+
+        [HttpGet("GetNeighborhoodListByDistrictID/{districtId}")]
+        [Authorize(Policy = "Can_Read_Neighborhood")]
+        public async Task<IActionResult> GetListByDistrictId(
+            [FromRoute] Guid districtId,
+            [FromQuery] GetAllNeighborhoodQuery query)
+        {
+            query.DistrictID = districtId;
+            var result = await _mediator.Send(query);
+            if (!result.IsSuccess)
+                return BadRequest(new { errors = result.Error });
+            return Ok(result);
+        }
+
         [HttpGet("GetNeighborhoodByID/{param}")]
+        [Authorize(Policy = "Can_Read_Neighborhood")]
         public async Task<IActionResult> GetById(string param, [FromQuery] enNeighborhoodParamType paramType = enNeighborhoodParamType.ID)
         {
-            
-            return Ok();
+            var result = await _mediator.Send(new GetNeighborhoodByQuery
+            {
+                Param = param,
+                ParamType = paramType,
+            });
+            if (!result.IsSuccess)
+                return BadRequest(new { errors = result.Error });
+            return Ok(result);
         }
 
     }

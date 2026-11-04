@@ -1,27 +1,27 @@
 ﻿using MediatR;
-using System.Application.Abstractions.Institute;
+using System.Application.Abstractions.Progress;
 using System.Application.Common;
-using System.Application.Exceptions;
 using System.Application.Services.Progress.Stage.DTO;
 using System.Application.Services.Progress.Stage.Query;
+using StageInfoDto = System.Application.Services.Progress.Stage.DTO.StageInfo;
 
 
-namespace System.Application.Services.Institute.Institute.Query
+namespace System.Application.Services.Progress.Stage.Query
 {
-    class GetStageByQueryHandler : IRequestHandler<GetStageByQuery, TResult<StageInfo>>
+    class GetStageByQueryHandler : IRequestHandler<GetStageByQuery, TResult<StageInfoDto>>
     {
         IStageRepository _repo;
         public GetStageByQueryHandler( IStageRepository repo)
         {
             _repo = repo;
         }
-        public async Task<TResult<StageInfo>> Handle(GetStageByQuery request, CancellationToken cancellationToken)
+        public async Task<TResult<StageInfoDto>> Handle(GetStageByQuery request, CancellationToken cancellationToken)
         {
-            StageInfo entityInfo = await _repo.GetBy(request.Param, request.ParamType);
+            StageInfoDto? entityInfo = await _repo.GetBy(request.Param, request.ParamType);
             if (entityInfo == null) 
-            return TResult<StageInfo>.Fail(ApplicationExMsg.failToFindStage);
+                return TResult<StageInfoDto>.Fail("لم يتم العثور على المرحلة");
 
-            return TResult<StageInfo>.OK(entityInfo);
+            return TResult<StageInfoDto>.OK(entityInfo);
 
         }
     }

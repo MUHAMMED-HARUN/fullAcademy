@@ -1,5 +1,5 @@
 import z from "zod";
-export const ProgramuteSchema = z.object({
+export const ProgramSchema = z.object({
   programID: z.string().optional(),
   name: z
     .string({ required_error: "  مطلوب" })

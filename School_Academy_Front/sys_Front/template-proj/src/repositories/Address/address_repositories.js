@@ -22,16 +22,6 @@ class addressRepositories {
     return response;
   }
 
-  async getList() {
-    const response = await clsUtil.FeachRequset(
-      "/Address/GetAddressList",
-      enApiType.get,
-      null,
-      "خطأ في الخادم أثناء جلب قائمة "
-    );
-    return response;
-  }
-
   async getBy(param) {
     const response = await clsUtil.FeachRequset(
       "/Address/GetAddressBy",

@@ -7,27 +7,56 @@ export const useGroupStore = defineStore("groups", {
     selectedGroup: null,
     loading: false,
     error: null,
+
+    // Paging State
+    page: 1,
+    pageSize: 10,
+    totalCount: 0,
   }),
 
   getters: {
     allGroups: (state) => state.groups,
     hasGroups: (state) => state.groups.length > 0,
     isLoading: (state) => state.loading,
+
+    totalPages: (state) => Math.ceil(state.totalCount / state.pageSize) || 1,
   },
 
   actions: {
-    async fetchGroups() {
+    async fetchGroups(filter = {}) {
       this.loading = true;
       this.error = null;
 
-      const result = await Group_service.getAll();
+      if (filter.Page !== undefined) this.page = filter.Page;
+      if (filter.PageSize !== undefined) this.pageSize = filter.PageSize;
+
+      const queryParams = {
+        Page: this.page,
+        PageSize: this.pageSize,
+        ...filter,
+      };
+      const result = await Group_service.getAll(queryParams);
       if (result.success) {
-        this.groups = result.data || [];
+        this.groups = result.data?.items || [];
+        this.totalCount = result.data?.count || 0;
       } else {
         this.error = result.errors;
       }
       this.loading = false;
       return result;
+    },
+
+    async setPage(newPage) {
+      if (newPage >= 1 && newPage <= this.totalPages) {
+        this.page = newPage;
+        return await this.fetchGroups();
+      }
+    },
+
+    async setPageSize(newSize) {
+      this.pageSize = newSize;
+      this.page = 1;
+      return await this.fetchGroups();
     },
 
     async fetchGroupBy(command) {

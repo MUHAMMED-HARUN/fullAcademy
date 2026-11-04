@@ -29,6 +29,19 @@ namespace School_Academy.Controllers.Enrollment
             return Ok(result);
         }
 
+        [HttpPost("EnrollByRange")]
+        public async Task<IActionResult> EnrollByRange([FromBody] EnrollByRangeCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(new { errors = result.Error });
+            }
+
+            return Ok(result);
+        }
+
         [HttpPut("UpdateStudentEnrollment")]
         public async Task<IActionResult> Update([FromBody] UpdateStudentEnrollmentCommand command)
         {

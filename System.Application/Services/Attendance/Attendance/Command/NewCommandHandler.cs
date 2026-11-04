@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using MediatR;
 using System.Application.Abstractions.Assignment;
 using System.Application.Abstractions.Attendance;
@@ -37,9 +37,15 @@ namespace System.Application.Services.Attendance.Attendance.Command
 
             var ToDay = DateOnly.FromDateTime(DateTime.Now).ToString();
 
-            var AttendancID = request.Attendances.Select(x => clsUtil.ToGuid(x.EntityID));
+            var AttendancIDs = request.Attendances.Select(x => clsUtil.ToGuid(x.EntityID));
+            var ContextIDs = request.Attendances.Where(x => !string.IsNullOrEmpty(x.ContextID)).Select(x => clsUtil.ToGuid(x.ContextID));
+           var ContextTypes = request.Attendances.Where(x => x.ContextType!=null).Select(x => x.ContextType.Value);
 
-            var existingAttendances = _repo.Find(clsAttendance.GetByAttendeesAndDate(AttendancID, DateOnly.FromDateTime(DateTime.Now)), false).ToDictionary(a => a.AttendeeID);
+            var existingAttendances = _repo.Find(clsAttendance.GetByAttendees_Date_Context(AttendancIDs,
+                DateOnly.FromDateTime(DateTime.Now),
+                ContextIDs,
+                ContextTypes
+                ), false).ToDictionary(a => a.AttendeeID);
               
          List< clsAttendance >Newattendance= new List<clsAttendance>();
             foreach (var attendance in request.Attendances)
@@ -50,6 +56,12 @@ namespace System.Application.Services.Attendance.Attendance.Command
                     if (toUpdate.Status != attendance.Status)
                     {
                         toUpdate.SetStatus(attendance.Status);
+                        toUpdate.SetModified(_currentUserService.UserId.ToString());
+                    }
+
+                    if (!string.IsNullOrEmpty(attendance.ContextID))
+                    {
+                        toUpdate.SetContext(clsUtil.ToGuid(attendance.ContextID), attendance.ContextType);
                         toUpdate.SetModified(_currentUserService.UserId.ToString());
                     }
                 }

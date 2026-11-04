@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Application.Services.Institute.Class.Command;
 using System.Application.Services.Institute.Class.Query;
@@ -10,6 +11,7 @@ namespace School_Academy.Controllers.Institute
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ClassController : ControllerBase
     {
 
@@ -19,6 +21,7 @@ namespace School_Academy.Controllers.Institute
             _mediator = mediator;
         }
         [HttpPost("NewClass")]
+        [Authorize(Policy = "Can_Create_Class")]
         public async Task<IActionResult> Add([FromBody] NewClassCommand command)
         {
             var result = await _mediator.Send(command);
@@ -32,6 +35,7 @@ namespace School_Academy.Controllers.Institute
         }
 
         [HttpPut("UpdateClass")]
+        [Authorize(Policy = "Can_Update_Class")]
         public async Task<IActionResult> Update([FromBody] UpdateClassCommand command)
         {
             var result = await _mediator.Send(command);
@@ -45,6 +49,7 @@ namespace School_Academy.Controllers.Institute
         }
 
         [HttpDelete("DeleteClass")]
+        [Authorize(Policy = "Can_Delete_Class")]
         public async Task<IActionResult> Delete([FromBody] DeleteClassCommand command)
         {
             var result = await _mediator.Send(command);
@@ -58,6 +63,7 @@ namespace School_Academy.Controllers.Institute
         }
 
         [HttpGet("GetClassList")]
+        [Authorize(Policy = "Can_Read_Class")]
         public async Task<IActionResult> GetList()
         {
             var query = new GetAllClassQuery();
@@ -72,7 +78,8 @@ namespace School_Academy.Controllers.Institute
         }
 
         [HttpGet("GetClassBy")]
-        public async Task<IActionResult> GetBy(GetClassByQuery query )
+        [Authorize(Policy = "Can_Read_Class")]
+        public async Task<IActionResult> GetBy([FromQuery]GetClassByQuery query )
         {
                    
             var result = await _mediator.Send(query);
@@ -85,6 +92,7 @@ namespace School_Academy.Controllers.Institute
             return Ok(result);
         }
         [HttpGet("IsExistClassBy")]
+        [Authorize(Policy = "Can_Read_Class")]
         public async Task<IActionResult> IsExistBy(IsExistClassByQuery query)
         {
 

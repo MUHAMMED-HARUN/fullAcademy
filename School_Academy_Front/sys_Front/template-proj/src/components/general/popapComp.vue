@@ -1,61 +1,40 @@
 <template>
-  <div class="trans" @click="$emit('close')"></div>
-  <div class="box">
-    <div class="box-content">
-      <slot></slot>
+  <div
+    class="fixed inset-0 bg-black/50 backdrop-blur-xs dark:bg-black/70"
+    aria-hidden="true"
+    @click="emit('close')"
+  />
+  <div
+    class="fixed start-1/2 top-1/2 z-101 w-[90%] max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-gray-200 bg-white p-6 shadow-theme-lg dark:border-gray-800 dark:bg-[#1E2635] rtl:translate-x-1/2"
+    ref="dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-label="نافذة حوارية"
+    tabindex="-1"
+    @keydown.esc.stop="emit('close')"
+  >
+    <div class="max-h-[80vh] overflow-y-auto">
+      <slot />
     </div>
-    <div class="action">
-      <button class="btn btn-secondary" @click="$emit('close')">إغلاق</button>
+    <div
+      class="mt-4 flex justify-end border-t border-gray-100 pt-4 dark:border-gray-800"
+    >
+      <button
+        type="button"
+        class="h-9 rounded-[10px] border border-gray-300 px-4 text-sm font-medium text-gray-700 shadow-theme-xs transition-colors hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-white/5"
+        @click="emit('close')"
+      >
+        إغلاق
+      </button>
     </div>
   </div>
 </template>
-<script>
-export default {
-  name: "popapComp",
-  props: ["handelSave", "handleClose"],
-  emits: ["close"],
-};
+
+<script setup>
+import { onMounted, ref } from "vue";
+
+const emit = defineEmits(["close"]);
+const dialog = ref(null);
+
+onMounted(() => dialog.value?.focus());
 </script>
-<style scoped>
-.trans {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(15, 23, 42, 0.4); /* Slate dark overlay */
-  backdrop-filter: blur(6px); /* Backdrop blur for premium aesthetic */
-  z-index: 999;
-  transition: all var(--transition-normal);
-}
-.box {
-  width: 90%;
-  max-width: 600px;
-  height: auto;
-  max-height: 90vh;
-  background-color: var(--bg-card);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-xl);
-  border: 1px solid var(--border-color);
-  padding: var(--spacing-lg);
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow-y: auto;
-}
-.box-content {
-  flex-grow: 1;
-}
-.action {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: var(--spacing-md);
-  border-top: 1px solid var(--border-color);
-  padding-top: var(--spacing-sm);
-}
-</style>

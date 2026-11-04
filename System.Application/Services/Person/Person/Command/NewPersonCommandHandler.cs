@@ -37,7 +37,7 @@ namespace System.Application.Services.Person.Person.Command
         public async Task<TResult<string>> Handle(NewPersonCommand request, CancellationToken cancellationToken)
         {
             if ((await _personRepository.IsExist(request.NationalNumber, enPersonParamType.NationalNumber)) == true)
-                return TResult<string>.Fail(ApplicationExMsg.PersonIsAlreadyStudent);
+                return TResult<string>.Fail(ApplicationExMsg.PersonNationalNumberExists);
 
          clsAddress address=   _mapper.Map<NewAddressCommand, clsAddress>(request.Address);
             address.SetID(Guid.NewGuid());

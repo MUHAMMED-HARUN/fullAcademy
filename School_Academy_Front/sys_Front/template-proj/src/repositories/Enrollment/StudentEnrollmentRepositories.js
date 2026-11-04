@@ -7,7 +7,17 @@ class StudentEnrollmentRepositories {
       `${baseUrl}/NewStudentEnrollment`,
       enApiType.post,
       data,
-      "حدث خطأ أثناء إضافة طلب التسجيل"
+      "error"
+    );
+    return response;
+  }
+
+  async enrollByRange(data) {
+    const response = await clsUtil.FeachRequset(
+      `${baseUrl}/EnrollByRange`,
+      enApiType.post,
+      data,
+      "error"
     );
     return response;
   }
@@ -17,18 +27,17 @@ class StudentEnrollmentRepositories {
       `${baseUrl}/UpdateStudentEnrollment`,
       enApiType.put,
       data,
-      "حدث خطأ أثناء تعديل طلب التسجيل"
+      "error"
     );
     return response;
   }
 
   async getPagedList(params) {
-    // params: { page: 1, pageSize: 10, filter: 'EnrollmentID=xxx', orderBy: 'Date desc' }
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/GetStudentEnrollmentList`,
       enApiType.get,
       { params: params },
-      "خطأ في الخادم أثناء جلب قائمة التسجيل"
+      "error"
     );
     return response;
   }
@@ -38,7 +47,7 @@ class StudentEnrollmentRepositories {
       `${baseUrl}/GetStudentEnrollmentBy`,
       enApiType.get,
       { params: param },
-      "خطأ في الخادم أثناء جلب بيانات التسجيل"
+      "error"
     );
     return response;
   }
@@ -48,7 +57,7 @@ class StudentEnrollmentRepositories {
       `${baseUrl}/DeleteStudentEnrollment`,
       enApiType.delete,
       param,
-      "خطأ في الخادم أثناء حذف التسجيل"
+      "error"
     );
     return response;
   }
@@ -58,7 +67,7 @@ class StudentEnrollmentRepositories {
       `${baseUrl}/IsExistStudentEnrollmentBy`,
       enApiType.get,
       param,
-      "خطأ في الخادم أثناء جلب بيانات التسجيل"
+      "error"
     );
     return response;
   }

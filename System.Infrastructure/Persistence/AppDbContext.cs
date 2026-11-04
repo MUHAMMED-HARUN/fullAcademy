@@ -7,8 +7,10 @@ using System.Domain.Entities;
 using System.Domain.Entities.Address;
 using System.Domain.Entities.Attendance;
 using System.Domain.Entities.BaseClass;
+using System.Domain.Entities.Finance;
 using System.Domain.Entities.Institue;
 using System.Domain.Entities.Person;
+using System.Domain.Entities.Progress;
 using System.Infrastructure.Identity;
 using System.Infrastructure.Persistence.Seeding;
 using System.Reflection;
@@ -55,6 +57,11 @@ namespace System.Infrastructure.Persistence
 
         // Attendance
                 public DbSet<clsAttendance> Attendances { get; set; }
+
+        // Finance
+        public DbSet<clsFeeStructure> FeeStructures { get; set; }
+        public DbSet<clsStudentInvoice> StudentInvoices { get; set; }
+        public DbSet<clsPayment> Payments { get; set; }
 
         // views
         public DbSet<StudentEnrollmentInfoView> vw_StudentEnrollmentInfo { get; set; }

@@ -79,6 +79,21 @@ export const useStudentEnrollmentStore = defineStore("enrollments", {
       return result;
     },
 
+    async enrollByRange(payload) {
+      this.loading = true;
+      this.error = null;
+
+      const result = await StudentEnrollment_service.enrollByRange(payload);
+      if (result.success) {
+        await this.fetchEnrollments();
+      } else {
+        this.error = result.errors;
+      }
+
+      this.loading = false;
+      return result;
+    },
+
     async updateEnrollment(payload) {
       this.loading = true;
       this.error = null;

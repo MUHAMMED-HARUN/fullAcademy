@@ -34,6 +34,7 @@ namespace System.Application.Exceptions
         public static string FailAddAddress { get; internal set; }
         public static string AddressNotFound { get; internal set; }
         public static string PersonIsAlreadyStudent { get; internal set; }
+        public static string PersonNationalNumberExists { get; } = "A person with this national number already exists.";
         public static string FailAddPerson { get; internal set; }
         public static string FailToFindStudent { get; internal set; }
         public static string InstituteExistByName { get; internal set; }
@@ -61,5 +62,8 @@ namespace System.Application.Exceptions
         public static string AccessDinede { get; internal set; }
         public static string NotFound { get; internal set; } = "Record not found";
         public static string AssignmentNotFound { get; internal set; }
+        public static string FeeStructureExistByName { get; internal set; } = "A fee structure with this name already exists.";
+        public static string InvoiceCancelled { get; internal set; } = "Cannot add a payment to a cancelled invoice.";
+        public static string PaymentExceedsRemaining { get; internal set; } = "Payment amount cannot exceed the remaining amount.";
     }
 }

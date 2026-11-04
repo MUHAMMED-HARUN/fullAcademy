@@ -1,7 +1,12 @@
 import TResult from "@/Generic/TResult";
 import StudentMapper from "@/Mapper/Person/StudentMapper";
 import student_repositories from "@/repositories/Person/StudentRepositories";
-import { StudentSchema } from "@/validations/Person/StudentSchema";
+import {
+  NewStudentSchema,
+  StudentLookupSchema,
+  UpdateStudentSchema,
+} from "@/validations/Person/StudentSchema";
+import { GuidSchema } from "@/validations/Person/guidSchema";
 import { validate1 } from "@/validations/validator";
 
 class StudentService {
@@ -11,8 +16,8 @@ class StudentService {
       const pagingObj = rees.data || {};
 
       // استخراج القائمة والعدد الإجمالي من كائن Paging<T>
-      const rawList = pagingObj.Data;
-      const totalCount = pagingObj.Count ?? 0;
+      const rawList = pagingObj.Data || pagingObj.data || [];
+      const totalCount = pagingObj.Count ?? pagingObj.count ?? 0;
 
       // تحويل مصفوفة الطلاب عبر الـ Mapper
       const dto = StudentMapper.mapListApiToStudent(rawList);
@@ -28,28 +33,34 @@ class StudentService {
   }
 
   async getBy(command) {
-    var res = await student_repositories.getBy(command);
-    var dto;
-    if (res.success) {
-      dto = StudentMapper.MapFromApiDTO(res.data);
-      return new TResult(dto, res.success, res.errors);
+    const validation = validate1(command, StudentLookupSchema);
+    if (!validation.isValid) {
+      return new TResult(null, false, validation.errors);
     }
-    return new TResult(null, false, res.errors);
+
+    const result = await student_repositories.getBy(command);
+    if (!result.success) return result;
+
+    return new TResult(
+      StudentMapper.MapFromApiDTO(result.data),
+      result.success,
+      result.errors
+    );
   }
 
   async create(data) {
-    const validation = validate1(data, StudentSchema);
+    const validation = validate1(data, NewStudentSchema);
     if (!validation.isValid) {
-      return new TResult(null, validation.isValid, validation.errors);
+      return new TResult(null, false, validation.errors);
     }
     const payload = StudentMapper.mapUpsertToApi(data);
     return await student_repositories.add(payload);
   }
 
   async update(data) {
-    const validation = validate1(data, StudentSchema);
+    const validation = validate1(data, UpdateStudentSchema);
     if (!validation.isValid) {
-      return new TResult(null, validation.isValid, validation.errors);
+      return new TResult(null, false, validation.errors);
     }
 
     const payload = StudentMapper.mapUpsertToApi(data);
@@ -57,10 +68,13 @@ class StudentService {
   }
 
   async delete(data) {
-    if (data) {
+    const validation = GuidSchema.safeParse(data);
+    if (validation.success) {
       return await student_repositories.Delete({ StudentID: data });
     }
-    return new TResult(null, false, ["Invalid data for deletion"]);
+    return new TResult(null, false, {
+      studentID: validation.error.issues[0]?.message || "معرّف الطالب غير صالح",
+    });
   }
 }
 

@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Gridify;
+using Gridify.EntityFramework;
 using System.Application.Abstractions.Repository;
 using System.Application.Abstractions.UOW;
 using System.Application.Common;
 using System.Application.Services.Address.City.DTO;
 using System.Application.Services.Address.Country.DTO;
 using System.Application.Services.Address.District.DTO;
+using System.Application.Services.Address.District.Query;
 using System.Domain.Entities;
 using System.Domain.Enums.Address;
 using System.Infrastructure.Persistence;
@@ -13,6 +16,14 @@ namespace System.Infrastructure.Repositories.Address
 {
     public class DistrictService : IDistrictRepository
     {
+        private static readonly IGridifyMapper<DistrictInfo> DistrictFilterMapper =
+            new GridifyMapper<DistrictInfo>()
+                .AddMap(nameof(DistrictInfo.DistrictName), district => district.DistrictName)
+                .AddMap(nameof(DistrictInfo.CityName), district => district.CityName)
+                .AddMap(nameof(DistrictInfo.CountryName), district => district.CountryName)
+                .AddMap(nameof(DistrictInfo.CityID), district => district.CityID)
+                .AddMap(nameof(DistrictInfo.CountryID), district => district.CountryID);
+
         private readonly AppDbContext _context;
         private readonly DbSet<clsDistrict> _dbSet;
         public DistrictService( AppDbContext context)
@@ -27,7 +38,7 @@ namespace System.Infrastructure.Repositories.Address
             return district.Id.ToString();
         }
 
-        public async Task<DistrictInfo> GetById(string param, enDistrictParamType paramType)
+        public async Task<DistrictInfo?> GetById(string param, enDistrictParamType paramType)
         {
             if (enDistrictParamType.ID == paramType)
                 return await _dbSet.Where(d => d.Id == clsUtil.ToGuid(param)).
@@ -70,15 +81,36 @@ namespace System.Infrastructure.Repositories.Address
             }).ToListAsync();
         }
 
-        public async Task<bool> IsExist(string Name)
+        public async Task<Paging<DistrictInfo>> GetListFilter(GetAllDistrictQuery request)
         {
-            return await _dbSet.AnyAsync(d => d.DistrictName == Name);
+            var query = _dbSet.AsQueryable();
+            if (request.CityID.HasValue)
+                query = query.Where(district => district.CityID == request.CityID.Value);
+
+            return await query
+                .Select(district => new DistrictInfo
+                {
+                    ID = district.Id.ToString(),
+                    DistrictName = district.DistrictName,
+                    CityID = district.CityID.ToString(),
+                    CityName = district.City.CityName,
+                    CountryID = district.City.CountryID.ToString(),
+                    CountryName = district.City.Country.CountryName,
+                })
+                .GridifyAsync(request, DistrictFilterMapper);
         }
 
-        public async Task<bool> Update(clsDistrict district)
+        public async Task<bool> IsNameExist(string name, Guid? excludeDistrictID = null)
+        {
+            return await _dbSet.AnyAsync(district =>
+                district.DistrictName == name &&
+                (!excludeDistrictID.HasValue || district.Id != excludeDistrictID.Value));
+        }
+
+        public Task<bool> Update(clsDistrict district)
         {
             _dbSet.Update(district);
-            return true;
+            return Task.FromResult(true);
         }
     }
 }

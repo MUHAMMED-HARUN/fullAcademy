@@ -10,6 +10,9 @@ module.exports = {
   ],
   parserOptions: {
     parser: "@babel/eslint-parser",
+    requireConfigFile: false,
+    ecmaVersion: "latest", // <-- تم إضافة علامات التنصيص هنا
+    sourceType: "module",
   },
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",

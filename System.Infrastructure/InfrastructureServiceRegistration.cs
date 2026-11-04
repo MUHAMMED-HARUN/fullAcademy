@@ -24,6 +24,8 @@ using System.Infrastructure.Repositories.Progress;
 using System.Application.Abstractions.Progress;
 using System.Application.Abstractions.Attendance;
 using System.Infrastructure.Repositories.Attendance;
+using System.Application.Abstractions.Finance;
+using System.Infrastructure.Repositories.Finance;
 using System.Application.Abstractions;
 
 namespace System.Infrastructure
@@ -42,9 +44,11 @@ namespace System.Infrastructure
                 // 2. تسجيل الـ Identity مخصصاً للـ API (AddIdentityCore)
                 services.AddIdentityCore<ApplicationUser>(options =>
                 {
-                    // شروط كلمة المرور والحساب (اختياري)
+                    options.Password.RequiredLength = 8;
                     options.Password.RequireDigit = true;
-                    options.Password.RequiredLength = 6;
+                    options.Password.RequireLowercase = true;
+                    options.Password.RequireUppercase = true;
+                    options.Password.RequireNonAlphanumeric = true;
                     options.User.RequireUniqueEmail = true;
                 })
                 .AddRoles<ApplicationRole>() // لإضافة دعم الأدوار
@@ -56,7 +60,7 @@ namespace System.Infrastructure
                 services.AddScoped<IJwtTokenGenerator, JwtTokenGeneratorService>();
 
                 // Address Session
-                services.AddScoped<IAddressRepository, enericService>();
+                services.AddScoped<IAddressRepository, AddressService>();
                 services.AddScoped<ICountryRepository, CountryService>();
                 services.AddScoped<ICityRepository, CityService>();
                 services.AddScoped<IDistrictRepository, DistrictService>();
@@ -94,6 +98,10 @@ namespace System.Infrastructure
                 // Attendance Service 
                 services.AddScoped<IAttendanceRepository, AttendanceService>();
 
+                // Finance Service
+                services.AddScoped<IFeeStructureRepository, FeeStructureService>();
+                services.AddScoped<IStudentInvoiceRepository, StudentInvoiceService>();
+                services.AddScoped<IPaymentRepository, PaymentService>();
 
                 // GenericService
                 services.AddScoped(typeof(IGeneric<>), typeof(GenericService<>));

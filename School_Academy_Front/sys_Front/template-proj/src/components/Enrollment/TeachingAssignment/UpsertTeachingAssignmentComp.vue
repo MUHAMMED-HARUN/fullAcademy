@@ -174,7 +174,7 @@ export default {
     },
     handleTeacher(data, isFound) {
       if (isFound) {
-        this.formData.teacherID = data.TeacherID;
+        this.formData.teacherID = data.teacherID;
         this.showTeacherCard = true;
       } else {
         this.showTeacherCard = false;
@@ -205,7 +205,7 @@ export default {
   watch: {
     teacherData: {
       handler(data) {
-        if (data && (data.teacherID || data.TeacherID) != null) {
+        if (data && data.teacherID != null) {
           this.handleTeacher(data, true);
         } else {
           this.handleTeacher(null, false);

@@ -27,7 +27,7 @@ namespace System.Application.Services.Address.Address.Command
         }
         public async Task<TResult<string>> Handle(UpdateAddressCommand request, CancellationToken cancellationToken)
         {
-            AddressInfo data  = await _AddressRepository.GetBy(request.AddressID,enAddressParamType.ID);
+            var data = await _AddressRepository.GetBy(request.AddressID, enAddressParamType.ID);
             if (data==null)
                 return TResult<string>.Fail(ApplicationExMsg.AddressNotFound);
 

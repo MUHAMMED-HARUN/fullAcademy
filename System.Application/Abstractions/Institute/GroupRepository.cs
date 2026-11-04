@@ -14,6 +14,7 @@ namespace System.Application.Abstractions.Institute
         Task<string> Add(clsGroup entity);// return ID as String
         Task<bool> Update(clsGroup entity);
         Task<List<GroupInfo>> GetList();
+        Task<Paging<GroupInfo>> GetListFilter(GetAllGroupQuery request);
         Task<List<clsGroup>> GetGroupByTeacherID( string TeacherID);
 
         Task<GroupInfo> GetBy(string param, enGroupType paramType);

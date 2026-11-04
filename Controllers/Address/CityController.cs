@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Application.Services.Address.City.Command;
 using System.Application.Services.Address.City.Query;
@@ -9,6 +10,7 @@ namespace School_Academy.Controllers.Address
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CityController : ControllerBase
     {
 
@@ -19,6 +21,7 @@ namespace School_Academy.Controllers.Address
         }
 
         [HttpPost("NewCity")]
+        [Authorize(Policy = "Can_Create_City")]
         public async Task<IActionResult> Add([FromBody] NewCityCommand command)
         {
             var result = await _mediator.Send(command);
@@ -32,6 +35,7 @@ namespace School_Academy.Controllers.Address
         }
 
         [HttpPut("UpdateCity")]
+        [Authorize(Policy = "Can_Update_City")]
         public async Task<IActionResult> Update([FromBody] UpdateCityCommand command)
         {
             var result = await _mediator.Send(command);
@@ -45,9 +49,9 @@ namespace School_Academy.Controllers.Address
         }
 
         [HttpGet("GetCityList")]
-        public async Task<IActionResult> GetList()
+        [Authorize(Policy = "Can_Read_City")]
+        public async Task<IActionResult> GetList([FromQuery] GetAllCityQuery query)
         {
-            var query = new GetAllCityQuery();
             var result = await _mediator.Send(query);
 
             if (!result.IsSuccess)
@@ -58,10 +62,32 @@ namespace School_Academy.Controllers.Address
             return Ok(result);
         }
 
-        [HttpGet("GetCityByID")]
-        public async Task<IActionResult> GetById()
+        [HttpGet("GetCityOptions")]
+        [Authorize(Policy = "Can_Read_City")]
+        public async Task<IActionResult> GetOptions()
         {
-            return Ok();
+            var result = await _mediator.Send(new GetCityOptionsQuery());
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(new { errors = result.Error });
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetCityByID")]
+        [Authorize(Policy = "Can_Read_City")]
+        public async Task<IActionResult> GetById([FromQuery] GetCityByQuery query)
+        {
+            var result = await _mediator.Send(query);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(new { errors = result.Error });
+            }
+
+            return Ok(result);
         }
 
     }

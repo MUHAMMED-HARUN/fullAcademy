@@ -14,5 +14,7 @@ namespace System.Application.Services.Attendance.Attendance.Command
         public string EntityID { get; set; }
         public enAttendeeType AttendeeType { get; set; }
         public AttendanceStatus Status { get; set; }
+        public string? ContextID { get; set; }
+        public enContextType? ContextType { get; set; }
     }
 }

@@ -22,21 +22,30 @@ class CountryRepository {
     return response;
   }
 
-  async getCountryList() {
+  async getCountryList(filter) {
     const response = await clsUtil.FeachRequset(
       "/Country/GetCountryList",
       enApiType.get,
-      null,
+      { params: filter },
       "خطأ في الخادم أثناء جلب قائمة الدول"
     );
     return response;
   }
 
-  async getCountryById(param) {
-    const response = await clsUtil.FeachRequset(
-      "`/Country/GetCountryByID",
+  async getCountryOptions() {
+    return await clsUtil.FeachRequset(
+      "/Country/GetCountryOptions",
       enApiType.get,
-      param,
+      null,
+      "خطأ في الخادم أثناء جلب خيارات الدول"
+    );
+  }
+
+  async getCountryById(param, paramType = 1) {
+    const response = await clsUtil.FeachRequset(
+      "/Country/GetCountryByID",
+      enApiType.get,
+      { params: { Param: param, ParamType: paramType } },
       "خطأ في الخادم أثناء جلب بيانات الدولة"
     );
     return response;

@@ -9,6 +9,10 @@ namespace System.Domain.Entities
         public string Name { get; private set; }
         public string? Notes { get; private set; }
 
+        protected clsProgram()
+        {
+
+        }
         public clsProgram(string name, string? notes)
         {
             SetName(name);

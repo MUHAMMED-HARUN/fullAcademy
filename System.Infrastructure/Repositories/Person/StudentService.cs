@@ -1,4 +1,4 @@
-﻿using Gridify;
+using Gridify;
 using Gridify.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System.Application.Abstractions.Person;
@@ -13,159 +13,147 @@ namespace System.Infrastructure.Repositories.Person
 {
     public class StudentService : IStudentRepository
     {
-        private readonly AppDbContext _context;
+        private static readonly IGridifyMapper<StudentInfo> StudentFilterMapper =
+            new GridifyMapper<StudentInfo>()
+                .AddMap(nameof(StudentInfo.FirstName), student => student.FirstName)
+                .AddMap(nameof(StudentInfo.NationalNumber), student => student.NationalNumber)
+                .AddMap(nameof(StudentInfo.Gendor), student => student.Gendor)
+                .AddMap("BirthDateFrom", student => student.BirthDate)
+                .AddMap("BirthDateTo", student => student.BirthDate);
+
         private readonly DbSet<clsStudent> _dbSet;
 
-        public StudentService(AppDbContext appDbContext )
+        public StudentService(AppDbContext appDbContext)
         {
-         _context = appDbContext;
-            _dbSet = _context.Set<clsStudent>();
+            _dbSet = appDbContext.Set<clsStudent>();
         }
+
+        private static IQueryable<StudentInfo> ProjectStudentInfo(
+            IQueryable<clsStudent> students)
+        {
+            return students.Select(student => new StudentInfo
+                {
+                    StudentID = student.Id.ToString(),
+                    PersonID = student.Person.Id.ToString(),
+                    FirstName = student.Person.FirstName,
+                    LastName = student.Person.LastName,
+                    FatherName = student.Person.FatherName,
+                    MotherName = student.Person.MotherName,
+                    MotherLastName = student.Person.MotherLastName,
+                    Gendor = student.Person.Gendor,
+                    BirthDate = student.Person.BirthDate,
+                    NationalNumber = student.Person.NationalNumber,
+                    LivingPlace = student.Person.LivingPlace == null
+                        ? string.Empty
+                        : student.Person.LivingPlace.Country.CountryName + " " +
+                          student.Person.LivingPlace.City.CityName + " " +
+                          student.Person.LivingPlace.District.DistrictName + " " +
+                          student.Person.LivingPlace.Neighborhood.NeighborhoodName + " " +
+                          student.Person.LivingPlace.Notes,
+                    PlaceOfBirth = student.Person.PlaceOfBirth == null
+                        ? string.Empty
+                        : student.Person.PlaceOfBirth.Country.CountryName + " " +
+                          student.Person.PlaceOfBirth.CityName,
+                });
+        }
+
+        private IQueryable<StudentInfo> ProjectActiveStudents() =>
+            ProjectStudentInfo(_dbSet.Where(student =>
+                student.DeletedBy == null && student.Person.DeletedBy == null));
 
         public async Task<string> Add(clsStudent entity)
         {
-             await _dbSet.AddAsync( entity );
+            await _dbSet.AddAsync(entity);
             return entity.Id.ToString();
         }
 
-        public async Task<Paging<StudentInfo>> GetAllStudentFilter(GetAllStudentQuery requset)
+        public async Task<Paging<StudentInfo>> GetAllStudentFilter(GetAllStudentQuery request)
         {
-            return await _dbSet.Select(x => new StudentInfo
-                                        {
-                                            StudentID = x.Id.ToString(),
-                                            PersonID = x.Person.Id.ToString(),
-                                            FirstName = x.Person.FirstName,
-                                            LastName = x.Person.LastName,
-                                            FatherName = x.Person.FatherName,
-                                            MotherName = x.Person.MotherName,
-                                            MotherLastName = x.Person.MotherLastName,
-                                            Gendor = x.Person.Gendor,
-                                            BirthDate = x.Person.BirthDate,
-                                            NationalNumber = x.Person.NationalNumber,
-                                            LivingPlace = x.Person.LivingPlace.Country.CountryName + " " + x.Person.LivingPlace.City.CityName + " " +
-                                            x.Person.LivingPlace.District.DistrictName + " " + x.Person.LivingPlace.Neighborhood.NeighborhoodName + " " + x.Person.LivingPlace.Notes,
-                                            PlaceOfBirth = x.Person.PlaceOfBirth.Country.CountryName + " " + x.Person.PlaceOfBirth.CityName,
-                                        }
-                                       ).GridifyAsync(requset);
+            request.Page = Math.Max(1, request.Page);
+            request.PageSize = Math.Clamp(request.PageSize, 1, 100);
+
+            return await ProjectActiveStudents()
+                .GridifyAsync(request, StudentFilterMapper);
         }
 
-        public async Task<StudentInfo> GetBy(string param, enStudentParamType paramType)
+        public async Task<StudentInfo?> GetBy(string param, enStudentParamType paramType)
         {
-            if (paramType == enStudentParamType.ID)
+            var students = _dbSet.Where(student =>
+                student.DeletedBy == null && student.Person.DeletedBy == null);
 
-                return await _dbSet.Where(x => x.Id == clsUtil.ToGuid(param)).
-                             Select(x => new StudentInfo
-                             {
-                                 StudentID= x.Id.ToString(),
-                                 PersonID = x.Person.Id.ToString(),
-                                 FirstName = x.Person.FirstName,
-                                 LastName = x.Person.LastName,
-                                 FatherName = x.Person.FatherName,
-                                 MotherName = x.Person.MotherName,
-                                 MotherLastName = x.Person.MotherLastName,
-                                 Gendor = x.Person.Gendor,
-                                 BirthDate = x.Person.BirthDate,
-                                 NationalNumber = x.Person.NationalNumber,
-                                 LivingPlace = x.Person.LivingPlace.Country.CountryName + " " + x.Person.LivingPlace.City.CityName + " " +
-                                 x.Person.LivingPlace.District.DistrictName + " " + x.Person.LivingPlace.Neighborhood.NeighborhoodName + " " + x.Person.LivingPlace.Notes,
-                                 PlaceOfBirth = x.Person.PlaceOfBirth.Country.CountryName + " " + x.Person.PlaceOfBirth.CityName,
-                             }
-                            ).FirstOrDefaultAsync();
+            switch (paramType)
+            {
+                case enStudentParamType.ID:
+                    if (!TryGetID(param, out var studentID)) return null;
+                    students = students.Where(student => student.Id == studentID);
+                    break;
+                case enStudentParamType.PersonID:
+                    if (!TryGetID(param, out var personID)) return null;
+                    students = students.Where(student => student.PersonID == personID);
+                    break;
+                case enStudentParamType.NationalNumber:
+                    students = students.Where(student => student.Person.NationalNumber == param);
+                    break;
+                default:
+                    return null;
+            }
 
-            else if(paramType == enStudentParamType.PersonID)
-                return await _dbSet.Where(x => x.PersonID == clsUtil.ToGuid(param)).
-                         Select(x => new StudentInfo
-                         {
-                             StudentID = x.Id.ToString(),
-                             PersonID = x.Person.Id.ToString(),
-                             FirstName = x.Person.FirstName,
-                             LastName = x.Person.LastName,
-                             FatherName = x.Person.FatherName,
-                             MotherName = x.Person.MotherName,
-                             MotherLastName = x.Person.MotherLastName,
-                             Gendor = x.Person.Gendor,
-                             BirthDate = x.Person.BirthDate,
-                             NationalNumber = x.Person.NationalNumber,
-                             LivingPlace = x.Person.LivingPlace.Country.CountryName + " " + x.Person.LivingPlace.City.CityName + " " +
-                                 x.Person.LivingPlace.District.DistrictName + " " + x.Person.LivingPlace.Neighborhood.NeighborhoodName + " " + x.Person.LivingPlace.Notes,
-                             PlaceOfBirth = x.Person.PlaceOfBirth.Country.CountryName + " " + x.Person.PlaceOfBirth.CityName,
-                         }
-                            ).FirstOrDefaultAsync();
-            else
-                return await _dbSet.Where(x => x.Person.NationalNumber == param).
-                      Select(x => new StudentInfo
-                      {
-                          StudentID = x.Id.ToString(),
-                          PersonID = x.Person.Id.ToString(),
-                          FirstName = x.Person.FirstName,
-                          LastName = x.Person.LastName,
-                          FatherName = x.Person.FatherName,
-                          MotherName = x.Person.MotherName,
-                          MotherLastName = x.Person.MotherLastName,
-                          Gendor = x.Person.Gendor,
-                          BirthDate = x.Person.BirthDate,
-                          NationalNumber = x.Person.NationalNumber,
-                          LivingPlace = x.Person.LivingPlace.Country.CountryName + " " + x.Person.LivingPlace.City.CityName + " " +
-                              x.Person.LivingPlace.District.DistrictName + " " + x.Person.LivingPlace.Neighborhood.NeighborhoodName + " " + x.Person.LivingPlace.Notes,
-                          PlaceOfBirth = x.Person.PlaceOfBirth.Country.CountryName + " " + x.Person.PlaceOfBirth.CityName,
-                      }
-                         ).FirstOrDefaultAsync();
+            return await ProjectStudentInfo(students).FirstOrDefaultAsync();
         }
 
-        public async Task<clsStudent> GetEntityBy(string param, enStudentParamType paramType)
+        public async Task<clsStudent?> GetEntityBy(string param, enStudentParamType paramType)
         {
-            if (paramType == enStudentParamType.PersonID)
-                return await _dbSet.Where(x => x.PersonID == clsUtil.ToGuid(param)).AsNoTracking().FirstOrDefaultAsync();
-            else if (paramType == enStudentParamType.ID)
-                return await _dbSet.Where(x => x.Id == clsUtil.ToGuid(param)).AsNoTracking().FirstOrDefaultAsync();
+            var students = _dbSet.Where(student => student.DeletedBy == null);
 
-                return await _dbSet.Where(x => x.Person.NationalNumber == param).AsNoTracking().FirstOrDefaultAsync();
+            switch (paramType)
+            {
+                case enStudentParamType.ID:
+                    if (!TryGetID(param, out var studentID)) return null;
+                    students = students.Where(student => student.Id == studentID);
+                    break;
+                case enStudentParamType.PersonID:
+                    if (!TryGetID(param, out var personID)) return null;
+                    students = students.Where(student => student.PersonID == personID);
+                    break;
+                case enStudentParamType.NationalNumber:
+                    students = students.Where(student => student.Person.NationalNumber == param);
+                    break;
+                default:
+                    return null;
+            }
 
+            return await students.FirstOrDefaultAsync();
         }
 
         public async Task<List<StudentInfo>> GetList()
         {
-         return await   _dbSet.Select(x => new StudentInfo
-            {
-                StudentID = x.Id.ToString(),
-                PersonID = x.Person.Id.ToString(),
-                FirstName = x.Person.FirstName,
-                LastName = x.Person.LastName,
-                FatherName = x.Person.FatherName,
-                MotherName = x.Person.MotherName,
-                MotherLastName = x.Person.MotherLastName,
-                Gendor = x.Person.Gendor,
-                BirthDate = x.Person.BirthDate,
-                NationalNumber = x.Person.NationalNumber,
-                LivingPlace = x.Person.LivingPlace.Country.CountryName + " " + x.Person.LivingPlace.City.CityName + " " +
-                          x.Person.LivingPlace.District.DistrictName + " " + x.Person.LivingPlace.Neighborhood.NeighborhoodName + " " + x.Person.LivingPlace.Notes,
-                PlaceOfBirth = x.Person.PlaceOfBirth.Country.CountryName + " " + x.Person.PlaceOfBirth.CityName,
-            }
-                     ).ToListAsync();
-            }
+            return await ProjectActiveStudents().ToListAsync();
+        }
 
         public async Task<bool> IsExistBy(string param, enStudentParamType paramType)
         {
-            if (paramType == enStudentParamType.PersonID)
-                return await _dbSet.AnyAsync(x => x.PersonID == clsUtil.ToGuid(param));
-            else if (paramType == enStudentParamType.ID)
-                return await _dbSet.AnyAsync(x => x.Id == clsUtil.ToGuid(param));
-
-            return await _dbSet.AnyAsync(x => x.Person.NationalNumber == param);
+            return paramType switch
+            {
+                enStudentParamType.ID => TryGetID(param, out var studentID) &&
+                    await _dbSet.AnyAsync(student => student.Id == studentID),
+                enStudentParamType.PersonID => TryGetID(param, out var personID) &&
+                    await _dbSet.AnyAsync(student => student.PersonID == personID),
+                enStudentParamType.NationalNumber =>
+                    await _dbSet.AnyAsync(student => student.Person.NationalNumber == param),
+                _ => false,
+            };
         }
 
-        public async Task<bool> IsStudent(string param, enStudentParamType paramType)
-        {
-            if (paramType == enStudentParamType.PersonID)
-                return await _dbSet.AnyAsync(x => x.PersonID == clsUtil.ToGuid(param));
+        public Task<bool> IsStudent(string param, enStudentParamType paramType) =>
+            IsExistBy(param, paramType);
 
-            return await _dbSet.AnyAsync(x => x.Person.NationalNumber == param);
-        }
-
-        public async Task<bool> Update(clsStudent entity)
+        public Task<bool> Update(clsStudent entity)
         {
             _dbSet.Update(entity);
-            return true;
+            return Task.FromResult(true);
         }
+
+        private static bool TryGetID(string value, out Guid id) =>
+            Guid.TryParseExact(value, "D", out id) && id != Guid.Empty;
     }
 }

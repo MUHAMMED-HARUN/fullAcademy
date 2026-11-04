@@ -57,7 +57,6 @@ export const useClassStore = defineStore("classes", {
       } else {
         this.error = result.errors;
       }
-      console.log("astore ", result);
 
       this.loading = false;
       return result;

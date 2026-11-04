@@ -8,7 +8,7 @@ using System.Domain.Entities.Person;
 
 namespace System.Application.Services.Person.Person.Command
 {
-    public class UpdatePersonCommand : ITransaction, IRequest<TResult<string>>
+    public class UpdatePersonCommand : ICommand, ITransaction, IRequest<TResult<string>>
     {
         public string PersonID { get; set; }
         public string FirstName { get; set; }

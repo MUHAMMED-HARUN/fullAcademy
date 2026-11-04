@@ -13,14 +13,25 @@ namespace System.Application.Services.Person.Teacher.Command
     public class NewTeacherCommandHandler : IRequestHandler<NewTeacherCommand, TResult<string>>
     {
         private readonly ITeacherRepository _TeacherRepository;
+        private readonly IPersonRepository _personRepository;
         private readonly ICurrentUserService _currentUserService;
-        public NewTeacherCommandHandler(ITeacherRepository TeacherRepository ,ICurrentUserService currentUser)
+        public NewTeacherCommandHandler(
+            ITeacherRepository TeacherRepository,
+            IPersonRepository personRepository,
+            ICurrentUserService currentUser)
         {
             _TeacherRepository = TeacherRepository;
+            _personRepository = personRepository;
             _currentUserService = currentUser;
         }
         public async Task<TResult<string>> Handle(NewTeacherCommand request, CancellationToken cancellationToken)
         {
+            var person = await _personRepository.GetEntityBy(
+                request.PersonID,
+                enPersonParamType.ID);
+            if (person is null)
+                return TResult<string>.Fail(ApplicationExMsg.NotFound);
+
             if ((await _TeacherRepository.IsTeacher(request.PersonID, enTeacherParamType.PersonID)) == true)
                 return TResult<string>.Fail(ApplicationExMsg.PersonIsAlreadyTeacher);
 

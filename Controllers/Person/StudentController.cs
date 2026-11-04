@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Application.Services.Person.Student.Command;
 using System.Application.Services.Person.Student.Query;
 
-namespace School_Academy.Controllers.Address
+namespace School_Academy.Controllers.Person
 {
 
     [Route("api/[controller]")]
@@ -86,7 +86,7 @@ namespace School_Academy.Controllers.Address
             return Ok(result);
         }
         [HttpGet("IsExistStudentBy")]
-        public async Task<IActionResult> IsExistBy(IsExistStudentByQuery query)
+        public async Task<IActionResult> IsExistBy([FromQuery] IsExistStudentByQuery query)
         {
 
             var result = await _mediator.Send(query);

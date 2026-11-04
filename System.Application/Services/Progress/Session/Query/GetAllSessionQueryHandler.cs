@@ -1,14 +1,14 @@
 ﻿using MediatR;
-using System.Application.Abstractions.Institute;
+using System.Application.Abstractions.Progress;
 using System.Application.Common;
-using System.Application.Services.Institute.Program.DTO;
+using System.Application.Services.Progress.Session.DTO;
 using System.Application.Services.Progress.Session.Query;
 
 namespace System.Application.Services.Progress.Session.Query
 {
     class GetAllSessionQueryHandler : IRequestHandler<GetAllSessionQuery, TResult<List<SessionInfo>>>
     {
-        ISessionRepository _repo;
+        private readonly ISessionRepository _repo;
         public GetAllSessionQueryHandler ( ISessionRepository repo)
         {
             _repo= repo;

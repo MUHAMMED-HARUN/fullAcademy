@@ -7,7 +7,7 @@ using System.Application.Services.Address.Address.Command;
 
 namespace System.Application.Services.Person.Person.Command
 {
-    public class NewPersonCommand : ITransaction, IRequest<TResult<string>>
+    public class NewPersonCommand : ICommand, ITransaction, IRequest<TResult<string>>
     {
         public string FirstName { get; set; }
         public string FatherName { get; set; }

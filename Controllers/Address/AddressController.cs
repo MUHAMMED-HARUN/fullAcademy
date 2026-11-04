@@ -1,14 +1,15 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Application.Services.Address.Address.Command;
 using System.Application.Services.Address.Address.Query;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace School_Academy.Controllers.Address
 {
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AddressController : ControllerBase
     {
 
@@ -19,7 +20,8 @@ namespace School_Academy.Controllers.Address
         }
 
         [HttpPost("NewAddress")]
-        public async Task<IActionResult> Add(NewAddressCommand command)
+        [Authorize(Policy = "Can_Create_Address")]
+        public async Task<IActionResult> Add([FromBody] NewAddressCommand command)
         {
             var result = await _mediator.Send(command);
 
@@ -31,7 +33,8 @@ namespace School_Academy.Controllers.Address
             return Ok(result);
         }
 
-        [HttpPost("UpdateAddress")]
+        [HttpPut("UpdateAddress")]
+        [Authorize(Policy = "Can_Update_Address")]
         public async Task<IActionResult> Update([FromBody] UpdateAddressCommand command)
         {
             var result = await _mediator.Send(command);
@@ -44,9 +47,10 @@ namespace School_Academy.Controllers.Address
             return Ok(result);
         }
         [HttpGet("GetAddressBy")]
-        public async Task<IActionResult> GetById([FromQuery] GetAddressByQuery Query)
+        [Authorize(Policy = "Can_Read_Address")]
+        public async Task<IActionResult> GetById([FromQuery] GetAddressByQuery query)
         {
-            var result = await _mediator.Send(Query);
+            var result = await _mediator.Send(query);
 
             if (!result.IsSuccess)
             {

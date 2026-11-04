@@ -40,6 +40,10 @@ class StudentEnrollmentService {
     return await StudentEnrollment_repositories.add(payload);
   }
 
+  async enrollByRange(data) {
+    return await StudentEnrollment_repositories.enrollByRange(data);
+  }
+
   async update(data) {
     const validation = validate1(data, StudentEnrollmentSchema);
     if (!validation.isValid) {

@@ -12,6 +12,10 @@ namespace System.Domain.Entities
 
         public clsInstituteClass InstituteClass { get; private set; }
 
+        protected clsGroup()
+        {
+            
+        }
         public clsGroup(Guid instituteClassID, string groupName, string code)
         {
             SetInstituteClassID(instituteClassID);

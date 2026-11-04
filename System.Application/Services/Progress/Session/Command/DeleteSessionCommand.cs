@@ -8,6 +8,6 @@ namespace System.Application.Services.Progress.Session.Command
 {
     public class DeleteSessionCommand : ICommand, IRequest<TResult<string>>
     {
-        public string SessionID { get; set; }
+        public string SessionID { get; set; } = string.Empty;
     }
 }

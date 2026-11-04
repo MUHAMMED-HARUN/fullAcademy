@@ -2,6 +2,7 @@ import TResult from "@/Generic/TResult";
 import InstituteMapper from "@/Mapper/Institute/InstituteMapper";
 import institute_repositories from "@/repositories/Institute/InstituteRepositories";
 import { InstituteSchema } from "@/validations/Institute/InstituteSchema";
+import { InstituteLookupSchema } from "@/validations/Institute/InstituteLookupSchema";
 import { validate1 } from "@/validations/validator";
 class InstituteService {
   async getAll() {
@@ -15,6 +16,26 @@ class InstituteService {
   }
   async getBy(command) {
     return await institute_repositories.getBy(command);
+  }
+
+  async searchInstitutes(criteria) {
+    const validation = validate1(criteria, InstituteLookupSchema);
+    if (!validation.isValid) {
+      return new TResult(null, false, validation.errors);
+    }
+
+    const result = await institute_repositories.getListFilter({
+      Page: 1,
+      PageSize: 5,
+      Search: criteria.value.trim(),
+    });
+    if (!result.success) return result;
+
+    return new TResult(
+      InstituteMapper.mapLookupPagingApiToInstitute(result.data),
+      result.success,
+      result.errors
+    );
   }
 
   async create(data) {

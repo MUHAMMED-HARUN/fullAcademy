@@ -14,3 +14,48 @@ D:\Project\Real Proj\School_Academy\System.Application\obj\Debug\net9.0\refint\S
 D:\Project\Real Proj\School_Academy\System.Application\obj\Debug\net9.0\System.Application.pdb
 D:\Project\Real Proj\School_Academy\System.Application\obj\Debug\net9.0\ref\System.Application.dll
 D:\Project\Real Proj\School_Academy\System.Application\obj\Debug\net9.0\System.Application.sourcelink.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Application.deps.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Application.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Application.pdb
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Application.deps.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Application.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Application.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\System.Application.dll
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\System.Application.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\System.Application.dll
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\System.Application.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\System.Application.dll
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\System.Application.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\System.Application.dll
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\System.Application.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\System.Application.dll
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\System.Application.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\System.Application.dll
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\System.Application.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\System.Application.dll
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\System.Application.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\System.Application.dll
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\System.Application.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\System.Application.dll
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\System.Application.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\System.Application.dll
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\System.Application.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\System.Application.dll
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\System.Application.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\System.Application.dll
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\System.Application.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\System.Application.dll
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\System.Application.pdb

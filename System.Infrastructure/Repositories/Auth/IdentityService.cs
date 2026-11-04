@@ -9,6 +9,7 @@ using System.Application.Services.Authentication.Role.DTO;
 using System.Application.Services.Authentication.RolePermission.Command;
 using System.Application.Services.Authentication.RolePermission.DTO;
 using System.Domain.Enums.Person;
+using System.Domain.Entities.Permissions;
 using System.Infrastructure.Identity;
 using System.Security.Claims;
 
@@ -27,39 +28,64 @@ namespace System.Infrastructure.Repositories.Auth
             _roleManager = manager;
         }
 
-        public Task<bool> AuthorizeAsync(Guid userId, string policyName)
+        public async Task<bool> AuthorizeAsync(Guid userId, string policyName)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user is null) return false;
+
+            var roles = await _userManager.GetRolesAsync(user);
+            if (roles.Contains("Admin", StringComparer.OrdinalIgnoreCase)) return true;
+
+            foreach (var roleName in roles)
+            {
+                var role = await _roleManager.FindByNameAsync(roleName);
+                if (role is null) continue;
+
+                var claims = await _roleManager.GetClaimsAsync(role);
+                if (policyName == "Permission" && claims.Any(claim => claim.Type == "Permission"))
+                    return true;
+                if (claims.Any(claim =>
+                        claim.Type == "Permission" &&
+                        clsPermission.NormalizePermissionName(claim.Value) == policyName))
+                    return true;
+            }
+
+            return false;
         }
 
-        public Task<bool> IsInRoleAsync(Guid userId, string role)
+        public async Task<bool> IsInRoleAsync(Guid userId, string role)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            return user is not null && await _userManager.IsInRoleAsync(user, role);
         }
 
         public async Task<TResult<LoginDto>> LoginAsync(string email, string password)
         {
-          var user=await  _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
-                throw new Exception("Email Not Found");
+                return TResult<LoginDto>.Fail("البريد الإلكتروني أو كلمة المرور غير صحيحة");
 
-            var isValidPass= await _userManager.CheckPasswordAsync(user, password);
+            var isValidPass = await _userManager.CheckPasswordAsync(user, password);
 
             if (!isValidPass)
-                throw new Exception("Password Not Seccuess");
-            var role=await _userManager.GetRolesAsync(user);
+                return TResult<LoginDto>.Fail("البريد الإلكتروني أو كلمة المرور غير صحيحة");
+
+            var role = await _userManager.GetRolesAsync(user);
             var permissions = new List<string>();
 
             foreach (var r in role)
             {
-                var rollRes=await _roleManager.FindByNameAsync(r);
-                var clims=await _roleManager.GetClaimsAsync(rollRes);
-                permissions.AddRange(clims.Where(c => c.Type == "Permission").Select(c => c.Value));
+                permissions.AddRange(clsPermission.DefaultPermissionsForRole(r));
+                var roleEntity = await _roleManager.FindByNameAsync(r);
+                if (roleEntity is null) continue;
 
+                var claims = await _roleManager.GetClaimsAsync(roleEntity);
+                permissions.AddRange(claims
+                    .Where(claim => claim.Type == "Permission")
+                    .Select(claim => clsPermission.NormalizePermissionName(claim.Value)));
             }
-        permissions=    permissions.Distinct().ToList();
-            var token=_tokenGenerator.GenerateToken(user, role,permissions);
-
+            permissions = permissions.Distinct(StringComparer.Ordinal).ToList();
+            var token = _tokenGenerator.GenerateToken(user, role, permissions);
 
             var loginDto = new LoginDto
             {
@@ -68,7 +94,7 @@ namespace System.Infrastructure.Repositories.Auth
                 Email = user.Email,
                 Token = token
             };
-            
+
             return TResult<LoginDto>.OK(loginDto);
         }
 
@@ -99,15 +125,46 @@ namespace System.Infrastructure.Repositories.Auth
             return  await _roleManager.Roles.Select(r=>new RoleInfo { ID=r.Id.ToString(),Name=r.Name}).ToListAsync();
         }
 
-        public async Task<List<RolePermissionsInfo>> GetRolePermissions(string RoleID)
+        public async Task<List<RolePermissionsInfo>?> GetRolePermissions(string RoleID)
         {
             var Role= await  _roleManager.Roles.Where(r => r.Id == clsUtil.ToGuid(RoleID)).FirstOrDefaultAsync();
             if (Role == null)
                 return null;
+
+            if (string.Equals(Role.Name, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                return clsPermission.AllPermissions()
+                    .Select(permission => new RolePermissionsInfo
+                    {
+                        RoleId = Role.Id.ToString(),
+                        RoleName = Role.Name,
+                        PermissionName = permission.Name,
+                    })
+                    .ToList();
+            }
+
             var Clims = await _roleManager.GetClaimsAsync(Role);
 
-          var RoleClims=  Clims.Select(c => new RolePermissionsInfo { RoleId=Role.Id.ToString(),RoleName=Role.Name,
-                PermissionName=c.Value }).ToList();
+            var defaultPermissions = clsPermission.DefaultPermissionsForRole(Role.Name)
+                .Select(permissionName => new RolePermissionsInfo
+                {
+                    RoleId = Role.Id.ToString(),
+                    RoleName = Role.Name,
+                    PermissionName = permissionName,
+                });
+
+            var roleClaims = Clims
+                .Where(claim => claim.Type == "Permission")
+                .Select(claim => new RolePermissionsInfo
+                {
+                    RoleId = Role.Id.ToString(),
+                    RoleName = Role.Name,
+                    PermissionName = clsPermission.NormalizePermissionName(claim.Value),
+                });
+
+            var RoleClims = defaultPermissions.Concat(roleClaims)
+                .DistinctBy(permission => permission.PermissionName)
+                .ToList();
             return RoleClims;
         }
 
@@ -116,13 +173,16 @@ namespace System.Infrastructure.Repositories.Auth
             // 1. البحث عن الدور بواسطة الـ RoleId
             var role = await _roleManager.FindByIdAsync(toDelete.RoleId);
             if (role == null) return false;
+            if (string.Equals(role.Name, "Admin", StringComparison.OrdinalIgnoreCase)) return false;
 
             // 2. جلب الـ Claims المسجلة للدور حالياً
             var existingClaims = await _roleManager.GetClaimsAsync(role);
 
             // 3. البحث عن الـ Claim المطلوب حسابه
             var claimToRemove = existingClaims.FirstOrDefault(c =>
-                c.Type == "Permission" && c.Value == toDelete.PermissionName);
+                c.Type == "Permission" &&
+                clsPermission.NormalizePermissionName(c.Value) ==
+                clsPermission.NormalizePermissionName(toDelete.PermissionName));
 
             // إذا كانت الصلاحية غير موجودة بالأصل نرجع true (لأن الهدف محقق)
             if (claimToRemove == null) return true;
@@ -137,18 +197,23 @@ namespace System.Infrastructure.Repositories.Auth
             // 1. البحث عن الدور بواسطة الـ RoleId
             var role = await _roleManager.FindByIdAsync(toAdd.RoleId);
             if (role == null) return false;
+            if (string.Equals(role.Name, "Admin", StringComparison.OrdinalIgnoreCase)) return false;
 
             // 2. جلب الـ Claims المسجلة للدور لضمان عدم التكرار
             var existingClaims = await _roleManager.GetClaimsAsync(role);
 
             var exists = existingClaims.Any(c =>
-                c.Type == "Permission" && c.Value == toAdd.PermissionName);
+                c.Type == "Permission" &&
+                clsPermission.NormalizePermissionName(c.Value) ==
+                clsPermission.NormalizePermissionName(toAdd.PermissionName));
 
             // إذا كانت الصلاحية موجودة بالفعل لا داعي لإعادتها
             if (exists) return true;
 
             // 3. إنشاء الـ Claim الجديد وإضافته
-            var claimToAdd = new Claim("Permission", toAdd.PermissionName);
+            var claimToAdd = new Claim(
+                "Permission",
+                clsPermission.NormalizePermissionName(toAdd.PermissionName));
             var result = await _roleManager.AddClaimAsync(role, claimToAdd);
 
             return result.Succeeded;
@@ -163,5 +228,6 @@ namespace System.Infrastructure.Repositories.Auth
          var res= await  _userManager.AddToRoleAsync(user, role.Name);
             return res.Succeeded;
         }
+
     }
 }

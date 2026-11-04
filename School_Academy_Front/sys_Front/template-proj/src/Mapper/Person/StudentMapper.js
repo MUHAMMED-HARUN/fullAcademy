@@ -1,17 +1,19 @@
-import person from "../Person/PersonMapper";
-export default class PersonMapper {
+import PersonMapper from "./PersonMapper";
+export default class StudentMapper {
   static mapUpsertToApi(dataSchema) {
-    return {
-      StudentID: dataSchema.studentID,
+    const payload = {
       PersonID: dataSchema.personID,
     };
+    if (dataSchema.studentID) payload.StudentID = dataSchema.studentID;
+    return payload;
   }
 
   static MapFromApiDTO(DataReq) {
+    if (!DataReq) return null;
     return {
       studentID: DataReq.StudentID,
       personID: DataReq.PersonID,
-      ...person.MapFromApiDTO(DataReq),
+      ...PersonMapper.MapFromApiDTO(DataReq),
     };
   }
   static mapListApiToStudent(StudentList) {
@@ -22,11 +24,6 @@ export default class PersonMapper {
       ? StudentList
       : StudentList.items || StudentList.data || [];
 
-    return items.map((student) => {
-      return {
-        ...person.MapFromApiDTO(student),
-        studentID: student.StudentID,
-      };
-    });
+    return items.map((student) => StudentMapper.MapFromApiDTO(student));
   }
 }

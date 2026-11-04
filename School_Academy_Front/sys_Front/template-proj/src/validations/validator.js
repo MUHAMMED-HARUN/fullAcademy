@@ -16,9 +16,28 @@ export function validate1(data, schema) {
   const result = schema.safeParse(data);
   if (!result.success) {
     const formattedErrors = {};
+
     result.error.issues.forEach((issue) => {
-      const field = issue.path[0];
-      formattedErrors[field] = issue.message;
+      const path = issue.path.length > 0 ? issue.path : ["_form"];
+      let current = formattedErrors;
+
+      path.forEach((segment, index) => {
+        const key = String(segment);
+        if (index === path.length - 1) {
+          const existing = current[key];
+          current[key] = existing
+            ? Array.isArray(existing)
+              ? [...existing, issue.message]
+              : [existing, issue.message]
+            : issue.message;
+          return;
+        }
+
+        if (!current[key] || typeof current[key] !== "object") {
+          current[key] = {};
+        }
+        current = current[key];
+      });
     });
     return { isValid: false, errors: formattedErrors };
   }

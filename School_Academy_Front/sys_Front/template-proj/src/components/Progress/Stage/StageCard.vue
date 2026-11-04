@@ -6,12 +6,12 @@
       <div class="item-value">{{ this.DataReq?.name }}</div>
     </div>
     <div class="card-item">
-      <div class="item-name">اسم المشروع:</div>
-      <div class="item-value">{{ this.DataReq?.programName }}</div>
+      <div class="item-name">اسم الصف:</div>
+      <div class="item-value">{{ this.DataReq?.className }}</div>
     </div>
     <div class="card-item">
-      <div class="item-name">المرحلة السابقة :</div>
-      <div class="item-value">{{ this.DataReq?.prevStageName }}</div>
+      <div class="item-name">المرحلة السابقة:</div>
+      <div class="item-value">{{ this.DataReq?.prevStageName || "—" }}</div>
     </div>
     <div class="card-item">
       <div class="item-name">الملاحظات:</div>

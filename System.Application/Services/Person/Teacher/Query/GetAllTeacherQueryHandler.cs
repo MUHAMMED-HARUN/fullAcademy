@@ -2,12 +2,11 @@
 using MediatR;
 using System.Application.Abstractions.Person;
 using System.Application.Common;
-using System.Application.Services.Person.Student.DTO;
 using System.Application.Services.Person.Teacher.DTO;
 
 namespace System.Application.Services.Person.Teacher.Query
 {
-    class GetAllTeacherQueryHandler : IRequestHandler<GetAllTeacherQuery, TResult<Paging<TeacherInfo>>>
+    public sealed class GetAllTeacherQueryHandler : IRequestHandler<GetAllTeacherQuery, TResult<Paging<TeacherInfo>>>
     {
         ITeacherRepository _TeacherRepository;
         public GetAllTeacherQueryHandler( ITeacherRepository TeacherRepository)

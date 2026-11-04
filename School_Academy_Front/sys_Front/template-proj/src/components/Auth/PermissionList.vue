@@ -1,72 +1,96 @@
 <template>
-  <div>
-    <Table>
-      <thead>
-        <tr>
-          <th>رقم</th>
-          <th>الصلاحية</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="permission in this.permissions" :key="permission.Id">
-          <td>{{ permission.id }}</td>
-          <td>{{ permission.name }}</td>
-          <td>
-            <input
-              v-if="CanSelect"
-              type="checkbox"
-              v-model="permission.isChecked"
-              @change="this.selectPermission(permission)"
-            />
-          </td>
-        </tr>
-      </tbody>
-      <tfoot></tfoot>
-    </Table>
-    <button @click="getSelectedPermissions">ارسال</button>
-  </div>
+  <section class="space-y-4" dir="rtl" aria-label="قائمة الصلاحيات">
+    <div
+      v-if="props.permissions.length === 0"
+      class="rounded-xl border border-dashed border-[var(--border-color)] p-6 text-center text-sm text-[var(--text-muted)]"
+      role="status"
+    >
+      لا توجد صلاحيات متاحة لهذا الدور.
+    </div>
+
+    <div
+      v-else
+      class="max-h-[55vh] overflow-auto rounded-xl border border-[var(--border-color)]"
+    >
+      <table class="w-full text-start">
+        <thead class="sticky top-0 bg-[var(--bg-body)]">
+          <tr>
+            <th class="px-3 py-2 text-start text-sm font-semibold">الصلاحية</th>
+            <th class="px-3 py-2 text-start text-sm font-semibold">النوع</th>
+            <th class="px-3 py-2 text-center text-sm font-semibold">مفعّلة</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[var(--border-color)]">
+          <tr v-for="permission in props.permissions" :key="permission.id">
+            <td class="px-3 py-3 text-sm text-[var(--text-color)]">
+              {{ permission.name }}
+            </td>
+            <td class="px-3 py-3 text-sm text-[var(--text-muted)]">
+              {{ permission.type || "—" }}
+            </td>
+            <td class="px-3 py-3 text-center">
+              <input
+                type="checkbox"
+                :checked="checkedNames.includes(permission.name)"
+                :disabled="props.saving"
+                :aria-label="`تفعيل ${permission.name}`"
+                @change="
+                  togglePermission(permission.name, $event.target.checked)
+                "
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer
+      class="flex items-center justify-end gap-3 border-t border-[var(--border-color)] pt-4"
+    >
+      <span
+        v-if="props.saving"
+        class="text-sm text-[var(--text-muted)]"
+        role="status"
+      >
+        جارٍ حفظ التغييرات...
+      </span>
+      <button
+        type="button"
+        class="btn btn-primary"
+        :disabled="props.saving || props.permissions.length === 0"
+        :aria-busy="props.saving"
+        @click="emit('save', [...checkedNames])"
+      >
+        {{ props.saving ? "جارٍ الحفظ..." : "حفظ الصلاحيات" }}
+      </button>
+    </footer>
+  </section>
 </template>
 
-<script>
-export default {
-  name: "PermissionList",
-  data() {
-    return {
-      selectedPermission: [],
-    };
-  },
-  methods: {
-    IsSelected(permission) {
-      return this.selectedPermission.some((p) => p.id === permission.id);
-    },
-    selectPermission(permission) {
-      if (this.IsSelected(permission)) {
-        this.selectedPermission = this.selectedPermission.filter(
-          (p) => p.id !== permission.id
-        );
-      } else {
-        const per = structuredClone(permission);
-        per.isChecked = !permission.isChecked;
-        this.selectedPermission.push(per);
-      }
-    },
-    getSelectedPermissions() {
-      this.$emit("getEmit", this.selectedPermission);
-    },
-    fillSelected(permsList = this.permissions) {
-      if (Array.isArray(permsList)) {
-        this.selectedPermission = permsList.filter((p) => p.isChecked);
-      }
-    },
-  },
+<script setup>
+import { ref, watch } from "vue";
 
-  props: ["permissions", "CanSelect"],
-  emits: ["getEmit"],
-};
-// Selected لا تعبئ
-// عند تغيير اي شيء من ال lIST
-// اذا كانت True و اصبحت False
-// يتم وضعها للحذف و يتم التحقق اذا ارجعها True تزال من الحذف
-// اما اذا كانت False واصبحت True  توضع للاضافة
-// واذا مزع عنها ال true تنزع من القائمة
+const props = defineProps({
+  permissions: { type: Array, default: () => [] },
+  saving: { type: Boolean, default: false },
+});
+
+const emit = defineEmits(["save"]);
+const checkedNames = ref([]);
+
+watch(
+  () => props.permissions,
+  (permissions) => {
+    checkedNames.value = permissions
+      .filter((permission) => permission.isChecked)
+      .map((permission) => permission.name);
+  },
+  { immediate: true, deep: true }
+);
+
+function togglePermission(name, isChecked) {
+  checkedNames.value = isChecked
+    ? [...new Set([...checkedNames.value, name])]
+    : checkedNames.value.filter((permissionName) => permissionName !== name);
+}
 </script>

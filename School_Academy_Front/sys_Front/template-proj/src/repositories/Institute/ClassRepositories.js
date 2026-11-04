@@ -33,6 +33,7 @@ class ClassRepositories {
   }
 
   async getBy(param) {
+    console.log("param", param);
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/GetClassBy`,
       enApiType.get,

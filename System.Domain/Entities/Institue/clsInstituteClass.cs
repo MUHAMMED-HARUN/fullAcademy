@@ -12,6 +12,10 @@ namespace System.Domain.Entities
         
         public clsInstitute Institute { get; private set; }
         public clsClass Class { get; private set; }
+        protected clsInstituteClass()
+        {
+            
+        }
 
         public clsInstituteClass(Guid instituteID, Guid classID)
         {

@@ -12,6 +12,16 @@ class InstituteClassRepositories {
     return response;
   }
 
+  async addByRange(data) {
+    const response = await clsUtil.FeachRequset(
+      `${baseUrl}/NewInstituteClassByRange`,
+      enApiType.post,
+      data,
+      "حدث خطأ أثناء إضافة "
+    );
+    return response;
+  }
+
   async update(data) {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/UpdateInstituteClass`,

@@ -24,10 +24,9 @@ namespace System.Application.Services.Authentication.Login.Command
 
             TResult <LoginDto> result = await _identityService.LoginAsync(request.Email, request.Password);
 
-            if (!result.IsSuccess)
-            {
-                throw new ApplicationException(ApplicationExMsg.InvalidLogin);
-            }
+            if (!result.IsSuccess || result.Value is null)
+                return TResult<AuthDTOInfo>.Fail(result.Error ?? "البريد الإلكتروني أو كلمة المرور غير صحيحة");
+
             AuthDTOInfo dto = _mapper.Map<AuthDTOInfo>(result.Value);
 
 

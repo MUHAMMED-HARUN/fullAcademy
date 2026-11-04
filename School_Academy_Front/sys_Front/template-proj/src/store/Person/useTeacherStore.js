@@ -1,25 +1,24 @@
 import { defineStore } from "pinia";
-import Teacher_service from "@/Service/Person/TeacherService";
+import teacherService from "@/Service/Person/TeacherService";
 
-export const useTeacherStore = defineStore("Teacher", {
+export const useTeacherStore = defineStore("teacher", {
   state: () => ({
-    Teachers: [],
+    teachers: [],
     selectedTeacher: null,
     loading: false,
+    saving: false,
     error: null,
-
-    // 🔹 حالات التصفح (Paging State)
+    listError: null,
     page: 1,
     pageSize: 10,
     totalCount: 0,
+    listFilter: { Filter: "", OrderBy: "" },
   }),
 
   getters: {
-    allTeachers: (state) => state.Teachers,
-    hasTeachers: (state) => state.Teachers.length > 0,
+    allTeachers: (state) => state.teachers,
+    hasTeachers: (state) => state.teachers.length > 0,
     isLoading: (state) => state.loading,
-
-    // 🔹 حساب إجمالي عدد الصفحات
     totalPages: (state) => Math.ceil(state.totalCount / state.pageSize) || 1,
   },
 
@@ -27,99 +26,112 @@ export const useTeacherStore = defineStore("Teacher", {
     async fetchTeachers(filter = {}) {
       this.loading = true;
       this.error = null;
+      this.listError = null;
+      try {
+        if (Object.hasOwn(filter, "Filter")) {
+          this.listFilter.Filter = filter.Filter || "";
+          this.page = 1;
+        }
+        if (Object.hasOwn(filter, "OrderBy")) {
+          this.listFilter.OrderBy = filter.OrderBy || "";
+          this.page = 1;
+        }
+        if (filter.Page !== undefined) this.page = filter.Page;
+        if (filter.PageSize !== undefined) this.pageSize = filter.PageSize;
 
-      // تحديث رقم الصفحة والحجم عند التمرير
-      if (filter.Page !== undefined) this.page = filter.Page;
-      if (filter.PageSize !== undefined) this.pageSize = filter.PageSize;
+        const result = await teacherService.getAll({
+          ...this.listFilter,
+          Page: this.page,
+          PageSize: this.pageSize,
+        });
 
-      const queryParams = {
-        Page: this.page,
-        PageSize: this.pageSize,
-        ...filter,
-      };
-
-      const result = await Teacher_service.getAll(queryParams);
-      if (result.success) {
-        this.Teachers = result.data?.items || [];
-        this.totalCount = result.data?.count || 0;
-      } else {
-        this.error = result.errors;
+        if (result.success) {
+          this.teachers = result.data?.items || [];
+          this.totalCount = result.data?.count || 0;
+        } else {
+          this.error = result.errors;
+          this.listError = result.errors;
+        }
+        return result;
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
-      return result;
     },
 
-    // 🔹 التحكم برقم الصفحة
     async setPage(newPage) {
-      if (newPage >= 1 && newPage <= this.totalPages) {
-        this.page = newPage;
-        return await this.fetchTeachers();
-      }
+      if (newPage < 1 || newPage > this.totalPages) return;
+      return this.fetchTeachers({ Page: newPage });
     },
 
-    // 🔹 التحكم بحجم الصفحة
     async setPageSize(newSize) {
-      this.pageSize = newSize;
       this.page = 1;
-      return await this.fetchTeachers();
+      this.pageSize = newSize;
+      return this.fetchTeachers({ Page: 1, PageSize: newSize });
     },
 
     async fetchTeacherBy(command) {
       this.loading = true;
       this.error = null;
-
-      const result = await Teacher_service.getBy(command);
-
-      if (result.success) {
-        this.selectedTeacher = result.data;
-      } else {
-        this.error = result.errors;
+      this.selectedTeacher = null;
+      try {
+        const result = await teacherService.getBy(command);
+        if (result.success) {
+          this.selectedTeacher = result.data;
+        } else {
+          this.error = result.errors;
+        }
+        return result;
+      } finally {
+        this.loading = false;
       }
-
-      this.loading = false;
-      return result;
     },
 
     async addTeacher(payload) {
-      this.loading = true;
+      this.saving = true;
       this.error = null;
-
-      const result = await Teacher_service.create(payload);
-      if (result.success) {
-        await this.fetchTeachers();
-      } else {
-        this.error = result.errors;
+      try {
+        const result = await teacherService.create(payload);
+        if (result.success) {
+          await this.fetchTeachers();
+        } else {
+          this.error = result.errors;
+        }
+        return result;
+      } finally {
+        this.saving = false;
       }
-
-      this.loading = false;
-      return result;
     },
 
     async updateTeacher(payload) {
-      this.loading = true;
+      this.saving = true;
       this.error = null;
-      const result = await Teacher_service.update(payload);
-      if (result.success) {
-        await this.fetchTeachers();
-      } else {
-        this.error = result.errors;
+      try {
+        const result = await teacherService.update(payload);
+        if (result.success) {
+          await this.fetchTeachers();
+        } else {
+          this.error = result.errors;
+        }
+        return result;
+      } finally {
+        this.saving = false;
       }
-      this.loading = false;
-      return result;
     },
 
-    async DeleteTeacher(payload) {
-      this.loading = true;
+    async deleteTeacher(teacherID) {
+      this.saving = true;
       this.error = null;
-
-      const result = await Teacher_service.delete(payload);
-      if (result.success) {
-        await this.fetchTeachers();
-      } else {
-        this.error = result.errors;
+      try {
+        const result = await teacherService.delete(teacherID);
+        if (result.success) {
+          await this.fetchTeachers();
+        } else {
+          this.error = result.errors;
+        }
+        return result;
+      } finally {
+        this.saving = false;
       }
-      this.loading = false;
-      return result;
     },
 
     clearSelectedTeacher() {

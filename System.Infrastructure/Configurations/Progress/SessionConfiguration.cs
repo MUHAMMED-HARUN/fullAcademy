@@ -2,14 +2,12 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Domain.Entities;
-using System.Domain.Entities.Person;
+using System.Domain.Entities.Progress;
 using System.Infrastructure.Configurations.Base;
 
-namespace System.Infrastructure.Configurations.Address
+namespace System.Infrastructure.Configurations.Progress
 {
-
-    public class SubjectConfiguration : BaseEntityConfiguration<clsSession>
+    public class SessionConfiguration : BaseEntityConfiguration<clsSession>
     {
         public override void Configure(EntityTypeBuilder<clsSession> builder)
         {
@@ -20,8 +18,8 @@ namespace System.Infrastructure.Configurations.Address
             builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
             builder.Property(x => x.Notes).HasMaxLength(500);
             builder.HasOne(x => x.Session)
-                 .WithOne() // 1-to-1
-                 .HasForeignKey<clsSession>(x => x.SessionID)
+                 .WithMany(x => x.ChildSessions)
+                 .HasForeignKey(x => x.SessionID)
                  .OnDelete(DeleteBehavior.NoAction);
         }
     }

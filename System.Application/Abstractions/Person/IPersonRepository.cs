@@ -12,8 +12,9 @@ namespace System.Application.Abstractions.Person
         Task<bool> Update(clsPerson entity);
         Task<List<PersonInfo>> GetList();
         Task<Paging<PersonInfo>> GetListFilter(GetAllPersonQuery request);
+        Task<PersonForUpsertDto?> GetForUpsert(Guid personID);
         Task<bool> IsExist(string param, enPersonParamType paramType);
-        Task<PersonInfo> GetBy(string param, enPersonParamType paramType);
-        Task<clsPerson> GetEntityBy(string param, enPersonParamType paramType);
+        Task<PersonInfo?> GetBy(string param, enPersonParamType paramType);
+        Task<clsPerson?> GetEntityBy(string param, enPersonParamType paramType);
     }
 }

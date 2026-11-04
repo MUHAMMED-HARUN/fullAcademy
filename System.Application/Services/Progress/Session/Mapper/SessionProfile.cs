@@ -2,6 +2,7 @@
 using System.Application.Common;
 using System.Application.Services.Progress.Session.Command;
 using System.Domain.Entities;
+using System.Domain.Entities.Progress;
 
 namespace System.Application.Services.Progress.Session.Mapper
 {

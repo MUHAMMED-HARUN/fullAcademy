@@ -1,13 +1,15 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Application.Services.Person.Teacher.Command;
 using System.Application.Services.Person.Teacher.Query;
 
-namespace School_Academy.Controllers.Address
+namespace School_Academy.Controllers.Person
 {
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TeacherController : ControllerBase
     {
 
@@ -83,7 +85,7 @@ namespace School_Academy.Controllers.Address
             return Ok(result);
         }
         [HttpGet("IsExistTeacherBy")]
-        public async Task<IActionResult> IsExistBy(IsExistTeacherByQuery query)
+        public async Task<IActionResult> IsExistBy([FromQuery] IsExistTeacherByQuery query)
         {
 
             var result = await _mediator.Send(query);

@@ -7,6 +7,23 @@ export default class InstituteClassMapper {
     };
   }
 
+  static mapBulkUpsertToApi(dataSchema) {
+    return {
+      InstituteID: dataSchema.instituteID,
+      ClassIDs: [...new Set(dataSchema.classIDs || [])],
+    };
+  }
+
+  static mapBulkResultFromApi(data) {
+    return {
+      addedCount: data?.AddedCount ?? data?.addedCount ?? 0,
+      skippedAlreadyLinkedClassIDs:
+        data?.SkippedAlreadyLinkedClassIDs ??
+        data?.skippedAlreadyLinkedClassIDs ??
+        [],
+    };
+  }
+
   static MapFromApiDTO(DataReq) {
     return {
       instituteClassID: DataReq.InstituteClassID,

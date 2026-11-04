@@ -7,9 +7,9 @@ namespace System.Application.Services.Progress.Session.Command
 {
     public class NewSessionCommand : ICommand, IRequest<TResult<string>>
     {
-        public string SessionName { get; set; }
+        public string SessionName { get; set; } = string.Empty;
         public enSessionType SessionType { get; set; }
-        public string SessionNote { get; set; }
-        public string ParentSessionID { get; set; }
+        public string? SessionNote { get; set; }
+        public string? ParentSessionID { get; set; }
     }
 }

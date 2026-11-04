@@ -1,11 +1,11 @@
-﻿
+
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Domain.Entities;
+using System.Domain.Entities.Progress;
 using System.Infrastructure.Configurations.Base;
 
-namespace System.Infrastructure.Configurations.Address
+namespace System.Infrastructure.Configurations.Progress
 {
 
     public class StageConfiguration : BaseEntityConfiguration<clsStage>
@@ -18,13 +18,14 @@ namespace System.Infrastructure.Configurations.Address
 
             builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
             builder.Property(x => x.Notes).HasMaxLength(500);
+            builder.Property(x => x.PrevStageID).HasColumnName("PrevClassID");
             builder.HasOne(x => x.PrevStage)
-                 .WithOne() // 1-to-1
-                 .HasForeignKey<clsStage>(x => x.Id)
+                 .WithMany(x => x.NextStages)
+                 .HasForeignKey(x => x.PrevStageID)
                  .OnDelete(DeleteBehavior.NoAction);
-            builder.HasOne(x => x.Program)
-                  .WithOne() // 1-to-1
-                  .HasForeignKey<clsStage>(x => x.ProgramID)
+            builder.HasOne(x => x.Class)
+                  .WithMany()
+                  .HasForeignKey(x => x.ClassID)
                   .OnDelete(DeleteBehavior.NoAction);
         }
     }

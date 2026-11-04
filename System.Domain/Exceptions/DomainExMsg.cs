@@ -50,7 +50,9 @@ namespace System.Domain.Exceptions
         public static DomainExceptionObj TeachingAssignment_SubjectIDRequired { get; internal set; }
         public static DomainExceptionObj Stage_NameRequired { get; internal set; }
         public static DomainExceptionObj Stage_ProgramIDRequired { get; internal set; }
+        public static DomainExceptionObj Stage_ClassIDRequired { get; internal set; }
         public static DomainExceptionObj Stage_PrevStageDRequired { get; internal set; }
+        public static DomainExceptionObj Stage_PrevClassIDRequired { get; internal set; }
         public static Exception StudentStage_StudentIDRequired { get; internal set; }
         public static DomainExceptionObj StageInfo_FromMustBePositive { get; internal set; }
         public static DomainExceptionObj StageInfo_ToMustBePositive { get; internal set; }
@@ -94,5 +96,23 @@ namespace System.Domain.Exceptions
         public static DomainExceptionObj Guardian_PersonIDRequired { get; internal set; }
         public static DomainExceptionObj StudentGuardian_StudentIDRequired { get; internal set; }
         public static DomainExceptionObj StudentGuardian_GuardianIDRequired { get; internal set; }
+
+        // Finance
+        public static DomainExceptionObj FeeStructure_NameRequired = new DomainExceptionObj("FeeStructure_NameRequired", "Fee structure name is required.");
+        public static DomainExceptionObj FeeStructure_AmountInvalid = new DomainExceptionObj("FeeStructure_AmountInvalid", "Fee structure amount must be greater than or equal to 0.");
+
+        public static DomainExceptionObj StudentInvoice_StudentIDRequired = new DomainExceptionObj("StudentInvoice_StudentIDRequired", "Student ID is required.");
+        public static DomainExceptionObj StudentInvoice_FeeStructureIDRequired = new DomainExceptionObj("StudentInvoice_FeeStructureIDRequired", "Fee structure ID is required.");
+        public static DomainExceptionObj StudentInvoice_DueDateRequired = new DomainExceptionObj("StudentInvoice_DueDateRequired", "Due date is required.");
+        public static DomainExceptionObj StudentInvoice_DueDateBeforeIssueDate = new DomainExceptionObj("StudentInvoice_DueDateBeforeIssueDate", "Due date cannot be before issue date.");
+        public static DomainExceptionObj StudentInvoice_OriginalAmountInvalid = new DomainExceptionObj("StudentInvoice_OriginalAmountInvalid", "Original amount must be greater than or equal to 0.");
+        public static DomainExceptionObj StudentInvoice_DiscountAmountInvalid = new DomainExceptionObj("StudentInvoice_DiscountAmountInvalid", "Discount amount must be greater than or equal to 0.");
+        public static DomainExceptionObj StudentInvoice_DiscountExceedsOriginal = new DomainExceptionObj("StudentInvoice_DiscountExceedsOriginal", "Discount cannot exceed the original amount.");
+        public static DomainExceptionObj StudentInvoice_DiscountExceedsUnpaid = new DomainExceptionObj("StudentInvoice_DiscountExceedsUnpaid", "Discount cannot exceed the unpaid amount.");
+        public static DomainExceptionObj StudentInvoice_Cancelled = new DomainExceptionObj("StudentInvoice_Cancelled", "Cannot modify a cancelled invoice.");
+
+        public static DomainExceptionObj Payment_StudentInvoiceIDRequired = new DomainExceptionObj("Payment_StudentInvoiceIDRequired", "Student invoice ID is required.");
+        public static DomainExceptionObj Payment_AmountMustBePositive = new DomainExceptionObj("Payment_AmountMustBePositive", "Payment amount must be greater than 0.");
+        public static DomainExceptionObj Payment_AmountExceedsRemaining = new DomainExceptionObj("Payment_AmountExceedsRemaining", "Payment amount cannot exceed the remaining amount.");
     }
 }

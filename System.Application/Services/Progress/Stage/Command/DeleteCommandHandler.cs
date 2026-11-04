@@ -1,10 +1,8 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using System.Application.Abstractions.Auth;
-using System.Application.Abstractions.Institute;
+using System.Application.Abstractions.Progress;
 using System.Application.Common;
-using System.Application.Exceptions;
-using System.Domain.Entities;
+using System.Domain.Entities.Progress;
 using System.Domain.Enums.Person;
 
 namespace System.Application.Services.Progress.Stage.Command
@@ -13,21 +11,22 @@ namespace System.Application.Services.Progress.Stage.Command
     {
         private readonly IStageRepository _repo;
         private readonly ICurrentUserService _currentUserService;
-        private readonly IMapper _mapper;
-        public DeleteStageCommandHandler(IStageRepository repo ,ICurrentUserService currentUser,IMapper mapper)
+        public DeleteStageCommandHandler(IStageRepository repo, ICurrentUserService currentUser)
         {
             _repo = repo;
             _currentUserService = currentUser;
-           _mapper = mapper;
         }
         public async Task<TResult<string>> Handle(DeleteStageCommand request, CancellationToken cancellationToken)
         {
-            clsStage entity = await _repo.GetEntityBy(request.StageID, enStageParamType.ID);
-            if (entity == null)
-                return TResult<string>.Fail(ApplicationExMsg.failToFindStage);
+            if (_currentUserService.UserId is not Guid userId)
+                return TResult<string>.Fail("غير مصرح بهذا الإجراء");
 
-            entity.SetDeleted(_currentUserService.UserId.ToString());
-           await _repo.Update(entity);
+            clsStage? entity = await _repo.GetEntityBy(request.StageID, enStageParamType.ID);
+            if (entity is null)
+                return TResult<string>.Fail("لم يتم العثور على المرحلة");
+
+            entity.SetDeleted(userId.ToString());
+            await _repo.Update(entity);
 
             return TResult<string>.OK(string .Empty);
         }

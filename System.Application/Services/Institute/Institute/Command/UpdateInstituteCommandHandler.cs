@@ -33,8 +33,10 @@ namespace System.Application.Services.Institute.Institute.Command
           clsInstitute Institute = await  _instituteRepo.GetEntityBy(request.InstituteID, enInstituteType.ID);
             clsAddress address = await _addressRepository.GetEntityBy(request.Address.AddressID, enAddressParamType.ID);
             
-            if(Institute == null && address ==null)
+            if (Institute == null)
                 return TResult<string>.Fail(ApplicationExMsg.failUpdateInstitute);
+            if (address == null)
+                return TResult<string>.Fail(ApplicationExMsg.AddressNotFound);
 
             if ((await _instituteRepo.IsExistBy(request.InstituteName, enInstituteType.Name)) 
                 && Institute.Name!=request.InstituteName)

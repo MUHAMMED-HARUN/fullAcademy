@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using System.Application.Abstractions.Institute;
+using System.Application.Abstractions.Progress;
 using System.Application.Common;
 using System.Application.Services.Progress.Stage.DTO;
 

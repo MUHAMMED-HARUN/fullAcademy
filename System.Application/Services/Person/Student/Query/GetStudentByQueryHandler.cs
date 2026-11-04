@@ -6,7 +6,7 @@ using System.Application.Services.Person.Student.DTO;
 
 namespace System.Application.Services.Person.Student.Query
 {
-    class GetStudentByQueryHandler : IRequestHandler<GetStudentByQuery, TResult<StudentInfo>>
+    public sealed class GetStudentByQueryHandler : IRequestHandler<GetStudentByQuery, TResult<StudentInfo>>
     {
         IStudentRepository _studentRepository;
         public GetStudentByQueryHandler( IStudentRepository studentRepository)
@@ -15,7 +15,7 @@ namespace System.Application.Services.Person.Student.Query
         }
         public async Task<TResult<StudentInfo>> Handle(GetStudentByQuery request, CancellationToken cancellationToken)
         {
-            StudentInfo studentInfo= await _studentRepository.GetBy(request.Param, request.ParamType);
+            var studentInfo = await _studentRepository.GetBy(request.Param, request.ParamType);
             if (studentInfo == null) 
             return TResult<StudentInfo>.Fail(ApplicationExMsg.FailToFindStudent);
 

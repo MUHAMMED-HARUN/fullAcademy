@@ -30,12 +30,12 @@ namespace System.Application.Services.Person.Person.Command
         }
         public async Task<TResult<string>> Handle(UpdatePersonCommand request, CancellationToken cancellationToken)
         {
-          clsPerson person= await  _personRepository.GetEntityBy(request.PersonID, enPersonParamType.ID);
+            clsPerson person= await  _personRepository.GetEntityBy(request.PersonID, enPersonParamType.ID);
             if(person==null)
-                return TResult<string>.Fail(ApplicationExMsg.FailAddPerson);
+                return TResult<string>.Fail(ApplicationExMsg.NotFound);
             if ((await _personRepository.IsExist(request.NationalNumber, enPersonParamType.NationalNumber)) 
                 && person.NationalNumber!=request.NationalNumber)
-                return TResult<string>.Fail(ApplicationExMsg.PersonIsAlreadyStudent);
+                return TResult<string>.Fail(ApplicationExMsg.PersonNationalNumberExists);
 
             clsAddress address = _mapper.Map<UpdateAddressCommand, clsAddress>(request.Address);
             address.SetID(clsUtil.ToGuid(request.Address.AddressID));
@@ -49,8 +49,6 @@ namespace System.Application.Services.Person.Person.Command
             await _addressRepository.Update(address);
 
             await _personRepository.Update(entity);
-
-           ;
 
             return TResult<string>.OK(string.Empty);
         }

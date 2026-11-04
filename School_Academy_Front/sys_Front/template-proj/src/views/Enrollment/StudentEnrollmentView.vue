@@ -10,12 +10,18 @@
     <!-- قائمة التسجيلات -->
     <StudentEnrollmentList
       :enrollments="StudentEnrollmentStore.enrollments"
-      @show-delete-enrollment="OnDelete"
-      @show-info-enrollment="onShowInfo"
-      @show-update-enrollment="OnUpsertEnrollment"
-      @show-new-daily-evaluation="OnNewDailyEvaluation"
-      @show-new-assigment-nomination="OnNewAssigmentNomination"
-      @show-new-student-stage="OnNewStudentStage"
+      :selected-ids="selectedEnrollmentIds"
+      :show-attendance="isAttendanceMode"
+      :attendance-map="attendanceRecords"
+      @toggle-select-all="onToggleSelectAll"
+      @toggle-select-row="onToggleSelectRow"
+      @update-attendance="onUpdateAttendance"
+    />
+    <!-- 🔹 3. أزرار العمليات المجمعة (توضع تماماً مثل التصميم أسفل الجدول) -->
+    <GenericComboActions
+      :actions="visibleEnrollmentActions"
+      :selected-items="selectedEnrollmentsData"
+      @action-click="handleComboAction"
     />
 
     <!-- 🔹 مكون التصفح (Pagination) -->
@@ -34,7 +40,7 @@
         :errors="StudentEnrollmentStore.error"
         :student-data="StudentStore.selectedStudent"
         :group-data="GroupStore.selectedGroup"
-        :teacher-group-list="GroupStore.groups"
+        :group-results="GroupStore.groups"
         @on-submit="OnSubmitUpsert"
         @on-search-student="onSearchStudent"
         @on-search-group="onSearchGroup"
@@ -105,6 +111,7 @@ import { useGroupStore } from "@/store/Institute/GroupStore";
 import MessageComp from "@/components/general/messageComp.vue";
 import GenericFilterComp from "@/components/general/GenericFilterComp.vue";
 import PaginationComp from "@/components/general/PaginationComp.vue";
+import GenericComboActions from "@/components/general/GenericComboActions.vue";
 import StudentEnrollmentCard from "@/components/Enrollment/StudentEnrollment/StudentEnrollmentCard.vue";
 import StudentEnrollmentList from "@/components/Enrollment/StudentEnrollment/StudentEnrollmentList.vue";
 import UpsertStudentEnrollmentComp from "@/components/Enrollment/StudentEnrollment/UpsertStudentEnrollmentComp.vue";
@@ -115,6 +122,12 @@ import UpsertAssignmentNominationComp from "@/components/Assigment/AssignmentNom
 import { useAssignmentScopeStore } from "@/store/Assignment/AssignmentScopeStore";
 import { useAssignmentNominationStore } from "@/store/Assignment/AssignmentNominationStore";
 import UpsertStudentStageComp from "@/components/Progress/StudentStage/UpsertStudentStageComp.vue";
+import { useAttendanceStore } from "@/store/Attendance/AttendanceStore";
+import {
+  AttendanceStatus,
+  AttendeeType,
+  ContextType,
+} from "@/Generic/AttendanceEnums";
 
 export default {
   name: "StudentEnrollmentView",
@@ -129,6 +142,7 @@ export default {
     MessageComp,
     UpsertDailyEvaluationComp,
     UpsertStudentStageComp,
+    GenericComboActions,
   },
   data() {
     return {
@@ -142,6 +156,7 @@ export default {
       GroupStore: useGroupStore(),
       AssignmentScopeStore: useAssignmentScopeStore(),
       AssignmentNominationStore: useAssignmentNominationStore(),
+      AttendanceStore: useAttendanceStore(),
 
       searchQuery: "",
       selectedPageSize: 10,
@@ -156,6 +171,8 @@ export default {
       resultType: false,
       showNewDailyEvaluation: false,
       showUpsertStudentStage: false,
+      isAttendanceMode: false,
+      attendanceRecords: {},
       // 🔹 مخطط الفلترة للمكون GenericFilterComp
       studentEnrollmentFilterSchema: [
         {
@@ -183,6 +200,63 @@ export default {
           operator: "<=",
         },
       ],
+      selectedEnrollmentIds: [], // معرفات السجلات المحددة
+      enrollmentActions: [
+        {
+          key: "info",
+          label: "معلومات",
+          minSelection: 1,
+          maxSelection: 1, // تعمل على سجل واحد فقط
+        },
+        {
+          key: "update",
+          label: "تحديث",
+          minSelection: 1,
+          maxSelection: 1, // تعمل على سجل واحد فقط
+        },
+        {
+          key: "startAttendance",
+          label: "بدء عملية حضور وغياب",
+          minSelection: 0, // يظهر ويعمل دائماً
+          class: "btn-primary",
+        },
+        {
+          key: "confirmAttendance",
+          label: "تأكيد التفقد",
+          minSelection: 0,
+          class: "btn-success",
+        },
+        {
+          key: "cancelAttendance",
+          label: "إلغاء التفقد",
+          minSelection: 0,
+          class: "btn-secondary",
+        },
+        {
+          key: "nominate",
+          label: "اضافة ترشيح",
+          minSelection: 1,
+          condition: (item) => item.canNominate, // تعمل بشرط أن يكون السجل يسمح بالترشيح
+        },
+        {
+          key: "track",
+          label: "اضافة متابعة",
+          minSelection: 1,
+          condition: (item) => item.canTrack,
+        },
+        {
+          key: "stage",
+          label: "اضافة الى مرحلة",
+          minSelection: 1,
+          condition: (item) => item.canAddToStage,
+        },
+        {
+          key: "delete",
+          label: "حذف",
+          minSelection: 1, // يمكن أن تعمل على سجل واحد أو أكثر حسب رغبتك
+          class: "btn-danger",
+        },
+      ],
     };
   },
   computed: {
@@ -190,6 +264,22 @@ export default {
       const total = this.StudentEnrollmentStore.totalCount || 0;
       const size = this.StudentEnrollmentStore.pageSize || 10;
       return Math.ceil(total / size) || 1;
+    },
+    selectedEnrollmentsData() {
+      return this.StudentEnrollmentStore.enrollments.filter((en) =>
+        this.selectedEnrollmentIds.includes(en.enrollmentID)
+      );
+    },
+    visibleEnrollmentActions() {
+      return this.enrollmentActions.filter((action) => {
+        if (this.isAttendanceMode) {
+          return ["confirmAttendance", "cancelAttendance"].includes(action.key);
+        } else {
+          return !["confirmAttendance", "cancelAttendance"].includes(
+            action.key
+          );
+        }
+      });
     },
   },
   methods: {
@@ -242,7 +332,7 @@ export default {
 
       if (this.searchQuery.trim()) {
         const query = this.searchQuery.trim();
-        filters.push(`(StudentName=*${query}*|GroupName=*${query}*)`);
+        filters.push(`(StudentName=*${query}|GroupName=*${query})`);
       }
 
       return filters.join(",");
@@ -293,6 +383,12 @@ export default {
       var resVal = new TResult();
       if (e.enrollmentID) {
         resVal = await this.StudentEnrollmentStore.updateEnrollment(e);
+      } else if (Array.isArray(e.studentIDs) && e.studentIDs.length > 0) {
+        resVal = await this.StudentEnrollmentStore.enrollByRange({
+          StudentIDs: e.studentIDs,
+          GroupID: e.groupID,
+          Date: e.date,
+        });
       } else {
         resVal = await this.StudentEnrollmentStore.addEnrollment(e);
       }
@@ -315,6 +411,11 @@ export default {
     },
 
     async onSearchGroup(type, val) {
+      let filter = "";
+      if (type === 1) filter = `GroupName=*${val}`;
+      else if (type === 2) filter = `Code=*${val}`;
+      else filter = `GroupID=${val}`;
+      await this.GroupStore.fetchGroups({ Filter: filter });
       await this.GroupStore.fetchGroupBy({
         Param: val,
         ParamType: type,
@@ -346,6 +447,16 @@ export default {
     },
 
     async OnNewDailyEvaluation(e) {
+      // لا يمكن إجراء متابعة يومية إذا كان الطالب غائباً أو معذوراً
+      const status = this.attendanceRecords[e.enrollmentID];
+      if (
+        status === AttendanceStatus.Absent ||
+        status === AttendanceStatus.Excused
+      ) {
+        this.resultMessage = "لا يمكن إجراء متابعة يومية للطالب (غياب/إذن)";
+        this.resultType = true;
+        return;
+      }
       await this.StageinfoStore.getStudentStageInfo(e.enrollmentID);
       await this.DailyEvaluationStore.GetlastDailyEvaluation(e.enrollmentID);
       this.studentName = e.studentName;
@@ -450,6 +561,131 @@ export default {
         pageSize: this.selectedPageSize,
         filter: filterString,
       });
+    },
+
+    onToggleSelectAll(isChecked) {
+      if (isChecked) {
+        this.selectedEnrollmentIds =
+          this.StudentEnrollmentStore.enrollments.map((en) => en.enrollmentID);
+      } else {
+        this.selectedEnrollmentIds = [];
+      }
+    },
+    onToggleSelectRow(enroll) {
+      const index = this.selectedEnrollmentIds.indexOf(enroll.enrollmentID);
+      if (index > -1) {
+        this.selectedEnrollmentIds.splice(index, 1);
+      } else {
+        this.selectedEnrollmentIds.push(enroll.enrollmentID);
+      }
+    },
+
+    // موجه تنفيذ الأزرار المجمعة
+    async handleComboAction(actionKey, selectedItems) {
+      const singleItem = selectedItems[0];
+
+      switch (actionKey) {
+        case "info":
+          await this.onShowInfo(singleItem);
+          break;
+        case "update":
+          await this.OnUpsertEnrollment(singleItem);
+          break;
+        case "startAttendance":
+          this.onStartAttendance();
+          break;
+        case "confirmAttendance":
+          await this.onConfirmAttendance(selectedItems);
+          break;
+        case "cancelAttendance":
+          this.onCancelAttendance();
+          break;
+        case "nominate":
+          await this.OnNewAssigmentNomination(singleItem);
+          break;
+        case "track":
+          await this.OnNewDailyEvaluation(singleItem);
+          break;
+        case "stage":
+          await this.OnNewStudentStage(singleItem);
+          break;
+        case "delete":
+          // مثال لحذف متعدد أو مفرد
+          await this.OnDeleteMultiple(selectedItems);
+          break;
+      }
+    },
+
+    onStartAttendance() {
+      this.isAttendanceMode = true;
+      const initialMap = {};
+      this.StudentEnrollmentStore.enrollments.forEach((enroll) => {
+        initialMap[enroll.enrollmentID] = AttendanceStatus.Present;
+      });
+      this.attendanceRecords = initialMap;
+    },
+
+    onCancelAttendance() {
+      this.isAttendanceMode = false;
+      this.attendanceRecords = {};
+    },
+
+    onUpdateAttendance({ enrollmentID, status }) {
+      this.attendanceRecords = {
+        ...this.attendanceRecords,
+        [enrollmentID]: status,
+      };
+    },
+
+    async onConfirmAttendance(selectedItems) {
+      // إذا تم تحديد صفوف نأخذ المحددة فقط، وإن لم يحدد نأخذ جميع المسجلين المعروضين
+      const targetEnrollments =
+        selectedItems && selectedItems.length > 0
+          ? selectedItems
+          : this.StudentEnrollmentStore.enrollments;
+
+      if (!targetEnrollments || targetEnrollments.length === 0) {
+        this.resultMessage = "لا يوجد طلاب لتسجيل الحضور لهم";
+        this.resultType = true;
+        return;
+      }
+
+      const attendeesPayload = targetEnrollments.map((enroll) => ({
+        entityID: enroll.enrollmentID,
+        attendeeType: AttendeeType.Student, // Student
+        status:
+          this.attendanceRecords[enroll.enrollmentID] !== undefined
+            ? this.attendanceRecords[enroll.enrollmentID]
+            : AttendanceStatus.Present,
+        contextID: enroll.groupID || null,
+        contextType: ContextType.Group,
+      }));
+
+      const resVal = await this.AttendanceStore.submitAttendance(
+        attendeesPayload
+      );
+
+      if (resVal.success) {
+        this.resultMessage = "تم تأكيد وتسجيل التفقد بنجاح";
+        this.resultType = false;
+        this.isAttendanceMode = false;
+        this.attendanceRecords = {};
+      } else {
+        this.resultMessage = resVal.errors || "حدث خطأ أثناء حفظ التفقد";
+        this.resultType = true;
+      }
+    },
+    async OnDeleteMultiple(items) {
+      if (confirm(`هل أنت متأكد من حذف ${items.length} سجلات المحددة؟`)) {
+        // يمكنك تنفيذ الحذف المتعدد أو التكرار حسب متطلبات الـ Store لديك
+        for (const item of items) {
+          await this.StudentEnrollmentStore.DeleteEnrollment(item.enrollmentID);
+        }
+        this.selectedEnrollmentIds = [];
+        this.resultMessage = "تم الحذف بنجاح";
+        this.resultType = false;
+        await this.loadEnrollmentData(this.StudentEnrollmentStore.page);
+      }
     },
   },
 

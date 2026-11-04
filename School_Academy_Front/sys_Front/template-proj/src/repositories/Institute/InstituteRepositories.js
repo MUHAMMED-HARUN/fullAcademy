@@ -32,6 +32,15 @@ class InstituteRepositories {
     return response;
   }
 
+  async getListFilter(filter) {
+    return await clsUtil.FeachRequset(
+      `${baseUrl}/GetInstituteListFilter`,
+      enApiType.get,
+      { params: filter },
+      "خطأ في الخادم أثناء البحث عن المعاهد"
+    );
+  }
+
   async getBy(param) {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/GetInstituteBy`,

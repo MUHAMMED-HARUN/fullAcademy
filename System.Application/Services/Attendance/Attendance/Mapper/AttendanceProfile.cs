@@ -14,7 +14,16 @@ namespace System.Application.Services.Attendance.Attendance.Mapper
         {
             CreateMap<AttendanceCommandDTO, clsAttendance>()
                 .ConstructUsing(src => new clsAttendance(
-             Guid.NewGuid(),src.AttendeeType,DateOnly.FromDateTime(DateTime.Now),src.Status,null,null,null,null, null
+                    clsUtil.ToGuid(src.EntityID),
+                    src.AttendeeType,
+                    DateOnly.FromDateTime(DateTime.Now),
+                    src.Status,
+                    null,
+                    null,
+                    !string.IsNullOrEmpty(src.ContextID) ? clsUtil.ToGuid(src.ContextID) : null,
+                    src.ContextType,
+                    null,
+                    null
                 ))
                 .ForAllMembers(opt => opt.Ignore());
         }

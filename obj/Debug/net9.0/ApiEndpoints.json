@@ -14,7 +14,7 @@
       },
       {
         "Name": "ParamType",
-        "Type": "System.Int32",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
@@ -40,7 +40,7 @@
     "ContainingType": "School_Academy.Controllers.Address.AddressController",
     "Method": "Update",
     "RelativePath": "api/Address/UpdateAddress",
-    "HttpMethod": "POST",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -487,13 +487,55 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "School_Academy.Controllers.Address.CityController",
     "Method": "GetList",
     "RelativePath": "api/City/GetCityList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.CityController",
+    "Method": "GetOptions",
+    "RelativePath": "api/City/GetCityOptions",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -557,9 +599,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "query",
-        "Type": "System.Application.Services.Institute.Class.Query.GetClassByQuery",
-        "IsRequired": true
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -629,13 +676,55 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "School_Academy.Controllers.Address.CountryController",
     "Method": "GetList",
     "RelativePath": "api/Country/GetCountryList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.CountryController",
+    "Method": "GetOptions",
+    "RelativePath": "api/Country/GetCountryOptions",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -662,7 +751,7 @@
     "ContainingType": "School_Academy.Controllers.Address.CountryController",
     "Method": "Update",
     "RelativePath": "api/Country/UpdateCountry",
-    "HttpMethod": "POST",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -839,7 +928,33 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "CityID",
+        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -852,10 +967,45 @@
     "Parameters": [
       {
         "Name": "cityId",
-        "Type": "System.String",
+        "Type": "System.Guid",
         "IsRequired": true
+      },
+      {
+        "Name": "CityID",
+        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Filter",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.DistrictController",
+    "Method": "GetOptions",
+    "RelativePath": "api/District/GetDistrictOptions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -885,6 +1035,85 @@
       {
         "Name": "command",
         "Type": "System.Application.Services.Address.District.Command.UpdateDistrictCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Finance.FeeStructureController",
+    "Method": "Delete",
+    "RelativePath": "api/FeeStructure/DeleteFeeStructure",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Finance.FeeStructure.Command.DeleteFeeStructureCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Finance.FeeStructureController",
+    "Method": "GetBy",
+    "RelativePath": "api/FeeStructure/GetFeeStructureBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Finance.FeeStructureController",
+    "Method": "GetList",
+    "RelativePath": "api/FeeStructure/GetFeeStructureList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Finance.FeeStructureController",
+    "Method": "Add",
+    "RelativePath": "api/FeeStructure/NewFeeStructure",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Finance.FeeStructure.Command.NewFeeStructureCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Finance.FeeStructureController",
+    "Method": "Update",
+    "RelativePath": "api/FeeStructure/UpdateFeeStructure",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Finance.FeeStructure.Command.UpdateFeeStructureCommand",
         "IsRequired": true
       }
     ],
@@ -934,7 +1163,28 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -1051,6 +1301,42 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.InstituteController",
+    "Method": "GetListFilter",
+    "RelativePath": "api/Institute/GetInstituteListFilter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Search",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -1182,6 +1468,22 @@
   },
   {
     "ContainingType": "School_Academy.Controllers.Institute.InstituteClassController",
+    "Method": "AddByRange",
+    "RelativePath": "api/InstituteClass/NewInstituteClassByRange",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Institute.InstituteClass.Command.NewInstituteClassByRangeCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Institute.InstituteClassController",
     "Method": "Update",
     "RelativePath": "api/InstituteClass/UpdateInstituteClass",
     "HttpMethod": "PUT",
@@ -1224,6 +1526,83 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
+    "Parameters": [
+      {
+        "Name": "DistrictID",
+        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.NeighborhoodController",
+    "Method": "GetListByDistrictId",
+    "RelativePath": "api/Neighborhood/GetNeighborhoodListByDistrictID/{districtId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "districtId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "DistrictID",
+        "Type": "System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Address.NeighborhoodController",
+    "Method": "GetOptions",
+    "RelativePath": "api/Neighborhood/GetNeighborhoodOptions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
     "Parameters": [],
     "ReturnTypes": []
   },
@@ -1260,7 +1639,86 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.PersonController",
+    "ContainingType": "School_Academy.Controllers.Finance.PaymentController",
+    "Method": "Delete",
+    "RelativePath": "api/Payment/DeletePayment",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Finance.Payment.Command.DeletePaymentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Finance.PaymentController",
+    "Method": "GetBy",
+    "RelativePath": "api/Payment/GetPaymentBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Finance.PaymentController",
+    "Method": "GetList",
+    "RelativePath": "api/Payment/GetPaymentList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Finance.PaymentController",
+    "Method": "Add",
+    "RelativePath": "api/Payment/NewPayment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Finance.Payment.Command.NewPaymentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Finance.PaymentController",
+    "Method": "Update",
+    "RelativePath": "api/Payment/UpdatePayment",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Finance.Payment.Command.UpdatePaymentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Person.PersonController",
     "Method": "Delete",
     "RelativePath": "api/Person/DeletePerson",
     "HttpMethod": "DELETE",
@@ -1276,7 +1734,23 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.PersonController",
+    "ContainingType": "School_Academy.Controllers.Person.PersonController",
+    "Method": "GetForUpsert",
+    "RelativePath": "api/Person/get-for-upsert/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Person.PersonController",
     "Method": "GetBy",
     "RelativePath": "api/Person/GetPersonBy",
     "HttpMethod": "GET",
@@ -1297,7 +1771,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.PersonController",
+    "ContainingType": "School_Academy.Controllers.Person.PersonController",
     "Method": "GetList",
     "RelativePath": "api/Person/GetPersonList",
     "HttpMethod": "GET",
@@ -1328,7 +1802,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.PersonController",
+    "ContainingType": "School_Academy.Controllers.Person.PersonController",
     "Method": "IsExistBy",
     "RelativePath": "api/Person/IsExistPersonBy",
     "HttpMethod": "GET",
@@ -1336,15 +1810,20 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "query",
-        "Type": "System.Application.Services.Person.Person.Query.IsExistPersonByQuery",
-        "IsRequired": true
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.PersonController",
+    "ContainingType": "School_Academy.Controllers.Person.PersonController",
     "Method": "Add",
     "RelativePath": "api/Person/NewPerson",
     "HttpMethod": "POST",
@@ -1360,7 +1839,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.PersonController",
+    "ContainingType": "School_Academy.Controllers.Person.PersonController",
     "Method": "Update",
     "RelativePath": "api/Person/UpdatePerson",
     "HttpMethod": "PUT",
@@ -1545,7 +2024,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Institute.SessionController",
+    "ContainingType": "School_Academy.Controllers.Progress.SessionController",
     "Method": "Delete",
     "RelativePath": "api/Session/DeleteSession",
     "HttpMethod": "DELETE",
@@ -1561,7 +2040,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Institute.SessionController",
+    "ContainingType": "School_Academy.Controllers.Progress.SessionController",
     "Method": "GetBy",
     "RelativePath": "api/Session/GetSessionBy",
     "HttpMethod": "GET",
@@ -1582,7 +2061,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Institute.SessionController",
+    "ContainingType": "School_Academy.Controllers.Progress.SessionController",
     "Method": "GetList",
     "RelativePath": "api/Session/GetSessionList",
     "HttpMethod": "GET",
@@ -1592,9 +2071,45 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Institute.SessionController",
+    "ContainingType": "School_Academy.Controllers.Progress.SessionController",
+    "Method": "GetListFilter",
+    "RelativePath": "api/Session/GetSessionListFilter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ParentOnly",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Progress.SessionController",
     "Method": "IsExistBy",
-    "RelativePath": "api/Session/IsExistSessioneBy",
+    "RelativePath": "api/Session/IsExistSessionBy",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1608,7 +2123,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Institute.SessionController",
+    "ContainingType": "School_Academy.Controllers.Progress.SessionController",
     "Method": "Add",
     "RelativePath": "api/Session/NewSession",
     "HttpMethod": "POST",
@@ -1624,7 +2139,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Institute.SessionController",
+    "ContainingType": "School_Academy.Controllers.Progress.SessionController",
     "Method": "Update",
     "RelativePath": "api/Session/UpdateSession",
     "HttpMethod": "PUT",
@@ -1640,7 +2155,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Institute.StageController",
+    "ContainingType": "School_Academy.Controllers.Progress.StageController",
     "Method": "Delete",
     "RelativePath": "api/Stage/DeleteStage",
     "HttpMethod": "DELETE",
@@ -1656,7 +2171,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Institute.StageController",
+    "ContainingType": "School_Academy.Controllers.Progress.StageController",
     "Method": "GetBy",
     "RelativePath": "api/Stage/GetStageBy",
     "HttpMethod": "GET",
@@ -1677,7 +2192,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Institute.StageController",
+    "ContainingType": "School_Academy.Controllers.Progress.StageController",
     "Method": "GetList",
     "RelativePath": "api/Stage/GetStageList",
     "HttpMethod": "GET",
@@ -1687,9 +2202,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Institute.StageController",
+    "ContainingType": "School_Academy.Controllers.Progress.StageController",
     "Method": "IsExistBy",
-    "RelativePath": "api/Stage/IsExistStageeBy",
+    "RelativePath": "api/Stage/IsExistStageBy",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1703,7 +2218,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Institute.StageController",
+    "ContainingType": "School_Academy.Controllers.Progress.StageController",
     "Method": "Add",
     "RelativePath": "api/Stage/NewStage",
     "HttpMethod": "POST",
@@ -1719,7 +2234,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Institute.StageController",
+    "ContainingType": "School_Academy.Controllers.Progress.StageController",
     "Method": "Update",
     "RelativePath": "api/Stage/UpdateStage",
     "HttpMethod": "PUT",
@@ -1846,7 +2361,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.StudentController",
+    "ContainingType": "School_Academy.Controllers.Person.StudentController",
     "Method": "Delete",
     "RelativePath": "api/Student/DeleteStudent",
     "HttpMethod": "DELETE",
@@ -1862,7 +2377,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.StudentController",
+    "ContainingType": "School_Academy.Controllers.Person.StudentController",
     "Method": "GetBy",
     "RelativePath": "api/Student/GetStudentBy",
     "HttpMethod": "GET",
@@ -1883,7 +2398,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.StudentController",
+    "ContainingType": "School_Academy.Controllers.Person.StudentController",
     "Method": "GetList",
     "RelativePath": "api/Student/GetStudentList",
     "HttpMethod": "GET",
@@ -1914,7 +2429,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.StudentController",
+    "ContainingType": "School_Academy.Controllers.Person.StudentController",
     "Method": "IsExistBy",
     "RelativePath": "api/Student/IsExistStudentBy",
     "HttpMethod": "GET",
@@ -1922,15 +2437,20 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "query",
-        "Type": "System.Application.Services.Person.Student.Query.IsExistStudentByQuery",
-        "IsRequired": true
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.StudentController",
+    "ContainingType": "School_Academy.Controllers.Person.StudentController",
     "Method": "Add",
     "RelativePath": "api/Student/NewStudent",
     "HttpMethod": "POST",
@@ -1946,7 +2466,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.StudentController",
+    "ContainingType": "School_Academy.Controllers.Person.StudentController",
     "Method": "Update",
     "RelativePath": "api/Student/UpdateStudent",
     "HttpMethod": "PUT",
@@ -1972,6 +2492,22 @@
       {
         "Name": "command",
         "Type": "System.Application.Services.Enrollment.StudentEnrollment.Command.DeleteStudentEnrollmentCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Enrollment.StudentEnrollmentController",
+    "Method": "EnrollByRange",
+    "RelativePath": "api/StudentEnrollment/EnrollByRange",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Enrollment.StudentEnrollment.Command.EnrollByRangeCommand",
         "IsRequired": true
       }
     ],
@@ -2083,6 +2619,85 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "School_Academy.Controllers.Finance.StudentInvoiceController",
+    "Method": "Delete",
+    "RelativePath": "api/StudentInvoice/DeleteStudentInvoice",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Finance.StudentInvoice.Command.DeleteStudentInvoiceCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Finance.StudentInvoiceController",
+    "Method": "GetBy",
+    "RelativePath": "api/StudentInvoice/GetStudentInvoiceBy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Finance.StudentInvoiceController",
+    "Method": "GetList",
+    "RelativePath": "api/StudentInvoice/GetStudentInvoiceList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Finance.StudentInvoiceController",
+    "Method": "Add",
+    "RelativePath": "api/StudentInvoice/NewStudentInvoice",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Finance.StudentInvoice.Command.NewStudentInvoiceCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "School_Academy.Controllers.Finance.StudentInvoiceController",
+    "Method": "Update",
+    "RelativePath": "api/StudentInvoice/UpdateStudentInvoice",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "System.Application.Services.Finance.StudentInvoice.Command.UpdateStudentInvoiceCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "School_Academy.Controllers.Progress.StudentStageController",
     "Method": "Delete",
     "RelativePath": "api/StudentStage/DeleteStudentStage",
@@ -2178,7 +2793,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.TeacherController",
+    "ContainingType": "School_Academy.Controllers.Person.TeacherController",
     "Method": "Delete",
     "RelativePath": "api/Teacher/DeleteTeacher",
     "HttpMethod": "DELETE",
@@ -2194,7 +2809,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.TeacherController",
+    "ContainingType": "School_Academy.Controllers.Person.TeacherController",
     "Method": "GetBy",
     "RelativePath": "api/Teacher/GetTeacherBy",
     "HttpMethod": "GET",
@@ -2215,7 +2830,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.TeacherController",
+    "ContainingType": "School_Academy.Controllers.Person.TeacherController",
     "Method": "GetList",
     "RelativePath": "api/Teacher/GetTeacherList",
     "HttpMethod": "GET",
@@ -2246,7 +2861,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.TeacherController",
+    "ContainingType": "School_Academy.Controllers.Person.TeacherController",
     "Method": "IsExistBy",
     "RelativePath": "api/Teacher/IsExistTeacherBy",
     "HttpMethod": "GET",
@@ -2254,15 +2869,20 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "query",
-        "Type": "System.Application.Services.Person.Teacher.Query.IsExistTeacherByQuery",
-        "IsRequired": true
+        "Name": "Param",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ParamType",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.TeacherController",
+    "ContainingType": "School_Academy.Controllers.Person.TeacherController",
     "Method": "Add",
     "RelativePath": "api/Teacher/NewTeacher",
     "HttpMethod": "POST",
@@ -2278,7 +2898,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "School_Academy.Controllers.Address.TeacherController",
+    "ContainingType": "School_Academy.Controllers.Person.TeacherController",
     "Method": "Update",
     "RelativePath": "api/Teacher/UpdateTeacher",
     "HttpMethod": "PUT",

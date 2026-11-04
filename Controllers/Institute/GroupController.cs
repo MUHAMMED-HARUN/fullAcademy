@@ -56,9 +56,8 @@ namespace School_Academy.Controllers.Institute
         }
 
         [HttpGet("GetGroupList")]
-        public async Task<IActionResult> GetList()
+        public async Task<IActionResult> GetList([FromQuery] GetAllGroupQuery query)
         {
-            var query = new GetAllGroupQuery();
             var result = await _mediator.Send(query);
 
             if (!result.IsSuccess)

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Application.Services.Address.Country.Command;
 using System.Application.Services.Address.Country.Query;
@@ -8,6 +9,7 @@ namespace School_Academy.Controllers.Address
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CountryController : ControllerBase
     {
 
@@ -18,6 +20,7 @@ namespace School_Academy.Controllers.Address
         }
 
         [HttpPost("NewCountry")]
+        [Authorize(Policy = "Can_Create_Country")]
         public async Task<IActionResult> Add([FromBody] NewCountryCommand command)
         {
             var result = await _mediator.Send(command);
@@ -30,7 +33,8 @@ namespace School_Academy.Controllers.Address
             return Ok(result);
         }
 
-        [HttpPost("UpdateCountry")]
+        [HttpPut("UpdateCountry")]
+        [Authorize(Policy = "Can_Update_Country")]
         public async Task<IActionResult> Update([FromBody] UpdateCountryCommand command)
         {
             var result = await _mediator.Send(command);
@@ -44,9 +48,9 @@ namespace School_Academy.Controllers.Address
         }
 
         [HttpGet("GetCountryList")]
-        public async Task<IActionResult> GetList()
+        [Authorize(Policy = "Can_Read_Country")]
+        public async Task<IActionResult> GetList([FromQuery] GetAllCountryQuery query)
         {
-            var query = new GetAllCountryQuery();
             var result = await _mediator.Send(query);
 
             if (!result.IsSuccess)
@@ -57,10 +61,32 @@ namespace School_Academy.Controllers.Address
             return Ok(result);
         }
 
-        [HttpGet("GetCountryByID")]
-        public async Task<IActionResult> GetById()
+        [HttpGet("GetCountryOptions")]
+        [Authorize(Policy = "Can_Read_Country")]
+        public async Task<IActionResult> GetOptions()
         {
-            return Ok();
+            var result = await _mediator.Send(new GetCountryOptionsQuery());
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(new { errors = result.Error });
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetCountryByID")]
+        [Authorize(Policy = "Can_Read_Country")]
+        public async Task<IActionResult> GetById([FromQuery] GetCountryByQuery query)
+        {
+            var result = await _mediator.Send(query);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(new { errors = result.Error });
+            }
+
+            return Ok(result);
         }
 
 

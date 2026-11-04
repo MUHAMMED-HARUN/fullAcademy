@@ -1,26 +1,31 @@
-import person from "./PersonMapper";
-export default class PersonMapper {
+import PersonMapper from "./PersonMapper";
+export default class TeacherMapper {
   static mapUpsertToApi(dataSchema) {
-    return {
-      TeacherID: dataSchema.TeacherID,
+    const payload = {
       PersonID: dataSchema.personID,
     };
+    const teacherID = dataSchema.teacherID;
+    if (teacherID) payload.TeacherID = teacherID;
+    return payload;
   }
 
   static MapFromApiDTO(DataReq) {
+    if (!DataReq) return null;
     return {
-      TeacherID: DataReq.TeacherID,
+      teacherID: DataReq.TeacherID,
       personID: DataReq.PersonID,
-      ...person.MapFromApiDTO(DataReq),
+      ...PersonMapper.MapFromApiDTO(DataReq),
     };
   }
   static mapListApiToTeacher(TeacherList) {
-    if (!TeacherList) return [];
-    return TeacherList.map((Teacher) => {
-      return {
-        ...person.MapFromApiDTO(Teacher),
-        TeacherID: Teacher.TeacherID,
-      };
-    });
+    if (!Array.isArray(TeacherList)) return [];
+    return TeacherList.map((teacher) => TeacherMapper.MapFromApiDTO(teacher));
+  }
+
+  static mapPagingApiToTeacher(paging) {
+    return {
+      items: TeacherMapper.mapListApiToTeacher(paging?.Data),
+      count: paging?.Count ?? 0,
+    };
   }
 }

@@ -8,7 +8,8 @@ export const AuthLinls = [
     name: "Register",
     component: RegisterView,
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
+      requiredPermission: "Can_Register_User",
     },
   },
   {
@@ -25,6 +26,7 @@ export const AuthLinls = [
     component: RoleList,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_SetPermission_User",
     },
   },
 ];

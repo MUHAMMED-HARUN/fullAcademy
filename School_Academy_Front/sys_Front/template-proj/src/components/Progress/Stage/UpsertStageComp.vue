@@ -8,36 +8,58 @@
         <ValidationError :messages="errors?.name" />
       </div>
 
-      <div class="form-filter mt-4">
-        <label>البحث عن مشروع:</label>
-        <select v-model="programSearchType">
-          <option :value="enProgramSearchType.ProgramName">
-            بحث باسم المشروع
-          </option>
-        </select>
-        <input v-model="programSearchValue" type="text" />
-        <button @click.prevent.stop="onSearchProgram">بحث عن مشروع</button>
-      </div>
-
-      <div class="program-card-wrapper">
-        <ProgramCard v-if="showProgramCard" :-data-req="programData" />
-        <ValidationError :messages="errors?.programID" />
-      </div>
-
       <div class="form-group">
-        <label>المرحلة السابقة:</label>
-        <select v-model="formData.prevStageID">
-          <option value="" disabled>اختر الفصل السابق</option>
+        <label for="stage-class">الصف:</label>
+        <select
+          id="stage-class"
+          v-model="formData.classID"
+          class="form-select"
+          :disabled="classLoading"
+          @change="onClassChange"
+        >
+          <option value="">اختر الصف</option>
           <option
-            v-for="stage in Stages"
-            :value="stage.StageID"
-            :key="stage.stageID"
+            v-for="classItem in classes"
+            :key="classItem.classID"
+            :value="classItem.classID"
           >
-            {{ stage.name }}
+            {{ classItem.name }}
+            {{ classItem.programName ? ` — ${classItem.programName}` : "" }}
           </option>
         </select>
+        <p
+          v-if="classLoading"
+          class="text-sm text-[var(--text-muted)]"
+          role="status"
+        >
+          جارٍ تحميل الصفوف…
+        </p>
+        <p v-else-if="classError" class="alert-error" role="alert">
+          {{ classError }}
+        </p>
+        <ValidationError :messages="errors?.classID" />
+      </div>
+
+      <div v-if="formData.classID" class="form-group">
+        <label>المرحلة السابقة (اختياري):</label>
+        <GenericSearchByFilter
+          v-model="formData.prevStageID"
+          v-model:name-value="formData.prevStageName"
+          :filter-types="previousStageFilterTypes"
+          :results="previousStageResults"
+          :loading="previousStageLoading"
+          :error="previousStageError"
+          id-field="stageID"
+          name-field="name"
+          placeholder="ابحث عن المرحلة السابقة ضمن الصف نفسه"
+          @search="onSearchPreviousStage"
+          @clear="onClearPreviousStage"
+        />
         <ValidationError :messages="errors?.prevStageID" />
       </div>
+      <p v-else class="text-sm text-[var(--text-muted)]" role="status">
+        اختر الصف أولاً لتحديد المرحلة السابقة.
+      </p>
 
       <div class="form-group">
         <label>ملاحظات:</label>
@@ -56,25 +78,22 @@
 
 <script>
 import ValidationError from "@/components/general/ValidationError.vue";
-import ProgramCard from "@/components/Institute/Program/ProgramCard.vue";
+import GenericSearchByFilter from "@/components/general/GenericSearchByFilter.vue";
 import { useStageStore } from "@/store/Progress/StageStore";
-const enProgramSearchType = Object.freeze({ ID: 0, ProgramName: 1 });
 
 export default {
   name: "UpsertStageComp",
   components: {
     ValidationError,
-    ProgramCard,
+    GenericSearchByFilter,
   },
   props: {
-    Stages: {
-      type: Object,
-      default: () => ({}),
-    },
-    programData: {
-      type: Object,
-      default: () => ({}),
-    },
+    classes: { type: Array, default: () => [] },
+    classLoading: { type: Boolean, default: false },
+    classError: { type: [String, Array, Object], default: null },
+    previousStageResults: { type: Array, default: () => [] },
+    previousStageLoading: { type: Boolean, default: false },
+    previousStageError: { type: [String, Array, Object], default: null },
     errors: {
       type: Object,
       default: () => ({}),
@@ -82,22 +101,19 @@ export default {
   },
   data() {
     return {
-      enProgramSearchType: enProgramSearchType,
-      programSearchType: enProgramSearchType.ProgramName,
-      programSearchValue: "",
-      showProgramCard: false,
-
       StageStore: useStageStore(),
+      previousStageFilterTypes: [{ value: 1, label: "اسم المرحلة" }],
       formData: {
         stageID: "",
         name: "",
         note: "",
-        programID: "",
+        classID: "",
         prevStageID: "",
+        prevStageName: "",
       },
     };
   },
-  emits: ["onSubmit", "onSearchProgram"],
+  emits: ["onSubmit", "search-previous-stage", "clear-previous-stage"],
   computed: {
     FormTitle() {
       return this.formData.stageID ? "تعديل " : "إضافة ";
@@ -107,12 +123,22 @@ export default {
     onSubmit() {
       this.$emit("onSubmit", this.formData);
     },
-    onSearchProgram() {
-      this.$emit(
-        "onSearchProgram",
-        this.programSearchType,
-        this.programSearchValue
-      );
+    onClassChange() {
+      this.formData.prevStageID = "";
+      this.formData.prevStageName = "";
+      this.$emit("clear-previous-stage");
+    },
+    onSearchPreviousStage(search) {
+      this.$emit("search-previous-stage", {
+        term: search.value,
+        classID: this.formData.classID,
+        excludeStageID: this.formData.stageID,
+      });
+    },
+    onClearPreviousStage() {
+      this.formData.prevStageID = "";
+      this.formData.prevStageName = "";
+      this.$emit("clear-previous-stage");
     },
     fillSelectedStage() {
       if (this.StageStore.selectedStage) {
@@ -121,36 +147,16 @@ export default {
           stageID: entity.stageID || "",
           name: entity.name || "",
           note: entity.note || "",
-          programID: entity.programID || "",
+          classID: entity.classID || "",
           prevStageID: entity.prevStageID || "",
+          prevStageName: entity.prevStageName || "",
         };
-      }
-    },
-    handleProgram(data, isFound) {
-      if (isFound) {
-        this.formData.programID = data.programID;
-        this.showProgramCard = true;
-      } else {
-        this.showProgramCard = false;
       }
     },
   },
 
   mounted() {
     this.fillSelectedStage();
-  },
-  watch: {
-    programData: {
-      handler(data) {
-        if (data && data.programID != null) {
-          this.handleProgram(data, true);
-        } else {
-          this.handleProgram(null, false);
-        }
-      },
-      immediate: true,
-      deep: true,
-    },
   },
 };
 </script>

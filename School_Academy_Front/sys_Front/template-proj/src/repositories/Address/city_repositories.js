@@ -24,7 +24,7 @@ class CityRepository {
 
   async getList() {
     const response = await clsUtil.FeachRequset(
-      "/City/GetCityList",
+      "/City/GetCityOptions",
       enApiType.get,
       null,
       "خطأ في الخادم أثناء جلب قائمة المدينة"
@@ -32,11 +32,20 @@ class CityRepository {
     return response;
   }
 
-  async getById(param) {
-    const response = await clsUtil.FeachRequset(
-      "`/City/GetCityByID",
+  async getCityList(filter) {
+    return await clsUtil.FeachRequset(
+      "/City/GetCityList",
       enApiType.get,
-      param,
+      { params: filter },
+      "خطأ في الخادم أثناء جلب قائمة المدن"
+    );
+  }
+
+  async getById(param, paramType = 1) {
+    const response = await clsUtil.FeachRequset(
+      "/City/GetCityByID",
+      enApiType.get,
+      { params: { Param: param, ParamType: paramType } },
       "خطأ في الخادم أثناء جلب بيانات المدينة"
     );
     return response;

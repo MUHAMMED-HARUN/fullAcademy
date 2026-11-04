@@ -8,9 +8,7 @@ namespace System.Application.Services.Address.Address.Query
 {
     public class GetAddressByQuery : IRequest<TResult<AddressInfo>>, IQuery
     {
-        public string Param { get; set; }
-        public int
-ParamType
-        { get; set; }
+        public string Param { get; set; } = string.Empty;
+        public enAddressParamType ParamType { get; set; } = enAddressParamType.ID;
     }
 }

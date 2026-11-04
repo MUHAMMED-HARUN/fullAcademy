@@ -17,10 +17,11 @@ namespace System.Application.Services.Authentication.RolePermission.Qurery
         }
         public async Task<TResult<List<RolePermissionsInfo>>> Handle(GetRolePermissionQuery request, CancellationToken cancellationToken)
         {
-         List<RolePermissionsInfo> rolePermissions =   await _identityService.GetRolePermissions(request.RoleID);
-         if(rolePermissions!=null)
-            return TResult<List<RolePermissionsInfo>>.OK(rolePermissions);
-            return TResult<List<RolePermissionsInfo>>.Fail("Not Found");
+            var rolePermissions = await _identityService.GetRolePermissions(request.RoleID);
+            if (rolePermissions is not null)
+                return TResult<List<RolePermissionsInfo>>.OK(rolePermissions);
+
+            return TResult<List<RolePermissionsInfo>>.Fail("الدور غير موجود");
         }
     }
 }

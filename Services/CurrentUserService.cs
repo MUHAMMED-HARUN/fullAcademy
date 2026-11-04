@@ -43,6 +43,7 @@
 //}using System.Security.Claims;
 using System.Application.Abstractions.Auth;
 using System.Application.Common;
+using System.Domain.Entities.Permissions;
 using System.Security.Claims;
 
 namespace School_Academy.Services
@@ -61,9 +62,25 @@ namespace School_Academy.Services
 
         public string? UserName => _httpContextAccessor.HttpContext?.User?.FindFirstValue("UserName");
 
-        public string? Role => _httpContextAccessor.HttpContext?.User?.FindFirstValue("Role");
-        public List<string> Roles => _httpContextAccessor.HttpContext?.User?.FindAll("Role")
-                                                      .Select(c => c.Value).ToList();
+        private ClaimsPrincipal? User => _httpContextAccessor.HttpContext?.User;
+
+        public string? Role => Roles.FirstOrDefault();
+
+        public List<string> Roles => User?.Claims
+            .Where(claim => claim.Type is "Role" or ClaimTypes.Role)
+            .Select(claim => claim.Value)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList() ?? new List<string>();
+
+        public List<string> Permissions => User?.FindAll("Permission")
+            .Select(claim => clsPermission.NormalizePermissionName(claim.Value))
+            .Distinct(StringComparer.Ordinal)
+            .ToList() ?? new List<string>();
+
+        public bool IsAdmin => Roles.Contains("Admin", StringComparer.OrdinalIgnoreCase);
+
+        public bool HasPermission(string permission) =>
+            IsAdmin || Permissions.Contains(permission, StringComparer.Ordinal);
 
         public string? AccessToken
         {
@@ -83,5 +100,10 @@ namespace School_Academy.Services
         public string? EntityId => _httpContextAccessor.HttpContext?.User?.FindFirstValue("EntityId");
 
         public string? EntityType => _httpContextAccessor.HttpContext?.User?.FindFirstValue("EntityType");
+
+        public Guid? EntityGuid =>
+            Guid.TryParse(EntityId, out var entityGuid) && entityGuid != Guid.Empty
+                ? entityGuid
+                : null;
     }
 }

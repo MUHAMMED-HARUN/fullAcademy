@@ -183,7 +183,6 @@ D:\Project\Real Proj\School_Academy\obj\Debug\net9.0\staticwebassets.build.json
 D:\Project\Real Proj\School_Academy\obj\Debug\net9.0\staticwebassets.build.json.cache
 D:\Project\Real Proj\School_Academy\obj\Debug\net9.0\staticwebassets.development.json
 D:\Project\Real Proj\School_Academy\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-D:\Project\Real Proj\School_Academy\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 D:\Project\Real Proj\School_Academy\obj\Debug\net9.0\School_A.96732735.Up2Date
 D:\Project\Real Proj\School_Academy\obj\Debug\net9.0\School_Academy.dll
 D:\Project\Real Proj\School_Academy\obj\Debug\net9.0\refint\School_Academy.dll
@@ -194,3 +193,773 @@ D:\Project\Real Proj\School_Academy\bin\Debug\net9.0\Gridify.dll
 D:\Project\Real Proj\School_Academy\bin\Debug\net9.0\Gridify.EntityFramework.dll
 D:\Project\Real Proj\School_Academy\obj\Debug\net9.0\School_Academy.MvcApplicationPartsAssemblyInfo.cs
 D:\Project\Real Proj\School_Academy\obj\Debug\net9.0\School_Academy.sourcelink.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\appsettings.Development.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\appsettings.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package-lock.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\School_Academy.staticwebassets.endpoints.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\School_Academy.exe
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\School_Academy.deps.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\School_Academy.runtimeconfig.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\School_Academy.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\School_Academy.pdb
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\AutoMapper.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Azure.Core.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Azure.Identity.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\FluentValidation.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\FluentValidation.DependencyInjectionExtensions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Gridify.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Gridify.EntityFramework.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Humanizer.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\MediatR.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\MediatR.Contracts.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.AspNetCore.Identity.UI.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.AspNetCore.OpenApi.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Bcl.Cryptography.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Build.Locator.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.CodeAnalysis.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.CodeAnalysis.CSharp.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.CodeAnalysis.Workspaces.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Data.SqlClient.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.EntityFrameworkCore.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.EntityFrameworkCore.Design.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.EntityFrameworkCore.Relational.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Extensions.Caching.Abstractions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Extensions.Caching.Memory.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Extensions.DependencyInjection.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Extensions.DependencyModel.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Extensions.FileProviders.Abstractions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Extensions.FileProviders.Embedded.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Extensions.Identity.Core.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Extensions.Identity.Stores.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Extensions.Logging.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Extensions.Options.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Extensions.Primitives.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Identity.Client.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.IdentityModel.Abstractions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.IdentityModel.Logging.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.IdentityModel.Protocols.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.IdentityModel.Tokens.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.OpenApi.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.SqlServer.Server.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Microsoft.Win32.SystemEvents.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Mono.TextTemplating.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Swashbuckle.AspNetCore.Swagger.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.ClientModel.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.CodeDom.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Composition.AttributedModel.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Composition.Convention.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Composition.Hosting.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Composition.Runtime.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Composition.TypedParts.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Configuration.ConfigurationManager.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Diagnostics.DiagnosticSource.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Drawing.Common.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Formats.Asn1.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.IdentityModel.Tokens.Jwt.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Memory.Data.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Runtime.Caching.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Security.Cryptography.ProtectedData.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Security.Permissions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Text.Json.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Windows.Extensions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\cs\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\de\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\es\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\fr\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\it\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\ja\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\ko\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\pl\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\pt-BR\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\ru\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\tr\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Application.pdb
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Domain.pdb
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Infrastructure.pdb
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\appsettings.Development.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\appsettings.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package-lock.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\School_Academy.staticwebassets.endpoints.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\School_Academy.exe
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\School_Academy.deps.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\School_Academy.runtimeconfig.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\School_Academy.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\School_Academy.pdb
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\AutoMapper.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Azure.Core.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Azure.Identity.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\FluentValidation.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\FluentValidation.DependencyInjectionExtensions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Gridify.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Gridify.EntityFramework.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Humanizer.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\MediatR.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\MediatR.Contracts.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.AspNetCore.Identity.UI.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.AspNetCore.OpenApi.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Bcl.Cryptography.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Build.Locator.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.CodeAnalysis.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.CodeAnalysis.CSharp.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.CodeAnalysis.Workspaces.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Data.SqlClient.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.EntityFrameworkCore.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.EntityFrameworkCore.Design.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.EntityFrameworkCore.Relational.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Extensions.Caching.Abstractions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Extensions.Caching.Memory.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Extensions.DependencyInjection.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Extensions.DependencyModel.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Extensions.FileProviders.Abstractions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Extensions.FileProviders.Embedded.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Extensions.Identity.Core.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Extensions.Identity.Stores.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Extensions.Logging.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Extensions.Options.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Extensions.Primitives.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Identity.Client.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.IdentityModel.Abstractions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.IdentityModel.Logging.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.IdentityModel.Protocols.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.IdentityModel.Tokens.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.OpenApi.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.SqlServer.Server.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Microsoft.Win32.SystemEvents.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Mono.TextTemplating.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Swashbuckle.AspNetCore.Swagger.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.ClientModel.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.CodeDom.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Composition.AttributedModel.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Composition.Convention.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Composition.Hosting.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Composition.Runtime.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Composition.TypedParts.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Configuration.ConfigurationManager.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Diagnostics.DiagnosticSource.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Drawing.Common.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Formats.Asn1.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.IdentityModel.Tokens.Jwt.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Memory.Data.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Runtime.Caching.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Security.Cryptography.ProtectedData.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Security.Permissions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Text.Json.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Windows.Extensions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\cs\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\de\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\es\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\fr\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\it\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\ja\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\ko\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\pl\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\pt-BR\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\ru\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\tr\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Application.pdb
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Domain.pdb
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Infrastructure.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt2\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt2\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt2\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt2\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt2\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt2\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt2\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\School_Academy.exe
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\School_Academy.dll
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\School_Academy.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt2\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt2\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt2\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt2\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt2\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt2\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt2\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\School_Academy.exe
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\School_Academy.dll
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\School_Academy.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt2\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt2\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt2\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt2\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt2\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt2\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt2\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\School_Academy.exe
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\School_Academy.dll
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\School_Academy.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt2\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt2\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt2\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt2\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt2\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt2\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt2\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\School_Academy.exe
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\School_Academy.dll
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\School_Academy.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt2\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt2\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt2\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt2\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt2\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt2\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt2\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\School_Academy.exe
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\School_Academy.dll
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\School_Academy.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt2\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt2\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt2\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt2\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt2\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt2\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt2\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\School_Academy.exe
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\School_Academy.dll
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\School_Academy.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt2\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt2\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt2\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt2\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt2\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt2\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt2\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\School_Academy.exe
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\School_Academy.dll
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\School_Academy.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt2\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt2\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt2\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt2\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt2\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt2\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt2\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\School_Academy.exe
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\School_Academy.dll
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\School_Academy.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug\net9.0\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug\net9.0\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt2\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt2\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt2\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt2\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt2\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt2\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt2\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt2\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt2\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt\System.Application.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\bin\Debug_alt\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\School_Academy.exe
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\School_Academy.dll
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\School_Academy.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\School_Academy.exe
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\School_Academy.dll
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\School_Academy.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\School_Academy.exe
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\School_Academy.dll
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\School_Academy.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\School_Academy.exe
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\School_Academy.dll
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\School_Academy.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\School_Academy.exe
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\School_Academy.dll
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\School_Academy.pdb
+D:\Project\Real Proj\School_Academy\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

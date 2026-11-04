@@ -4,11 +4,13 @@ namespace System.Application.Services.Address.Neighborhood.DTO
     public class NeighborhoodInfo
     {
         
-        public string NeighborhoodID { get; set; }
-        public string NeighborhoodName { get; set; }
-        public string DistrictID{ get; set; }
-        public string DistrictName{ get; set; }
-
-
+        public string NeighborhoodID { get; set; } = string.Empty;
+        public string NeighborhoodName { get; set; } = string.Empty;
+        public string DistrictID { get; set; } = string.Empty;
+        public string DistrictName { get; set; } = string.Empty;
+        public string CityID { get; set; } = string.Empty;
+        public string CityName { get; set; } = string.Empty;
+        public string CountryID { get; set; } = string.Empty;
+        public string CountryName { get; set; } = string.Empty;
     }
 }

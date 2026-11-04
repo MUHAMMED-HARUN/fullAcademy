@@ -12,22 +12,29 @@
         <input v-model="formData.code" type="text" />
         <ValidationError :messages="errors?.code" />
       </div>
-      <div class="form-filter">
-        <label>نوع البحث عن صف معهد</label>
-        <select v-model="searchType">
-          <option selected :value="enSearchType.ClassName">
-            بحث باسم الصف
-          </option>
-          <option :value="enSearchType.ID">بحث بـ ID صف معهد</option>
-        </select>
-        <input v-model="searchValue" type="text" />
-        <button @click.prevent.stop="onSearchInstituteClass">بحث</button>
+
+      <div class="form-group">
+        <label>صف المعهد:</label>
+        <GenericSearchByFilter
+          :filter-types="filterTypes"
+          :results="searchResults"
+          id-field="instituteClassID"
+          name-field="instituteName"
+          placeholder="ابحث عن صف معهد"
+          :loading="isSearching"
+          v-model="formData.instituteClassID"
+          v-model:name-value="instituteClassName"
+          @search="onSearch"
+          @select="onSelected"
+          @clear="clearInstituteClassSelection"
+        />
+        <ValidationError :messages="errors?.instituteClassID" />
+        <InstituteClassCard
+          v-if="showCard"
+          :data-req="selectedInstituteClass"
+        />
       </div>
 
-      <div class="institute-class-card">
-        <InstituteClassCard v-if="showCard" :-data-req="instituteClassData" />
-        <ValidationError :messages="errors?.instituteClassID" />
-      </div>
       <div class="form-group">
         <button type="submit">حفظ</button>
       </div>
@@ -37,15 +44,16 @@
 
 <script>
 import ValidationError from "@/components/general/ValidationError.vue";
-import { useGroupStore } from "@/store/Institute/GroupStore.js";
+import GenericSearchByFilter from "@/components/general/GenericSearchByFilter.vue";
 import InstituteClassCard from "../InstituteClass/InstituteClassCard.vue";
-
-const enSearchType = Object.freeze({ ClassName: 3, ID: 0 });
+import { useGroupStore } from "@/store/Institute/GroupStore.js";
+import { useInstituteClassStore } from "@/store/Institute/InstituteClassStore";
 
 export default {
   name: "UpsertGroupComp",
   components: {
     ValidationError,
+    GenericSearchByFilter,
     InstituteClassCard,
   },
   props: {
@@ -61,15 +69,18 @@ export default {
   data() {
     return {
       GroupStore: useGroupStore(),
+      InstituteClassStore: useInstituteClassStore(),
       formData: {
         groupID: "",
         groupName: "",
         code: "",
         instituteClassID: "",
       },
-      enSearchType: enSearchType,
-      searchType: enSearchType.ClassName,
-      searchValue: "",
+      filterTypes: [{ value: 3, label: "بحث باسم الصف" }],
+      searchResults: [],
+      instituteClassName: "",
+      selectedInstituteClass: null,
+      isSearching: false,
       showCard: false,
     };
   },
@@ -83,10 +94,33 @@ export default {
     onSubmit() {
       this.$emit("onSubmit", this.formData);
     },
-    onSearchInstituteClass() {
-      this.$emit("onSearchInstituteClass", this.searchType, this.searchValue);
+    async onSearch(payload) {
+      this.isSearching = true;
+      await this.InstituteClassStore.fetchInstituteClasses();
+      const q = String(payload.value || "").toLowerCase();
+      this.searchResults = (
+        this.InstituteClassStore.instituteClasses || []
+      ).filter(
+        (ic) =>
+          String(ic.instituteName || "")
+            .toLowerCase()
+            .includes(q) ||
+          String(ic.className || "")
+            .toLowerCase()
+            .includes(q)
+      );
+      this.isSearching = false;
     },
-
+    onSelected(item) {
+      this.formData.instituteClassID = item.instituteClassID;
+      this.instituteClassName = item.instituteName || item.className;
+      this.selectedInstituteClass = item;
+      this.showCard = true;
+    },
+    clearInstituteClassSelection() {
+      this.selectedInstituteClass = null;
+      this.showCard = false;
+    },
     fillSelectedGroup() {
       if (this.GroupStore.selectedGroup) {
         const entity = this.GroupStore.selectedGroup;
@@ -101,8 +135,10 @@ export default {
     handle(data, isFound) {
       if (isFound) {
         this.formData.instituteClassID = data.instituteClassID;
+        this.selectedInstituteClass = data;
         this.showCard = true;
       } else {
+        this.selectedInstituteClass = null;
         this.showCard = false;
       }
     },
@@ -114,7 +150,6 @@ export default {
   watch: {
     instituteClassData: {
       handler(data) {
-        console.log("instituteClass Data in Group form", data);
         if (data && data.instituteClassID != null) {
           this.handle(data, true);
         } else {

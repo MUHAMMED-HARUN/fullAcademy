@@ -14,13 +14,13 @@ namespace System.Application.Services.Person.Person.Mapper
         public PersonProfile()
         {
             CreateMap<NewPersonCommand, clsPerson>()
-                  .ConstructUsing(src => new clsPerson(src.FirstName, src.FatherName, src.LastName, src.MotherLastName,
+                  .ConstructUsing(src => new clsPerson(src.FirstName, src.FatherName, src.LastName, src.MotherName,
                   src.MotherLastName, src.NationalNumber, src.Gendor, src.BirthDate, clsUtil.ToGuid(src.PlaceOfBirthID),
                   Guid.Empty)
                   ); 
 
             CreateMap<UpdatePersonCommand, clsPerson>()
-                .ConstructUsing(src => new clsPerson(src.FirstName, src.FatherName, src.LastName, src.MotherLastName,
+                .ConstructUsing(src => new clsPerson(src.FirstName, src.FatherName, src.LastName, src.MotherName,
                   src.MotherLastName, src.NationalNumber, src.Gendor, src.BirthDate, clsUtil.ToGuid(src.PlaceOfBirthID),
                   Guid.Empty)
                   );

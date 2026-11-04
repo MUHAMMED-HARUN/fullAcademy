@@ -28,9 +28,14 @@ namespace System.Application.Services.Address.Country.Command
             if (data==null)
                 return TResult<string>.Fail(ApplicationExMsg.CountryNotFound);
 
+            var countryID = clsUtil.ToGuid(request.CountryID);
+            if (await _countryRepository.IsNameExist(request.CountryName, countryID) ||
+                await _countryRepository.IsCodeExist(request.CountryCode, countryID))
+                return TResult<string>.Fail(ApplicationExMsg.CountryIsExist);
+
             clsCountry Country = _mapper.Map<UpdateCountryCommand, clsCountry>(request);
 
-            Country.SetID(clsUtil.ToGuid(request.CountryID));
+            Country.SetID(countryID);
             Country.SetModified( _currentUserService.UserId.ToString());
 
             await _countryRepository.Update(Country);

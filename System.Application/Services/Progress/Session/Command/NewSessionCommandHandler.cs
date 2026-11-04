@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
 using System.Application.Abstractions.Auth;
-using System.Application.Abstractions.Institute;
+using System.Application.Abstractions.Progress;
 using System.Application.Common;
 using System.Application.Exceptions;
-using System.Domain.Entities;
+using System.Domain.Entities.Progress;
 using System.Domain.Enums.Person;
 
 
@@ -25,25 +25,26 @@ namespace System.Application.Services.Progress.Session.Command
         }
         public async Task<TResult<string>> Handle(NewSessionCommand request, CancellationToken cancellationToken)
         {
-            if ((await _repo.IsExistBy(request.SessionName, enSessionParamType.Name)) == true)
+            if (_currentUserService.UserId is not Guid userId)
+                return TResult<string>.Fail("غير مصرح بهذا الإجراء");
+
+            if (await _repo.IsExistNameByType(request.SessionName, request.SessionType))
             {
-                clsSession session = await _repo.GetEntityBy(request.SessionName, enSessionParamType.Name);
-                if (session != null && session.Type == session.Type)
-                    return TResult<string>.Fail(ApplicationExMsg.SessionNameExistInType);
-            }
-            if (!string.IsNullOrEmpty(request.ParentSessionID))
-            {
-                clsSession session1 = await _repo.GetEntityBy(request.ParentSessionID, enSessionParamType.ID);
-                if (session1 != null)
-                    if (session1.Type == enSessionType.Matter||request.SessionType==enSessionType.Subject)
-                        return TResult<string>.Fail(ApplicationExMsg.SessionParentIsMatter);
+                return TResult<string>.Fail("يوجد سجل بالاسم والنوع نفسيهما");
             }
 
-   
+            if (!string.IsNullOrWhiteSpace(request.ParentSessionID))
+            {
+                var parent = await _repo.GetEntityBy(request.ParentSessionID, enSessionParamType.ID);
+                if (parent is null)
+                    return TResult<string>.Fail("لم يتم العثور على السجل الأب");
+
+                if (parent.Type != enSessionType.Subject || request.SessionType != enSessionType.Matter)
+                    return TResult<string>.Fail("يجب أن يكون الأب موضوعاً وأن يكون الابن مادة");
+            }
 
             clsSession entity = _mapper.Map<NewSessionCommand, clsSession>(request);
-            entity.SetCreated(_currentUserService.UserId.ToString());
-
+            entity.SetCreated(userId.ToString());
 
             string entityID = await _repo.Add(entity);
 

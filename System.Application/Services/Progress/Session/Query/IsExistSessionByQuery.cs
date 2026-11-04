@@ -7,7 +7,7 @@ namespace System.Application.Services.Progress.Session.Query
 {
     public class IsExistSessionByQuery : IRequest<TResult <bool>>, IQuery
     {
-        public string Param { get; set; }
+        public string Param { get; set; } = string.Empty;
         public enSessionParamType ParamType { get; set; }
     }
 }

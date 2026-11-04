@@ -14,8 +14,8 @@ namespace System.Application.Abstractions.Person
         Task<List<TeacherInfo>> GetList();
         Task<Paging<TeacherInfo>> GetAllTeacherFilter(GetAllTeacherQuery requset);
         Task<bool> IsTeacher(string param, enTeacherParamType paramType);
-        Task<TeacherInfo> GetBy(string param, enTeacherParamType paramType);
-        Task<clsTeacher> GetEntityBy(string param, enTeacherParamType paramType);
+        Task<TeacherInfo?> GetBy(string param, enTeacherParamType paramType);
+        Task<clsTeacher?> GetEntityBy(string param, enTeacherParamType paramType);
         Task<bool> IsExistBy(string param, enTeacherParamType paramType);
     }
 }

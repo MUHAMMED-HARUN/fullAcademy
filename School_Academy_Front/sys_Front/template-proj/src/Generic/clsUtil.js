@@ -23,8 +23,6 @@ export default class clsUtil {
       return new TResult(Value, IsSuccess, errors ? errors : {});
     } catch (err) {
       // فشل الطلب (Status 4xx, 5xx)
-      console.log("feachr error details:", err);
-
       // 1. التحقق من وجود استجابة من السيرفر
       if (err.response && err.response.data) {
         // 2. استخراج الأخطاء بناءً على هيكل الـ Backend

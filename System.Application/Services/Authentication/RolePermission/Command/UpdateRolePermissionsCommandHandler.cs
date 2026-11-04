@@ -3,6 +3,7 @@
 using MediatR;
 using System.Application.Abstractions.Auth;
 using System.Application.Common;
+using System.Application.Exceptions;
 
 namespace System.Application.Services.Authentication.RolePermission.Command
 {
@@ -15,23 +16,33 @@ namespace System.Application.Services.Authentication.RolePermission.Command
         }
         public async Task<TResult<bool>> Handle(UpdateRolePermissionsCommand request, CancellationToken cancellationToken)
         {
-            var toRemove = request.Changes.Where(x => x.IsDelete).Distinct().ToList();
-            var toAdd = request.Changes.Where(x => !x.IsDelete).Distinct().ToList();
-            if (toRemove.Any())
-            {
-                foreach (var item in toRemove)
+            var uniqueChanges = request.Changes
+                .GroupBy(change => new
                 {
-                  await  _identityService.DeleteClaims(item);
-                }
-            }
-            if (toAdd.Any())
+                    change.RoleId,
+                    PermissionName = change.PermissionName.Trim(),
+                })
+                .Select(group => group.Last())
+                .ToList();
+
+            foreach (var change in uniqueChanges.Where(change => change.IsDelete))
             {
-                foreach (var item in toAdd)
-                {
-                   await _identityService.AddClaims(item);
-                }
+                if (!await _identityService.DeleteClaims(change))
+                    throw FailedToApplyChange();
             }
+
+            foreach (var change in uniqueChanges.Where(change => !change.IsDelete))
+            {
+                if (!await _identityService.AddClaims(change))
+                    throw FailedToApplyChange();
+            }
+
             return TResult<bool>.OK(true);
         }
+
+        private static System.Application.Exceptions.ApplicationException FailedToApplyChange() =>
+            new(new ApplicationExceptionObj(
+                "ROLE_PERMISSION_UPDATE_FAILED",
+                "تعذر تطبيق تغييرات الصلاحيات؛ لم يتم حفظ أي تغيير."));
     }
 }

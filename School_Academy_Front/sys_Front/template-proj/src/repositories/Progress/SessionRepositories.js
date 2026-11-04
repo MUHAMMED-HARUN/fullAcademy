@@ -13,8 +13,6 @@ class SessionRepositories {
   }
 
   async update(data) {
-    console.log("data log", data);
-
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/UpdateSession`,
       enApiType.put,
@@ -24,12 +22,12 @@ class SessionRepositories {
     return response;
   }
 
-  async getList() {
+  async getListFilter(params) {
     const response = await clsUtil.FeachRequset(
-      `${baseUrl}/GetSessionList`,
+      `${baseUrl}/GetSessionListFilter`,
       enApiType.get,
-      null,
-      "خطأ في الخادم أثناء جلب قائمة التسجيل"
+      { params },
+      "خطأ في الخادم أثناء جلب قائمة المحتوى"
     );
     return response;
   }
@@ -58,8 +56,8 @@ class SessionRepositories {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/IsExistSessionBy`,
       enApiType.get,
-      param,
-      "خطأ في الخادم أثناء جلب بيانات التسجيل"
+      { params: param },
+      "خطأ في الخادم أثناء فحص المحتوى"
     );
     return response;
   }

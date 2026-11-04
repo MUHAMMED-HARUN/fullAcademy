@@ -1,7 +1,11 @@
 import TResult from "@/Generic/TResult";
 import NeighborhoodMapper from "@/Mapper/Address/neighborhoodMapper";
 import neighborhood_repositories from "@/repositories/Address/neighborhood_repositories";
-import { NeighborhoodSchema } from "@/validations/Address/NeighborhoodSchema";
+import {
+  NeighborhoodLookupSchema,
+  NewNeighborhoodSchema,
+  UpdateNeighborhoodSchema,
+} from "@/validations/Address/NeighborhoodSchema";
 import { validate1 } from "@/validations/validator";
 class NeighborhoodService {
   async getAll() {
@@ -13,12 +17,58 @@ class NeighborhoodService {
     }
     return new TResult(null, false, rees.errors);
   }
-  async getById(param) {
-    return await neighborhood_repositories.getById(param);
+  async getPage(filter) {
+    const result = await neighborhood_repositories.getNeighborhoodList(filter);
+    if (!result.success) return result;
+
+    return new TResult(
+      NeighborhoodMapper.mapPagingApiToNeighborhood(result.data),
+      result.success,
+      result.errors
+    );
+  }
+
+  async getById(param, paramType = 1) {
+    const result = await neighborhood_repositories.getById(param, paramType);
+    if (!result.success) return result;
+
+    return new TResult(
+      NeighborhoodMapper.MapFromApiDTO(result.data),
+      result.success,
+      result.errors
+    );
+  }
+
+  async getByDistrictId(districtID, filter) {
+    const result = await neighborhood_repositories.getNeighborhoodsByDistrictId(
+      districtID,
+      filter
+    );
+    if (!result.success) return result;
+
+    return new TResult(
+      NeighborhoodMapper.mapPagingApiToNeighborhood(result.data),
+      result.success,
+      result.errors
+    );
+  }
+
+  async searchNeighborhoods(criteria) {
+    const validation = validate1(criteria, NeighborhoodLookupSchema);
+    if (!validation.isValid) {
+      return new TResult(null, false, validation.errors);
+    }
+
+    const value = criteria.value?.trim() || "";
+    return await this.getByDistrictId(criteria.districtID, {
+      Page: 1,
+      PageSize: 5,
+      Filter: value ? `NeighborhoodName=*${value}` : "",
+    });
   }
 
   async create(data) {
-    const validation = validate1(data, NeighborhoodSchema);
+    const validation = validate1(data, NewNeighborhoodSchema);
 
     if (!validation.isValid) {
       return new TResult(null, validation.isValid, validation.errors);
@@ -28,7 +78,7 @@ class NeighborhoodService {
   }
 
   async update(data) {
-    const validation = validate1(data, NeighborhoodSchema);
+    const validation = validate1(data, UpdateNeighborhoodSchema);
     if (!validation.isValid) {
       return new TResult(null, validation.isValid, validation.errors);
     }

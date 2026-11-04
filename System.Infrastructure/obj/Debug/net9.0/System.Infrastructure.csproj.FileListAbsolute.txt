@@ -18,3 +18,63 @@ D:\Project\Real Proj\School_Academy\System.Infrastructure\obj\Debug\net9.0\Syste
 D:\Project\Real Proj\School_Academy\System.Infrastructure\obj\Debug\net9.0\System.Infrastructure.genruntimeconfig.cache
 D:\Project\Real Proj\School_Academy\System.Infrastructure\obj\Debug\net9.0\ref\System.Infrastructure.dll
 D:\Project\Real Proj\School_Academy\System.Infrastructure\obj\Debug\net9.0\System.Infrastructure.sourcelink.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Infrastructure.deps.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Infrastructure.runtimeconfig.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Infrastructure.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt\System.Infrastructure.pdb
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Infrastructure.deps.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Infrastructure.runtimeconfig.json
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Infrastructure.dll
+D:\Project\Real Proj\School_Academy\bin\Debug_alt2\System.Infrastructure.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\System.Infrastructure.dll
+C:\Users\muham\AppData\Local\Temp\opencode\country-build\Debug\net9.0\System.Infrastructure.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\System.Infrastructure.dll
+C:\Users\muham\AppData\Local\Temp\opencode\city-build\Debug\net9.0\System.Infrastructure.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\System.Infrastructure.dll
+C:\Users\muham\AppData\Local\Temp\opencode\district-build\Debug\net9.0\System.Infrastructure.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\System.Infrastructure.dll
+C:\Users\muham\AppData\Local\Temp\opencode\neighborhood-build\Debug\net9.0\System.Infrastructure.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\System.Infrastructure.dll
+C:\Users\muham\AppData\Local\Temp\opencode\address-build\Debug\net9.0\System.Infrastructure.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\System.Infrastructure.dll
+C:\Users\muham\AppData\Local\Temp\opencode\person-build\Debug\net9.0\System.Infrastructure.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\System.Infrastructure.dll
+C:\Users\muham\AppData\Local\Temp\opencode\student-build\Debug\net9.0\System.Infrastructure.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\System.Infrastructure.dll
+C:\Users\muham\AppData\Local\Temp\opencode\teacher-build\Debug\net9.0\System.Infrastructure.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\System.Infrastructure.dll
+C:\Users\muham\AppData\Local\Temp\opencode\auth-build\Debug\net9.0\System.Infrastructure.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\System.Infrastructure.dll
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild\System.Infrastructure.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\System.Infrastructure.dll
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStageBuild2\System.Infrastructure.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\System.Infrastructure.dll
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\System.Infrastructure.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\System.Infrastructure.dll
+C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\System.Infrastructure.pdb

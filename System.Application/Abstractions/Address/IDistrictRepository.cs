@@ -1,4 +1,6 @@
+using Gridify;
 using System.Application.Services.Address.District.DTO;
+using System.Application.Services.Address.District.Query;
 using System.Domain.Entities;
 using System.Domain.Enums.Address;
 
@@ -9,7 +11,8 @@ namespace System.Application.Abstractions.Repository
         Task<string> Add(clsDistrict district);// return CountryID as String
         Task<bool> Update(clsDistrict district);
         Task<List<DistrictInfo>> GetList();
-        Task<bool> IsExist(string Name);
-        Task<DistrictInfo> GetById(string param, enDistrictParamType paramType);
+        Task<Paging<DistrictInfo>> GetListFilter(GetAllDistrictQuery request);
+        Task<bool> IsNameExist(string name, Guid? excludeDistrictID = null);
+        Task<DistrictInfo?> GetById(string param, enDistrictParamType paramType);
     }
 }

@@ -1,15 +1,18 @@
 ﻿
 
-using MediatR;
-using System.Application.Abstractions;
-using System.Application.Common;
-using System.Application.Services.Address.Country.DTO;
+using System.Application.Common.Models;
 using System.Application.Services.Address.District.DTO;
-using System.Application.Services.Authentication.Role.DTO;
 
 namespace System.Application.Services.Address.District.Query
 {
-    public class GetAllDistrictQuery : IRequest<TResult<List<DistrictInfo>>>, IQuery
+    public class GetAllDistrictQuery : BaseFilterQuery<DistrictInfo>
     {
+        public Guid? CityID { get; set; }
+
+        public GetAllDistrictQuery()
+        {
+            Page = 1;
+            PageSize = 10;
+        }
     }
 }

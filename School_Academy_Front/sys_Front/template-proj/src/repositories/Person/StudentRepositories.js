@@ -23,7 +23,6 @@ class StudentRepositories {
   }
 
   async getList(filter) {
-    console.log("filter e3", filter);
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/GetStudentList`,
       enApiType.get,
@@ -57,7 +56,7 @@ class StudentRepositories {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/IsExistStudentBy`,
       enApiType.get,
-      param,
+      { params: param },
       "خطأ في الخادم أثناء جلب بيانات "
     );
     return response;

@@ -9,6 +9,6 @@ namespace System.Application.Services.Institute.Class.Query
     public class GetClassByQuery : IRequest<TResult<ClassInfo>>, IQuery
     {
         public string Param { get; set; }
-        public enClassType ParamType { get; set; }
+        public int ParamType { get; set; }
     }
 }

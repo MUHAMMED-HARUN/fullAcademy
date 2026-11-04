@@ -62,6 +62,22 @@ export const useInstituteClassStore = defineStore("instituteClasses", {
       return result;
     },
 
+    async addInstituteClassByRange(payload) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const result = await InstituteClass_service.createByRange(payload);
+        if (result.success) {
+          await this.fetchInstituteClasses();
+        } else {
+          this.error = result.errors;
+        }
+        return result;
+      } finally {
+        this.loading = false;
+      }
+    },
+
     async updateInstituteClass(payload) {
       this.loading = true;
       this.error = null;

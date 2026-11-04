@@ -1,73 +1,49 @@
 <template>
-  <span v-if="messages && messages.length" class="error-msg">
-    <ul>
-      {{
-        getMessageType()
-      }}
-      <div v-if="isArr">
-        <li v-for="msg in messages" :key="msg">
-          {{ GetMessage }}
-        </li>
-      </div>
-      <li v-if="isArr === false">
-        {{ GetMessage }}
-      </li>
-    </ul>
-  </span>
+  <ul
+    v-if="displayMessages.length"
+    class="error-msg"
+    role="alert"
+    aria-live="polite"
+  >
+    <li
+      v-for="(message, index) in displayMessages"
+      :key="`${index}-${message}`"
+    >
+      {{ message }}
+    </li>
+  </ul>
 </template>
-<script>
-import { array } from "zod";
 
-export default {
-  props: {
-    messages: {
-      type: Array,
-      default: null,
-    },
-  },
-  data() {
-    return {
-      isArr: false,
-    };
-  },
-  computed: {
-    GetMessage() {
-      if (!this.messages) return "";
-      if (typeof this.messages === "string") return this.messages;
-      if (typeof this.messages === array) return this.messages;
-      return "";
-    },
-  },
+<script setup>
+import { computed } from "vue";
 
-  methods: {
-    getMessageType() {
-      this.isArr = false;
-
-      if (!this.messages);
-      if (typeof this.messages === "string") {
-        return;
-      }
-      if (typeof this.messages === array) {
-        this.isArr = true;
-        return;
-      }
-      return "";
-    },
+const props = defineProps({
+  messages: {
+    type: [String, Array, Object],
+    default: null,
   },
+});
+
+const flattenMessages = (value) => {
+  if (typeof value === "string") return [value];
+  if (Array.isArray(value)) return value.flatMap(flattenMessages);
+  if (value && typeof value === "object") {
+    return Object.values(value).flatMap(flattenMessages);
+  }
+  return [];
 };
+
+const displayMessages = computed(() => flattenMessages(props.messages));
 </script>
 
 <style scoped>
 .error-msg {
+  display: block;
+  margin: var(--spacing-xs) 0 0;
+  padding: 0;
+  list-style: none;
   color: var(--danger-color);
   font-size: 0.85rem;
   font-weight: 600;
-  display: block;
-  margin-top: var(--spacing-xs);
-}
-.error-msg ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
 }
 </style>

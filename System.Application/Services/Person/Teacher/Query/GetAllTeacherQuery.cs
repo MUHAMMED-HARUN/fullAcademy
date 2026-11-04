@@ -5,5 +5,10 @@ namespace System.Application.Services.Person.Teacher.Query
 {
     public class GetAllTeacherQuery : BaseFilterQuery<TeacherInfo>
     {
+        public GetAllTeacherQuery()
+        {
+            Page = 1;
+            PageSize = 10;
+        }
     }
 }

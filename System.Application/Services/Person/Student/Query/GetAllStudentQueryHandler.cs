@@ -6,7 +6,7 @@ using System.Application.Services.Person.Student.DTO;
 
 namespace System.Application.Services.Person.Student.Query
 {
-    class GetAllStudentQueryHandler : IRequestHandler<GetAllStudentQuery, TResult<Paging<StudentInfo>>>
+    public sealed class GetAllStudentQueryHandler : IRequestHandler<GetAllStudentQuery, TResult<Paging<StudentInfo>>>
     {
         IStudentRepository _studentRepository;
         public GetAllStudentQueryHandler( IStudentRepository studentRepository)

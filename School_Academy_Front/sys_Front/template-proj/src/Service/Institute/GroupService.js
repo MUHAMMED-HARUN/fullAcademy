@@ -5,12 +5,18 @@ import { GroupSchema } from "@/validations/Institute/GroupSchema";
 import { validate1 } from "@/validations/validator";
 
 class GroupService {
-  async getAll() {
-    const rees = await Group_repositories.getList();
-    var dto;
+  async getAll(filter) {
+    const rees = await Group_repositories.getList(filter);
     if (rees.success) {
-      dto = GroupMapper.mapListApiToClass(rees.data);
-      return new TResult(dto, rees.success, rees.errors);
+      const pagingObj = rees.data || {};
+      const rawList = pagingObj.Data;
+      const totalCount = pagingObj.Count ?? 0;
+      const dto = GroupMapper.mapListApiToClass(rawList);
+      return new TResult(
+        { items: dto, count: totalCount },
+        rees.success,
+        rees.errors
+      );
     }
     return new TResult(null, false, rees.errors);
   }

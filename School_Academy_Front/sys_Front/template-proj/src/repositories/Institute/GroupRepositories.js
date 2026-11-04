@@ -22,11 +22,11 @@ class GroupRepositories {
     return response;
   }
 
-  async getList() {
+  async getList(filter) {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/GetGroupList`,
       enApiType.get,
-      null,
+      { params: filter },
       "خطأ في الخادم أثناء جلب قائمة المجموعة"
     );
     return response;

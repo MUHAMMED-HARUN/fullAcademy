@@ -24,7 +24,6 @@ class PersonRepositories {
   }
 
   async getList(filter) {
-    console.log("filter e3", filter);
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/GetPersonList`,
       enApiType.get,
@@ -44,6 +43,15 @@ class PersonRepositories {
     return response;
   }
 
+  async getForUpsert(personID) {
+    return await clsUtil.FeachRequset(
+      `${baseUrl}/get-for-upsert/${encodeURIComponent(personID)}`,
+      enApiType.get,
+      null,
+      "تعذر جلب بيانات الشخص للتعديل"
+    );
+  }
+
   async Delete(param) {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/DeletePerson`,
@@ -58,7 +66,7 @@ class PersonRepositories {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/IsExistPersonBy`,
       enApiType.get,
-      param,
+      { params: param },
       "خطأ في الخادم أثناء جلب بيانات "
     );
     return response;

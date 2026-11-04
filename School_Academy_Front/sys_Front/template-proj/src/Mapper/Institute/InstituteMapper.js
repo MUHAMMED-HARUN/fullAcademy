@@ -28,4 +28,15 @@ export default class InstituteMapper {
       };
     });
   }
+
+  static mapLookupPagingApiToInstitute(paging) {
+    const data = paging?.Data ?? paging?.data ?? paging?.items ?? [];
+    return {
+      items: data.map((item) => ({
+        instituteID: item.InstituteID ?? item.instituteID ?? "",
+        name: item.Name ?? item.name ?? "",
+      })),
+      count: paging?.Count ?? paging?.count ?? 0,
+    };
+  }
 }

@@ -299,6 +299,9 @@ namespace System.Infrastructure.Migrations
                     b.Property<Guid?>("ContextID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("ContextType")
+                        .HasColumnType("int");
+
                     b.Property<DateOnly>("CreatedAt")
                         .HasColumnType("date");
 
@@ -398,6 +401,185 @@ namespace System.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LeaveRequests", (string)null);
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.Finance.clsFeeStructure", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid?>("ClassID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("DeletedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FeeType")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly?>("ModifiedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ProgramID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("StageID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("StageInfoID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassID");
+
+                    b.HasIndex("ProgramID");
+
+                    b.HasIndex("StageID");
+
+                    b.HasIndex("StageInfoID");
+
+                    b.ToTable("FeeStructures", (string)null);
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.Finance.clsPayment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("DeletedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly?>("ModifiedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReferenceNumber")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<Guid>("StudentInvoiceID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentInvoiceID");
+
+                    b.ToTable("Payments", (string)null);
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.Finance.clsStudentInvoice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("DeletedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("DiscountAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateOnly>("DueDate")
+                        .HasColumnType("date");
+
+                    b.Property<Guid>("FeeStructureID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly>("IssueDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("ModifiedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("OriginalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("RemainingAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("StudentID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FeeStructureID");
+
+                    b.HasIndex("StudentID");
+
+                    b.ToTable("StudentInvoices", (string)null);
                 });
 
             modelBuilder.Entity("System.Domain.Entities.Institue.clsInstitute", b =>
@@ -559,6 +741,105 @@ namespace System.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Students", (string)null);
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.Progress.clsSession", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("DeletedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly?>("ModifiedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("SessionID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SessionID");
+
+                    b.ToTable("Subjects", (string)null);
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.Progress.clsStage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ClassID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("DeletedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly?>("ModifiedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("PrevStageID")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("PrevClassID");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassID");
+
+                    b.HasIndex("PrevStageID");
+
+                    b.ToTable("Stages", (string)null);
                 });
 
             modelBuilder.Entity("System.Domain.Entities.clsAssignment", b =>
@@ -1219,105 +1500,6 @@ namespace System.Infrastructure.Migrations
                     b.ToTable("Results", (string)null);
                 });
 
-            modelBuilder.Entity("System.Domain.Entities.clsSession", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateOnly>("CreatedAt")
-                        .HasColumnType("date");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateOnly?>("DeletedAt")
-                        .HasColumnType("date");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateOnly?>("ModifiedAt")
-                        .HasColumnType("date");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Notes")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<Guid?>("SessionID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SessionID")
-                        .IsUnique()
-                        .HasFilter("[SessionID] IS NOT NULL");
-
-                    b.ToTable("Subjects", (string)null);
-                });
-
-            modelBuilder.Entity("System.Domain.Entities.clsStage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateOnly>("CreatedAt")
-                        .HasColumnType("date");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateOnly?>("DeletedAt")
-                        .HasColumnType("date");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateOnly?>("ModifiedAt")
-                        .HasColumnType("date");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Notes")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<Guid?>("PrevStageID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProgramID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProgramID")
-                        .IsUnique();
-
-                    b.ToTable("Stages", (string)null);
-                });
-
             modelBuilder.Entity("System.Domain.Entities.clsStageInfo", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1795,6 +1977,67 @@ namespace System.Infrastructure.Migrations
                     b.Navigation("LeaveRequest");
                 });
 
+            modelBuilder.Entity("System.Domain.Entities.Finance.clsFeeStructure", b =>
+                {
+                    b.HasOne("System.Domain.Entities.clsClass", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("System.Domain.Entities.clsProgram", "Program")
+                        .WithMany()
+                        .HasForeignKey("ProgramID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("System.Domain.Entities.Progress.clsStage", "Stage")
+                        .WithMany()
+                        .HasForeignKey("StageID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("System.Domain.Entities.clsStageInfo", "StageInfo")
+                        .WithMany()
+                        .HasForeignKey("StageInfoID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Class");
+
+                    b.Navigation("Program");
+
+                    b.Navigation("Stage");
+
+                    b.Navigation("StageInfo");
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.Finance.clsPayment", b =>
+                {
+                    b.HasOne("System.Domain.Entities.Finance.clsStudentInvoice", "StudentInvoice")
+                        .WithMany("Payments")
+                        .HasForeignKey("StudentInvoiceID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("StudentInvoice");
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.Finance.clsStudentInvoice", b =>
+                {
+                    b.HasOne("System.Domain.Entities.Finance.clsFeeStructure", "FeeStructure")
+                        .WithMany("StudentInvoices")
+                        .HasForeignKey("FeeStructureID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("System.Domain.Entities.Person.clsStudent", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("FeeStructure");
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("System.Domain.Entities.Institue.clsInstitute", b =>
                 {
                     b.HasOne("System.Domain.Entities.Address.clsAddress", "Address")
@@ -1834,6 +2077,34 @@ namespace System.Infrastructure.Migrations
                     b.Navigation("Person");
                 });
 
+            modelBuilder.Entity("System.Domain.Entities.Progress.clsSession", b =>
+                {
+                    b.HasOne("System.Domain.Entities.Progress.clsSession", "Session")
+                        .WithMany("ChildSessions")
+                        .HasForeignKey("SessionID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Session");
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.Progress.clsStage", b =>
+                {
+                    b.HasOne("System.Domain.Entities.clsClass", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("System.Domain.Entities.Progress.clsStage", "PrevStage")
+                        .WithMany("NextStages")
+                        .HasForeignKey("PrevStageID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Class");
+
+                    b.Navigation("PrevStage");
+                });
+
             modelBuilder.Entity("System.Domain.Entities.clsAssignment", b =>
                 {
                     b.HasOne("System.Domain.Entities.clsAssignmentNomination", "AssignmentNomination")
@@ -1871,7 +2142,7 @@ namespace System.Infrastructure.Migrations
                         .HasForeignKey("PrevAssignmentScopeID")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("System.Domain.Entities.clsStage", "Stage")
+                    b.HasOne("System.Domain.Entities.Progress.clsStage", "Stage")
                         .WithMany()
                         .HasForeignKey("StageID")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -2013,44 +2284,15 @@ namespace System.Infrastructure.Migrations
                     b.Navigation("AssignmentScopeInfo");
                 });
 
-            modelBuilder.Entity("System.Domain.Entities.clsSession", b =>
-                {
-                    b.HasOne("System.Domain.Entities.clsSession", "Session")
-                        .WithOne()
-                        .HasForeignKey("System.Domain.Entities.clsSession", "SessionID")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Session");
-                });
-
-            modelBuilder.Entity("System.Domain.Entities.clsStage", b =>
-                {
-                    b.HasOne("System.Domain.Entities.clsStage", "PrevStage")
-                        .WithOne()
-                        .HasForeignKey("System.Domain.Entities.clsStage", "Id")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("System.Domain.Entities.clsProgram", "Program")
-                        .WithOne()
-                        .HasForeignKey("System.Domain.Entities.clsStage", "ProgramID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("PrevStage");
-
-                    b.Navigation("Program");
-                });
-
             modelBuilder.Entity("System.Domain.Entities.clsStageInfo", b =>
                 {
-                    b.HasOne("System.Domain.Entities.clsSession", "Matter")
+                    b.HasOne("System.Domain.Entities.Progress.clsSession", "Matter")
                         .WithMany("StageInfoMatters")
                         .HasForeignKey("MatterID")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("System.Domain.Entities.clsStage", "Stage")
+                    b.HasOne("System.Domain.Entities.Progress.clsStage", "Stage")
                         .WithMany("StageInfoItems")
                         .HasForeignKey("StageID")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -2088,7 +2330,7 @@ namespace System.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("System.Domain.Entities.clsStage", "Stage")
+                    b.HasOne("System.Domain.Entities.Progress.clsStage", "Stage")
                         .WithMany("StudentStages")
                         .HasForeignKey("StageID")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -2118,7 +2360,7 @@ namespace System.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("System.Domain.Entities.clsSession", "Subject")
+                    b.HasOne("System.Domain.Entities.Progress.clsSession", "Subject")
                         .WithMany()
                         .HasForeignKey("SubjectID")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -2137,13 +2379,27 @@ namespace System.Infrastructure.Migrations
                     b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("System.Domain.Entities.clsSession", b =>
+            modelBuilder.Entity("System.Domain.Entities.Finance.clsFeeStructure", b =>
                 {
+                    b.Navigation("StudentInvoices");
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.Finance.clsStudentInvoice", b =>
+                {
+                    b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.Progress.clsSession", b =>
+                {
+                    b.Navigation("ChildSessions");
+
                     b.Navigation("StageInfoMatters");
                 });
 
-            modelBuilder.Entity("System.Domain.Entities.clsStage", b =>
+            modelBuilder.Entity("System.Domain.Entities.Progress.clsStage", b =>
                 {
+                    b.Navigation("NextStages");
+
                     b.Navigation("StageInfoItems");
 
                     b.Navigation("StudentStages");

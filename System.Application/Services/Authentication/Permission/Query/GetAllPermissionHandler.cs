@@ -14,7 +14,7 @@ namespace System.Application.Services.Authentication.Permission.Query
     {
         public async Task<TResult<List<PermissionStruct>>> Handle(GetAllPermission request, CancellationToken cancellationToken)
         {
-            var res = clsPermission.UserPermission();
+            var res = clsPermission.AllPermissions();
             return  TResult<List<PermissionStruct>>.OK(res);
         }
     }

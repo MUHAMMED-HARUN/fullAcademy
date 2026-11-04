@@ -6,7 +6,7 @@ using System.Application.Services.Person.Teacher.DTO;
 
 namespace System.Application.Services.Person.Teacher.Query
 {
-    class GetTeacherByQueryHandler : IRequestHandler<GetTeacherByQuery, TResult<TeacherInfo>>
+    public sealed class GetTeacherByQueryHandler : IRequestHandler<GetTeacherByQuery, TResult<TeacherInfo>>
     {
         ITeacherRepository _TeacherRepository;
         public GetTeacherByQueryHandler( ITeacherRepository TeacherRepository)
@@ -15,11 +15,11 @@ namespace System.Application.Services.Person.Teacher.Query
         }
         public async Task<TResult<TeacherInfo>> Handle(GetTeacherByQuery request, CancellationToken cancellationToken)
         {
-            TeacherInfo TeacherInfo= await _TeacherRepository.GetBy(request.Param, request.ParamType);
-            if (TeacherInfo == null) 
+            var teacherInfo = await _TeacherRepository.GetBy(request.Param, request.ParamType);
+            if (teacherInfo == null)
             return TResult<TeacherInfo>.Fail(ApplicationExMsg.FailToFindTeacher);
 
-            return TResult<TeacherInfo>.OK(TeacherInfo);
+            return TResult<TeacherInfo>.OK(teacherInfo);
 
         }
     }

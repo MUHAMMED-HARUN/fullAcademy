@@ -24,7 +24,7 @@ class districtRepositories {
 
   async getList() {
     const response = await clsUtil.FeachRequset(
-      "/District/GetDistrictList",
+      "/District/GetDistrictOptions",
       enApiType.get,
       null,
       "خطأ في الخادم أثناء جلب قائمة الحارة"
@@ -32,11 +32,29 @@ class districtRepositories {
     return response;
   }
 
-  async getById(param) {
-    const response = await clsUtil.FeachRequset(
-      "/District/GetDistrictByID",
+  async getDistrictList(filter) {
+    return await clsUtil.FeachRequset(
+      "/District/GetDistrictList",
       enApiType.get,
-      param,
+      { params: filter },
+      "خطأ في الخادم أثناء جلب قائمة المناطق"
+    );
+  }
+
+  async getDistrictsByCityId(cityID, filter = {}) {
+    return await clsUtil.FeachRequset(
+      `/District/GetDistrictListByCityID/${encodeURIComponent(cityID)}`,
+      enApiType.get,
+      { params: filter },
+      "خطأ في الخادم أثناء جلب مناطق المدينة"
+    );
+  }
+
+  async getById(param, paramType = 1) {
+    const response = await clsUtil.FeachRequset(
+      `/District/GetDistrictByID/${encodeURIComponent(param)}`,
+      enApiType.get,
+      { params: { paramType } },
       "خطأ في الخادم أثناء جلب بيانات الحارة"
     );
     return response;

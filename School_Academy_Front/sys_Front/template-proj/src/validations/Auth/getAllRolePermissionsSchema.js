@@ -1,5 +1,6 @@
 import { z } from "zod";
+import { GuidSchema } from "@/validations/Person/guidSchema";
 
 export const getAllRolePermissionsSchema = z.object({
-  roleId: z.string().min(1, "يجب اختيار دور"),
+  roleId: GuidSchema,
 });

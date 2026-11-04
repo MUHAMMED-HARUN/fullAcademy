@@ -11,6 +11,10 @@ namespace System.Domain.Entities.Institue
         public string? Notes { get; private set; }
         public clsAddress Address { get; private set; }
 
+        protected clsInstitute()
+        {
+            
+        }
         public clsInstitute(string name, Guid addressID, string? notes)
         {
             SetName(name);

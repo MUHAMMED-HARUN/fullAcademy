@@ -1,9 +1,10 @@
 using System;
+using System.Domain.Entities;
 using System.Domain.Entities.BaseClass;
 using System.Domain.Enums.Person;
 using System.Domain.Exceptions;
 
-namespace System.Domain.Entities
+namespace System.Domain.Entities.Progress
 {
     public class clsSession : clsBaseClass
     {
@@ -12,7 +13,8 @@ namespace System.Domain.Entities
         public enSessionType Type { get; private set; }
         public Guid? SessionID { get; private set; }
 
-        public clsSession Session { get; private set; }
+        public clsSession? Session { get; private set; }
+        public ICollection<clsSession> ChildSessions { get; private set; } = new HashSet<clsSession>();
         public ICollection<clsStageInfo> StageInfoMatters = new HashSet<clsStageInfo>();
 
         protected clsSession() { }
@@ -36,7 +38,9 @@ namespace System.Domain.Entities
         }
         public void SetSessionType(enSessionType type)
         {
-            Type= type;
+            Type = type;
+            if (type == enSessionType.Subject)
+                SessionID = null;
         }
         public void SetNotes(string? notes)
         {
@@ -44,7 +48,7 @@ namespace System.Domain.Entities
         }
         public void SetSessionID(Guid sessionid)
         {
-            if (Type == enSessionType.Matter || sessionid == Guid.Empty || sessionid == null)
+            if (Type == enSessionType.Subject || sessionid == Guid.Empty)
                 SessionID = null;
             else
                 SessionID = sessionid;

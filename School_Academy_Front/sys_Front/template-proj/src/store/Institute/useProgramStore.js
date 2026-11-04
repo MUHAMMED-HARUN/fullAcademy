@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 import program_repositories from "@/Service/Institute/ProgramService";
-import ProgramSchema from "@/validations/Institute/ProgramSchema";
+
 import ProgramMapper from "@/Mapper/Institute/ProgramMapper";
 
 export const useProgramStore = defineStore("programs", {
   state: () => ({
     programs: [],
-    selectedProgram: ProgramSchema,
+    selectedProgram: null,
     loading: false,
     error: null,
   }),

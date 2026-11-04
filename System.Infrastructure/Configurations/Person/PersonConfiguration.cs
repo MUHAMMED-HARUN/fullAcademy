@@ -2,11 +2,10 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Domain.Entities;
 using System.Domain.Entities.Person;
 using System.Infrastructure.Configurations.Base;
 
-namespace System.Infrastructure.Configurations.Address
+namespace System.Infrastructure.Configurations.Person
 {
     public class PersonConfiguration : BaseEntityConfiguration<clsPerson>
     {

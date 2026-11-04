@@ -1,39 +1,53 @@
 import TResult from "@/Generic/TResult";
+import CountryMapper from "@/Mapper/Address/countryMapper";
 import countryRepository from "@/repositories/Address/country_repository";
-import { countrySchema } from "@/validations/Address/countrySchema";
+import {
+  NewCountrySchema,
+  UpdateCountrySchema,
+} from "@/validations/Address/countrySchema";
 import { validate1 } from "@/validations/validator";
 class CountryService {
   async getAll() {
-    return await countryRepository.getCountryList();
+    return await countryRepository.getCountryOptions();
+  }
+
+  async getPage(filter) {
+    const result = await countryRepository.getCountryList(filter);
+    if (!result.success) return result;
+
+    return new TResult(
+      CountryMapper.mapPagingApiToCountry(result.data),
+      result.success,
+      result.errors
+    );
   }
 
   async getById(param, paramType = 1) {
-    return await countryRepository.getCountryById(param, paramType);
+    const result = await countryRepository.getCountryById(param, paramType);
+    if (!result.success) return result;
+
+    return new TResult(
+      CountryMapper.mapFromApiDTO(result.data),
+      result.success,
+      result.errors
+    );
   }
 
   async create(countryData) {
-    const validation = validate1(countryData, countrySchema);
+    const validation = validate1(countryData, NewCountrySchema);
     if (!validation.isValid) {
-      return { IsSuccess: false, Error: validation.errors };
+      return new TResult(null, false, validation.errors);
     }
-    const payload = {
-      countryID: countryData.ID,
-      countryName: countryData.Name,
-      countryCode: countryData.Code,
-    };
+    const payload = CountryMapper.mapUpsertToApi(countryData);
     return await countryRepository.addCountry(payload);
   }
 
   async update(countryData) {
-    const validation = validate1(countryData, countrySchema);
+    const validation = validate1(countryData, UpdateCountrySchema);
     if (!validation.isValid) {
       return new TResult(null, validation.isValid, validation.errors);
     }
-    const payload = {
-      countryID: countryData.ID,
-      countryName: countryData.Name,
-      countryCode: countryData.Code,
-    };
+    const payload = CountryMapper.mapUpsertToApi(countryData);
     return await countryRepository.updateCountry(payload);
   }
 }

@@ -13,8 +13,8 @@ namespace System.Application.Abstractions.Person
         Task<List<StudentInfo>> GetList();
         Task<Paging<StudentInfo>> GetAllStudentFilter(GetAllStudentQuery requset);
         Task<bool> IsStudent(string param, enStudentParamType paramType);
-        Task<StudentInfo> GetBy(string param, enStudentParamType paramType);
-        Task<clsStudent> GetEntityBy(string param, enStudentParamType paramType);
+        Task<StudentInfo?> GetBy(string param, enStudentParamType paramType);
+        Task<clsStudent?> GetEntityBy(string param, enStudentParamType paramType);
         Task<bool> IsExistBy(string param, enStudentParamType paramType);
     }
 }

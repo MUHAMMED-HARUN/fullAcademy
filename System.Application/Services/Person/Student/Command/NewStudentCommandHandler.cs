@@ -12,14 +12,25 @@ namespace System.Application.Services.Person.Student.Command
     public class NewStudentCommandHandler : IRequestHandler<NewStudentCommand, TResult<string>>
     {
         private readonly IStudentRepository _studentRepository;
+        private readonly IPersonRepository _personRepository;
         private readonly ICurrentUserService _currentUserService;
-        public NewStudentCommandHandler(IStudentRepository studentRepository ,ICurrentUserService currentUser)
+        public NewStudentCommandHandler(
+            IStudentRepository studentRepository,
+            IPersonRepository personRepository,
+            ICurrentUserService currentUser)
         {
             _studentRepository = studentRepository;
+            _personRepository = personRepository;
             _currentUserService = currentUser;
         }
         public async Task<TResult<string>> Handle(NewStudentCommand request, CancellationToken cancellationToken)
         {
+            var person = await _personRepository.GetEntityBy(
+                request.PersonID,
+                enPersonParamType.ID);
+            if (person is null)
+                return TResult<string>.Fail(ApplicationExMsg.NotFound);
+
             if ((await _studentRepository.IsStudent(request.PersonID, enStudentParamType.PersonID)) == true)
                 return TResult<string>.Fail(ApplicationExMsg.PersonIsAlreadyStudent);
 

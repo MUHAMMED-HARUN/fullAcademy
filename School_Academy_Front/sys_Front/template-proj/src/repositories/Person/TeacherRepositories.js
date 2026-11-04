@@ -57,7 +57,7 @@ class TeacherRepositories {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/IsExistTeacherBy`,
       enApiType.get,
-      param,
+      { params: param },
       "خطأ في الخادم أثناء جلب بيانات "
     );
     return response;

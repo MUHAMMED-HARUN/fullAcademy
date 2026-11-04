@@ -7,8 +7,11 @@ export default class SessionMapper {
         dataSchema.type !== undefined && dataSchema.type !== null
           ? Number(dataSchema.type)
           : 0,
-      SessionNote: dataSchema.note,
-      ParentSessionID: dataSchema.parentSessionID,
+      SessionNote: dataSchema.note || null,
+      ParentSessionID:
+        Number(dataSchema.type) === 0
+          ? null
+          : dataSchema.parentSessionID || null,
     };
   }
 
@@ -20,7 +23,7 @@ export default class SessionMapper {
       type: DataReq.SessionType,
       typeName: DataReq.SessionTypeName,
       note: DataReq.SessionNote,
-      parentSessionID: DataReq.ParentSessionID,
+      parentSessionID: DataReq.ParentSessionID || "",
       parentSessionName: DataReq.ParentSessionName,
     };
   }
@@ -34,7 +37,7 @@ export default class SessionMapper {
         type: list.SessionType,
         typeName: list.SessionTypeName,
         note: list.SessionNote,
-        parentSessionID: list.ParentSessionID,
+        parentSessionID: list.ParentSessionID || "",
         parentSessionName: list.ParentSessionName,
       };
     });

@@ -13,6 +13,7 @@ namespace School_Academy.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AuthController : ControllerBase
     {
 
@@ -22,13 +23,18 @@ namespace School_Academy.Controllers
             _mediator = mediator;
         }
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginCommand command)
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] LoginCommand command)
         {
             var result = await _mediator.Send(command);
+            if (!result.IsSuccess)
+                return Unauthorized(new { errors = result.Error });
+
             return Ok(result);
         }
 
         [HttpPost("register")]
+        [Authorize(Policy = "Can_Register_User")]
         public async Task<IActionResult> Register([FromBody] RegisterCommand command)
         {
             var result = await _mediator.Send(command);
@@ -41,6 +47,7 @@ namespace School_Academy.Controllers
             return Ok(result);
         }
         [HttpGet("GetPermissions")]
+        [Authorize(Policy = "Can_SetPermission_User")]
         public async Task<IActionResult> Permissions()
         {
             GetAllPermission query = new GetAllPermission();
@@ -54,6 +61,7 @@ namespace School_Academy.Controllers
             return Ok(result);
         }
         [HttpGet("GetAllRoles")]
+        [Authorize(Policy = "Permission")]
         public async Task<IActionResult> GetRoles()
         {
             GetRolesQuery query = new GetRolesQuery();
@@ -68,6 +76,7 @@ namespace School_Academy.Controllers
 
         }
         [HttpGet("GetAllRolePermissions")]
+        [Authorize(Policy = "Can_SetPermission_User")]
         public async Task<IActionResult> GetRoles([FromQuery] string RoleId)
         {
             GetRolePermissionQuery query = new GetRolePermissionQuery();
@@ -84,8 +93,8 @@ namespace School_Academy.Controllers
 
         }
         [HttpPost("UpdateRolePermissions")]
-        //[Authorize(Policy = "Can_SetPermission_User")]
-        public async Task<IActionResult> UpdateRolePermissions( UpdateRolePermissionsCommand command)
+        [Authorize(Policy = "Can_SetPermission_User")]
+        public async Task<IActionResult> UpdateRolePermissions([FromBody] UpdateRolePermissionsCommand command)
         {
             var result = await _mediator.Send(command);
 

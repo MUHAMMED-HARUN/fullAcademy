@@ -1,28 +1,30 @@
 <template>
-  <div>
-    <div class="card-header"></div>
-    <div class="card-item">
-      <div class="item-name">اسم المعهد:</div>
-      <div class="item-value">{{ this.DataReq?.instituteName }}</div>
-    </div>
-    <div class="card-item">
-      <div class="item-name">اسم الصف:</div>
-      <div class="item-value">{{ this.DataReq?.className }}</div>
-    </div>
-    <div class="card-item">
-      <div class="item-name">مستوى الصف:</div>
-      <div class="item-value">{{ this.DataReq?.classLevel }}</div>
+  <div
+    class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/3"
+  >
+    <div class="flex items-start justify-between gap-3">
+      <div>
+        <h4 class="text-base font-semibold text-gray-800 dark:text-white/90">
+          {{ DataReq?.instituteName || "—" }}
+        </h4>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          {{ DataReq?.className || "لا يوجد صف" }}
+        </p>
+      </div>
+      <span
+        class="rounded-lg bg-brand-50 px-2.5 py-1 text-xs font-medium text-brand-500 dark:bg-brand-500/15 dark:text-brand-400"
+      >
+        InstituteClass
+      </span>
     </div>
   </div>
 </template>
-<script>
-export default {
-  name: "InstituteClassCard",
-  props: {
-    DataReq: {
-      type: Object,
-      required: true,
-    },
+
+<script setup>
+defineProps({
+  DataReq: {
+    type: Object,
+    required: true,
   },
-};
+});
 </script>

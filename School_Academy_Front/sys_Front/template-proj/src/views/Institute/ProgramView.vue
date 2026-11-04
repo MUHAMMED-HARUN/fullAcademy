@@ -1,11 +1,21 @@
 <template>
-  <div>
+  <div class="space-y-4">
+    <GenericComboActions
+      :actions="actions"
+      :selected-items="selectedItems"
+      @action-click="handleComboAction"
+    />
+
     <ProgramList
+      :programs="ProgramStore.programs"
+      :selected-ids="selectedIds"
+      @toggle-select-all="onToggleSelectAll"
+      @toggle-select-row="onToggleSelectRow"
       @show-delete-program="OnDeleteProgram"
       @show-info-program="onShowInfoProgram"
       @show-update-program="OnUpsertProgram"
-      :programs="ProgramStore.programs"
     />
+
     <PopapComp v-if="showUpsert" @close="onpopaClose">
       <UpsertProgramComp
         :errors="ProgramStore.error"
@@ -15,13 +25,21 @@
     <PopapComp v-if="showInfo" @close="onpopaClose">
       <ProgramCard :-data-req="ProgramStore.selectedProgram" />
     </PopapComp>
-    <button @click="showUpsert = true">اضافة مدينة</button>
+
+    <button
+      type="button"
+      class="h-10 rounded-[10px] bg-brand-500 px-4 text-sm font-medium text-white shadow-theme-xs transition-colors hover:bg-brand-600"
+      @click="OnUpsertProgram(null)"
+    >
+      إضافة برنامج
+    </button>
     <MessageComp :is-error="resultType" :msg="resultMessage" />
   </div>
 </template>
 
 <script>
 import PopapComp from "@/components/general/popapComp.vue";
+import GenericComboActions from "@/components/general/GenericComboActions.vue";
 import { useProgramStore } from "@/store/Institute/useProgramStore";
 import MessageComp from "@/components/general/messageComp.vue";
 import UpsertProgramComp from "@/components/Institute/Program/UpsertProgramComp.vue";
@@ -37,6 +55,7 @@ export default {
     ProgramCard,
     PopapComp,
     MessageComp,
+    GenericComboActions,
   },
   data() {
     return {
@@ -46,9 +65,52 @@ export default {
       showInfo: false,
       resultMessage: null,
       resultType: false,
+      selectedIds: [],
+      actions: [
+        { key: "info", label: "معلومات", minSelection: 1, maxSelection: 1 },
+        { key: "update", label: "تحديث", minSelection: 1, maxSelection: 1 },
+        {
+          key: "delete",
+          label: "حذف",
+          minSelection: 1,
+          class: "bg-red-500 hover:bg-red-600",
+        },
+      ],
     };
   },
+  computed: {
+    selectedItems() {
+      return this.ProgramStore.programs.filter((item) =>
+        this.selectedIds.includes(item.programID)
+      );
+    },
+  },
   methods: {
+    onToggleSelectAll(isChecked) {
+      this.selectedIds = isChecked
+        ? this.ProgramStore.programs.map((item) => item.programID)
+        : [];
+    },
+    onToggleSelectRow(item) {
+      const index = this.selectedIds.indexOf(item.programID);
+      if (index > -1) this.selectedIds.splice(index, 1);
+      else this.selectedIds.push(item.programID);
+    },
+    async handleComboAction(actionKey, selectedItems) {
+      const singleItem = selectedItems[0];
+      switch (actionKey) {
+        case "info":
+          this.onShowInfoProgram(singleItem);
+          break;
+        case "update":
+          await this.OnUpsertProgram(singleItem);
+          break;
+        case "delete":
+          await this.OnDeleteProgram(singleItem);
+          this.selectedIds = [];
+          break;
+      }
+    },
     async OnUpsertProgram(e) {
       if (e) {
         this.ProgramStore.selectedProgram = e;

@@ -1,51 +1,40 @@
 <template>
-  <div class="layout">
-    <header class="header">
-      <HeaderComp />
-    </header>
+  <div class="flex min-h-screen flex-col bg-gray-50 dark:bg-gray-900">
+    <HeaderComp v-if="!isAuthRoute" />
 
-    <main class="content">
-      <router-view />
+    <main class="flex-1">
+      <div
+        :class="
+          isAuthRoute
+            ? 'flex min-h-screen items-center justify-center p-4'
+            : 'mx-auto w-full max-w-(--breakpoint-2xl) p-4 md:p-6'
+        "
+      >
+        <router-view />
+      </div>
     </main>
 
-    <footer class="footer">Footer</footer>
+    <footer
+      v-if="!isAuthRoute"
+      class="border-t border-gray-200 bg-white py-4 text-center text-sm text-gray-500 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400"
+    >
+      © {{ year }} School Academy
+    </footer>
+
+    <!-- Toast Notifications Container -->
+    <ToastViewport />
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed } from "vue";
+import { useRoute } from "vue-router";
 import HeaderComp from "./HeaderComp.vue";
+import ToastViewport from "./ToastViewport.vue";
 
-export default {
-  name: "MainComp",
-  components: {
-    HeaderComp,
-  },
-};
+const route = useRoute();
+const year = computed(() => new Date().getFullYear());
+const isAuthRoute = computed(() =>
+  ["/login", "/register"].includes(route.path)
+);
 </script>
-
-<style scoped lang="scss">
-.layout {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  min-height: 100vh;
-  max-width: 1400px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.header {
-  padding: 10px;
-  grid-row: 1;
-  background: #2334;
-}
-
-.content {
-  grid-row: 2;
-  padding: 20px;
-}
-
-.footer {
-  padding: 10px;
-  grid-row: 3;
-}
-</style>

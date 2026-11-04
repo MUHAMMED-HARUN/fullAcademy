@@ -33,6 +33,9 @@ namespace System.Infrastructure.Configurations.Assignment
             builder.Property(x => x.ContextID)
                 .IsRequired(false);
 
+            builder.Property(x => x.ContextType)
+                .IsRequired(false);
+
             builder.Property(x => x.LeaveRequestID)
                 .IsRequired(false);
             builder.Property(x => x.Notes).HasMaxLength(200)

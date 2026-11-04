@@ -22,8 +22,8 @@ namespace System.Application.Services.Address.Country.Command
         }
         public async Task<TResult<string>> Handle(NewCountryCommand request, CancellationToken cancellationToken)
         {
-            bool IsExist = await _countryRepository.IsExist(request.CountryName);
-            if (IsExist)
+            if (await _countryRepository.IsNameExist(request.CountryName) ||
+                await _countryRepository.IsCodeExist(request.CountryCode))
                 return TResult<string>.Fail(ApplicationExMsg.CountryIsExist);
             clsCountry Country = _mapper.Map<NewCountryCommand,clsCountry>(request);
 

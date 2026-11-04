@@ -8,6 +8,7 @@ import { InstituteLinks } from "./Links/InstituteLinks.js";
 import { EnrollmentLinks } from "./Links/EnrollmentLinks.js";
 import { ProgressLinks } from "./Links/Progress.js";
 import { AssigmentsLinks } from "./Links/Assigment.js";
+import { FinanceLinks } from "./Links/FinanceLinks.js";
 const routes = [
   {
     path: "/",
@@ -21,6 +22,7 @@ const routes = [
   ...EnrollmentLinks,
   ...ProgressLinks,
   ...AssigmentsLinks,
+  ...FinanceLinks,
 ];
 
 const router = createRouter({
@@ -38,6 +40,15 @@ router.beforeEach((to, from, next) => {
     });
     return;
   }
+
+  if (
+    to.meta.requiredPermission &&
+    !authStore.hasPermission(to.meta.requiredPermission)
+  ) {
+    next(authStore.isAuthenticated ? "/" : "/login");
+    return;
+  }
+
   next();
 });
 export default router;

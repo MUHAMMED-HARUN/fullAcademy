@@ -11,7 +11,7 @@ namespace System.Application.Services.Address.Address.Command
         public string CityID { get; set; }
         public string DistrictID { get; set; }
         public string NeighborhoodID { get; set; }
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
 
     }
 }

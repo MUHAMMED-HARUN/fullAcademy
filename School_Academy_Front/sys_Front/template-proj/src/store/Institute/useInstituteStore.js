@@ -6,6 +6,10 @@ export const useInstituteStore = defineStore("institute", {
   state: () => ({
     institutes: [],
     selectedInstitute: null,
+    instituteLookupResults: [],
+    instituteLookupLoading: false,
+    instituteLookupError: null,
+    instituteLookupRequestId: 0,
     loading: false,
     error: null,
   }),
@@ -45,6 +49,36 @@ export const useInstituteStore = defineStore("institute", {
 
       this.loading = false;
       return result;
+    },
+
+    async searchInstitutes(criteria) {
+      const requestId = ++this.instituteLookupRequestId;
+      this.instituteLookupLoading = true;
+      this.instituteLookupError = null;
+      this.instituteLookupResults = [];
+
+      try {
+        const result = await institute_service.searchInstitutes(criteria);
+        if (requestId !== this.instituteLookupRequestId) return result;
+
+        if (result.success) {
+          this.instituteLookupResults = result.data?.items || [];
+        } else {
+          this.instituteLookupError = result.errors;
+        }
+        return result;
+      } finally {
+        if (requestId === this.instituteLookupRequestId) {
+          this.instituteLookupLoading = false;
+        }
+      }
+    },
+
+    clearInstituteLookup() {
+      this.instituteLookupRequestId += 1;
+      this.instituteLookupResults = [];
+      this.instituteLookupLoading = false;
+      this.instituteLookupError = null;
     },
 
     async addInstitute(payload) {

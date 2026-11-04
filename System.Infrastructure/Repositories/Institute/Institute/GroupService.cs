@@ -95,6 +95,21 @@ namespace System.Infrastructure.Repositories.Institute.Institute
                 }).ToListAsync();
         }
 
+        public async Task<Paging<GroupInfo>> GetListFilter(GetAllGroupQuery request)
+        {
+
+
+            return await _dbSet.IgnoreQueryFilters() .Select(i => new GroupInfo
+                {
+                    GroupID = i.Id.ToString(),
+                    GroupName = i.GroupName,
+                    Code = i.Code,
+                    InstituteClassID = i.InstituteClassID.ToString(),
+                    ClassName = i.InstituteClass.Class.Name,
+                    InstituteName = i.InstituteClass.Institute.Name
+                }).GridifyAsync(request);
+        }
+
         public async Task<bool> IsExistBy(string param, enGroupType paramType)
         {
             if (paramType == enGroupType.ID)

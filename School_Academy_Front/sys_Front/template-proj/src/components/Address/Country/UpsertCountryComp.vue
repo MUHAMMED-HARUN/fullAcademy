@@ -1,19 +1,40 @@
 <template>
   <div>
-    <div>{{ this.FormTitle }}</div>
-    <form @submit.prevent.stop="onSubmit">
+    <h2 class="mb-4 text-xl font-bold text-[var(--primary-color)]">
+      {{ FormTitle }}
+    </h2>
+    <form class="space-y-4" @submit.prevent.stop="onSubmit">
       <div class="form-group">
-        <label>اسم الدولة:</label>
-        <input v-model="formData.Name" type="text" />
-        <ValidationError :messages="errors?.Name" />
+        <label for="country-name">اسم الدولة:</label>
+        <input
+          id="country-name"
+          v-model="formData.name"
+          class="form-control"
+          type="text"
+          :disabled="loading"
+        />
+        <ValidationError :messages="errors?.name" />
       </div>
       <div class="form-group">
-        <label>رمز الدولة:</label>
-        <input v-model="formData.Code" type="text" />
-        <ValidationError :messages="errors?.Code" />
+        <label for="country-code">رمز الدولة:</label>
+        <input
+          id="country-code"
+          v-model="formData.code"
+          class="form-control"
+          type="text"
+          :disabled="loading"
+        />
+        <ValidationError :messages="errors?.code" />
       </div>
       <div class="form-group">
-        <button>حفظ</button>
+        <button
+          class="btn btn-primary"
+          type="submit"
+          :disabled="loading"
+          :aria-busy="loading"
+        >
+          {{ loading ? "جارٍ الحفظ..." : "حفظ" }}
+        </button>
       </div>
     </form>
   </div>
@@ -25,31 +46,35 @@ export default {
   name: "UpsertCountryComp",
   props: {
     errors: {
-      type: Object,
-      required: false,
+      type: [Object, String, Array],
+      default: () => ({}),
     },
+    loading: { type: Boolean, default: false },
   },
   data() {
     return {
       CountryStore: useCountryStore(),
       formData: {
-        Name: "",
-        Code: "",
-        ID: "",
+        name: "",
+        code: "",
+        id: "",
       },
     };
   },
   emits: ["onSubmit"],
   methods: {
     onSubmit() {
-      this.$emit("onSubmit", this.formData);
+      this.$emit("onSubmit", { ...this.formData });
     },
     fillForm(data) {
       this.formData = {
-        ID: data.ID || "",
-        Name: data.Name || "",
-        Code: data.Code || "",
+        id: data.id || data.ID || "",
+        name: data.name || data.Name || "",
+        code: data.code || data.Code || "",
       };
+    },
+    resetForm() {
+      this.formData = { id: "", name: "", code: "" };
     },
   },
   components: {
@@ -57,13 +82,14 @@ export default {
   },
   computed: {
     FormTitle() {
-      return this.$route.params.ID ? "تعديل الدولة" : "إضافة دولة";
+      return this.formData.id ? "تعديل الدولة" : "إضافة دولة";
     },
   },
   watch: {
     "CountryStore.selectedCountry": {
       handler(Country) {
         if (Country) this.fillForm(Country);
+        else this.resetForm();
       },
       immediate: true,
     },

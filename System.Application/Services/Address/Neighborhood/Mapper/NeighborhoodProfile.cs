@@ -15,8 +15,8 @@ namespace System.Application.Services.Address.Neighborhood.Mapper
                  clsUtil.ToGuid(src.DistrictID), src.NeighborhoodName
                   )); 
 
-            CreateMap<UpdateNeighborhoodCommand, clsDistrict>()
-                  .ConstructUsing(src => new clsDistrict(
+            CreateMap<UpdateNeighborhoodCommand, clsNeighborhood>()
+                  .ConstructUsing(src => new clsNeighborhood(
                  clsUtil.ToGuid(src.DistrictID), src.NeighborhoodName
                   ));
         }

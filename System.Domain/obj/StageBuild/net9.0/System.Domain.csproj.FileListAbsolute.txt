@@ -1,0 +1,13 @@
+D:\Project\Real Proj\School_Academy\System.Domain\bin\StageBuild\net9.0\System.Domain.deps.json
+D:\Project\Real Proj\School_Academy\System.Domain\bin\StageBuild\net9.0\System.Domain.dll
+D:\Project\Real Proj\School_Academy\System.Domain\bin\StageBuild\net9.0\System.Domain.pdb
+D:\Project\Real Proj\School_Academy\System.Domain\obj\StageBuild\net9.0\System.Domain.csproj.AssemblyReference.cache
+D:\Project\Real Proj\School_Academy\System.Domain\obj\StageBuild\net9.0\System.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Project\Real Proj\School_Academy\System.Domain\obj\StageBuild\net9.0\System.Domain.AssemblyInfoInputs.cache
+D:\Project\Real Proj\School_Academy\System.Domain\obj\StageBuild\net9.0\System.Domain.AssemblyInfo.cs
+D:\Project\Real Proj\School_Academy\System.Domain\obj\StageBuild\net9.0\System.Domain.csproj.CoreCompileInputs.cache
+D:\Project\Real Proj\School_Academy\System.Domain\obj\StageBuild\net9.0\System.Domain.sourcelink.json
+D:\Project\Real Proj\School_Academy\System.Domain\obj\StageBuild\net9.0\System.Domain.dll
+D:\Project\Real Proj\School_Academy\System.Domain\obj\StageBuild\net9.0\refint\System.Domain.dll
+D:\Project\Real Proj\School_Academy\System.Domain\obj\StageBuild\net9.0\System.Domain.pdb
+D:\Project\Real Proj\School_Academy\System.Domain\obj\StageBuild\net9.0\ref\System.Domain.dll

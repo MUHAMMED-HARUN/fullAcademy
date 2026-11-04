@@ -25,10 +25,14 @@ namespace System.Infrastructure.Repositories.Institute.Institute
             return entity.Id.ToString();
         }
 
-        public async Task<ClassInfo> GetBy(string param, enClassType paramType)
+        public async Task<ClassInfo> GetBy(
+            string param,
+            enClassType paramType,
+            ClassReadScope readScope)
         {
             if (paramType == enClassType.ID)
-                return await _dbSet.Where(i => i.Id == clsUtil.ToGuid(param)).Select(i =>
+                return await ApplyReadScope(_dbSet.AsNoTracking(), readScope)
+                    .Where(i => i.Id == clsUtil.ToGuid(param)).Select(i =>
                 new ClassInfo
                 {
                     ClassID = i.Id.ToString(),
@@ -39,7 +43,8 @@ namespace System.Infrastructure.Repositories.Institute.Institute
                     ProgramName= i.Program.Name,
                 }).FirstOrDefaultAsync();
             else
-                return await _dbSet.Where(i => i.Name== param).Select(i =>
+                return await ApplyReadScope(_dbSet.AsNoTracking(), readScope)
+                    .Where(i => i.Name== param).Select(i =>
     new ClassInfo
     {
         ClassID = i.Id.ToString(),
@@ -60,9 +65,10 @@ namespace System.Infrastructure.Repositories.Institute.Institute
   
         }
 
-        public async Task<List<ClassInfo>> GetList()
+        public async Task<List<ClassInfo>> GetList(ClassReadScope readScope)
         {
-            return await _dbSet.Where(i=>i.DeletedAt==null).Select(i =>
+            return await ApplyReadScope(_dbSet.AsNoTracking(), readScope)
+                .Where(i => i.DeletedAt == null).Select(i =>
                           new ClassInfo
                           {
                               ClassID = i.Id.ToString(),
@@ -94,6 +100,54 @@ namespace System.Infrastructure.Repositories.Institute.Institute
                 return await _dbSet.AnyAsync(i => i.Id == clsUtil.ToGuid(param));
             else
                 return await _dbSet.AnyAsync(i => i.Name == param);
+        }
+
+        public async Task<List<Guid>> GetExistingClassIDs(
+            IReadOnlyCollection<Guid> classIDs,
+            ClassReadScope readScope)
+        {
+            if (classIDs.Count == 0)
+                return new List<Guid>();
+
+            return await ApplyReadScope(_dbSet.AsNoTracking(), readScope)
+                .Where(cls => classIDs.Contains(cls.Id))
+                .Select(cls => cls.Id)
+                .ToListAsync();
+        }
+
+        public async Task<bool> IsExistBy(
+            string param,
+            enClassType paramType,
+            ClassReadScope readScope)
+        {
+            var query = ApplyReadScope(_dbSet.AsNoTracking(), readScope);
+            return paramType == enClassType.ID
+                ? await query.AnyAsync(cls => cls.Id == clsUtil.ToGuid(param))
+                : await query.AnyAsync(cls => cls.Name == param);
+        }
+
+        private IQueryable<clsClass> ApplyReadScope(
+            IQueryable<clsClass> query,
+            ClassReadScope readScope)
+        {
+            if (readScope.IsAdmin)
+                return query;
+
+            if (readScope.TeacherID is Guid teacherID && teacherID != Guid.Empty)
+            {
+                return query.Where(cls => _context.TeachingAssignments.Any(assignment =>
+                    assignment.TeacherID == teacherID &&
+                    assignment.Group.InstituteClass.ClassID == cls.Id));
+            }
+
+            if (readScope.StudentID is Guid studentID && studentID != Guid.Empty)
+            {
+                return query.Where(cls => _context.StudentEnrollments.Any(enrollment =>
+                    enrollment.StudentID == studentID &&
+                    enrollment.Group.InstituteClass.ClassID == cls.Id));
+            }
+
+            return query.Where(_ => false);
         }
 
         public async Task<bool> Update(clsClass entity)

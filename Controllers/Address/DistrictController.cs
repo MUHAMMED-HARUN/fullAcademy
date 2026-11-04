@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Application.Services.Address.District.Command;
 using System.Application.Services.Address.District.Query;
@@ -9,6 +10,7 @@ namespace School_Academy.Controllers.Address
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DistrictController : ControllerBase
     {
 
@@ -19,6 +21,7 @@ namespace School_Academy.Controllers.Address
         }
 
         [HttpPost("NewDistrict")]
+        [Authorize(Policy = "Can_Create_District")]
         public async Task<IActionResult> Add([FromBody] NewDistrictCommand command)
         {
             var result = await _mediator.Send(command);
@@ -32,6 +35,7 @@ namespace School_Academy.Controllers.Address
         }
 
         [HttpPut("UpdateDistrict")]
+        [Authorize(Policy = "Can_Update_District")]
         public async Task<IActionResult> Update([FromBody] UpdateDistrictCommand command)
         {
             var result = await _mediator.Send(command);
@@ -45,9 +49,9 @@ namespace School_Academy.Controllers.Address
         }
 
         [HttpGet("GetDistrictList")]
-        public async Task<IActionResult> GetList()
+        [Authorize(Policy = "Can_Read_District")]
+        public async Task<IActionResult> GetList([FromQuery] GetAllDistrictQuery query)
         {
-            var query = new GetAllDistrictQuery();
             var result = await _mediator.Send(query);
 
             if (!result.IsSuccess)
@@ -58,18 +62,41 @@ namespace School_Academy.Controllers.Address
             return Ok(result);
         }
 
-        [HttpGet("GetDistrictListByCityID/{cityId}")]
-        public async Task<IActionResult> GetListByCityId(string cityId)
+        [HttpGet("GetDistrictOptions")]
+        [Authorize(Policy = "Can_Read_District")]
+        public async Task<IActionResult> GetOptions()
         {
-            
+            var result = await _mediator.Send(new GetDistrictOptionsQuery());
+            if (!result.IsSuccess)
+                return BadRequest(new { errors = result.Error });
+            return Ok(result);
+        }
 
-            return Ok();
+        [HttpGet("GetDistrictListByCityID/{cityId}")]
+        [Authorize(Policy = "Can_Read_District")]
+        public async Task<IActionResult> GetListByCityId(
+            [FromRoute] Guid cityId,
+            [FromQuery] GetAllDistrictQuery query)
+        {
+            query.CityID = cityId;
+            var result = await _mediator.Send(query);
+            if (!result.IsSuccess)
+                return BadRequest(new { errors = result.Error });
+            return Ok(result);
         }
 
         [HttpGet("GetDistrictByID/{param}")]
+        [Authorize(Policy = "Can_Read_District")]
         public async Task<IActionResult> GetById(string param, [FromQuery] enDistrictParamType paramType = enDistrictParamType.ID)
         {
-            return Ok();
+            var result = await _mediator.Send(new GetDistrictByQuery
+            {
+                Param = param,
+                ParamType = paramType,
+            });
+            if (!result.IsSuccess)
+                return BadRequest(new { errors = result.Error });
+            return Ok(result);
         }
 
     }
