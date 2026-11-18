@@ -1,20 +1,26 @@
-import { AttendeeType } from "@/Generic/AttendanceEnums";
+import { AttendeeType, ContextType } from "@/Generic/AttendanceEnums";
 
 export default class AttendanceMapper {
-  static mapToNewAttendanceCommand(attendeesList) {
-    if (!attendeesList || !Array.isArray(attendeesList)) {
-      return { Attendances: [] };
-    }
-
+  static mapToNewAttendanceCommand({ attendances, date }) {
     return {
-      Attendances: attendeesList.map((item) => ({
-        EntityID: item.entityID || item.studentID || item.enrollmentID,
-        AttendeeType: item.attendeeType ?? AttendeeType.Student,
+      Date: date,
+      Attendances: attendances.map((item) => ({
+        EntityID: item.groupEnrollmentID,
+        AttendeeType: AttendeeType.Student,
         Status: Number(item.status),
-        ContextID: item.contextID || null,
-        ContextType:
-          item.contextType !== undefined ? Number(item.contextType) : null,
+        ContextID: item.groupID,
+        ContextType: ContextType.Group,
       })),
     };
+  }
+
+  static mapGroupAttendanceFromApi(items) {
+    if (!Array.isArray(items)) return [];
+    return items.map((item) => ({
+      groupEnrollmentID: item.GroupEnrollmentID,
+      groupID: item.GroupID,
+      date: item.Date,
+      status: Number(item.Status),
+    }));
   }
 }

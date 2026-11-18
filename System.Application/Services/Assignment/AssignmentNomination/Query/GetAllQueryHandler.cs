@@ -1,11 +1,12 @@
 using MediatR;
 using System.Application.Abstractions.Assignment;
 using System.Application.Common;
-using System.Application.Exceptions;
+using System.Application.Services.Assignment.AssignmentNomination.DTO;
+using Gridify;
 
 namespace System.Application.Services.Assignment.AssignmentNomination.Query
 {
-    public class GetAllAssignmentNominationQueryHandler : IRequestHandler<GetAllAssignmentNominationQuery, TResult<List<DTO.AssignmentNominationInfo>>>
+    public class GetAllAssignmentNominationQueryHandler : IRequestHandler<GetAllAssignmentNominationQuery, TResult<Paging<AssignmentNominationInfo>>>
     {
         private readonly IAssignmentNominationRepository _repo;
 
@@ -14,13 +15,9 @@ namespace System.Application.Services.Assignment.AssignmentNomination.Query
             _repo = repo;
         }
 
-        public async Task<TResult<List<DTO.AssignmentNominationInfo>>> Handle(GetAllAssignmentNominationQuery request, CancellationToken cancellationToken)
+        public async Task<TResult<Paging<AssignmentNominationInfo>>> Handle(GetAllAssignmentNominationQuery request, CancellationToken cancellationToken)
         {
-            var result = await _repo.GetList();
-            if (result == null || result.Count == 0)
-                return TResult<List<DTO.AssignmentNominationInfo>>.Fail(ApplicationExMsg.NotFound);
-
-            return TResult<List<DTO.AssignmentNominationInfo>>.OK(result);
+            return TResult<Paging<AssignmentNominationInfo>>.OK(await _repo.GetListFilter(request));
         }
     }
 }

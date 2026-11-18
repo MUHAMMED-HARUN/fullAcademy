@@ -13,39 +13,39 @@ class PaymentRepositories {
     );
   }
 
-  async update(data) {
+  async reverse(data) {
     return await clsUtil.FeachRequset(
-      `${baseUrl}/UpdatePayment`,
-      enApiType.put,
+      `${baseUrl}/ReversePayment`,
+      enApiType.post,
       data,
-      "حدث خطأ أثناء تعديل الدفعة"
+      "حدث خطأ أثناء عكس الدفعة"
     );
   }
 
-  async getList() {
+  async getListFilter(params) {
     return await clsUtil.FeachRequset(
-      `${baseUrl}/GetPaymentList`,
+      `${baseUrl}/GetPaymentListFilter`,
       enApiType.get,
-      null,
+      { params },
       "خطأ في الخادم أثناء جلب الدفعات"
     );
   }
 
-  async getBy(param) {
+  async getPaymentsByInvoice(studentInvoiceID) {
     return await clsUtil.FeachRequset(
-      `${baseUrl}/GetPaymentBy`,
+      `${baseUrl}/GetPaymentsByInvoice/${encodeURIComponent(studentInvoiceID)}`,
       enApiType.get,
-      { params: param },
-      "خطأ في الخادم أثناء جلب الدفعة"
+      null,
+      "خطأ في الخادم أثناء جلب دفعات الفاتورة"
     );
   }
 
-  async Delete(param) {
+  async getBy(params) {
     return await clsUtil.FeachRequset(
-      `${baseUrl}/DeletePayment`,
-      enApiType.delete,
-      param,
-      "خطأ في الخادم أثناء حذف الدفعة"
+      `${baseUrl}/GetPaymentBy`,
+      enApiType.get,
+      { params },
+      "خطأ في الخادم أثناء جلب الدفعة"
     );
   }
 }

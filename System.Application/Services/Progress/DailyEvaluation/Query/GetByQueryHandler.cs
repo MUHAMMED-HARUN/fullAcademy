@@ -6,7 +6,7 @@ using System.Application.Services.Progress.DailyEvaluation.DTO;
 using System.Application.Services.Progress.DailyEvaluation.Query;
 
 
-namespace System.Application.Services.Institute.Institute.Query
+namespace System.Application.Services.Progress.DailyEvaluation.Query
 {
     class GetDailyEvaluationByQueryHandler : IRequestHandler<GetDailyEvaluationByQuery, TResult<DailyEvaluationInfo>>
     {
@@ -17,7 +17,7 @@ namespace System.Application.Services.Institute.Institute.Query
         }
         public async Task<TResult<DailyEvaluationInfo>> Handle(GetDailyEvaluationByQuery request, CancellationToken cancellationToken)
         {
-            DailyEvaluationInfo entityInfo = await _repo.GetBy(request.Param, request.ParamType);
+            DailyEvaluationInfo? entityInfo = await _repo.GetBy(request.Param, request.ParamType);
             if (entityInfo == null) 
             return TResult<DailyEvaluationInfo>.Fail(ApplicationExMsg.failToFindDailyEvaluation);
 

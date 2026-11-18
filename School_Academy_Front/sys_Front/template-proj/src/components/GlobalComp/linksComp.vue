@@ -84,7 +84,11 @@ const groups = [
       { to: "/program", label: "program", roleType: 1 },
       { to: "/class", label: "class", roleType: 1 },
       { to: "/instituteClass", label: "instituteClass", roleType: 1 },
-      { to: "/group", label: "group", roleType: 1 },
+      {
+        to: "/group",
+        label: "group",
+        permission: "Can_Read_Group",
+      },
     ],
   },
   {
@@ -105,6 +109,12 @@ const groups = [
   {
     name: "التسجيل",
     links: [
+      {
+        to: "/studentAcademicEnrollment",
+        label: "الاشتراكات الأكاديمية",
+        roleType: -1,
+        permission: "Can_Read_StudentAcademicEnrollment",
+      },
       { to: "/studentEnrollment", label: "studentEnrollment", roleType: -1 },
       { to: "/teachingAssignment", label: "TeachingAssignment", roleType: -1 },
     ],
@@ -130,9 +140,35 @@ const groups = [
   {
     name: "المالية",
     links: [
-      { to: "/feeStructure", label: "Fee Structure", roleType: 1 },
-      { to: "/studentInvoice", label: "Student Invoice", roleType: 1 },
-      { to: "/payment", label: "Payment", roleType: 1 },
+      {
+        to: "/feeStructure",
+        label: "Fee Structure",
+        roleType: 1,
+        permission: "Can_Read_FeeStructure",
+      },
+      {
+        to: "/studentInvoice",
+        label: "Student Invoice",
+        roleType: 1,
+        permission: "Can_Read_StudentInvoice",
+      },
+      {
+        to: "/payment",
+        label: "Payment",
+        roleType: 1,
+        permission: "Can_Read_Payment",
+      },
+    ],
+  },
+  {
+    name: "الخطط الأكاديمية",
+    links: [
+      {
+        to: "/academicPlan",
+        label: "Academic Plan",
+        roleType: 1,
+        permission: "Can_Read_AcademicPlan",
+      },
     ],
   },
 ];
@@ -148,7 +184,11 @@ const visibleGroups = computed(() =>
   groups
     .map((g) => ({
       ...g,
-      links: g.links.filter((l) => canVisable(l.roleType)),
+      links: g.links.filter((l) =>
+        l.permission
+          ? authStore.hasPermission(l.permission)
+          : canVisable(l.roleType)
+      ),
     }))
     .filter((g) => g.links.length > 0)
 );

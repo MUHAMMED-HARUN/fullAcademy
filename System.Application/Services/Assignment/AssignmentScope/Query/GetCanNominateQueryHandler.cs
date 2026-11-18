@@ -18,10 +18,7 @@ namespace System.Application.Services.Assignment.AssignmentScope.Query
 
         public async Task<TResult<List<DTO.AssignmentScopeInfo>>> Handle(GetCanNominateQuery request, CancellationToken cancellationToken)
         {
-            var result = await _repo.GetCanNominate(request.studentEnrollmentID);
-            if (result == null || result.Count == 0)
-                return TResult<List<DTO.AssignmentScopeInfo>>.Fail(ApplicationExMsg.NotFound);
-
+            var result = await _repo.GetCanNominate(request.StudentAcademicEnrollmentID);
             return TResult<List<DTO.AssignmentScopeInfo>>.OK(result);
         }
     }

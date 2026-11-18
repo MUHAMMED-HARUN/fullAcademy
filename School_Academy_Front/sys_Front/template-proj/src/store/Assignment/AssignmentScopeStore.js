@@ -46,14 +46,17 @@ export const useAssignmentScopeStore = defineStore("AssignmentScopes", {
     async fetchCanNominateList(command) {
       this.loading = true;
       this.error = null;
-      const result = await AssignmentScope_service.GetCanNominateList(command);
-      if (result.success) {
-        this.AssignmentScopes = result.data;
-      } else {
-        this.error = result.errors;
+      this.AssignmentScopes = [];
+      try {
+        const result = await AssignmentScope_service.GetCanNominateList(
+          command
+        );
+        if (result.success) this.AssignmentScopes = result.data || [];
+        else this.error = result.errors;
+        return result;
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
-      return result;
     },
 
     async addAssignmentScope(payload) {

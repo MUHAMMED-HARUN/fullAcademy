@@ -22,7 +22,7 @@ namespace System.Application.Services.Progress.StudentStage.Command
         }
         public async Task<TResult<string>> Handle(DeleteStudentStageCommand request, CancellationToken cancellationToken)
         {
-            clsStudentStage entity = await _repo.GetEntityBy(request.StudentStageID, enStudentStageParamType.ID);
+            clsStudentStage? entity = await _repo.GetEntityBy(request.StudentStageID, enStudentStageParamType.ID);
             if (entity == null)
                 return TResult<string>.Fail(ApplicationExMsg.failToFindStudentStage);
 

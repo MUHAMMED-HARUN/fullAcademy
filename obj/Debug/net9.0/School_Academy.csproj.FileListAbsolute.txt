@@ -962,4 +962,15 @@ C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\School_Acad
 C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\School_Academy.runtimeconfig.json
 C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\School_Academy.dll
 C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\School_Academy.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\appsettings.Development.json
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\appsettings.json
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\School_Academy_Front\sys_Front\template-proj\jsconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\School_Academy_Front\sys_Front\template-proj\package-lock.json
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\School_Academy_Front\sys_Front\template-proj\package.json
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\School_Academy.staticwebassets.endpoints.json
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\School_Academy.exe
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\School_Academy.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\School_Academy.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\School_Academy.dll
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\School_Academy.pdb
 D:\Project\Real Proj\School_Academy\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

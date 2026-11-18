@@ -3,6 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Domain.Entities;
+using System.Domain.Entities.Enrollment;
 using System.Infrastructure.Configurations.Base;
 
 namespace System.Infrastructure.Configurations.Progress
@@ -19,9 +20,10 @@ namespace System.Infrastructure.Configurations.Progress
             builder.Property(x => x.From).IsRequired();
             builder.Property(x => x.To).IsRequired();
             builder.Property(x => x.Date).IsRequired();
-            builder.HasOne(x => x.StudentEnrollment)          // DailyEvaluation له StudentEnrollment واحد
-                   .WithMany()                                // StudentEnrollment يمكن أن يكون له عدة DailyEvaluation
-                   .HasForeignKey(x => x.StudentEnrollmentID)
+            builder.Property(x => x.StudentAcademicEnrollmentID).IsRequired();
+            builder.HasOne(x => x.StudentAcademicEnrollment)
+                   .WithMany(enrollment => enrollment.DailyEvaluations)
+                   .HasForeignKey(x => x.StudentAcademicEnrollmentID)
                    .OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(x => x.StageInfo)                  // DailyEvaluation له StageInfo واحد
                  .WithMany()                                // StageInfo يمكن أن يتكرر في عدة DailyEvaluation

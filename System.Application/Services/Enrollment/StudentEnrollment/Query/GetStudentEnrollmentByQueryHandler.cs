@@ -17,7 +17,7 @@ namespace System.Application.Services.Enrollment.StudentEnrollment.Query
 
         public async Task<TResult<StudentEnrollmentInfo>> Handle(GetStudentEnrollmentByQuery request, CancellationToken cancellationToken)
         {
-            StudentEnrollmentInfo info = await _repo.GetBy(request.Param, request.ParamType);
+            StudentEnrollmentInfo? info = await _repo.GetBy(request.Param, request.ParamType);
             if (info == null)
                 return TResult<StudentEnrollmentInfo>.Fail(ApplicationExMsg.StudentEnrollmentNotFound);
 

@@ -6,8 +6,12 @@
       <div class="item-value">{{ this.DataReq?.studentName }}</div>
     </div>
     <div class="card-item">
-      <div class="item-name">اسم الشعبة:</div>
-      <div class="item-value">{{ this.DataReq?.groupName }}</div>
+      <div class="item-name">الخطة الأكاديمية:</div>
+      <div class="item-value">{{ this.DataReq?.academicPlanName }}</div>
+    </div>
+    <div class="card-item">
+      <div class="item-name">المادة:</div>
+      <div class="item-value">{{ this.DataReq?.stageInfoName }}</div>
     </div>
     <div class="card-item">
       <div class="item-name">من:</div>
@@ -25,7 +29,7 @@
     </div>
     <div class="card-item">
       <div class="item-name">مستوى التقييم:</div>
-      <div class="item-value">{{ this.DataReq?.levelType }}</div>
+      <div class="item-value">{{ this.DataReq?.levelTypeName }}</div>
     </div>
   </div>
 </template>

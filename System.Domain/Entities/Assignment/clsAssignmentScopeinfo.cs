@@ -1,4 +1,5 @@
 using System.Domain.Entities.BaseClass;
+using System.Domain.Entities.Progress;
 using System.Domain.Exceptions;
 
 namespace System.Domain.Entities

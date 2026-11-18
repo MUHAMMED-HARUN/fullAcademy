@@ -1,7 +1,11 @@
 import TResult from "@/Generic/TResult";
 import StudentEnrollmentMapper from "@/Mapper/Enrollment/StudentEnrollmentMapper";
 import StudentEnrollment_repositories from "@/repositories/Enrollment/StudentEnrollmentRepositories";
-import { StudentEnrollmentSchema } from "@/validations/Enrollment/StudentEnrollmentSchema";
+import {
+  StudentEnrollmentSchema,
+  StudentEnrollmentRangeSchema,
+  StudentEnrollmentUpdateSchema,
+} from "@/validations/Enrollment/StudentEnrollmentSchema";
 import { validate1 } from "@/validations/validator";
 
 class StudentEnrollmentService {
@@ -9,15 +13,11 @@ class StudentEnrollmentService {
     const result = await StudentEnrollment_repositories.getPagedList(params);
     if (result.success) {
       const pagingObj = result.data || {};
+      const rawList = pagingObj.Data ?? pagingObj.data ?? [];
+      const totalCount = pagingObj.Count ?? pagingObj.count ?? 0;
 
-      // استخراج القائمة والعدد الإجمالي من كائن Paging<T>
-      const rawList = pagingObj.Data;
-      const totalCount = pagingObj.Count ?? 0;
-
-      // تحويل مصفوفة الطلاب عبر الـ Mapper
       const dto = StudentEnrollmentMapper.mapListApiToClass(rawList);
 
-      // تمرير المابنج مع إجمالي العدد
       return new TResult(
         { items: dto, count: totalCount },
         result.success,
@@ -36,20 +36,26 @@ class StudentEnrollmentService {
     if (!validation.isValid) {
       return new TResult(null, validation.isValid, validation.errors);
     }
-    const payload = StudentEnrollmentMapper.mapUpsertToApi(data);
+    const payload = StudentEnrollmentMapper.mapCreateToApi(data);
     return await StudentEnrollment_repositories.add(payload);
   }
 
   async enrollByRange(data) {
-    return await StudentEnrollment_repositories.enrollByRange(data);
+    const validation = validate1(data, StudentEnrollmentRangeSchema);
+    if (!validation.isValid) {
+      return new TResult(null, false, validation.errors);
+    }
+    return await StudentEnrollment_repositories.enrollByRange(
+      StudentEnrollmentMapper.mapRangeToApi(data)
+    );
   }
 
   async update(data) {
-    const validation = validate1(data, StudentEnrollmentSchema);
+    const validation = validate1(data, StudentEnrollmentUpdateSchema);
     if (!validation.isValid) {
       return new TResult(null, validation.isValid, validation.errors);
     }
-    const payload = StudentEnrollmentMapper.mapUpsertToApi(data);
+    const payload = StudentEnrollmentMapper.mapUpdateToApi(data);
     return await StudentEnrollment_repositories.update(payload);
   }
 

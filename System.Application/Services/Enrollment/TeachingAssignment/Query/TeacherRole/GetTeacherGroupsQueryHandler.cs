@@ -20,10 +20,12 @@ namespace System.Application.Services.Enrollment.TeachingAssignment.Query
 
         public async Task<TResult<Paging<TeacherGroupInfo>>> Handle(GetTeacherGroupsQuery request, CancellationToken cancellationToken)
         {
-            if (_currentUserService.UserId == Guid.Empty || _currentUserService.EntityId == null || _currentUserService.Role != "Teacher")
+            if (_currentUserService.UserId == Guid.Empty ||
+                _currentUserService.EntityGuid == null ||
+                !_currentUserService.HasPermission("Can_Read_TeachingAssignment"))
                 return TResult<Paging<TeacherGroupInfo>>.Fail(ApplicationExMsg.AccessDinede);
 
-            return  TResult<Paging<TeacherGroupInfo>>.OK(await _repo.GetTeacherGroups(request,_currentUserService.EntityId.ToString()));
+            return TResult<Paging<TeacherGroupInfo>>.OK(await _repo.GetTeacherGroups(request));
              
         }
     }

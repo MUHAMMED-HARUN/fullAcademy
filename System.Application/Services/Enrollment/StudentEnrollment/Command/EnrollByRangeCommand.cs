@@ -8,8 +8,8 @@ namespace System.Application.Services.Enrollment.StudentEnrollment.Command
 {
     public class EnrollByRangeCommand : ICommand, IRequest<TResult<List<string>>>
     {
-        public List<string> StudentIDs { get; set; } = new();
-        public string GroupID { get; set; }
+        public List<string> StudentAcademicEnrollmentIDs { get; set; } = new();
+        public string GroupID { get; set; } = string.Empty;
         public DateOnly Date { get; set; }
     }
 }

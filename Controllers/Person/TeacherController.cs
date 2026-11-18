@@ -20,6 +20,7 @@ namespace School_Academy.Controllers.Person
         }
 
         [HttpPost("NewTeacher")]
+        [Authorize(Policy = "Can_Create_Teacher")]
         public async Task<IActionResult> Add([FromBody] NewTeacherCommand command)
         {
             var result = await _mediator.Send(command);
@@ -33,6 +34,7 @@ namespace School_Academy.Controllers.Person
         }
 
         [HttpPut("UpdateTeacher")]
+        [Authorize(Policy = "Can_Update_Teacher")]
         public async Task<IActionResult> Update([FromBody] UpdateTeacherCommand command)
         {
             var result = await _mediator.Send(command);
@@ -46,6 +48,7 @@ namespace School_Academy.Controllers.Person
         }
 
         [HttpDelete("DeleteTeacher")]
+        [Authorize(Policy = "Can_Delete_Teacher")]
         public async Task<IActionResult> Delete([FromBody] DeleteTeacherCommand command)
         {
             var result = await _mediator.Send(command);
@@ -59,6 +62,7 @@ namespace School_Academy.Controllers.Person
         }
 
         [HttpGet("GetTeacherList")]
+        [Authorize(Policy = "Can_Read_Teacher")]
         public async Task<IActionResult> GetList([FromQuery] GetAllTeacherQuery query)
         {
             var result = await _mediator.Send(query);
@@ -72,6 +76,7 @@ namespace School_Academy.Controllers.Person
         }
 
         [HttpGet("GetTeacherBy")]
+        [Authorize(Policy = "Can_Read_Teacher")]
         public async Task<IActionResult> GetBy( [FromQuery] GetTeacherByQuery query )
         {
                    
@@ -85,6 +90,7 @@ namespace School_Academy.Controllers.Person
             return Ok(result);
         }
         [HttpGet("IsExistTeacherBy")]
+        [Authorize(Policy = "Can_Read_Teacher")]
         public async Task<IActionResult> IsExistBy([FromQuery] IsExistTeacherByQuery query)
         {
 

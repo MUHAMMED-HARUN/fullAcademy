@@ -22,11 +22,11 @@ class AssignmentNominationRepositories {
     return response;
   }
 
-  async getList() {
+  async getList(params = {}) {
     const response = await clsUtil.FeachRequset(
-      `${baseUrl}/GetAssignmentNominationList`,
+      `${baseUrl}/GetAssignmentNominationListFilter`,
       enApiType.get,
-      null,
+      { params },
       "خطأ في الخادم أثناء جلب قائمة التسجيل"
     );
     return response;

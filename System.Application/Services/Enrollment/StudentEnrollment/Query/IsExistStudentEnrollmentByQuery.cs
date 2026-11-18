@@ -7,7 +7,7 @@ namespace System.Application.Services.Enrollment.StudentEnrollment.Query
 {
     public class IsExistStudentEnrollmentByQuery : IRequest<TResult<bool>>, IQuery
     {
-        public string Param { get; set; }
+        public string Param { get; set; } = string.Empty;
         public enStudentEnrollmentType ParamType { get; set; }
     }
 }

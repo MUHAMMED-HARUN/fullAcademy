@@ -20,7 +20,7 @@ export default class TeachingAssignmentMapper {
       subjectName: DataReq.SubjectName,
       subjectID: DataReq.SubjectID,
       date: DataReq.EnrollmentDate,
-      calssName: DataReq.CalssName,
+      className: DataReq.ClassName,
       classLevel: DataReq.ClassLevel,
     };
   }
@@ -43,7 +43,7 @@ export default class TeachingAssignmentMapper {
         subjectName: list.SubjectName,
         subjectID: list.SubjectID,
         date: list.EnrollmentDate,
-        calssName: list.CalssName,
+        className: list.ClassName,
         classLevel: list.ClassLevel,
       };
     });

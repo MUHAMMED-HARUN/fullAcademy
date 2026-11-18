@@ -1,28 +1,25 @@
 <template>
-  <div class="finance-view-container">
+  <div class="finance-view-container" dir="rtl">
     <GenericFilterComp
       :fields="filterSchema"
       @search="onFilterSearch"
       @reset="onFilterReset"
     />
-
     <FeeStructureList
-      :items="pagedItems"
+      :items="FeeStructureStore.feeStructures"
       :selected-ids="selectedIds"
       @toggle-select-all="onToggleSelectAll"
       @toggle-select-row="onToggleSelectRow"
     />
-
     <GenericComboActions
-      :actions="actions"
+      :actions="visibleActions"
       :selected-items="selectedItems"
       @action-click="handleComboAction"
     />
-
     <PaginationComp
       :current-page="page"
       :page-size="pageSize"
-      :total-count="filteredCount"
+      :total-count="FeeStructureStore.totalCount"
       :total-pages="totalPages"
       @change-page="onPageChange"
       @change-size="onPageSizeChange"
@@ -31,34 +28,21 @@
     <PopapComp v-if="showUpsert" @close="onPopupClose">
       <UpsertFeeStructureComp
         :errors="FeeStructureStore.error"
-        :program-data="ProgramStore.selectedProgram"
-        :class-data="ClassStore.selectedClass"
-        :stage-data="StageStore.selectedStage"
-        :stage-infos="StageInfoStore.StageInfos"
+        :initial-fee-structure="editingFeeStructure"
+        :plan-locked="Boolean(editingFeeStructure?.isUsed)"
         @on-submit="OnSubmitUpsert"
-        @on-search-program="onSearchProgram"
-        @on-search-class="onSearchClass"
-        @on-search-stage="onSearchStage"
       />
     </PopapComp>
-
-    <PopapComp v-if="showInfo" @close="onPopupClose">
-      <FeeStructureCard :-data-req="FeeStructureStore.selectedFeeStructure" />
-    </PopapComp>
-
-    <PopapComp v-if="showEnroll" @close="onPopupClose">
-      <UpsertStudentInvoiceComp
-        :errors="StudentInvoiceStore.error"
-        :student-data="StudentStore.selectedStudent"
-        :fee-structures="FeeStructureStore.feeStructures"
-        :initial-invoice="enrollInvoice"
-        :lock-fee-structure="true"
-        @on-submit="OnSubmitEnroll"
-        @on-search-student="onSearchStudent"
-      />
-    </PopapComp>
-
-    <button class="btn-add" @click="OnUpsert(null)">إضافة خطة رسوم</button>
+    <PopapComp v-if="showInfo" @close="onPopupClose"
+      ><FeeStructureCard :-data-req="FeeStructureStore.selectedFeeStructure"
+    /></PopapComp>
+    <button
+      v-if="AuthStore.hasPermission('Can_Create_FeeStructure')"
+      class="btn-add"
+      @click="OnUpsert(null)"
+    >
+      إضافة تعرفة
+    </button>
     <MessageComp :is-error="resultType" :msg="resultMessage" />
   </div>
 </template>
@@ -72,220 +56,199 @@ import GenericComboActions from "@/components/general/GenericComboActions.vue";
 import FeeStructureList from "@/components/Finance/FeeStructure/FeeStructureList.vue";
 import FeeStructureCard from "@/components/Finance/FeeStructure/FeeStructureCard.vue";
 import UpsertFeeStructureComp from "@/components/Finance/FeeStructure/UpsertFeeStructureComp.vue";
-import UpsertStudentInvoiceComp from "@/components/Finance/StudentInvoice/UpsertStudentInvoiceComp.vue";
 import { useFeeStructureStore } from "@/store/Finance/FeeStructureStore";
-import { useStudentInvoiceStore } from "@/store/Finance/StudentInvoiceStore";
-import { useProgramStore } from "@/store/Institute/useProgramStore";
-import { useClassStore } from "@/store/Institute/ClassStore";
-import { useStageStore } from "@/store/Progress/StageStore";
-import { useStageInfoStore } from "@/store/Progress/StageInfoStore";
-import { useStudentStore } from "@/store/Person/useStudentStore";
-import { applyClientQuery } from "@/Generic/applyClientQuery";
+import { useAuthStore } from "@/store/Auth/authStore";
 import { FeeTypeOptions } from "@/Generic/FinanceEnums";
-import ClassMapper from "@/Mapper/Institute/ClassMapper";
-import TResult from "@/Generic/TResult";
 
 export default {
   name: "FeeStructureView",
   components: {
+    PopapComp,
+    MessageComp,
     GenericFilterComp,
     PaginationComp,
     GenericComboActions,
     FeeStructureList,
     FeeStructureCard,
     UpsertFeeStructureComp,
-    UpsertStudentInvoiceComp,
-    PopapComp,
-    MessageComp,
   },
   data() {
     return {
       FeeStructureStore: useFeeStructureStore(),
-      StudentInvoiceStore: useStudentInvoiceStore(),
-      ProgramStore: useProgramStore(),
-      ClassStore: useClassStore(),
-      StageStore: useStageStore(),
-      StageInfoStore: useStageInfoStore(),
-      StudentStore: useStudentStore(),
+      AuthStore: useAuthStore(),
       showUpsert: false,
       showInfo: false,
-      showEnroll: false,
+      editingFeeStructure: null,
       resultMessage: null,
       resultType: false,
       selectedIds: [],
       page: 1,
       pageSize: 10,
       filterPayload: {},
-      enrollInvoice: null,
       filterSchema: [
-        { key: "name", label: "اسم الخطة", type: "text", operator: "=*" },
+        { key: "name", label: "اسم التعرفة", type: "text", operator: "=*" },
+        {
+          key: "academicPlanName",
+          label: "الخطة الأكاديمية",
+          type: "text",
+          operator: "=*",
+        },
+        {
+          key: "scopeName",
+          label: "النطاق الدراسي",
+          type: "text",
+          operator: "=*",
+        },
         {
           key: "feeType",
           label: "نوع الرسوم",
           type: "select",
           options: FeeTypeOptions,
         },
-        { key: "programName", label: "البرنامج", type: "text", operator: "=*" },
-        { key: "className", label: "الصف", type: "text", operator: "=*" },
-        { key: "stageName", label: "المرحلة", type: "text", operator: "=*" },
+        {
+          key: "planStatus",
+          label: "حالة الخطة",
+          type: "select",
+          options: [
+            { value: 1, label: "مسودة" },
+            { value: 2, label: "فعالة" },
+            { value: 3, label: "مؤرشفة" },
+          ],
+        },
       ],
       actions: [
         { key: "info", label: "معلومات", minSelection: 1, maxSelection: 1 },
-        { key: "update", label: "تحديث", minSelection: 1, maxSelection: 1 },
-        {
-          key: "enroll",
-          label: "تسجيل في هذه الخطة",
-          minSelection: 1,
-          maxSelection: 1,
-          class: "btn-default",
-        },
-        {
-          key: "delete",
-          label: "حذف",
-          minSelection: 1,
-          class: "btn-danger",
-        },
+        { key: "update", label: "تعديل", minSelection: 1, maxSelection: 1 },
+        { key: "delete", label: "حذف", minSelection: 1, class: "btn-danger" },
       ],
     };
   },
   computed: {
-    queryResult() {
-      return applyClientQuery(
-        this.FeeStructureStore.feeStructures,
-        {
-          rawValues: this.filterPayload.rawValues,
-          orderBy: this.filterPayload.orderBy,
-          page: this.page,
-          pageSize: this.pageSize,
-        },
-        {
-          containsFields: ["name", "programName", "className", "stageName"],
-          equalsFields: ["feeType"],
-        }
+    visibleActions() {
+      const required = {
+        info: "Can_Read_FeeStructure",
+        update: "Can_Update_FeeStructure",
+        delete: "Can_Delete_FeeStructure",
+      };
+      return this.actions.filter((action) =>
+        this.AuthStore.hasPermission(required[action.key])
       );
-    },
-    pagedItems() {
-      return this.queryResult.items;
-    },
-    filteredCount() {
-      return this.queryResult.count;
-    },
-    totalPages() {
-      return Math.ceil(this.filteredCount / this.pageSize) || 1;
     },
     selectedItems() {
       return this.FeeStructureStore.feeStructures.filter((item) =>
         this.selectedIds.includes(item.feeStructureID)
       );
     },
+    totalPages() {
+      return Math.max(
+        1,
+        Math.ceil(this.FeeStructureStore.totalCount / this.pageSize)
+      );
+    },
   },
   methods: {
-    async onPageChange(newPage) {
-      this.page = newPage;
-    },
-    async onPageSizeChange(newSize) {
-      this.pageSize = newSize;
-      this.page = 1;
-    },
-    onFilterSearch(payload) {
-      this.filterPayload = payload;
-      this.page = 1;
-    },
-    onFilterReset() {
-      this.filterPayload = {};
-      this.page = 1;
-    },
-    onToggleSelectAll(isChecked) {
-      this.selectedIds = isChecked
-        ? this.pagedItems.map((item) => item.feeStructureID)
-        : [];
-    },
-    onToggleSelectRow(item) {
-      const index = this.selectedIds.indexOf(item.feeStructureID);
-      if (index > -1) this.selectedIds.splice(index, 1);
-      else this.selectedIds.push(item.feeStructureID);
-    },
-    async handleComboAction(actionKey, selectedItems) {
-      const singleItem = selectedItems[0];
-      switch (actionKey) {
-        case "info":
-          this.onShowInfo(singleItem);
-          break;
-        case "update":
-          await this.OnUpsert(singleItem);
-          break;
-        case "enroll":
-          this.onEnroll(singleItem);
-          break;
-        case "delete":
-          await this.OnDeleteMultiple(selectedItems);
-          break;
+    buildGridifyFilter(rawValues = {}) {
+      const terms = [];
+      const fields = {
+        name: "Name",
+        academicPlanName: "AcademicPlanName",
+        scopeName: "ScopeName",
+      };
+      for (const [key, field] of Object.entries(fields)) {
+        const value = String(rawValues[key] ?? "").trim();
+        if (value) terms.push(`${field}=*${value.replace(/[,*|]/g, " ")}`);
       }
+      if (rawValues.feeType !== "" && rawValues.feeType != null)
+        terms.push(`FeeType=${rawValues.feeType}`);
+      if (rawValues.planStatus !== "" && rawValues.planStatus != null)
+        terms.push(`PlanStatus=${rawValues.planStatus}`);
+      return terms.join(",");
     },
-    async OnUpsert(item) {
-      if (item) {
-        this.FeeStructureStore.selectedFeeStructure = item;
-        if (item.programID) {
-          await this.onSearchProgram(0, item.programID);
-        }
-        if (item.classID) {
-          await this.onSearchClass(0, item.classID);
-        }
-        if (item.stageID) {
-          await this.onSearchStage(0, item.stageID);
-        }
-      } else {
-        this.FeeStructureStore.clearSelectedFeeStructure();
-        this.ProgramStore.selectedProgram = null;
-        this.ClassStore.selectedClass = null;
-        this.StageStore.clearSelectedStage();
-      }
-      this.showUpsert = true;
+    buildGridifyOrderBy(value) {
+      if (!value) return "";
+      const [field, direction = "asc"] = value.trim().split(/\s+/);
+      const allowed = {
+        name: "Name",
+        academicPlanName: "AcademicPlanName",
+        scopeName: "ScopeName",
+        feeType: "FeeType",
+        amount: "Amount",
+        planStatus: "PlanStatus",
+      };
+      const mappedField = allowed[field];
+      return mappedField
+        ? `${mappedField} ${
+            direction.toLowerCase() === "desc" ? "desc" : "asc"
+          }`
+        : "";
     },
-    async OnSubmitUpsert(e) {
-      let resVal = new TResult();
-      if (e.feeStructureID) {
-        resVal = await this.FeeStructureStore.updateFeeStructure(e);
-      } else {
-        resVal = await this.FeeStructureStore.addFeeStructure(e);
-      }
-      if (resVal.success) {
-        this.resultMessage = "تم الحفظ بنجاح";
-        this.resultType = false;
-        this.showUpsert = false;
-      } else {
-        this.resultMessage = resVal.errors;
+    async loadPage() {
+      const result = await this.FeeStructureStore.fetchFeeStructurePage({
+        Page: this.page,
+        PageSize: this.pageSize,
+        Filter: this.buildGridifyFilter(this.filterPayload.rawValues || {}),
+        OrderBy: this.buildGridifyOrderBy(this.filterPayload.orderBy),
+      });
+      if (!result.success) {
+        this.resultMessage = result.errors;
         this.resultType = true;
       }
     },
-    onShowInfo(item) {
-      this.FeeStructureStore.selectedFeeStructure = item;
-      this.showInfo = true;
+    async onPageChange(page) {
+      this.page = page;
+      await this.loadPage();
     },
-    onEnroll(item) {
-      this.StudentInvoiceStore.clearSelectedInvoice();
-      this.StudentStore.selectedStudent = null;
-      this.enrollInvoice = {
-        feeStructureID: item.feeStructureID,
-        originalAmount: item.amount,
-        discountAmount: 0,
-        issueDate: new Date().toISOString().substring(0, 10),
-        dueDate: new Date().toISOString().substring(0, 10),
-      };
-      this.showEnroll = true;
+    async onPageSizeChange(size) {
+      this.pageSize = size;
+      this.page = 1;
+      await this.loadPage();
     },
-    async OnSubmitEnroll(e) {
-      const resVal = await this.StudentInvoiceStore.addInvoice(e);
-      if (resVal.success) {
-        this.resultMessage = "تم تسجيل الطالب في الخطة";
+    async onFilterSearch(payload) {
+      this.filterPayload = payload || {};
+      this.page = 1;
+      await this.loadPage();
+    },
+    async onFilterReset() {
+      this.filterPayload = {};
+      this.page = 1;
+      await this.loadPage();
+    },
+    onToggleSelectAll(checked) {
+      this.selectedIds = checked
+        ? this.FeeStructureStore.feeStructures.map(
+            (item) => item.feeStructureID
+          )
+        : [];
+    },
+    onToggleSelectRow(item) {
+      const i = this.selectedIds.indexOf(item.feeStructureID);
+      if (i >= 0) this.selectedIds.splice(i, 1);
+      else this.selectedIds.push(item.feeStructureID);
+    },
+    async handleComboAction(key, items) {
+      const item = items[0];
+      if (key === "info") {
+        this.FeeStructureStore.selectedFeeStructure = item;
+        this.showInfo = true;
+      }
+      if (key === "update") await this.OnUpsert(item);
+      if (key === "delete") await this.OnDeleteMultiple(items);
+    },
+    async OnUpsert(item) {
+      this.editingFeeStructure = item || null;
+      this.showUpsert = true;
+    },
+    async OnSubmitUpsert(data) {
+      const result = data.feeStructureID
+        ? await this.FeeStructureStore.updateFeeStructure(data)
+        : await this.FeeStructureStore.addFeeStructure(data);
+      if (result.success) {
+        this.showUpsert = false;
+        this.resultMessage = "تم الحفظ بنجاح";
         this.resultType = false;
-        this.showEnroll = false;
-        this.$router.push({
-          path: "/studentInvoice",
-          query: { feeStructureID: e.feeStructureID },
-        });
+        await this.loadPage();
       } else {
-        this.resultMessage = resVal.errors;
+        this.resultMessage = result.errors;
         this.resultType = true;
       }
     },
@@ -293,54 +256,29 @@ export default {
       if (!confirm(`هل أنت متأكد من حذف ${items.length} سجلات المحددة؟`))
         return;
       for (const item of items) {
-        await this.FeeStructureStore.DeleteFeeStructure(item.feeStructureID);
+        const result = await this.FeeStructureStore.DeleteFeeStructure(
+          item.feeStructureID
+        );
+        if (!result.success) {
+          this.resultMessage = result.errors;
+          this.resultType = true;
+          return;
+        }
       }
       this.selectedIds = [];
       this.resultMessage = "تم الحذف بنجاح";
       this.resultType = false;
-    },
-    async onSearchProgram(type, val) {
-      await this.ProgramStore.fetchProgrameBy({
-        Param: val,
-        ParamType: type,
-      });
-    },
-    async onSearchClass(type, val) {
-      await this.ClassStore.fetchClassBy({
-        Param: val,
-        ParamType: type,
-      });
-      if (this.ClassStore.selectedClass?.ClassID) {
-        this.ClassStore.selectedClass = ClassMapper.MapFromApiDTO(
-          this.ClassStore.selectedClass
-        );
-      }
-    },
-    async onSearchStage(type, val) {
-      await this.StageStore.fetchStagetBy({
-        Param: val,
-        ParamType: type,
-      });
-    },
-    async onSearchStudent(type, val) {
-      await this.StudentStore.fetchStudentBy({
-        Param: val,
-        ParamType: type,
-      });
+      await this.loadPage();
     },
     onPopupClose() {
       this.showUpsert = false;
       this.showInfo = false;
-      this.showEnroll = false;
-      this.enrollInvoice = null;
+      this.editingFeeStructure = null;
       this.FeeStructureStore.clearSelectedFeeStructure();
-      this.StudentInvoiceStore.clearSelectedInvoice();
-      this.StudentStore.selectedStudent = null;
     },
   },
   mounted() {
-    this.FeeStructureStore.fetchFeeStructures();
-    this.StageInfoStore.fetchStageInfos();
+    this.loadPage();
   },
 };
 </script>

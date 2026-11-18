@@ -24,6 +24,10 @@ namespace System.Application.Services.Institute.Group.Command
 
         public async Task<TResult<string>> Handle(NewGroupCommand request, CancellationToken cancellationToken)
         {
+            if (!Guid.TryParse(request.InstituteClassID, out var instituteClassID) ||
+                !await _repo.IsInstituteClassExist(instituteClassID))
+                return TResult<string>.Fail(ApplicationExMsg.GroupInstituteClassNotFound);
+
             if (await _repo.IsAvalibleName(request.GroupName, request.InstituteClassID))
                 return TResult<string>.Fail(ApplicationExMsg.GroupExistByName);
 
@@ -31,7 +35,9 @@ namespace System.Application.Services.Institute.Group.Command
                 return TResult<string>.Fail(ApplicationExMsg.GroupExistByCode);
 
             clsGroup entity = _mapper.Map<NewGroupCommand, clsGroup>(request);
-            entity.SetCreated(_currentUserService.UserId.ToString());
+            if (_currentUserService.UserId is not Guid userID)
+                return TResult<string>.Fail("المستخدم الحالي غير صالح");
+            entity.SetCreated(userID.ToString());
 
             string entityID = await _repo.Add(entity);
 

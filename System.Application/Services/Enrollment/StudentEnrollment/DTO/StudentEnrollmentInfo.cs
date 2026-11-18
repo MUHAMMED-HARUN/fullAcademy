@@ -9,6 +9,8 @@ namespace System.Application.Services.Enrollment.StudentEnrollment.DTO
         public string StudentName { get; set; }
         public string GroupID { get; set; }
         public string GroupName { get; set; }
+        public string StudentAcademicEnrollmentID { get; set; }
+        public string AcademicPlanName { get; set; }
         public DateOnly Date { get; set; }
     }
 }

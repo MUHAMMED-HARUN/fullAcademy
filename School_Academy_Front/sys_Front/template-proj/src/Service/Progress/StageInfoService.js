@@ -14,9 +14,25 @@ class StageInfoService {
     }
     return new TResult(null, false, rees.errors);
   }
-  async getStudentStageInfo(enrollmentID) {
+  async getAllFilter(params = {}) {
+    const response = await StageInfo_repositories.getListFilter(params);
+    if (!response.success) return new TResult(null, false, response.errors);
+
+    const paging = response.data || {};
+    const items = paging.Data ?? paging.data ?? [];
+    return new TResult(
+      {
+        items: StageInfoMapper.mapListApiToStagesInfo(items),
+        count: paging.Count ?? paging.count ?? 0,
+      },
+      true,
+      response.errors
+    );
+  }
+
+  async getStudentStageInfo(studentAcademicEnrollmentID) {
     const rees = await StageInfo_repositories.getStudentStageInfo({
-      enrollmentID,
+      StudentAcademicEnrollmentID: studentAcademicEnrollmentID,
     });
     var dto;
     if (rees.success) {
@@ -56,7 +72,7 @@ class StageInfoService {
   async delete(data) {
     if (data) {
       return await StageInfo_repositories.Delete({
-        EnrollmentID: data,
+        StageInfoID: data,
       });
     }
     return new TResult(null, false, ["بيانات غير صالحة للحذف"]);

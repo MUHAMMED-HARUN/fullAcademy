@@ -6,7 +6,7 @@ namespace System.Application.Services.Progress.DailyEvaluation.Command
 {
     public class UpdateDailyEvaluationCommand : ICommand, IRequest<TResult<string>>
     {
-        public string DailyEvaluationID { get; set; }
+        public string DailyEvaluationID { get; set; } = string.Empty;
         public double To { get; set; }
         public enLevelType LevelType { get; set; }
     }

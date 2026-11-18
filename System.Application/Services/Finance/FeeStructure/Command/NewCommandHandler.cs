@@ -27,6 +27,8 @@ namespace System.Application.Services.Finance.FeeStructure.Command
 
         public async Task<TResult<string>> Handle(NewFeeStructureCommand request, CancellationToken cancellationToken)
         {
+            if (!Guid.TryParse(request.AcademicPlanID, out var academicPlanID) || !await _repo.IsAcademicPlanActive(academicPlanID))
+                return TResult<string>.Fail("Only an active academic plan can be priced.");
             if (await _repo.IsExistBy(request.Name, enFeeStructureParamType.Name))
                 return TResult<string>.Fail(ApplicationExMsg.FeeStructureExistByName);
 

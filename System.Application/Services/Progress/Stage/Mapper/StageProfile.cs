@@ -11,7 +11,7 @@ namespace System.Application.Services.Progress.Stage.Mapper
         {
             CreateMap<NewStageCommand, clsStage>()
                   .ConstructUsing(src => new clsStage(src.StageName, src.StageNote, clsUtil.ToGuid(src.ClassID),
-                      clsUtil.ToGuid(src.PrevStageID))
+                      clsUtil.ToGuid(src.PrevStageID ?? string.Empty))
                   ).ForAllMembers(opt => opt.Ignore()); 
 
             var UpdateMap = CreateMap<UpdateStageCommand, clsStage>();
@@ -23,7 +23,7 @@ namespace System.Application.Services.Progress.Stage.Mapper
                 dest.SetName(src.StageName);
                 dest.SetNotes(src.StageNote);
                 dest.SetClassID(clsUtil.ToGuid(src.ClassID));
-                dest.SetPrevStageID(clsUtil.ToGuid(src.PrevStageID));
+                dest.SetPrevStageID(clsUtil.ToGuid(src.PrevStageID ?? string.Empty));
             }
                 );
         }

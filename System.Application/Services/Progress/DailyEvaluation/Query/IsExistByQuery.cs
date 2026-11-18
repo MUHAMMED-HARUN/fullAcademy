@@ -7,7 +7,7 @@ namespace System.Application.Services.Progress.DailyEvaluation.Query
 {
     public class IsExistDailyEvaluationByQuery : IRequest<TResult <bool>>, IQuery
     {
-        public string Param { get; set; }
+        public string Param { get; set; } = string.Empty;
         public enDailyEvaluationParamType ParamType { get; set; }
     }
 }

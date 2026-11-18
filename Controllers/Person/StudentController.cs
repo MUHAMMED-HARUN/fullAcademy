@@ -20,6 +20,7 @@ namespace School_Academy.Controllers.Person
         }
 
         [HttpPost("NewStudent")]
+        [Authorize(Policy = "Can_Create_Student")]
         public async Task<IActionResult> Add([FromBody] NewStudentCommand command)
         {
             var result = await _mediator.Send(command);
@@ -33,6 +34,7 @@ namespace School_Academy.Controllers.Person
         }
 
         [HttpPut("UpdateStudent")]
+        [Authorize(Policy = "Can_Update_Student")]
         public async Task<IActionResult> Update([FromBody] UpdateStudentCommand command)
         {
             var result = await _mediator.Send(command);
@@ -46,6 +48,7 @@ namespace School_Academy.Controllers.Person
         }
 
         [HttpDelete("DeleteStudent")]
+        [Authorize(Policy = "Can_Delete_Student")]
         public async Task<IActionResult> Delete([FromBody] DeleteStudentCommand command)
         {
             var result = await _mediator.Send(command);
@@ -59,6 +62,7 @@ namespace School_Academy.Controllers.Person
         }
 
         [HttpGet("GetStudentList")]
+        [Authorize(Policy = "Can_Read_Student")]
         public async Task<IActionResult> GetList([FromQuery] GetAllStudentQuery query)
         {
        
@@ -73,6 +77,7 @@ namespace School_Academy.Controllers.Person
         }
 
         [HttpGet("GetStudentBy")]
+        [Authorize(Policy = "Can_Read_Student")]
         public async Task<IActionResult> GetBy( [FromQuery] GetStudentByQuery query )
         {
                    
@@ -86,6 +91,7 @@ namespace School_Academy.Controllers.Person
             return Ok(result);
         }
         [HttpGet("IsExistStudentBy")]
+        [Authorize(Policy = "Can_Read_Student")]
         public async Task<IActionResult> IsExistBy([FromQuery] IsExistStudentByQuery query)
         {
 

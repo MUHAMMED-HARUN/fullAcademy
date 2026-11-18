@@ -1,4 +1,5 @@
 using System.Domain.Entities.BaseClass;
+using System.Domain.Entities.Enrollment;
 using System.Domain.Entities.Person;
 using System.Domain.Exceptions;
 
@@ -8,16 +9,19 @@ namespace System.Domain.Entities
     {
         public Guid StudentID { get; private set; }
         public Guid GroupID { get; private set; }
+        public Guid StudentAcademicEnrollmentID { get; private set; }
         public DateOnly Date { get; private set; }
         
         public clsStudent Student { get; private set; }
         public clsGroup Group { get; private set; }
+        public clsStudentAcademicEnrollment StudentAcademicEnrollment { get; private set; }
         public ICollection<clsStudentStage> StudentStages = new HashSet<clsStudentStage>();
 
-        public clsStudentEnrollment(Guid studentID, Guid groupID, DateOnly date)
+        public clsStudentEnrollment(Guid studentID, Guid groupID, Guid studentAcademicEnrollmentID, DateOnly date)
         {
             SetStudentID(studentID);
             SetGroupID(groupID);
+            SetStudentAcademicEnrollmentID(studentAcademicEnrollmentID);
             SetDate(date);
             SetID(Guid.NewGuid());
             
@@ -40,6 +44,13 @@ namespace System.Domain.Entities
                 throw new DomainException(DomainExMsg.StudentEnrollment_GroupIDRequired);
             }
             GroupID = groupID;
+        }
+
+        public void SetStudentAcademicEnrollmentID(Guid studentAcademicEnrollmentID)
+        {
+            if (studentAcademicEnrollmentID == Guid.Empty)
+                throw new DomainException(DomainExMsg.StudentAcademicEnrollment_ReferenceRequired);
+            StudentAcademicEnrollmentID = studentAcademicEnrollmentID;
         }
 
         public void SetDate(DateOnly date)

@@ -7,11 +7,18 @@ namespace System.Application.Services.Finance.Payment.DTO
         public string PaymentID { get; set; }
         public string StudentInvoiceID { get; set; }
         public string StudentName { get; set; }
+        public string? StudentAcademicEnrollmentID { get; set; }
+        public string? AcademicPlanName { get; set; }
         public string FeeStructureName { get; set; }
+        public string InvoiceLabel { get; set; }
         public decimal Amount { get; set; }
         public DateTime PaymentDate { get; set; }
         public enPaymentMethod PaymentMethod { get; set; }
         public string? ReferenceNumber { get; set; }
         public string? Notes { get; set; }
+        public bool IsReversed { get; set; }
+        public string? ReversalReason { get; set; }
+        public DateTime? ReversedAt { get; set; }
+        public string? ReversedBy { get; set; }
     }
 }

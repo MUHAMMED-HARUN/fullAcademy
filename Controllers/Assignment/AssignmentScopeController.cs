@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Application.Services.Assignment.AssignmentScope.Command;
 using System.Application.Services.Assignment.AssignmentScope.Query;
@@ -8,6 +9,7 @@ namespace School_Academy.Controllers.Assignment
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AssignmentScopeController : ControllerBase
     {
 
@@ -17,6 +19,7 @@ namespace School_Academy.Controllers.Assignment
             _mediator = mediator;
         }
         [HttpPost("NewAssignmentScope")]
+        [Authorize(Policy = "Can_Create_AssignmentScope")]
         public async Task<IActionResult> Add([FromBody] NewAssignmentScopeCommand command)
         {
             var result = await _mediator.Send(command);
@@ -30,6 +33,7 @@ namespace School_Academy.Controllers.Assignment
         }
 
         [HttpPut("UpdateAssignmentScope")]
+        [Authorize(Policy = "Can_Update_AssignmentScope")]
         public async Task<IActionResult> Update([FromBody] UpdateAssignmentScopeCommand command)
         {
             var result = await _mediator.Send(command);
@@ -43,6 +47,7 @@ namespace School_Academy.Controllers.Assignment
         }
 
         [HttpDelete("DeleteAssignmentScope")]
+        [Authorize(Policy = "Can_Delete_AssignmentScope")]
         public async Task<IActionResult> Delete([FromBody] DeleteAssignmentScopeCommand command)
         {
             var result = await _mediator.Send(command);
@@ -56,6 +61,7 @@ namespace School_Academy.Controllers.Assignment
         }
 
         [HttpGet("GetAssignmentScopeList")]
+        [Authorize(Policy = "Can_Read_AssignmentScope")]
         public async Task<IActionResult> GetList()
         {
             var query = new GetAllAssignmentScopeQuery();
@@ -69,6 +75,7 @@ namespace School_Academy.Controllers.Assignment
             return Ok(result);
         }
         [HttpGet("GetCanNominateList")]
+        [Authorize(Policy = "Can_Read_AssignmentScope")]
         public async Task<IActionResult> GetCanNominateList([FromQuery] GetCanNominateQuery query)
         {
             var result = await _mediator.Send(query);
@@ -82,6 +89,7 @@ namespace School_Academy.Controllers.Assignment
         }
 
         [HttpGet("GetAssignmentScopeBy")]
+        [Authorize(Policy = "Can_Read_AssignmentScope")]
         public async Task<IActionResult> GetBy([FromQuery] GetAssignmentScopeByQuery query)
         {
 

@@ -9,8 +9,8 @@ class GroupService {
     const rees = await Group_repositories.getList(filter);
     if (rees.success) {
       const pagingObj = rees.data || {};
-      const rawList = pagingObj.Data;
-      const totalCount = pagingObj.Count ?? 0;
+      const rawList = pagingObj.Data ?? pagingObj.data ?? [];
+      const totalCount = pagingObj.Count ?? pagingObj.count ?? 0;
       const dto = GroupMapper.mapListApiToClass(rawList);
       return new TResult(
         { items: dto, count: totalCount },
@@ -21,16 +21,21 @@ class GroupService {
     return new TResult(null, false, rees.errors);
   }
 
-  async GetGroupsByTeacher(teacherID) {
-    const rees = await Group_repositories.GetGroupsByTeacherID({
-      TeacherID: teacherID,
+  async getMyTeachingGroups() {
+    const response = await Group_repositories.getMyTeachingGroups({
+      Page: 1,
+      PageSize: 100,
     });
-    var dto;
-    if (rees.success) {
-      dto = GroupMapper.MapFromApiclsGroupList(rees.data);
-      return new TResult(dto, rees.success, rees.errors);
-    }
-    return new TResult(null, false, rees.errors);
+    if (!response.success) return new TResult(null, false, response.errors);
+    const paging = response.data || {};
+    return new TResult(
+      {
+        items: GroupMapper.mapListApiToClass(paging.Data ?? paging.data ?? []),
+        count: paging.Count ?? paging.count ?? 0,
+      },
+      true,
+      response.errors
+    );
   }
 
   async getBy(command) {

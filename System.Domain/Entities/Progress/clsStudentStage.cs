@@ -1,5 +1,6 @@
 using System;
 using System.Domain.Entities.BaseClass;
+using System.Domain.Entities.Enrollment;
 using System.Domain.Entities.Progress;
 using System.Domain.Entities.Person;
 using System.Domain.Enums.Person;
@@ -10,18 +11,18 @@ namespace System.Domain.Entities
     public class clsStudentStage : clsBaseClass
     {
         public enStageStateType State { get; private set; }
-        public Guid EnrollmentStudentID { get; private set; }
+        public Guid StudentAcademicEnrollmentID { get; private set; }
         public Guid StageID { get; private set; }
         public DateOnly Date {  get; private set; }
-        public clsStudentEnrollment StudentEnrollment{ get; private set; }
+        public clsStudentAcademicEnrollment StudentAcademicEnrollment { get; private set; }
         public clsStage Stage{ get; private set; }
 
         protected clsStudentStage() { }
 
-        public clsStudentStage(enStageStateType state, Guid studentID, Guid stageID, DateOnly date)
+        public clsStudentStage(enStageStateType state, Guid studentAcademicEnrollmentID, Guid stageID, DateOnly date)
         {
             SetState(state);
-            SetEnrollmentStudentID(studentID);
+            SetStudentAcademicEnrollmentID(studentAcademicEnrollmentID);
             SetStageID(stageID);
             SetDate(date);
             BaseSetCreated("System"); // Default, will be updated by Service
@@ -31,13 +32,11 @@ namespace System.Domain.Entities
         {
             State = stateType;
         }
-        public void SetEnrollmentStudentID(Guid enrollmentstudntID)
+        public void SetStudentAcademicEnrollmentID(Guid studentAcademicEnrollmentID)
         {
-            if (enrollmentstudntID == Guid.Empty)
-            {
-                throw DomainExMsg.StudentStage_StudentIDRequired;
-            }
-EnrollmentStudentID = enrollmentstudntID;
+            if (studentAcademicEnrollmentID == Guid.Empty)
+                throw new DomainException(DomainExMsg.StudentStage_StudentAcademicEnrollmentIDRequired);
+            StudentAcademicEnrollmentID = studentAcademicEnrollmentID;
         }
         public void SetStageID(Guid stageID)
         {

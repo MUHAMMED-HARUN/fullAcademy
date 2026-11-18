@@ -1,15 +1,10 @@
-using AutoMapper;
 using MediatR;
-using System.Application.Abstractions.Assignment;
 using System.Application.Abstractions.Attendance;
 using System.Application.Abstractions.Auth;
 using System.Application.Common;
 using System.Application.Exceptions;
-using System.Domain.Entities;
 using System.Domain.Entities.Attendance;
 using System.Domain.Enums.Attendance;
-using System.Domain.Enums.Enrollment;
-using System.Domain.Enums.Person;
 
 namespace System.Application.Services.Attendance.Attendance.Command
 {
@@ -17,63 +12,104 @@ namespace System.Application.Services.Attendance.Attendance.Command
     {
         private readonly IAttendanceRepository _repo;
         private readonly ICurrentUserService _currentUserService;
-        private readonly IMapper _mapper;
 
         public NewAttendanceCommandHandler(
             IAttendanceRepository repo,
-            ICurrentUserService currentUserService,
-            IMapper mapper)
+            ICurrentUserService currentUserService)
         {
             _repo = repo;
             _currentUserService = currentUserService;
-            _mapper = mapper;
         }
 
         public async Task<TResult<string>> Handle(NewAttendanceCommand request, CancellationToken cancellationToken)
         {
 
-            if(request == null|| request.Attendances.Count==0 || request.Attendances==null) 
+            if (request?.Attendances == null || request.Attendances.Count == 0 || request.Date == default)
                 return TResult<string>.Fail(ApplicationExMsg.FailAdd);
+            if (request.Attendances.Count > 500)
+                return TResult<string>.Fail("لا يمكن تسجيل أكثر من 500 عضوية في الدفعة الواحدة");
 
-            var ToDay = DateOnly.FromDateTime(DateTime.Now).ToString();
+            if (!_currentUserService.HasPermission("Can_Create_Attendance"))
+                return TResult<string>.Fail(ApplicationExMsg.AccessDinede);
 
-            var AttendancIDs = request.Attendances.Select(x => clsUtil.ToGuid(x.EntityID));
-            var ContextIDs = request.Attendances.Where(x => !string.IsNullOrEmpty(x.ContextID)).Select(x => clsUtil.ToGuid(x.ContextID));
-           var ContextTypes = request.Attendances.Where(x => x.ContextType!=null).Select(x => x.ContextType.Value);
-
-            var existingAttendances = _repo.Find(clsAttendance.GetByAttendees_Date_Context(AttendancIDs,
-                DateOnly.FromDateTime(DateTime.Now),
-                ContextIDs,
-                ContextTypes
-                ), false).ToDictionary(a => a.AttendeeID);
-              
-         List< clsAttendance >Newattendance= new List<clsAttendance>();
+            var enrollmentIDs = new List<Guid>();
+            Guid? batchGroupID = null;
             foreach (var attendance in request.Attendances)
             {
-                if (existingAttendances.TryGetValue(clsUtil.ToGuid(attendance.EntityID), out var toUpdate))
+                if (attendance == null ||
+                    !Guid.TryParse(attendance.EntityID, out var enrollmentID) || enrollmentID == Guid.Empty ||
+                    attendance.AttendeeType != enAttendeeType.Student ||
+                    attendance.ContextType != enContextType.Group ||
+                    !Guid.TryParse(attendance.ContextID, out var groupID) || groupID == Guid.Empty)
+                    return TResult<string>.Fail(ApplicationExMsg.FailAdd);
+
+                if (batchGroupID.HasValue && batchGroupID.Value != groupID)
+                    return TResult<string>.Fail("يجب أن تخص دفعة الحضور مجموعة واحدة فقط");
+
+                batchGroupID = groupID;
+                enrollmentIDs.Add(enrollmentID);
+            }
+
+            if (enrollmentIDs.Distinct().Count() != enrollmentIDs.Count)
+                return TResult<string>.Fail("لا يمكن تكرار عضوية المجموعة في دفعة الحضور");
+
+            var groupIDForBatch = batchGroupID!.Value;
+            if (!await _repo.CanWriteGroupAttendance(groupIDForBatch, enrollmentIDs, request.Date))
+                return TResult<string>.Fail(ApplicationExMsg.NotFound);
+
+            var existingAttendances = await _repo.GetGroupAttendanceForUpdate(
+                groupIDForBatch, enrollmentIDs, request.Date);
+            var existingByContext = existingAttendances
+                .GroupBy(attendance => (
+                    attendance.AttendeeID,
+                    attendance.Date,
+                    attendance.ContextID,
+                    attendance.ContextType))
+                .ToDictionary(
+                    group => group.Key,
+                    group => group.OrderByDescending(attendance => attendance.ModifiedAt ?? attendance.CreatedAt).First());
+
+            var hasStatusChanges = request.Attendances.Any(item =>
+            {
+                var enrollmentID = Guid.Parse(item.EntityID);
+                var key = (enrollmentID, request.Date, (Guid?)groupIDForBatch, (enContextType?)enContextType.Group);
+                return existingByContext.TryGetValue(key, out var existing) && existing.Status != item.Status;
+            });
+            if (hasStatusChanges && !_currentUserService.HasPermission("Can_Update_Attendance"))
+                return TResult<string>.Fail(ApplicationExMsg.AccessDinede);
+
+            if (_currentUserService.UserId is not Guid userID)
+                return TResult<string>.Fail("المستخدم الحالي غير صالح");
+
+            var newAttendance = new List<clsAttendance>();
+            foreach (var attendance in request.Attendances)
+            {
+                var enrollmentID = Guid.Parse(attendance.EntityID);
+                var key = (enrollmentID, request.Date, (Guid?)groupIDForBatch, (enContextType?)enContextType.Group);
+                if (existingByContext.TryGetValue(key, out var existing))
                 {
-
-                    if (toUpdate.Status != attendance.Status)
+                    if (existing.Status != attendance.Status)
                     {
-                        toUpdate.SetStatus(attendance.Status);
-                        toUpdate.SetModified(_currentUserService.UserId.ToString());
-                    }
-
-                    if (!string.IsNullOrEmpty(attendance.ContextID))
-                    {
-                        toUpdate.SetContext(clsUtil.ToGuid(attendance.ContextID), attendance.ContextType);
-                        toUpdate.SetModified(_currentUserService.UserId.ToString());
+                        existing.SetStatus(attendance.Status);
+                        existing.SetModified(userID.ToString());
                     }
                 }
                 else
                 {
-                var newAttendance =    _mapper.Map<AttendanceCommandDTO, clsAttendance>(attendance);
-                    newAttendance.SetCreated(_currentUserService.UserId.ToString());
-                    Newattendance.Add(newAttendance);
+                    var entity = new clsAttendance(
+                        enrollmentID,
+                        enAttendeeType.Student,
+                        request.Date,
+                        attendance.Status,
+                        contextId: groupIDForBatch,
+                        contextType: enContextType.Group);
+                    entity.SetCreated(userID.ToString());
+                    newAttendance.Add(entity);
                 }
 
             }
-            await _repo.AddByRange(Newattendance);
+            if (newAttendance.Count > 0)
+                await _repo.AddByRange(newAttendance);
           
 
             return TResult<string>.OK(string.Empty);

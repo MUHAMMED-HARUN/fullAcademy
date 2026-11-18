@@ -22,14 +22,23 @@ class AssignmentRepositories {
     return response;
   }
 
-  async getList() {
+  async getList(params = {}) {
     const response = await clsUtil.FeachRequset(
-      `${baseUrl}/GetAssignmentList`,
+      `${baseUrl}/GetAssignmentListFilter`,
       enApiType.get,
-      null,
+      { params },
       "خطأ في الخادم أثناء جلب قائمة التسجيل"
     );
     return response;
+  }
+
+  async getForUpsert(assignmentID) {
+    return await clsUtil.FeachRequset(
+      `${baseUrl}/GetAssignmentForUpsert`,
+      enApiType.get,
+      { params: { AssignmentID: assignmentID } },
+      "تعذر تحميل بيانات الاختبار"
+    );
   }
 
   async getBy(param) {
@@ -48,16 +57,6 @@ class AssignmentRepositories {
       enApiType.delete,
       param,
       "خطأ في الخادم أثناء حذف التسجيل"
-    );
-    return response;
-  }
-
-  async IsExistBy(param) {
-    const response = await clsUtil.FeachRequset(
-      `${baseUrl}/IsExistAssignmentBy`,
-      enApiType.get,
-      param,
-      "خطأ في الخادم أثناء جلب بيانات التسجيل"
     );
     return response;
   }

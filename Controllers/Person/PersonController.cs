@@ -20,6 +20,7 @@ namespace School_Academy.Controllers.Person
         }
 
         [HttpPost("NewPerson")]
+        [Authorize(Policy = "Can_Create_Person")]
         public async Task<IActionResult> Add([FromBody] NewPersonCommand command)
         {
             var result = await _mediator.Send(command);
@@ -33,6 +34,7 @@ namespace School_Academy.Controllers.Person
         }
 
         [HttpPut("UpdatePerson")]
+        [Authorize(Policy = "Can_Update_Person")]
         public async Task<IActionResult> Update([FromBody] UpdatePersonCommand command)
         {
             var result = await _mediator.Send(command);
@@ -46,6 +48,7 @@ namespace School_Academy.Controllers.Person
         }
 
         [HttpDelete("DeletePerson")]
+        [Authorize(Policy = "Can_Delete_Person")]
         public async Task<IActionResult> Delete([FromBody] DeletePersonCommand command)
         {
             var result = await _mediator.Send(command);
@@ -59,6 +62,7 @@ namespace School_Academy.Controllers.Person
         }
 
         [HttpGet("GetPersonList")]
+        [Authorize(Policy = "Can_Read_Person")]
         public async Task<IActionResult> GetList([FromQuery] GetAllPersonQuery query)
         {
             var result = await _mediator.Send(query);
@@ -72,6 +76,7 @@ namespace School_Academy.Controllers.Person
         }
 
         [HttpGet("GetPersonBy")]
+        [Authorize(Policy = "Can_Read_Person")]
         public async Task<IActionResult> GetBy([FromQuery] GetPersonByQuery query )
         {
                    
@@ -86,6 +91,7 @@ namespace School_Academy.Controllers.Person
         }
 
         [HttpGet("get-for-upsert/{id:guid}")]
+        [Authorize(Policy = "Can_Read_Person")]
         public async Task<IActionResult> GetForUpsert([FromRoute] Guid id)
         {
             var result = await _mediator.Send(new GetPersonForUpsertQuery { PersonID = id });
@@ -97,6 +103,7 @@ namespace School_Academy.Controllers.Person
         }
 
         [HttpGet("IsExistPersonBy")]
+        [Authorize(Policy = "Can_Read_Person")]
         public async Task<IActionResult> IsExistBy([FromQuery] IsExistPersonByQuery query)
         {
 

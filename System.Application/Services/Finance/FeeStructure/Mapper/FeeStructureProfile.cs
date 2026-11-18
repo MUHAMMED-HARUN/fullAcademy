@@ -14,10 +14,7 @@ namespace System.Application.Services.Finance.FeeStructure.Mapper
                     src.Name,
                     src.FeeType,
                     src.Amount,
-                    !string.IsNullOrEmpty(src.ProgramID) ? clsUtil.ToGuid(src.ProgramID) : null,
-                    !string.IsNullOrEmpty(src.ClassID) ? clsUtil.ToGuid(src.ClassID) : null,
-                    !string.IsNullOrEmpty(src.StageID) ? clsUtil.ToGuid(src.StageID) : null,
-                    !string.IsNullOrEmpty(src.StageInfoID) ? clsUtil.ToGuid(src.StageInfoID) : null,
+                    clsUtil.ToGuid(src.AcademicPlanID),
                     src.Notes
                 ))
                 .ForAllMembers(opt => opt.Ignore());
@@ -29,10 +26,7 @@ namespace System.Application.Services.Finance.FeeStructure.Mapper
                 dest.SetName(src.Name);
                 dest.SetFeeType(src.FeeType);
                 dest.SetAmount(src.Amount);
-                dest.SetProgramID(!string.IsNullOrEmpty(src.ProgramID) ? clsUtil.ToGuid(src.ProgramID) : null);
-                dest.SetClassID(!string.IsNullOrEmpty(src.ClassID) ? clsUtil.ToGuid(src.ClassID) : null);
-                dest.SetStageID(!string.IsNullOrEmpty(src.StageID) ? clsUtil.ToGuid(src.StageID) : null);
-                dest.SetStageInfoID(!string.IsNullOrEmpty(src.StageInfoID) ? clsUtil.ToGuid(src.StageInfoID) : null);
+                dest.SetAcademicPlanID(clsUtil.ToGuid(src.AcademicPlanID));
                 dest.SetNotes(src.Notes);
             });
         }

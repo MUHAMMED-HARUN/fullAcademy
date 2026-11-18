@@ -42,6 +42,14 @@ class InstituteClassRepositories {
     return response;
   }
 
+  async getListFilter(params) {
+    return await clsUtil.FeachRequset(
+      `${baseUrl}/GetInstituteClassListFilter`,
+      enApiType.get,
+      { params }
+    );
+  }
+
   async getBy(param) {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/GetInstituteClassBy`,

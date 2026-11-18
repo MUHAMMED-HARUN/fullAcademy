@@ -15,12 +15,14 @@ namespace System.Application.Abstractions.Institute
         Task<bool> Update(clsGroup entity);
         Task<List<GroupInfo>> GetList();
         Task<Paging<GroupInfo>> GetListFilter(GetAllGroupQuery request);
-        Task<List<clsGroup>> GetGroupByTeacherID( string TeacherID);
+        Task<Paging<GroupInfo>> GetMyTeachingGroups(GetMyTeachingGroupsQuery request);
 
-        Task<GroupInfo> GetBy(string param, enGroupType paramType);
-        Task<clsGroup> GetEntityBy(string param, enGroupType paramType);
+        Task<GroupInfo?> GetBy(string param, enGroupType paramType);
+        Task<clsGroup?> GetEntityBy(string param, enGroupType paramType);
         Task<bool> IsExistBy(string param, enGroupType paramType);
         Task<bool> IsAvalibleName(string name,string InstituteClassID);
         Task<bool> IsAvalibleCode(string code,string InstituteClassID);
+        Task<bool> IsInstituteClassExist(Guid instituteClassID);
+        Task<bool> HasActiveRelationships(Guid groupID);
     }
 }

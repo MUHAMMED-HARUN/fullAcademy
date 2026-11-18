@@ -1,6 +1,5 @@
 using System.Domain.Entities.BaseClass;
 using System.Domain.Enums.Enrollment;
-using System.Domain.Enums.Person;
 using System.Domain.Exceptions;
 
 namespace System.Domain.Entities
@@ -29,7 +28,6 @@ namespace System.Domain.Entities
             SetIsPassed(isPassed);
             SetTotalScore(totalScore);
             BaseSetCreated("System");
-            AddDomainEvent(new AssigmentCreatedEvent(Id, assignmentNominationID));
 
         }
 
@@ -70,11 +68,6 @@ namespace System.Domain.Entities
         public void SetTotalScore(double? totalScore)
         {
             TotalScore = totalScore;
-        }
-        public override void SetDeleted(string userId)
-        {
-            base.SetDeleted(userId);
-            AddDomainEvent(new AssigmentDeletedEvent(Id,AssignmentNominationID,AssignmentState));
         }
     }
 }

@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Application.Services.Enrollment.StudentEnrollment.Command;
 using System.Application.Services.Enrollment.StudentEnrollment.Query;
@@ -7,6 +8,7 @@ namespace School_Academy.Controllers.Enrollment
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class StudentEnrollmentController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -17,6 +19,7 @@ namespace School_Academy.Controllers.Enrollment
         }
 
         [HttpPost("NewStudentEnrollment")]
+        [Authorize(Policy = "Can_Create_StudentEnrollment")]
         public async Task<IActionResult> Add([FromBody] NewStudentEnrollmentCommand command)
         {
             var result = await _mediator.Send(command);
@@ -30,6 +33,7 @@ namespace School_Academy.Controllers.Enrollment
         }
 
         [HttpPost("EnrollByRange")]
+        [Authorize(Policy = "Can_Create_StudentEnrollment")]
         public async Task<IActionResult> EnrollByRange([FromBody] EnrollByRangeCommand command)
         {
             var result = await _mediator.Send(command);
@@ -43,6 +47,7 @@ namespace School_Academy.Controllers.Enrollment
         }
 
         [HttpPut("UpdateStudentEnrollment")]
+        [Authorize(Policy = "Can_Update_StudentEnrollment")]
         public async Task<IActionResult> Update([FromBody] UpdateStudentEnrollmentCommand command)
         {
             var result = await _mediator.Send(command);
@@ -56,6 +61,7 @@ namespace School_Academy.Controllers.Enrollment
         }
 
         [HttpDelete("DeleteStudentEnrollment")]
+        [Authorize(Policy = "Can_Delete_StudentEnrollment")]
         public async Task<IActionResult> Delete([FromBody] DeleteStudentEnrollmentCommand command)
         {
             var result = await _mediator.Send(command);
@@ -69,6 +75,7 @@ namespace School_Academy.Controllers.Enrollment
         }
 
         [HttpGet("GetStudentEnrollmentList")]
+        [Authorize(Policy = "Can_Read_StudentEnrollment")]
         public async Task<IActionResult> GetList([FromQuery] GetAllStudentEnrollmentQuery query)
         {
             var result = await _mediator.Send(query);
@@ -82,6 +89,7 @@ namespace School_Academy.Controllers.Enrollment
         }
 
         [HttpGet("GetStudentEnrollmentBy")]
+        [Authorize(Policy = "Can_Read_StudentEnrollment")]
         public async Task<IActionResult> GetBy([FromQuery] GetStudentEnrollmentByQuery query)
         {
             var result = await _mediator.Send(query);
@@ -95,6 +103,7 @@ namespace School_Academy.Controllers.Enrollment
         }
 
         [HttpGet("IsExistStudentEnrollmentBy")]
+        [Authorize(Policy = "Can_Read_StudentEnrollment")]
         public async Task<IActionResult> IsExistBy([FromQuery] IsExistStudentEnrollmentByQuery query)
         {
             var result = await _mediator.Send(query);

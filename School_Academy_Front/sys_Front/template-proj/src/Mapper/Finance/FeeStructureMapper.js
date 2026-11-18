@@ -1,5 +1,3 @@
-import { normalizeGuid } from "@/Generic/FinanceEnums";
-
 export default class FeeStructureMapper {
   static mapUpsertToApi(dataSchema) {
     return {
@@ -7,10 +5,7 @@ export default class FeeStructureMapper {
       Name: dataSchema.name,
       FeeType: Number(dataSchema.feeType),
       Amount: Number(dataSchema.amount),
-      ProgramID: dataSchema.programID || null,
-      ClassID: dataSchema.classID || null,
-      StageID: dataSchema.stageID || null,
-      StageInfoID: dataSchema.stageInfoID || null,
+      AcademicPlanID: dataSchema.academicPlanID,
       Notes: dataSchema.notes || null,
     };
   }
@@ -22,14 +17,14 @@ export default class FeeStructureMapper {
       name: DataReq.Name,
       feeType: DataReq.FeeType,
       amount: DataReq.Amount,
-      programID: normalizeGuid(DataReq.ProgramID),
-      programName: DataReq.ProgramName,
-      classID: normalizeGuid(DataReq.ClassID),
-      className: DataReq.ClassName,
-      stageID: normalizeGuid(DataReq.StageID),
-      stageName: DataReq.StageName,
-      stageInfoID: normalizeGuid(DataReq.StageInfoID),
-      stageInfoName: DataReq.StageInfoName,
+      academicPlanID: DataReq.AcademicPlanID,
+      academicPlanName: DataReq.AcademicPlanName,
+      academicPlanVersion: DataReq.AcademicPlanVersion,
+      providerInstituteName: DataReq.ProviderInstituteName,
+      scopeName: DataReq.ScopeName,
+      planStatus: DataReq.PlanStatus,
+      hasInvoices: DataReq.HasInvoices,
+      isUsed: DataReq.IsUsed ?? DataReq.HasInvoices,
       notes: DataReq.Notes,
     };
   }
@@ -38,5 +33,19 @@ export default class FeeStructureMapper {
     if (!dataList) return [];
     const items = Array.isArray(dataList) ? dataList : [];
     return items.map((item) => this.MapFromApiDTO(item));
+  }
+
+  static mapPagingApiToClass(paging) {
+    const source =
+      paging?.Data ?? paging?.data ?? paging?.Items ?? paging?.items ?? [];
+    return {
+      items: this.mapListApiToClass(source),
+      count:
+        paging?.Count ??
+        paging?.count ??
+        paging?.TotalCount ??
+        paging?.totalCount ??
+        0,
+    };
   }
 }

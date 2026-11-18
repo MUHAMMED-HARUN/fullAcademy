@@ -1,4 +1,6 @@
 using System.Application.Services.Assignment.Result.DTO;
+using System.Application.Services.Assignment.Result.Query;
+using Gridify;
 using System.Domain.Entities;
 
 namespace System.Application.Abstractions.Assignment
@@ -7,12 +9,11 @@ namespace System.Application.Abstractions.Assignment
     {
         Task<string> Add(clsResult entity);
         Task<bool> Update(clsResult entity);
-        Task<List<ResultInfo>> GetList();
-        Task<List<clsResult>> GetList(Guid[] scopeInfos );
-        Task<List<clsResult>> GetListByAssignmentID(Guid AssignmentID);
-        Task<ResultInfo> GetBy(Guid id);
-        Task<clsResult> GetEntityBy(Guid id);
-        Task<bool> IsExistBy(Guid id);
-        Task<bool> HasResult(Guid AssigmentID, Guid AssigmentScopeInfoID);
+        Task<Paging<ResultInfo>> GetListFilter(GetAllResultQuery request);
+        Task<ResultInfo?> GetBy(Guid id);
+        Task<ResultInfo?> GetForUpsert(Guid id);
+        Task<clsResult?> GetEntityBy(Guid id);
+        Task<List<clsResult>> GetListByAssignmentID(Guid assignmentID);
+        Task<bool> HasResult(Guid assignmentID, Guid assignmentScopeInfoID);
     }
 }

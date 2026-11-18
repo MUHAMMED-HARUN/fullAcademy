@@ -4,6 +4,11 @@ import InstituteClass_service from "@/Service/Institute/InstituteClassService";
 export const useInstituteClassStore = defineStore("instituteClasses", {
   state: () => ({
     instituteClasses: [],
+    instituteClassLookupResults: [],
+    instituteClassLookupCount: 0,
+    instituteClassLookupLoading: false,
+    instituteClassLookupError: null,
+    instituteClassLookupRequestID: 0,
     selectedInstituteClass: null,
     loading: false,
     error: null,
@@ -16,6 +21,43 @@ export const useInstituteClassStore = defineStore("instituteClasses", {
   },
 
   actions: {
+    async fetchInstituteClassLookup(params = {}) {
+      const requestID = ++this.instituteClassLookupRequestID;
+      this.instituteClassLookupLoading = true;
+      this.instituteClassLookupError = null;
+      try {
+        const result = await InstituteClass_service.getAllFilter({
+          Page: Math.max(1, Number(params.Page) || 1),
+          PageSize: Math.max(1, Math.min(100, Number(params.PageSize) || 20)),
+          Filter: params.Filter || "",
+        });
+        if (requestID !== this.instituteClassLookupRequestID) return result;
+        this.instituteClassLookupResults = result.success
+          ? result.data?.items || []
+          : [];
+        this.instituteClassLookupCount = result.success
+          ? result.data?.count || 0
+          : 0;
+        if (!result.success) this.instituteClassLookupError = result.errors;
+        return result;
+      } finally {
+        if (requestID === this.instituteClassLookupRequestID)
+          this.instituteClassLookupLoading = false;
+      }
+    },
+
+    clearInstituteClassLookup() {
+      this.instituteClassLookupRequestID += 1;
+      this.instituteClassLookupResults = [];
+      this.instituteClassLookupCount = 0;
+      this.instituteClassLookupError = null;
+      this.instituteClassLookupLoading = false;
+    },
+
+    buildLookupFilter(type, value) {
+      return InstituteClass_service.buildLookupFilter(type, value);
+    },
+
     async fetchInstituteClasses() {
       this.loading = true;
       this.error = null;
@@ -33,17 +75,20 @@ export const useInstituteClassStore = defineStore("instituteClasses", {
     async fetchInstituteClassBy(command) {
       this.loading = true;
       this.error = null;
+      this.selectedInstituteClass = null;
 
-      const result = await InstituteClass_service.getBy(command);
-
-      if (result.success) {
-        this.selectedInstituteClass = result.data;
-      } else {
-        this.error = result.errors;
+      try {
+        const result = await InstituteClass_service.getBy(command);
+        if (result.success) {
+          this.selectedInstituteClass = result.data;
+        } else {
+          this.selectedInstituteClass = null;
+          this.error = result.errors;
+        }
+        return result;
+      } finally {
+        this.loading = false;
       }
-
-      this.loading = false;
-      return result;
     },
 
     async addInstituteClass(payload) {

@@ -1,6 +1,7 @@
 using Gridify;
 using System.Application.Services.Enrollment.StudentEnrollment.DTO;
 using System.Application.Services.Enrollment.StudentEnrollment.Query;
+using System.Application.Services.Enrollment.StudentAcademicEnrollment.DTO;
 using System.Application.Services.Enrollment.TeachingAssignment.DTO;
 using System.Application.Services.Enrollment.TeachingAssignment.Query;
 using System.Application.Services.Person.Student.Query;
@@ -16,9 +17,11 @@ namespace System.Application.Abstractions.Enrollment
         Task<List<StudentEnrollmentInfo>> GetList();
         Task<Paging<StudentEnrollmentInfoView>> GetGroupStudentss(GetAllStudentEnrollmentQuery requset, string TeacherID);
 
-        Task<StudentEnrollmentInfo> GetBy(string param, enStudentEnrollmentType paramType);
-        Task<clsStudentEnrollment> GetEntityBy(string param, enStudentEnrollmentType paramType);
+        Task<StudentEnrollmentInfo?> GetBy(string param, enStudentEnrollmentType paramType);
+        Task<clsStudentEnrollment?> GetEntityBy(string param, enStudentEnrollmentType paramType);
         Task<bool> IsExistBy(string param, enStudentEnrollmentType paramType);
         Task<bool> IsStudentEnrolled(string studentID, string groupID);
+        Task<StudentAcademicEnrollmentMembershipInfo?> GetEligibleAcademicEnrollmentForGroup(Guid studentAcademicEnrollmentID, Guid groupID, DateOnly date);
+        Task<bool> IsAcademicEnrollmentAlreadyInGroup(Guid studentAcademicEnrollmentID, Guid groupID);
     }
 }

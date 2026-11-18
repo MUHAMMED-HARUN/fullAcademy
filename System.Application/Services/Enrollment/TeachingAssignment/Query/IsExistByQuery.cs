@@ -7,7 +7,7 @@ namespace System.Application.Services.Enrollment.TeachingAssignment.Query
 {
     public class IsExistTeachingAssignmentByQuery : IRequest<TResult<bool>>, IQuery
     {
-        public string Param { get; set; }
+        public string Param { get; set; } = string.Empty;
         public enTeachingAssignmentType ParamType { get; set; }
     }
 }

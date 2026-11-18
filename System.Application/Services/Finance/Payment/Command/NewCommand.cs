@@ -5,7 +5,7 @@ using System.Domain.Enums.Finance;
 
 namespace System.Application.Services.Finance.Payment.Command
 {
-    public class NewPaymentCommand : ICommand, IRequest<TResult<string>>
+    public class NewPaymentCommand : ITransaction, IRequest<TResult<string>>
     {
         public string StudentInvoiceID { get; set; }
         public decimal Amount { get; set; }

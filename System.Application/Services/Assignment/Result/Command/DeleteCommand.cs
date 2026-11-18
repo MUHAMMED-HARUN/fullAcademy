@@ -4,8 +4,8 @@ using System.Application.Common;
 
 namespace System.Application.Services.Assignment.Result.Command
 {
-    public class DeleteResultCommand : ICommand, IRequest<TResult<string>>
+    public class DeleteResultCommand : ITransaction, IRequest<TResult<string>>
     {
-        public string ResultID { get; set; }
+        public string ResultID { get; set; } = string.Empty;
     }
 }

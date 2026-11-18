@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Application.Services.Institute.Institute.Command;
 using System.Application.Services.Institute.Institute.Query;
@@ -11,6 +12,7 @@ namespace School_Academy.Controllers.Assignment
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AssignmentScopeInfoController : ControllerBase
     {
 
@@ -20,6 +22,7 @@ namespace School_Academy.Controllers.Assignment
             _mediator = mediator;
         }
         [HttpPost("NewAssignmentScopeInfo")]
+        [Authorize(Policy = "Can_Create_AssignmentScopeInfo")]
         public async Task<IActionResult> Add([FromBody] NewAssignmentScopeInfoCommand command)
         {
             var result = await _mediator.Send(command);
@@ -33,6 +36,7 @@ namespace School_Academy.Controllers.Assignment
         }
 
         [HttpPut("UpdateAssignmentScopeInfo")]
+        [Authorize(Policy = "Can_Update_AssignmentScopeInfo")]
         public async Task<IActionResult> Update([FromBody] UpdateAssignmentScopeInfoCommand command)
         {
             var result = await _mediator.Send(command);
@@ -46,6 +50,7 @@ namespace School_Academy.Controllers.Assignment
         }
 
         [HttpDelete("DeleteAssignmentScopeInfo")]
+        [Authorize(Policy = "Can_Delete_AssignmentScopeInfo")]
         public async Task<IActionResult> Delete([FromBody] DeleteAssignmentScopeInfoCommand command)
         {
             var result = await _mediator.Send(command);
@@ -59,6 +64,7 @@ namespace School_Academy.Controllers.Assignment
         }
 
         [HttpGet("GetAssignmentScopeInfoList")]
+        [Authorize(Policy = "Can_Read_AssignmentScopeInfo")]
         public async Task<IActionResult> GetList()
         {
             var query = new GetAllAssignmentScopeInfoQuery();
@@ -73,6 +79,7 @@ namespace School_Academy.Controllers.Assignment
         }
 
         [HttpGet("GetAssignmentScopeInfoBy")]
+        [Authorize(Policy = "Can_Read_AssignmentScopeInfo")]
         public async Task<IActionResult> GetBy([FromQuery] GetAssignmentScopeInfoByQuery query)
         {
 
@@ -86,6 +93,7 @@ namespace School_Academy.Controllers.Assignment
             return Ok(result);
         }
         [HttpGet("fetchAssignmentScopeinfosForAssigment")]
+        [Authorize(Policy = "Can_Read_AssignmentScopeInfo")]
         public async Task<IActionResult> fetchAssignmentScopeinfosForAssigment([FromQuery] GetByAssigmentIDQuery query)
         {
 

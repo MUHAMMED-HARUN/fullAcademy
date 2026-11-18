@@ -1,12 +1,14 @@
 using Gridify;
 using Gridify.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using System.Application.Abstractions.Auth;
 using System.Application.Abstractions.Person;
 using System.Application.Common;
 using System.Application.Services.Person.Student.DTO;
 using System.Application.Services.Person.Student.Query;
 using System.Domain.Entities.Person;
 using System.Domain.Enums.Person;
+using System.Infrastructure.Extensions.Security;
 using System.Infrastructure.Persistence;
 
 namespace System.Infrastructure.Repositories.Person
@@ -21,11 +23,15 @@ namespace System.Infrastructure.Repositories.Person
                 .AddMap("BirthDateFrom", student => student.BirthDate)
                 .AddMap("BirthDateTo", student => student.BirthDate);
 
+        private readonly AppDbContext _context;
         private readonly DbSet<clsStudent> _dbSet;
+        private readonly ICurrentUserService _currentUser;
 
-        public StudentService(AppDbContext appDbContext)
+        public StudentService(AppDbContext appDbContext, ICurrentUserService currentUser)
         {
+            _context = appDbContext;
             _dbSet = appDbContext.Set<clsStudent>();
+            _currentUser = currentUser;
         }
 
         private static IQueryable<StudentInfo> ProjectStudentInfo(
@@ -59,7 +65,8 @@ namespace System.Infrastructure.Repositories.Person
 
         private IQueryable<StudentInfo> ProjectActiveStudents() =>
             ProjectStudentInfo(_dbSet.Where(student =>
-                student.DeletedBy == null && student.Person.DeletedBy == null));
+                student.DeletedBy == null && student.Person.DeletedBy == null)
+                .ApplyStudentReadScope(_currentUser, _context));
 
         public async Task<string> Add(clsStudent entity)
         {
@@ -79,7 +86,8 @@ namespace System.Infrastructure.Repositories.Person
         public async Task<StudentInfo?> GetBy(string param, enStudentParamType paramType)
         {
             var students = _dbSet.Where(student =>
-                student.DeletedBy == null && student.Person.DeletedBy == null);
+                student.DeletedBy == null && student.Person.DeletedBy == null)
+                .ApplyStudentReadScope(_currentUser, _context);
 
             switch (paramType)
             {
@@ -103,7 +111,8 @@ namespace System.Infrastructure.Repositories.Person
 
         public async Task<clsStudent?> GetEntityBy(string param, enStudentParamType paramType)
         {
-            var students = _dbSet.Where(student => student.DeletedBy == null);
+            var students = _dbSet.Where(student => student.DeletedBy == null)
+                .ApplyStudentReadScope(_currentUser, _context);
 
             switch (paramType)
             {

@@ -1,9 +1,8 @@
 
 namespace System.Application.Services.Enrollment.TeachingAssignment.DTO
 {
-    public class TeachingAssignmentInfo
+    public class TeacherGroupInfo
     {
-        
         public string EnrollmentID { get; set; }
         public string TeacherID { get; set; }
         public string TeacherName { get; set; }
@@ -11,6 +10,8 @@ namespace System.Application.Services.Enrollment.TeachingAssignment.DTO
         public string GroupName { get; set; }
         public string SubjectID { get; set; }
         public string SubjectName { get; set; }
+        public string ClassName { get; set; }
+        public int ClassLevel { get; set; }
         public DateOnly EnrollmentDate { get; set; }
     }
 }

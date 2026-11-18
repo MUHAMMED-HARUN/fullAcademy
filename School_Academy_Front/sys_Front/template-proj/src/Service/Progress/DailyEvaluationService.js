@@ -9,15 +9,9 @@ class DailyEvaluationService {
     const rees = await daily_evaluation_repositories.getPagedList(filter);
     if (rees.success) {
       const pagingObj = rees.data || {};
-
-      // استخراج القائمة والعدد الإجمالي من كائن Paging<T>
-      const rawList = pagingObj.Data;
-      const totalCount = pagingObj.Count ?? 0;
-
-      // تحويل مصفوفة التقييمات عبر الـ Mapper
+      const rawList = pagingObj.Data ?? pagingObj.data ?? [];
+      const totalCount = pagingObj.Count ?? pagingObj.count ?? 0;
       const dto = DailyEvaluationMapper.mapListApiToDailyEvaluation(rawList);
-
-      // تمرير المابنج مع إجمالي العدد
       return new TResult(
         { items: dto, count: totalCount },
         rees.success,
@@ -26,9 +20,9 @@ class DailyEvaluationService {
     }
     return new TResult(null, false, rees.errors);
   }
-  async GetlastDailyEvaluation(StudentEnrollmentID, StageInfoID) {
+  async GetlastDailyEvaluation(StudentAcademicEnrollmentID, StageInfoID) {
     const rees = await daily_evaluation_repositories.GetlastDailyEvaluation(
-      StudentEnrollmentID,
+      StudentAcademicEnrollmentID,
       StageInfoID
     );
     var dto;
@@ -38,6 +32,7 @@ class DailyEvaluationService {
     }
     return new TResult(null, false, rees.errors);
   }
+
   async getBy(command) {
     var res = await daily_evaluation_repositories.getBy(command);
     var dto;

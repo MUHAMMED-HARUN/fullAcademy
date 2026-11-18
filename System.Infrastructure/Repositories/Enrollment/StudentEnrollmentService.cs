@@ -1,28 +1,31 @@
-using Azure.Core;
 using Gridify;
 using Gridify.EntityFramework;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Application.Abstractions.Auth;
 using System.Application.Abstractions.Enrollment;
 using System.Application.Common;
 using System.Application.Services.Enrollment.StudentEnrollment.DTO;
 using System.Application.Services.Enrollment.StudentEnrollment.Query;
-using System.Collections.Generic;
+using System.Application.Services.Enrollment.StudentAcademicEnrollment.DTO;
 using System.Domain.Entities;
+using System.Domain.Enums.AcademicPlan;
 using System.Domain.Enums.Enrollment;
+using System.Infrastructure.Extensions.Security;
 using System.Infrastructure.Persistence;
 
 namespace System.Infrastructure.Repositories.Enrollment
 {
-    public class StudentEnrollmentService : IStudentEnrollmentRepository
+    public sealed class StudentEnrollmentService : IStudentEnrollmentRepository
     {
         private readonly AppDbContext _context;
         private readonly DbSet<clsStudentEnrollment> _dbSet;
+        private readonly ICurrentUserService _currentUser;
 
-        public StudentEnrollmentService(AppDbContext appDbContext)
+        public StudentEnrollmentService(AppDbContext appDbContext, ICurrentUserService currentUser)
         {
             _context = appDbContext;
             _dbSet = _context.Set<clsStudentEnrollment>();
+            _currentUser = currentUser;
         }
 
         public async Task<string> Add(clsStudentEnrollment entity)
@@ -31,112 +34,210 @@ namespace System.Infrastructure.Repositories.Enrollment
             return entity.Id.ToString();
         }
 
-        public async Task<StudentEnrollmentInfo> GetBy(string param, enStudentEnrollmentType paramType)
+        public async Task<StudentEnrollmentInfo?> GetBy(string param, enStudentEnrollmentType paramType)
         {
-            if (paramType == enStudentEnrollmentType.ID)
-            {
-                return await _dbSet.Where(i => i.Id == clsUtil.ToGuid(param))
-                    .Select(i => new StudentEnrollmentInfo
-                    {
-                        EnrollmentID = i.Id.ToString(),
-                        StudentID = i.StudentID.ToString(),
-                        StudentName = i.Student.Person.FirstName + " " + i.Student.Person.FatherName + " " + i.Student.Person.LastName,
-                        GroupID = i.GroupID.ToString(),
-                        GroupName = i.Group.GroupName,
-                        Date = i.Date
-                    }).FirstOrDefaultAsync();
-            }
-            else if (paramType == enStudentEnrollmentType.StudentID)
-            {
-                return await _dbSet.Where(i => i.StudentID == clsUtil.ToGuid(param))
-                    .Select(i => new StudentEnrollmentInfo
-                    {
-                        EnrollmentID = i.Id.ToString(),
-                        StudentID = i.StudentID.ToString(),
-                        StudentName = i.Student.Person.FirstName + " " + i.Student.Person.FatherName + " " + i.Student.Person.LastName,
-                        GroupID = i.GroupID.ToString(),
-                        GroupName = i.Group.GroupName,
-                        Date = i.Date
-                    }).FirstOrDefaultAsync();
-            }
-            else // GroupID
-            {
-                return await _dbSet.Where(i => i.GroupID == clsUtil.ToGuid(param))
-                    .Select(i => new StudentEnrollmentInfo
-                    {
-                        EnrollmentID = i.Id.ToString(),
-                        StudentID = i.StudentID.ToString(),
-                        StudentName = i.Student.Person.FirstName + " " + i.Student.Person.FatherName + " " + i.Student.Person.LastName,
-                        GroupID = i.GroupID.ToString(),
-                        GroupName = i.Group.GroupName,
-                        Date = i.Date
-                    }).FirstOrDefaultAsync();
-            }
-        }
+            var query = _dbSet.AsNoTracking()
+                .ApplyStudentEnrollmentReadScope(_currentUser, _context);
 
-        public async Task<clsStudentEnrollment> GetEntityBy(string param, enStudentEnrollmentType paramType)
-        {
-            if (paramType == enStudentEnrollmentType.ID)
-                return await _dbSet.Where(i => i.Id == clsUtil.ToGuid(param)).FirstOrDefaultAsync();
-            else if (paramType == enStudentEnrollmentType.StudentID)
-                return await _dbSet.Where(i => i.StudentID == clsUtil.ToGuid(param)).FirstOrDefaultAsync();
+            if (paramType == enStudentEnrollmentType.ID && Guid.TryParse(param, out var enrollmentID))
+                query = query.Where(item => item.Id == enrollmentID);
+            else if (paramType == enStudentEnrollmentType.StudentID && Guid.TryParse(param, out var studentID))
+                query = query.Where(item => item.StudentID == studentID);
+            else if (paramType == enStudentEnrollmentType.GroupID && Guid.TryParse(param, out var groupID))
+                query = query.Where(item => item.GroupID == groupID);
             else
-                return await _dbSet.Where(i => i.GroupID == clsUtil.ToGuid(param)).FirstOrDefaultAsync();
+                return null;
+
+            return await query.Select(item => new StudentEnrollmentInfo
+            {
+                EnrollmentID = item.Id.ToString(),
+                StudentID = item.StudentID.ToString(),
+                StudentName = item.Student.Person.FirstName + " " +
+                              item.Student.Person.FatherName + " " +
+                              item.Student.Person.LastName,
+                GroupID = item.GroupID.ToString(),
+                GroupName = item.Group.GroupName,
+                StudentAcademicEnrollmentID = item.StudentAcademicEnrollmentID.ToString(),
+                AcademicPlanName = item.StudentAcademicEnrollment.AcademicPlan.Name,
+                Date = item.Date,
+            }).FirstOrDefaultAsync();
         }
 
-        public async Task<Paging<StudentEnrollmentInfoView>> GetGroupStudentss(GetAllStudentEnrollmentQuery requset, string TeacherID)
+        public async Task<clsStudentEnrollment?> GetEntityBy(string param, enStudentEnrollmentType paramType)
         {
-            var query = _context.vw_StudentEnrollmentInfo.AsQueryable();
+            var query = _dbSet.ApplyStudentEnrollmentReadScope(_currentUser, _context);
 
-            if (!string.IsNullOrEmpty(TeacherID))
-            {
-                var teacherGuid = clsUtil.ToGuid(TeacherID);
-                var authuraizedGroupids =
-                    _context.TeachingAssignments.Where(ta => ta.TeacherID == teacherGuid && ta.IsActive == true).Select(ta=>ta.GroupID);
-                query = query.Where(x => authuraizedGroupids.Contains(x.GroupID));
+            if (paramType == enStudentEnrollmentType.ID && Guid.TryParse(param, out var enrollmentID))
+                query = query.Where(item => item.Id == enrollmentID);
+            else if (paramType == enStudentEnrollmentType.StudentID && Guid.TryParse(param, out var studentID))
+                query = query.Where(item => item.StudentID == studentID);
+            else if (paramType == enStudentEnrollmentType.GroupID && Guid.TryParse(param, out var groupID))
+                query = query.Where(item => item.GroupID == groupID);
+            else
+                return null;
 
-            }
-          
-            // 4.  ÿ»Ìﬁ «· ’›Ì… Ê«· —ﬁÌ„ (Pagination) »«” Œœ«„ Gridify
-            return await query.GridifyAsync(requset);
+            return await query.FirstOrDefaultAsync();
+        }
 
-           
+        public async Task<Paging<StudentEnrollmentInfoView>> GetGroupStudentss(
+            GetAllStudentEnrollmentQuery request,
+            string teacherID)
+        {
+            request.Page = Math.Max(1, request.Page);
+            request.PageSize = Math.Clamp(request.PageSize, 1, 100);
 
+            var scopedEnrollmentIDs = _dbSet.AsNoTracking()
+                .ApplyStudentEnrollmentReadScope(_currentUser, _context)
+                .Select(enrollment => enrollment.Id);
+
+            var query = from view in _context.vw_StudentEnrollmentInfo.AsNoTracking()
+                        join enrollment in _dbSet.AsNoTracking().ApplyStudentEnrollmentReadScope(_currentUser, _context)
+                            on view.EnrollmentID equals enrollment.Id
+                        where scopedEnrollmentIDs.Contains(view.EnrollmentID)
+                        select new StudentEnrollmentInfoView
+                        {
+                            EnrollmentID = view.EnrollmentID,
+                            StudentID = view.StudentID,
+                            StudentName = view.StudentName,
+                            GroupID = view.GroupID,
+                            GroupName = view.GroupName,
+                            Date = view.Date,
+                            CanTrack = view.CanTrack,
+                            CanNominate = view.CanNominate,
+                            CanAddToStage = view.CanAddToStage,
+                            StudentAcademicEnrollmentID = enrollment.StudentAcademicEnrollmentID,
+                            AcademicPlanName = enrollment.StudentAcademicEnrollment.AcademicPlan.Name,
+                        };
+
+            return await query.GridifyAsync(request);
         }
 
         public async Task<List<StudentEnrollmentInfo>> GetList()
         {
-            return await _dbSet.Where(i => i.DeletedAt == null)
-                .Select(i => new StudentEnrollmentInfo
-                {
-                    EnrollmentID = i.Id.ToString(),
-                    StudentID = i.StudentID.ToString(),
-                    StudentName = i.Student.Person.FirstName + " " + i.Student.Person.FatherName + " " + i.Student.Person.LastName,
-                    GroupID = i.GroupID.ToString(),
-                    GroupName = i.Group.GroupName,
-                    Date = i.Date
-                }).ToListAsync();
+            var query = _dbSet.AsNoTracking()
+                .ApplyStudentEnrollmentReadScope(_currentUser, _context);
+
+            return await query.Select(item => new StudentEnrollmentInfo
+            {
+                EnrollmentID = item.Id.ToString(),
+                StudentID = item.StudentID.ToString(),
+                StudentName = item.Student.Person.FirstName + " " +
+                              item.Student.Person.FatherName + " " +
+                              item.Student.Person.LastName,
+                GroupID = item.GroupID.ToString(),
+                GroupName = item.Group.GroupName,
+                StudentAcademicEnrollmentID = item.StudentAcademicEnrollmentID.ToString(),
+                AcademicPlanName = item.StudentAcademicEnrollment.AcademicPlan.Name,
+                Date = item.Date,
+            }).ToListAsync();
         }
 
         public async Task<bool> IsExistBy(string param, enStudentEnrollmentType paramType)
         {
-            if (paramType == enStudentEnrollmentType.ID)
-                return await _dbSet.AnyAsync(i => i.Id == clsUtil.ToGuid(param));
-            else if (paramType == enStudentEnrollmentType.StudentID)
-                return await _dbSet.AnyAsync(i => i.StudentID == clsUtil.ToGuid(param));
-            else
-                return await _dbSet.AnyAsync(i => i.GroupID == clsUtil.ToGuid(param));
+            var query = _dbSet.AsNoTracking()
+                .ApplyStudentEnrollmentReadScope(_currentUser, _context);
+
+            if (paramType == enStudentEnrollmentType.ID && Guid.TryParse(param, out var enrollmentID))
+                return await query.AnyAsync(item => item.Id == enrollmentID);
+            if (paramType == enStudentEnrollmentType.StudentID && Guid.TryParse(param, out var studentID))
+                return await query.AnyAsync(item => item.StudentID == studentID);
+            if (paramType == enStudentEnrollmentType.GroupID && Guid.TryParse(param, out var groupID))
+                return await query.AnyAsync(item => item.GroupID == groupID);
+
+            return false;
         }
 
         public async Task<bool> IsStudentEnrolled(string studentID, string groupID)
         {
-            return await _dbSet.AnyAsync(i => i.StudentID == clsUtil.ToGuid(studentID) && i.GroupID == clsUtil.ToGuid(groupID));
+            if (!Guid.TryParse(studentID, out var studentGuid) ||
+                !Guid.TryParse(groupID, out var groupGuid))
+                return false;
+
+            return await _dbSet.AsNoTracking()
+                .ApplyStudentEnrollmentReadScope(_currentUser, _context)
+                .AnyAsync(item =>
+                    item.StudentID == studentGuid &&
+                    item.GroupID == groupGuid);
         }
 
-        public async Task<bool> Update(clsStudentEnrollment entity)
+        public async Task<StudentAcademicEnrollmentMembershipInfo?> GetEligibleAcademicEnrollmentForGroup(
+            Guid studentAcademicEnrollmentID,
+            Guid groupID,
+            DateOnly date)
+        {
+            if (studentAcademicEnrollmentID == Guid.Empty || groupID == Guid.Empty || date == default)
+                return null;
+
+            var groupClass = await _context.Groups.AsNoTracking()
+                .Where(group => group.Id == groupID)
+                .Select(group => new
+                {
+                    group.InstituteClassID,
+                    group.InstituteClass.ClassID,
+                    group.InstituteClass.Class.ProgramID,
+                })
+                .FirstOrDefaultAsync();
+            if (groupClass == null)
+                return null;
+
+            var enrollment = await _context.StudentAcademicEnrollments.AsNoTracking()
+                .ApplyStudentAcademicEnrollmentReadScope(_currentUser, _context)
+                .Where(item => item.Id == studentAcademicEnrollmentID &&
+                               item.Status == enStudentAcademicEnrollmentStatus.Active &&
+                               item.ValidFrom <= date && (!item.ValidTo.HasValue || item.ValidTo >= date))
+                .Select(item => new
+                {
+                    item.Id,
+                    item.StudentID,
+                    StudentName = item.Student.Person.FirstName + " " + item.Student.Person.FatherName + " " + item.Student.Person.LastName,
+                    item.AcademicPlan.Name,
+                    item.AcademicPlan.Version,
+                    item.AcademicPlan.ScopeType,
+                    item.AcademicPlan.ProgramID,
+                    item.AcademicPlan.InstituteClassID,
+                    item.AcademicPlan.StageID,
+                    item.AcademicPlan.StageInfoID,
+                    item.ValidFrom,
+                    item.ValidTo,
+                })
+                .FirstOrDefaultAsync();
+            if (enrollment == null)
+                return null;
+
+            var groupMatchesPlan = enrollment.ScopeType switch
+            {
+                enAcademicPlanScopeType.Program => enrollment.ProgramID == groupClass.ProgramID,
+                enAcademicPlanScopeType.InstituteClass => enrollment.InstituteClassID == groupClass.InstituteClassID,
+                enAcademicPlanScopeType.Stage => await _context.Stages.AsNoTracking()
+                    .AnyAsync(stage => stage.Id == enrollment.StageID && stage.ClassID == groupClass.ClassID),
+                enAcademicPlanScopeType.StageInfo => await _context.StageInfos.AsNoTracking()
+                    .AnyAsync(info => info.Id == enrollment.StageInfoID &&
+                                      _context.Stages.Any(stage => stage.Id == info.StageID && stage.ClassID == groupClass.ClassID)),
+                _ => false,
+            };
+            if (!groupMatchesPlan)
+                return null;
+
+            return new StudentAcademicEnrollmentMembershipInfo
+            {
+                StudentAcademicEnrollmentID = enrollment.Id.ToString(),
+                StudentID = enrollment.StudentID.ToString(),
+                StudentName = enrollment.StudentName,
+                AcademicPlanName = enrollment.Name,
+                AcademicPlanVersion = enrollment.Version,
+                ValidFrom = enrollment.ValidFrom,
+                ValidTo = enrollment.ValidTo,
+            };
+        }
+
+        public Task<bool> IsAcademicEnrollmentAlreadyInGroup(Guid studentAcademicEnrollmentID, Guid groupID) =>
+            _dbSet.AsNoTracking().AnyAsync(item =>
+                item.StudentAcademicEnrollmentID == studentAcademicEnrollmentID && item.GroupID == groupID);
+
+        public Task<bool> Update(clsStudentEnrollment entity)
         {
             _dbSet.Update(entity);
-            return true;
+            return Task.FromResult(true);
         }
     }
 }

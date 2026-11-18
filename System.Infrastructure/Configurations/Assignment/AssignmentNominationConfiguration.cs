@@ -13,7 +13,7 @@ namespace System.Infrastructure.Configurations.Assignment
 
             builder.ToTable("AssignmentNominations");
 
-            builder.Property(x => x.StudentEnrollmentID)
+            builder.Property(x => x.StudentAcademicEnrollmentID)
                 .IsRequired();
 
             builder.Property(x => x.AssignmentScopeID)
@@ -31,9 +31,9 @@ namespace System.Infrastructure.Configurations.Assignment
             builder.Property(x => x.NominationState)
                 .IsRequired();
 
-            builder.HasOne(x => x.StudentEnrollment)
+            builder.HasOne(x => x.StudentAcademicEnrollment)
                 .WithMany()
-                .HasForeignKey(x => x.StudentEnrollmentID)
+                .HasForeignKey(x => x.StudentAcademicEnrollmentID)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(x => x.AssignmentScope)

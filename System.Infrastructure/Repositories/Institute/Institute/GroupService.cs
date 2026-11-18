@@ -1,25 +1,36 @@
 using Gridify;
 using Gridify.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using System.Application.Abstractions.Auth;
 using System.Application.Abstractions.Institute;
 using System.Application.Common;
 using System.Application.Services.Institute.Group.DTO;
 using System.Application.Services.Institute.Group.Query;
 using System.Domain.Entities;
 using System.Domain.Enums.Institute;
+using System.Infrastructure.Extensions.Security;
 using System.Infrastructure.Persistence;
 
 namespace System.Infrastructure.Repositories.Institute.Institute
 {
     public class GroupService : IGroupRepository
     {
+        private static readonly IGridifyMapper<GroupInfo> GroupFilterMapper =
+            new GridifyMapper<GroupInfo>()
+                .AddMap(nameof(GroupInfo.GroupName), group => group.GroupName)
+                .AddMap(nameof(GroupInfo.Code), group => group.Code)
+                .AddMap(nameof(GroupInfo.ClassName), group => group.ClassName)
+                .AddMap(nameof(GroupInfo.InstituteName), group => group.InstituteName);
+
         private readonly AppDbContext _context;
         private readonly DbSet<clsGroup> _dbSet;
+        private readonly ICurrentUserService _currentUser;
 
-        public GroupService(AppDbContext appDbContext)
+        public GroupService(AppDbContext appDbContext, ICurrentUserService currentUser)
         {
             _context = appDbContext;
             _dbSet = _context.Set<clsGroup>();
+            _currentUser = currentUser;
         }
 
         public async Task<string> Add(clsGroup entity)
@@ -28,96 +39,119 @@ namespace System.Infrastructure.Repositories.Institute.Institute
             return entity.Id.ToString();
         }
 
-        public async Task<GroupInfo> GetBy(string param, enGroupType paramType)
+        public async Task<GroupInfo?> GetBy(string param, enGroupType paramType)
         {
-            if (paramType == enGroupType.ID)
+            if (string.IsNullOrWhiteSpace(param))
+                return null;
+
+            var query = _dbSet.AsNoTracking()
+                .ApplyGroupReadScope(_currentUser, _context);
+
+            query = paramType switch
             {
-                return await _dbSet.Where(i => i.Id == clsUtil.ToGuid(param))
-                    .Select(i => new GroupInfo
-                    {
-                        GroupID = i.Id.ToString(),
-                        GroupName = i.GroupName,
-                        Code = i.Code,
-                        InstituteClassID = i.InstituteClassID.ToString(),
-                        ClassName = i.InstituteClass.Class.Name,
-                        InstituteName = i.InstituteClass.Institute.Name
-                    }).FirstOrDefaultAsync();
-            }
-            else if (paramType == enGroupType.Name)
+                enGroupType.ID when Guid.TryParse(param, out var groupID) =>
+                    query.Where(group => group.Id == groupID),
+                enGroupType.Name => query.Where(group => group.GroupName == param),
+                enGroupType.Code => query.Where(group => group.Code == param),
+                _ => null,
+            };
+
+            if (query == null)
+                return null;
+
+            return await query.Select(group => new GroupInfo
             {
-                return await _dbSet.Where(i => i.GroupName == param)
-                    .Select(i => new GroupInfo
-                    {
-                        GroupID = i.Id.ToString(),
-                        GroupName = i.GroupName,
-                        Code = i.Code,
-                        InstituteClassID = i.InstituteClassID.ToString(),
-                        ClassName = i.InstituteClass.Class.Name,
-                        InstituteName = i.InstituteClass.Institute.Name
-                    }).FirstOrDefaultAsync();
-            }
-            else // Code
-            {
-                return await _dbSet.Where(i => i.Code == param)
-                    .Select(i => new GroupInfo
-                    {
-                        GroupID = i.Id.ToString(),
-                        GroupName = i.GroupName,
-                        Code = i.Code,
-                        InstituteClassID = i.InstituteClassID.ToString(),
-                        ClassName = i.InstituteClass.Class.Name,
-                        InstituteName = i.InstituteClass.Institute.Name
-                    }).FirstOrDefaultAsync();
-            }
+                GroupID = group.Id.ToString(),
+                GroupName = group.GroupName,
+                Code = group.Code,
+                InstituteClassID = group.InstituteClassID.ToString(),
+                ClassName = group.InstituteClass.Class.Name,
+                InstituteName = group.InstituteClass.Institute.Name,
+                HasActiveRelationships = _context.StudentEnrollments.Any(enrollment =>
+                    enrollment.GroupID == group.Id && enrollment.IsActive) ||
+                    _context.TeachingAssignments.Any(assignment =>
+                        assignment.GroupID == group.Id && assignment.IsActive),
+            }).FirstOrDefaultAsync();
         }
 
-        public async Task<clsGroup> GetEntityBy(string param, enGroupType paramType)
+        public async Task<clsGroup?> GetEntityBy(string param, enGroupType paramType)
         {
-            if (paramType == enGroupType.ID)
-                return await _dbSet.Where(i => i.Id == clsUtil.ToGuid(param)).FirstOrDefaultAsync();
-            else if (paramType == enGroupType.Name)
-                return await _dbSet.Where(i => i.GroupName == param).FirstOrDefaultAsync();
-            else
-                return await _dbSet.Where(i => i.Code == param).FirstOrDefaultAsync();
+            if (string.IsNullOrWhiteSpace(param))
+                return null;
+
+            var query = _dbSet.ApplyGroupReadScope(_currentUser, _context);
+            query = paramType switch
+            {
+                enGroupType.ID when Guid.TryParse(param, out var groupID) =>
+                    query.Where(group => group.Id == groupID),
+                enGroupType.Name => query.Where(group => group.GroupName == param),
+                enGroupType.Code => query.Where(group => group.Code == param),
+                _ => null,
+            };
+
+            return query == null ? null : await query.FirstOrDefaultAsync();
         }
 
         public async Task<List<GroupInfo>> GetList()
         {
-            return await _dbSet.Where(i => i.DeletedAt == null)
-                .Select(i => new GroupInfo
+            var query = _dbSet.AsNoTracking()
+                .ApplyGroupReadScope(_currentUser, _context);
+
+            return await query.Select(group => new GroupInfo
                 {
-                    GroupID = i.Id.ToString(),
-                    GroupName = i.GroupName,
-                    Code = i.Code,
-                    InstituteClassID = i.InstituteClassID.ToString(),
-                    ClassName = i.InstituteClass.Class.Name,
-                    InstituteName = i.InstituteClass.Institute.Name
+                    GroupID = group.Id.ToString(),
+                    GroupName = group.GroupName,
+                    Code = group.Code,
+                    InstituteClassID = group.InstituteClassID.ToString(),
+                    ClassName = group.InstituteClass.Class.Name,
+                    InstituteName = group.InstituteClass.Institute.Name,
+                    HasActiveRelationships = _context.StudentEnrollments.Any(enrollment =>
+                        enrollment.GroupID == group.Id && enrollment.IsActive) ||
+                        _context.TeachingAssignments.Any(assignment =>
+                            assignment.GroupID == group.Id && assignment.IsActive),
                 }).ToListAsync();
         }
 
         public async Task<Paging<GroupInfo>> GetListFilter(GetAllGroupQuery request)
         {
-
-
-            return await _dbSet.IgnoreQueryFilters() .Select(i => new GroupInfo
+            request.Page = Math.Max(1, request.Page);
+            request.PageSize = Math.Clamp(request.PageSize, 1, 100);
+            var query = _dbSet.AsNoTracking()
+                .ApplyGroupReadScope(_currentUser, _context)
+                .Select(group => new GroupInfo
                 {
-                    GroupID = i.Id.ToString(),
-                    GroupName = i.GroupName,
-                    Code = i.Code,
-                    InstituteClassID = i.InstituteClassID.ToString(),
-                    ClassName = i.InstituteClass.Class.Name,
-                    InstituteName = i.InstituteClass.Institute.Name
-                }).GridifyAsync(request);
+                    GroupID = group.Id.ToString(),
+                    GroupName = group.GroupName,
+                    Code = group.Code,
+                    InstituteClassID = group.InstituteClassID.ToString(),
+                    ClassName = group.InstituteClass.Class.Name,
+                    InstituteName = group.InstituteClass.Institute.Name,
+                    HasActiveRelationships = _context.StudentEnrollments.Any(enrollment =>
+                        enrollment.GroupID == group.Id && enrollment.IsActive) ||
+                        _context.TeachingAssignments.Any(assignment =>
+                            assignment.GroupID == group.Id && assignment.IsActive),
+                });
+
+            return await query.GridifyAsync(request, GroupFilterMapper);
         }
 
         public async Task<bool> IsExistBy(string param, enGroupType paramType)
         {
-            if (paramType == enGroupType.ID)
-                return await _dbSet.AnyAsync(i => i.Id == clsUtil.ToGuid(param));
-            else if (paramType == enGroupType.Name)
-                return await _dbSet.AnyAsync(i => i.GroupName == param);
-            else
-                return await _dbSet.AnyAsync(i => i.Code == param);
+            if (string.IsNullOrWhiteSpace(param))
+                return false;
+
+            var query = _dbSet.AsNoTracking()
+                .ApplyGroupReadScope(_currentUser, _context);
+            query = paramType switch
+            {
+                enGroupType.ID when Guid.TryParse(param, out var groupID) =>
+                    query.Where(group => group.Id == groupID),
+                enGroupType.Name => query.Where(group => group.GroupName == param),
+                enGroupType.Code => query.Where(group => group.Code == param),
+                _ => null,
+            };
+
+            return query != null && await query.AnyAsync();
         }
 
         public async Task<bool> IsAvalibleName(string name, string InstituteClassID)
@@ -136,17 +170,46 @@ namespace System.Infrastructure.Repositories.Institute.Institute
             return true;
         }
 
-        public async Task<List<clsGroup>> GetGroupByTeacherID(string TeacherID)
+        public async Task<Paging<GroupInfo>> GetMyTeachingGroups(GetMyTeachingGroupsQuery request)
         {
-            return await _dbSet
-                .Join(_context.TeachingAssignments,
-            group => group.Id,
-            TeacherAssig => TeacherAssig.GroupID,
-            (group, TeacherAssig) => new { group, TeacherAssig })
+            if (!_currentUser.IsAuthenticated || _currentUser.IsAdmin ||
+                !string.Equals(_currentUser.EntityType, "Teacher", StringComparison.OrdinalIgnoreCase) ||
+                _currentUser.EntityGuid is not Guid teacherID || teacherID == Guid.Empty)
+                return new Paging<GroupInfo>();
 
-                .Where(i => i.group.DeletedAt == null && i.TeacherAssig.TeacherID == clsUtil.ToGuid(TeacherID))
-                .Select(i => i.group)
-                .ToListAsync();
+            request.Page = Math.Max(1, request.Page);
+            request.PageSize = Math.Clamp(request.PageSize, 1, 100);
+            var query = _dbSet.AsNoTracking()
+                .ApplyGroupReadScope(_currentUser, _context)
+                .Select(group => new GroupInfo
+                {
+                    GroupID = group.Id.ToString(),
+                    GroupName = group.GroupName,
+                    Code = group.Code,
+                    InstituteClassID = group.InstituteClassID.ToString(),
+                    ClassName = group.InstituteClass.Class.Name,
+                    InstituteName = group.InstituteClass.Institute.Name,
+                    HasActiveRelationships = _context.StudentEnrollments.Any(enrollment =>
+                        enrollment.GroupID == group.Id && enrollment.IsActive) ||
+                        _context.TeachingAssignments.Any(assignment =>
+                            assignment.GroupID == group.Id && assignment.IsActive),
+                });
+
+            return await query.GridifyAsync(request, GroupFilterMapper);
+        }
+
+        public Task<bool> IsInstituteClassExist(Guid instituteClassID) =>
+            instituteClassID == Guid.Empty
+                ? Task.FromResult(false)
+                : _context.InstituteClasses.AsNoTracking()
+                    .AnyAsync(item => item.Id == instituteClassID);
+
+        public async Task<bool> HasActiveRelationships(Guid groupID)
+        {
+            return await _context.StudentEnrollments.AsNoTracking()
+                       .AnyAsync(enrollment => enrollment.GroupID == groupID && enrollment.IsActive) ||
+                   await _context.TeachingAssignments.AsNoTracking()
+                       .AnyAsync(assignment => assignment.GroupID == groupID && assignment.IsActive);
         }
     }
 }

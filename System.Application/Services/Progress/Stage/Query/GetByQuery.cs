@@ -9,7 +9,7 @@ namespace System.Application.Services.Progress.Stage.Query
 {
     public class GetStageByQuery : IRequest<TResult<DTO.StageInfo>>, IQuery
     {
-        public string Param { get; set; }
+        public string Param { get; set; } = string.Empty;
         public enStageParamType ParamType { get; set; }
     }
 }

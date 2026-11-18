@@ -16,6 +16,32 @@ class InstituteClassService {
     }
     return new TResult(null, false, rees.errors);
   }
+
+  async getAllFilter(params = {}) {
+    const response = await InstituteClass_repositories.getListFilter(params);
+    if (!response.success) return new TResult(null, false, response.errors);
+    const paging = response.data || {};
+    return new TResult(
+      {
+        items: InstituteClassMapper.mapLookupListApiToInstituteClass(
+          paging.Data ?? paging.data ?? []
+        ),
+        count: paging.Count ?? paging.count ?? 0,
+      },
+      true,
+      response.errors
+    );
+  }
+
+  buildLookupFilter(type, value) {
+    const text = String(value || "")
+      .replace(/[,*|=<>^$()\\;]/g, " ")
+      .trim();
+    if (!text) return "";
+    if (type === "InstituteName") return `InstituteName=*${text}`;
+    if (type === "ClassName") return `ClassName=*${text}`;
+    return `ClassName=*${text}|InstituteName=*${text}`;
+  }
   async getBy(command) {
     var res = await InstituteClass_repositories.getBy(command);
     if (res.success) {

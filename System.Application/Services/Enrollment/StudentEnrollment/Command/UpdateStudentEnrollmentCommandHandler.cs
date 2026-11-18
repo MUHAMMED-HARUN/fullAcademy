@@ -28,14 +28,11 @@ namespace System.Application.Services.Enrollment.StudentEnrollment.Command
             if (entity == null)
                 return TResult<string>.Fail(ApplicationExMsg.StudentEnrollmentNotFound);
 
-            if ((await _repo.IsStudentEnrolled(request.StudentID, request.GroupID)) && 
-                (entity.StudentID != clsUtil.ToGuid(request.StudentID) || entity.GroupID != clsUtil.ToGuid(request.GroupID)))
-            {
-                return TResult<string>.Fail(ApplicationExMsg.StudentAlreadyEnrolledInGroup);
-            }
+            if (_currentUserService.UserId is not Guid userID)
+                return TResult<string>.Fail("المستخدم الحالي غير صالح");
 
             _mapper.Map<UpdateStudentEnrollmentCommand, clsStudentEnrollment>(request, entity);
-            entity.SetModified(_currentUserService.UserId.ToString());
+            entity.SetModified(userID.ToString());
 
             await _repo.Update(entity);
 

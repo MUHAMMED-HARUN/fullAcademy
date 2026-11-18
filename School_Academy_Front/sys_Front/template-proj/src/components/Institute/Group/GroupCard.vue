@@ -10,6 +10,16 @@
         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
           {{ DataReq?.code || "لا يوجد كود" }}
         </p>
+        <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+          {{ DataReq?.className || "—" }} — {{ DataReq?.instituteName || "—" }}
+        </p>
+        <p
+          v-if="DataReq?.hasActiveRelationships"
+          class="mt-2 text-xs text-[var(--text-muted)]"
+        >
+          تحتوي المجموعة على عضويات أو تكليفات نشطة؛ لا يمكن حذفها أو تغيير
+          صفها.
+        </p>
       </div>
       <span
         class="rounded-lg bg-brand-50 px-2.5 py-1 text-xs font-medium text-brand-500 dark:bg-brand-500/15 dark:text-brand-400"

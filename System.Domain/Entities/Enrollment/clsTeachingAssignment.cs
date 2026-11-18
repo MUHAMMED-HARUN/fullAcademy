@@ -53,11 +53,9 @@ namespace System.Domain.Entities
         }
         public void SetDate(DateOnly date)
         {
-            if (date == default)
-            {
-              Date = DateOnly.FromDateTime(DateTime.Now);
-            }
-            Date= date;
+            Date = date == default
+                ? DateOnly.FromDateTime(DateTime.Now)
+                : date;
         }
     }
 }

@@ -1,7 +1,11 @@
 import z from "zod";
 export const AssignmentNominationSchema = z.object({
-  assignmentNominationID: z.string().optional(),
-  studentEnrollmentID: z.string().nonempty({ message: "مطلوب" }),
-  assignmentScopeID: z.string().nonempty({ message: "مطلوب" }),
-  date: z.string().nonempty({ message: "مطلوب" }),
+  assignmentNominationID: z
+    .union([z.literal(""), z.string().uuid()])
+    .optional(),
+  studentAcademicEnrollmentID: z
+    .string()
+    .uuid({ message: "اختر اشتراكاً أكاديمياً صالحاً" }),
+  assignmentScopeID: z.string().uuid({ message: "اختر نطاق اختبار صالحاً" }),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "أدخل تاريخاً صالحاً"),
 });

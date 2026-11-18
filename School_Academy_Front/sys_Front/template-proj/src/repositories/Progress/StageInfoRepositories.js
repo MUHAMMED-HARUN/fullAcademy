@@ -7,7 +7,7 @@ class StageInfoRepositories {
       `${baseUrl}/NewStageInfo`,
       enApiType.post,
       data,
-      "حدث خطأ أثناء إضافة طلب التسجيل"
+      "حدث خطأ أثناء إضافة تفاصيل المرحلة"
     );
     return response;
   }
@@ -17,7 +17,7 @@ class StageInfoRepositories {
       `${baseUrl}/UpdateStageInfo`,
       enApiType.put,
       data,
-      "حدث خطأ أثناء تعديل طلب التسجيل"
+      "حدث خطأ أثناء تعديل تفاصيل المرحلة"
     );
     return response;
   }
@@ -32,6 +32,15 @@ class StageInfoRepositories {
     return response;
   }
 
+  async getListFilter(params) {
+    return await clsUtil.FeachRequset(
+      `${baseUrl}/GetStageInfoListFilter`,
+      enApiType.get,
+      { params },
+      "خطأ في الخادم أثناء جلب تفاصيل المراحل"
+    );
+  }
+
   async getBy(param) {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/GetStageInfoBy`,
@@ -42,7 +51,6 @@ class StageInfoRepositories {
     return response;
   }
   async getStudentStageInfo(param) {
-    console.log(param);
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/GetStudentStageInfo`,
       enApiType.get,
@@ -66,7 +74,7 @@ class StageInfoRepositories {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/IsExistStageInfoBy`,
       enApiType.get,
-      param,
+      { params: param },
       "خطأ في الخادم أثناء جلب بيانات التسجيل"
     );
     return response;

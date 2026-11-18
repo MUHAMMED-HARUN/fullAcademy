@@ -2,7 +2,7 @@ export default class StageMapper {
   static mapUpsertToApi(dataSchema) {
     return {
       StageID: dataSchema.stageID,
-      StageName: dataSchema.name,
+      StageName: dataSchema.name.trim(),
       StageNote: dataSchema.note,
       ClassID: dataSchema.classID,
       PrevStageID: dataSchema.prevStageID || null,

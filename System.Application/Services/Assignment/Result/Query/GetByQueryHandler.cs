@@ -3,6 +3,7 @@ using System.Application.Abstractions.Assignment;
 using System.Application.Common;
 using System.Application.Exceptions;
 using System.Application.Services.Assignment.Result.DTO;
+using Gridify;
 
 namespace System.Application.Services.Assignment.Result.Query
 {
@@ -25,7 +26,25 @@ namespace System.Application.Services.Assignment.Result.Query
         }
     }
 
-    public class GetAllResultQueryHandler : IRequestHandler<GetAllResultQuery, TResult<List<ResultInfo>>>
+    public sealed class GetResultForUpsertQueryHandler : IRequestHandler<GetResultForUpsertQuery, TResult<ResultInfo>>
+    {
+        private readonly IResultRepository _repo;
+
+        public GetResultForUpsertQueryHandler(IResultRepository repo) => _repo = repo;
+
+        public async Task<TResult<ResultInfo>> Handle(GetResultForUpsertQuery request, CancellationToken cancellationToken)
+        {
+            if (!Guid.TryParse(request.ResultID, out var resultID) || resultID == Guid.Empty)
+                return TResult<ResultInfo>.Fail(ApplicationExMsg.NotFound);
+
+            var result = await _repo.GetForUpsert(resultID);
+            return result is null
+                ? TResult<ResultInfo>.Fail(ApplicationExMsg.NotFound)
+                : TResult<ResultInfo>.OK(result);
+        }
+    }
+
+    public class GetAllResultQueryHandler : IRequestHandler<GetAllResultQuery, TResult<Paging<ResultInfo>>>
     {
         private readonly IResultRepository _repo;
 
@@ -34,13 +53,9 @@ namespace System.Application.Services.Assignment.Result.Query
             _repo = repo;
         }
 
-        public async Task<TResult<List<ResultInfo>>> Handle(GetAllResultQuery request, CancellationToken cancellationToken)
+        public async Task<TResult<Paging<ResultInfo>>> Handle(GetAllResultQuery request, CancellationToken cancellationToken)
         {
-            var result = await _repo.GetList();
-            if (result == null || result.Count == 0)
-                return TResult<List<ResultInfo>>.Fail(ApplicationExMsg.NotFound);
-
-            return TResult<List<ResultInfo>>.OK(result);
+            return TResult<Paging<ResultInfo>>.OK(await _repo.GetListFilter(request));
         }
     }
 }

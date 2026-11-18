@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Gridify;
+using MediatR;
 using System.Application.Abstractions.Progress;
 using System.Application.Common;
 using System.Application.Services.Progress.StudentStage.DTO;
@@ -6,16 +7,16 @@ using System.Application.Services.Progress.StudentStage.DTO;
 
 namespace System.Application.Services.Progress.StudentStage.Query
 {
-    class GetAllStudentStageQueryHandler : IRequestHandler<GetAllStudentStageQuery, TResult<List<StudentStageInfo>>>
+    class GetAllStudentStageQueryHandler : IRequestHandler<GetAllStudentStageQuery, TResult<Paging<StudentStageInfo>>>
     {
         IStudentStageRepository _repo;
         public GetAllStudentStageQueryHandler ( IStudentStageRepository repo)
         {
             _repo= repo;
         }
-        public async Task<TResult<List<StudentStageInfo>>> Handle(GetAllStudentStageQuery request, CancellationToken cancellationToken)
+        public async Task<TResult<Paging<StudentStageInfo>>> Handle(GetAllStudentStageQuery request, CancellationToken cancellationToken)
         {
-            return TResult<List<StudentStageInfo>>.OK(await _repo.GetList());
+            return TResult<Paging<StudentStageInfo>>.OK(await _repo.GetListFilter(request));
         }
     }
 }

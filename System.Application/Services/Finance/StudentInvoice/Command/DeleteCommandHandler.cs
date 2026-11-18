@@ -26,6 +26,9 @@ namespace System.Application.Services.Finance.StudentInvoice.Command
             if (entity == null)
                 return TResult<string>.Fail(ApplicationExMsg.NotFound);
 
+            if (await _repo.HasPayments(entity.Id))
+                return TResult<string>.Fail("An invoice with payments cannot be deleted.");
+
             entity.SetDeleted(_currentUserService.UserId.ToString());
             await _repo.Update(entity);
 

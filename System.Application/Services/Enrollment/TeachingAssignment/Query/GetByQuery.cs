@@ -8,7 +8,7 @@ namespace System.Application.Services.Enrollment.TeachingAssignment.Query
 {
     public class GetTeachingAssignmentByQuery : IRequest<TResult<TeachingAssignmentInfo>>, IQuery
     {
-        public string Param { get; set; }
+        public string Param { get; set; } = string.Empty;
         public enTeachingAssignmentType ParamType { get; set; }
     }
 }

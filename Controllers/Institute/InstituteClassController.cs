@@ -92,6 +92,18 @@ namespace School_Academy.Controllers.Institute
             return Ok(result);
         }
 
+        [HttpGet("GetInstituteClassListFilter")]
+        [Authorize(Policy = "Can_Read_InstituteClass")]
+        public async Task<IActionResult> GetListFilter([FromQuery] GetInstituteClassListFilterQuery query)
+        {
+            var result = await _mediator.Send(query);
+
+            if (!result.IsSuccess)
+                return BadRequest(new { errors = result.Error });
+
+            return Ok(result);
+        }
+
         [HttpGet("GetInstituteClassBy")]
         [Authorize(Policy = "Can_Read_InstituteClass")]
         public async Task<IActionResult> GetBy([FromQuery] GetInstituteClassByQuery query )

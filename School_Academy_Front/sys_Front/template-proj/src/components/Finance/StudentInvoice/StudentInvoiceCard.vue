@@ -6,15 +6,31 @@
     </div>
     <div class="card-item">
       <div class="item-name">الخطة:</div>
-      <div class="item-value">{{ DataReq?.feeStructureName }}</div>
+      <div class="item-value">
+        {{ DataReq?.academicPlanName }} (v{{ DataReq?.academicPlanVersion }}) ·
+        {{ DataReq?.feeStructureName }}
+      </div>
+    </div>
+    <div class="card-item">
+      <div class="item-name">التسجيل الأكاديمي:</div>
+      <div class="item-value">{{ DataReq?.studentAcademicEnrollmentID }}</div>
+    </div>
+    <div class="card-item">
+      <div class="item-name">فترة الفوترة:</div>
+      <div class="item-value">
+        {{ DataReq?.billingPeriodStart || "—" }} —
+        {{ DataReq?.billingPeriodEnd || "—" }}
+      </div>
     </div>
     <div class="card-item">
       <div class="item-name">تاريخ الإصدار:</div>
       <div class="item-value">{{ DataReq?.issueDate }}</div>
     </div>
     <div class="card-item">
-      <div class="item-name">تاريخ الاستحقاق:</div>
-      <div class="item-value">{{ DataReq?.dueDate }}</div>
+      <div class="item-name">تاريخ اكتمال السداد:</div>
+      <div class="item-value">
+        {{ DataReq?.dueDate || "لا يوجد تاريخ لدفعة مكتملة" }}
+      </div>
     </div>
     <div class="card-item">
       <div class="item-name">المبلغ الأصلي:</div>
@@ -27,6 +43,10 @@
     <div class="card-item">
       <div class="item-name">المتبقي:</div>
       <div class="item-value">{{ DataReq?.remainingAmount }}</div>
+    </div>
+    <div class="card-item">
+      <div class="item-name">المدفوع:</div>
+      <div class="item-value">{{ DataReq?.paidAmount }}</div>
     </div>
     <div class="card-item">
       <div class="item-name">الحالة:</div>

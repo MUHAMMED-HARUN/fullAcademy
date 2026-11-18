@@ -1,15 +1,12 @@
 import { defineStore } from "pinia";
 import StudentEnrollment_service from "@/Service/Enrollment/StudentEnrollmentService";
-import TResult from "@/Generic/TResult";
-
 export const useStudentEnrollmentStore = defineStore("enrollments", {
   state: () => ({
     enrollments: [],
     totalCount: 0,
     page: 1,
     pageSize: 10,
-    filter: "",
-    orderBy: "",
+    currentFilter: { Filter: "", OrderBy: "" },
     selectedEnrollment: null,
     loading: false,
     error: null,
@@ -25,101 +22,132 @@ export const useStudentEnrollmentStore = defineStore("enrollments", {
     async fetchEnrollments(filter = {}) {
       this.loading = true;
       this.error = null;
-      console.log("enroll", filter);
-      // تحديث رقم الصفحة والحجم عند التمرير
-      if (filter.Page !== undefined) this.page = filter.Page;
-      if (filter.PageSize !== undefined) this.pageSize = filter.PageSize;
+
+      // Normalize incoming keys to the PascalCase shape expected by the API
+      const normalizedFilter = { ...filter };
+      if (normalizedFilter.page !== undefined && normalizedFilter.Page === undefined)
+        normalizedFilter.Page = normalizedFilter.page;
+      if (normalizedFilter.pageSize !== undefined && normalizedFilter.PageSize === undefined)
+        normalizedFilter.PageSize = normalizedFilter.pageSize;
+      if (normalizedFilter.filter !== undefined && normalizedFilter.Filter === undefined)
+        normalizedFilter.Filter = normalizedFilter.filter;
+      if (normalizedFilter.orderBy !== undefined && normalizedFilter.OrderBy === undefined)
+        normalizedFilter.OrderBy = normalizedFilter.orderBy;
+
+      if (normalizedFilter.Page !== undefined)
+        this.page = Math.max(1, Number(normalizedFilter.Page) || 1);
+      if (normalizedFilter.PageSize !== undefined)
+        this.pageSize = Math.max(
+          1,
+          Math.min(100, Number(normalizedFilter.PageSize) || 10)
+        );
+
+      const hasFilter = Object.prototype.hasOwnProperty.call(normalizedFilter, "Filter");
+      const hasOrderBy = Object.prototype.hasOwnProperty.call(
+        normalizedFilter,
+        "OrderBy"
+      );
+      if (hasFilter || hasOrderBy) {
+        this.currentFilter = {
+          Filter: hasFilter ? normalizedFilter.Filter ?? "" : this.currentFilter.Filter,
+          OrderBy: hasOrderBy
+            ? normalizedFilter.OrderBy ?? ""
+            : this.currentFilter.OrderBy,
+        };
+      }
 
       const queryParams = {
+        ...this.currentFilter,
         Page: this.page,
         PageSize: this.pageSize,
-        ...filter,
+        Filter: this.currentFilter.Filter,
+        OrderBy: this.currentFilter.OrderBy,
       };
-      var result = new TResult(null, false, "");
-      result = await StudentEnrollment_service.getPagedList(queryParams);
 
-      if (result.success) {
-        this.enrollments = result.data?.items || [];
-        this.totalCount = result.data?.count || 0;
-      } else {
-        this.error = result.errors;
+      try {
+        const result = await StudentEnrollment_service.getPagedList(
+          queryParams
+        );
+        if (result.success) {
+          this.enrollments = result.data?.items || [];
+          this.totalCount = result.data?.count || 0;
+        } else {
+          this.enrollments = [];
+          this.totalCount = 0;
+          this.error = result.errors;
+        }
+        return result;
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
-      return result;
     },
 
     async fetchEnrollmentBy(command) {
       this.loading = true;
       this.error = null;
-
-      const result = await StudentEnrollment_service.getBy(command);
-
-      if (result.success) {
-        this.selectedEnrollment = result.data;
-      } else {
-        this.error = result.errors;
+      try {
+        const result = await StudentEnrollment_service.getBy(command);
+        if (result.success) this.selectedEnrollment = result.data;
+        else {
+          this.selectedEnrollment = null;
+          this.error = result.errors;
+        }
+        return result;
+      } finally {
+        this.loading = false;
       }
-
-      this.loading = false;
-      return result;
     },
 
     async addEnrollment(payload) {
       this.loading = true;
       this.error = null;
-
-      const result = await StudentEnrollment_service.create(payload);
-      if (result.success) {
-        await this.fetchEnrollments();
-      } else {
-        this.error = result.errors;
+      try {
+        const result = await StudentEnrollment_service.create(payload);
+        if (result.success) await this.fetchEnrollments();
+        else this.error = result.errors;
+        return result;
+      } finally {
+        this.loading = false;
       }
-
-      this.loading = false;
-      return result;
     },
 
     async enrollByRange(payload) {
       this.loading = true;
       this.error = null;
-
-      const result = await StudentEnrollment_service.enrollByRange(payload);
-      if (result.success) {
-        await this.fetchEnrollments();
-      } else {
-        this.error = result.errors;
+      try {
+        const result = await StudentEnrollment_service.enrollByRange(payload);
+        if (result.success) await this.fetchEnrollments();
+        else this.error = result.errors;
+        return result;
+      } finally {
+        this.loading = false;
       }
-
-      this.loading = false;
-      return result;
     },
 
     async updateEnrollment(payload) {
       this.loading = true;
       this.error = null;
-
-      const result = await StudentEnrollment_service.update(payload);
-      if (result.success) {
-        await this.fetchEnrollments();
-      } else {
-        this.error = result.errors;
+      try {
+        const result = await StudentEnrollment_service.update(payload);
+        if (result.success) await this.fetchEnrollments();
+        else this.error = result.errors;
+        return result;
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
-      return result;
     },
 
     async DeleteEnrollment(payload) {
       this.loading = true;
       this.error = null;
-
-      const result = await StudentEnrollment_service.delete(payload);
-      if (result.success) {
-        await this.fetchEnrollments();
-      } else {
-        this.error = result.errors;
+      try {
+        const result = await StudentEnrollment_service.delete(payload);
+        if (result.success) await this.fetchEnrollments();
+        else this.error = result.errors;
+        return result;
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
-      return result;
     },
     clearSelectedEnrollment() {
       this.selectedEnrollment = null;

@@ -1,6 +1,9 @@
 <template>
   <div>
     <AssignmentScopeList
+      :can-read="AuthStore.hasPermission('Can_Read_AssignmentScope')"
+      :can-update="AuthStore.hasPermission('Can_Update_AssignmentScope')"
+      :can-delete="AuthStore.hasPermission('Can_Delete_AssignmentScope')"
       @show-delete="OnDelete"
       @show-info="onShowInfo"
       @show-update="OnUpsert"
@@ -9,10 +12,15 @@
     <PopapComp v-if="showUpsert" @close="onpopaClose">
       <UpsertAssignmentScopeComp
         :errors="AssignmentScopeStore.error"
-        :-assignment-scopes="AssignmentScopeStore.AssignmentScopes"
-        :stage-data="StageStore.selectedStage"
-        @on-search-stage="onSearchStage"
-        @on-submit="OnSubmitUpsert"
+        :initial-scope="AssignmentScopeStore.selectedAssignmentScope"
+        :assignment-scopes="AssignmentScopeStore.AssignmentScopes"
+        :stage-results="stageResults"
+        :stage-loading="stageLoading"
+        :stage-error="stageError"
+        :saving="AssignmentScopeStore.loading"
+        @search-stage="onSearchStage"
+        @clear-stage="onClearStageLookup"
+        @submit="OnSubmitUpsert"
       />
     </PopapComp>
     <PopapComp v-if="showInfo" @close="onpopaClose">
@@ -20,7 +28,12 @@
         :-data-req="AssignmentScopeStore.selectedAssignmentScope"
       />
     </PopapComp>
-    <button @click="showUpsert = true">اضافة</button>
+    <button
+      v-if="AuthStore.hasPermission('Can_Create_AssignmentScope')"
+      @click="showUpsert = true"
+    >
+      اضافة
+    </button>
     <MessageComp :is-error="resultType" :msg="resultMessage" />
   </div>
 </template>
@@ -28,6 +41,7 @@
 <script>
 import PopapComp from "@/components/general/popapComp.vue";
 import { useStageStore } from "@/store/Progress/StageStore";
+import { useAuthStore } from "@/store/Auth/authStore";
 import MessageComp from "@/components/general/messageComp.vue";
 import TResult from "@/Generic/TResult";
 import AssignmentScopeList from "@/components/Assigment/AssignmentScope/AssignmentScopeList.vue";
@@ -46,19 +60,27 @@ export default {
   },
   data() {
     return {
+      AuthStore: useAuthStore(),
       AssignmentScopeStore: useAssignmentScopeStore(),
       StageStore: useStageStore(),
       showUpsert: false,
       showInfo: false,
       resultMessage: null,
       resultType: false,
+      stageResults: [],
+      stageLoading: false,
+      stageError: null,
+      stageLookupRequestVersion: 0,
     };
   },
   methods: {
     async OnUpsert(e) {
       if (e) {
         this.AssignmentScopeStore.selectedAssignmentScope = e;
+      } else {
+        this.AssignmentScopeStore.selectedAssignmentScope = null;
       }
+      this.onClearStageLookup();
       this.showUpsert = true;
     },
 
@@ -92,14 +114,48 @@ export default {
     onpopaClose() {
       this.showUpsert = false;
       this.showInfo = false;
-      this.StageStore.selectedStage = null;
+      this.AssignmentScopeStore.selectedAssignmentScope = null;
+      this.onClearStageLookup();
     },
 
-    async onSearchStage(type, val) {
-      await this.StageStore.fetchStagetBy({
-        Param: val,
-        ParamType: type,
-      });
+    async onSearchStage(searchTerm) {
+      const term = String(searchTerm || "")
+        .trim()
+        .replace(/[,*|^$!=()/]/g, " ")
+        .trim();
+      const requestVersion = ++this.stageLookupRequestVersion;
+      this.stageResults = [];
+      this.stageError = null;
+      if (!term) {
+        this.stageLoading = false;
+        return;
+      }
+
+      this.stageLoading = true;
+      try {
+        const result = await this.StageStore.fetchStagePage({
+          Page: 1,
+          PageSize: 10,
+          Filter: `StageName=*${term}`,
+          OrderBy: "",
+        });
+        if (requestVersion !== this.stageLookupRequestVersion) return;
+        if (result.success) this.stageResults = result.data?.items || [];
+        else this.stageError = result.errors;
+      } catch (error) {
+        if (requestVersion === this.stageLookupRequestVersion)
+          this.stageError = error?.message || "تعذر البحث عن المرحلة";
+      } finally {
+        if (requestVersion === this.stageLookupRequestVersion)
+          this.stageLoading = false;
+      }
+    },
+
+    onClearStageLookup() {
+      this.stageLookupRequestVersion += 1;
+      this.stageResults = [];
+      this.stageError = null;
+      this.stageLoading = false;
     },
   },
   mounted() {

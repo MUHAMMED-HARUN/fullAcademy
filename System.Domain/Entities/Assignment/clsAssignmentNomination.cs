@@ -1,4 +1,5 @@
 using System.Domain.Entities.BaseClass;
+using System.Domain.Entities.Enrollment;
 using System.Domain.Enums.Enrollment;
 using System.Domain.Enums.Person;
 using System.Domain.Exceptions;
@@ -7,7 +8,7 @@ namespace System.Domain.Entities
 {
     public class clsAssignmentNomination : clsBaseClass
     {
-        public Guid StudentEnrollmentID { get; private set; }
+        public Guid StudentAcademicEnrollmentID { get; private set; }
         public Guid AssignmentScopeID { get; private set; }
         public DateOnly Date { get; private set; }
         public Guid NominatedByID { get; private set; }
@@ -15,13 +16,13 @@ namespace System.Domain.Entities
         public enAssignmentType NominationState { get; private set; }
   
 
-        public clsStudentEnrollment StudentEnrollment { get; private set; }
+        public clsStudentAcademicEnrollment StudentAcademicEnrollment { get; private set; }
         public clsAssignmentScope AssignmentScope{ get; private set; }
         protected clsAssignmentNomination() { }
 
-        public clsAssignmentNomination(Guid studentEnrollmentID, Guid assignmentScopeID, DateOnly date, Guid nominatedByID, enUserType nominatedByType, enAssignmentType nominationState)
+        public clsAssignmentNomination(Guid studentAcademicEnrollmentID, Guid assignmentScopeID, DateOnly date, Guid nominatedByID, enUserType nominatedByType, enAssignmentType nominationState)
         {
-            SetStudentEnrollmentID(studentEnrollmentID);
+            SetStudentAcademicEnrollmentID(studentAcademicEnrollmentID);
             SetAssignmentScopeID(assignmentScopeID);
             SetDate(date);
             SetNominatedByID(nominatedByID);
@@ -30,13 +31,13 @@ namespace System.Domain.Entities
             BaseSetCreated("System");
         }
 
-        public void SetStudentEnrollmentID(Guid studentEnrollmentID)
+        public void SetStudentAcademicEnrollmentID(Guid studentAcademicEnrollmentID)
         {
-            if (studentEnrollmentID == Guid.Empty)
+            if (studentAcademicEnrollmentID == Guid.Empty)
             {
-                throw new DomainException(DomainExMsg.AssignmentNomination_StudentEnrollmentIDRequired);
+                throw new DomainException(DomainExMsg.AssignmentNomination_StudentAcademicEnrollmentIDRequired);
             }
-            StudentEnrollmentID = studentEnrollmentID;
+            StudentAcademicEnrollmentID = studentAcademicEnrollmentID;
         }
 
         public void SetAssignmentScopeID(Guid assignmentScopeID)

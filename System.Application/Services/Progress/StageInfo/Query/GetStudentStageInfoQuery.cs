@@ -5,6 +5,6 @@ using System.Application.Services.Progress.StageInfo.DTO;
 namespace System.Application.Services.Progress.StageInfo.Query{
     public class GetStudentStageInfoQuery : IRequest<TResult<List<StageInfoInfo>>>, IQuery
     {
-        public string enrollmentID { get; set; }
+        public string StudentAcademicEnrollmentID { get; set; } = string.Empty;
     }
 }

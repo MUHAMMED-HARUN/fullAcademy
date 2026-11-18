@@ -164,24 +164,8 @@ namespace System.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<Guid>("EnrollmentID")
+                    b.Property<Guid>("StudentAcademicEnrollmentID")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("GroupID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("GroupName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("StudentID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("StudentName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.ToTable((string)null);
 
@@ -190,6 +174,10 @@ namespace System.Infrastructure.Migrations
 
             modelBuilder.Entity("System.Application.Services.Enrollment.StudentEnrollment.DTO.StudentEnrollmentInfoView", b =>
                 {
+                    b.Property<string>("AcademicPlanName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("CanAddToStage")
                         .HasColumnType("bit");
 
@@ -212,6 +200,9 @@ namespace System.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("StudentAcademicEnrollmentID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("StudentID")
                         .HasColumnType("uniqueidentifier");
 
@@ -222,6 +213,130 @@ namespace System.Infrastructure.Migrations
                     b.ToTable((string)null);
 
                     b.ToView("vw_StudentEnrollmentInfo", (string)null);
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.AcademicPlan.clsAcademicPlan", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("DeletedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("EffectiveFrom")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("EffectiveTo")
+                        .HasColumnType("date");
+
+                    b.Property<Guid?>("InstituteClassID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly?>("ModifiedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid?>("ProgramID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProviderInstituteID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ScopeType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("StageID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("StageInfoID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InstituteClassID");
+
+                    b.HasIndex("ProgramID");
+
+                    b.HasIndex("ProviderInstituteID");
+
+                    b.HasIndex("StageID");
+
+                    b.HasIndex("StageInfoID");
+
+                    b.HasIndex("ScopeType", "ProgramID", "InstituteClassID", "StageID", "StageInfoID", "Status");
+
+                    b.ToTable("AcademicPlans", (string)null);
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.AcademicPlan.clsAcademicPlanItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AcademicPlanID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("DeletedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly?>("ModifiedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("StageInfoID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StageInfoID");
+
+                    b.HasIndex("AcademicPlanID", "StageInfoID")
+                        .IsUnique();
+
+                    b.ToTable("AcademicPlanItems", (string)null);
                 });
 
             modelBuilder.Entity("System.Domain.Entities.Address.clsAddress", b =>
@@ -403,16 +518,150 @@ namespace System.Infrastructure.Migrations
                     b.ToTable("LeaveRequests", (string)null);
                 });
 
+            modelBuilder.Entity("System.Domain.Entities.Enrollment.clsStudentAcademicEnrollment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AcademicPlanID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AcademicPlanVersion")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("DeletedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("EnrollmentDate")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly?>("ModifiedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("StudentID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("ValidFrom")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("ValidTo")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AcademicPlanID", "AcademicPlanVersion");
+
+                    b.HasIndex("StudentID", "Status");
+
+                    b.ToTable("StudentAcademicEnrollments", (string)null);
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.Enrollment.clsStudentAcademicEnrollmentItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("DeletedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("From")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("MatterID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("MatterName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateOnly?>("ModifiedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProgressType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProgressTypeName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<Guid>("StageID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StageInfoID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("StageName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<Guid>("StudentAcademicEnrollmentID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("To")
+                        .HasColumnType("float");
+
+                    b.Property<int>("UniteType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UniteTypeName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentAcademicEnrollmentID", "StageInfoID")
+                        .IsUnique();
+
+                    b.ToTable("StudentAcademicEnrollmentItems", (string)null);
+                });
+
             modelBuilder.Entity("System.Domain.Entities.Finance.clsFeeStructure", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("AcademicPlanID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid?>("ClassID")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateOnly>("CreatedAt")
                         .HasColumnType("date");
@@ -446,24 +695,9 @@ namespace System.Infrastructure.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("ProgramID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("StageID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("StageInfoID")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassID");
-
-                    b.HasIndex("ProgramID");
-
-                    b.HasIndex("StageID");
-
-                    b.HasIndex("StageInfoID");
+                    b.HasIndex("AcademicPlanID", "FeeType");
 
                     b.ToTable("FeeStructures", (string)null);
                 });
@@ -520,10 +754,76 @@ namespace System.Infrastructure.Migrations
                     b.ToTable("Payments", (string)null);
                 });
 
+            modelBuilder.Entity("System.Domain.Entities.Finance.clsPaymentReversal", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("DeletedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly?>("ModifiedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PaymentID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("ReversedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReversedBy")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentID")
+                        .IsUnique();
+
+                    b.ToTable("PaymentReversals", (string)null);
+                });
+
             modelBuilder.Entity("System.Domain.Entities.Finance.clsStudentInvoice", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AcademicPlanNameSnapshot")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int?>("AcademicPlanVersionSnapshot")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly?>("BillingPeriodEnd")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("BillingPeriodStart")
+                        .HasColumnType("date");
 
                     b.Property<DateOnly>("CreatedAt")
                         .HasColumnType("date");
@@ -540,11 +840,15 @@ namespace System.Infrastructure.Migrations
                     b.Property<decimal>("DiscountAmount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateOnly>("DueDate")
+                    b.Property<DateOnly?>("DueDate")
                         .HasColumnType("date");
 
                     b.Property<Guid>("FeeStructureID")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FeeStructureNameSnapshot")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -570,6 +874,9 @@ namespace System.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("StudentAcademicEnrollmentID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("StudentID")
                         .HasColumnType("uniqueidentifier");
 
@@ -577,7 +884,13 @@ namespace System.Infrastructure.Migrations
 
                     b.HasIndex("FeeStructureID");
 
+                    b.HasIndex("StudentAcademicEnrollmentID");
+
                     b.HasIndex("StudentID");
+
+                    b.HasIndex("StudentAcademicEnrollmentID", "FeeStructureID", "BillingPeriodStart", "BillingPeriodEnd")
+                        .IsUnique()
+                        .HasFilter("[DeletedAt] IS NULL AND [StudentAcademicEnrollmentID] IS NOT NULL AND [BillingPeriodStart] IS NOT NULL AND [BillingPeriodEnd] IS NOT NULL");
 
                     b.ToTable("StudentInvoices", (string)null);
                 });
@@ -842,6 +1155,59 @@ namespace System.Infrastructure.Migrations
                     b.ToTable("Stages", (string)null);
                 });
 
+            modelBuilder.Entity("System.Domain.Entities.Progress.clsStageInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("CreatedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("DeletedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("From")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("MatterID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly?>("ModifiedAt")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProgressType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("StageID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("To")
+                        .HasColumnType("float");
+
+                    b.Property<int>("UniteType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MatterID");
+
+                    b.HasIndex("StageID");
+
+                    b.ToTable("StageInfos", (string)null);
+                });
+
             modelBuilder.Entity("System.Domain.Entities.clsAssignment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -937,14 +1303,14 @@ namespace System.Infrastructure.Migrations
                     b.Property<int>("NominationState")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("StudentEnrollmentID")
+                    b.Property<Guid>("StudentAcademicEnrollmentID")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AssignmentScopeID");
 
-                    b.HasIndex("StudentEnrollmentID");
+                    b.HasIndex("StudentAcademicEnrollmentID");
 
                     b.ToTable("AssignmentNominations", (string)null);
                 });
@@ -1227,7 +1593,7 @@ namespace System.Infrastructure.Migrations
                     b.Property<Guid>("StageInfoID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("StudentEnrollmentID")
+                    b.Property<Guid>("StudentAcademicEnrollmentID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("To")
@@ -1237,7 +1603,7 @@ namespace System.Infrastructure.Migrations
 
                     b.HasIndex("StageInfoID");
 
-                    b.HasIndex("StudentEnrollmentID");
+                    b.HasIndex("StudentAcademicEnrollmentID");
 
                     b.ToTable("DailyEvaluations", (string)null);
                 });
@@ -1500,59 +1866,6 @@ namespace System.Infrastructure.Migrations
                     b.ToTable("Results", (string)null);
                 });
 
-            modelBuilder.Entity("System.Domain.Entities.clsStageInfo", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateOnly>("CreatedAt")
-                        .HasColumnType("date");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateOnly?>("DeletedAt")
-                        .HasColumnType("date");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("From")
-                        .HasColumnType("float");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("MatterID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateOnly?>("ModifiedAt")
-                        .HasColumnType("date");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProgressType")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("StageID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double>("To")
-                        .HasColumnType("float");
-
-                    b.Property<int>("UniteType")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MatterID");
-
-                    b.HasIndex("StageID");
-
-                    b.ToTable("StageInfos", (string)null);
-                });
-
             modelBuilder.Entity("System.Domain.Entities.clsStudentEnrollment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1585,12 +1898,17 @@ namespace System.Infrastructure.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("StudentAcademicEnrollmentID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("StudentID")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("GroupID");
+
+                    b.HasIndex("StudentAcademicEnrollmentID");
 
                     b.HasIndex("StudentID");
 
@@ -1617,9 +1935,6 @@ namespace System.Infrastructure.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("EnrollmentStudentID")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -1635,11 +1950,14 @@ namespace System.Infrastructure.Migrations
                     b.Property<int>("State")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("StudentAcademicEnrollmentID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("EnrollmentStudentID");
-
                     b.HasIndex("StageID");
+
+                    b.HasIndex("StudentAcademicEnrollmentID");
 
                     b.ToTable("StudentStages", (string)null);
                 });
@@ -1932,6 +2250,64 @@ namespace System.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("System.Domain.Entities.AcademicPlan.clsAcademicPlan", b =>
+                {
+                    b.HasOne("System.Domain.Entities.clsInstituteClass", "InstituteClass")
+                        .WithMany()
+                        .HasForeignKey("InstituteClassID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("System.Domain.Entities.clsProgram", "Program")
+                        .WithMany()
+                        .HasForeignKey("ProgramID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("System.Domain.Entities.Institue.clsInstitute", "ProviderInstitute")
+                        .WithMany()
+                        .HasForeignKey("ProviderInstituteID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("System.Domain.Entities.Progress.clsStage", "Stage")
+                        .WithMany()
+                        .HasForeignKey("StageID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("System.Domain.Entities.Progress.clsStageInfo", "StageInfo")
+                        .WithMany()
+                        .HasForeignKey("StageInfoID")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("InstituteClass");
+
+                    b.Navigation("Program");
+
+                    b.Navigation("ProviderInstitute");
+
+                    b.Navigation("Stage");
+
+                    b.Navigation("StageInfo");
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.AcademicPlan.clsAcademicPlanItem", b =>
+                {
+                    b.HasOne("System.Domain.Entities.AcademicPlan.clsAcademicPlan", "AcademicPlan")
+                        .WithMany("Items")
+                        .HasForeignKey("AcademicPlanID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("System.Domain.Entities.Progress.clsStageInfo", "StageInfo")
+                        .WithMany()
+                        .HasForeignKey("StageInfoID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("AcademicPlan");
+
+                    b.Navigation("StageInfo");
+                });
+
             modelBuilder.Entity("System.Domain.Entities.Address.clsAddress", b =>
                 {
                     b.HasOne("System.Domain.Entities.clsCity", "City")
@@ -1977,35 +2353,45 @@ namespace System.Infrastructure.Migrations
                     b.Navigation("LeaveRequest");
                 });
 
+            modelBuilder.Entity("System.Domain.Entities.Enrollment.clsStudentAcademicEnrollment", b =>
+                {
+                    b.HasOne("System.Domain.Entities.AcademicPlan.clsAcademicPlan", "AcademicPlan")
+                        .WithMany()
+                        .HasForeignKey("AcademicPlanID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("System.Domain.Entities.Person.clsStudent", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("AcademicPlan");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.Enrollment.clsStudentAcademicEnrollmentItem", b =>
+                {
+                    b.HasOne("System.Domain.Entities.Enrollment.clsStudentAcademicEnrollment", "StudentAcademicEnrollment")
+                        .WithMany("Items")
+                        .HasForeignKey("StudentAcademicEnrollmentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("StudentAcademicEnrollment");
+                });
+
             modelBuilder.Entity("System.Domain.Entities.Finance.clsFeeStructure", b =>
                 {
-                    b.HasOne("System.Domain.Entities.clsClass", "Class")
+                    b.HasOne("System.Domain.Entities.AcademicPlan.clsAcademicPlan", "AcademicPlan")
                         .WithMany()
-                        .HasForeignKey("ClassID")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("AcademicPlanID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
-                    b.HasOne("System.Domain.Entities.clsProgram", "Program")
-                        .WithMany()
-                        .HasForeignKey("ProgramID")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("System.Domain.Entities.Progress.clsStage", "Stage")
-                        .WithMany()
-                        .HasForeignKey("StageID")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("System.Domain.Entities.clsStageInfo", "StageInfo")
-                        .WithMany()
-                        .HasForeignKey("StageInfoID")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Class");
-
-                    b.Navigation("Program");
-
-                    b.Navigation("Stage");
-
-                    b.Navigation("StageInfo");
+                    b.Navigation("AcademicPlan");
                 });
 
             modelBuilder.Entity("System.Domain.Entities.Finance.clsPayment", b =>
@@ -2019,6 +2405,17 @@ namespace System.Infrastructure.Migrations
                     b.Navigation("StudentInvoice");
                 });
 
+            modelBuilder.Entity("System.Domain.Entities.Finance.clsPaymentReversal", b =>
+                {
+                    b.HasOne("System.Domain.Entities.Finance.clsPayment", "Payment")
+                        .WithOne("Reversal")
+                        .HasForeignKey("System.Domain.Entities.Finance.clsPaymentReversal", "PaymentID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Payment");
+                });
+
             modelBuilder.Entity("System.Domain.Entities.Finance.clsStudentInvoice", b =>
                 {
                     b.HasOne("System.Domain.Entities.Finance.clsFeeStructure", "FeeStructure")
@@ -2026,6 +2423,11 @@ namespace System.Infrastructure.Migrations
                         .HasForeignKey("FeeStructureID")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.HasOne("System.Domain.Entities.Enrollment.clsStudentAcademicEnrollment", "StudentAcademicEnrollment")
+                        .WithMany()
+                        .HasForeignKey("StudentAcademicEnrollmentID")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("System.Domain.Entities.Person.clsStudent", "Student")
                         .WithMany()
@@ -2036,6 +2438,8 @@ namespace System.Infrastructure.Migrations
                     b.Navigation("FeeStructure");
 
                     b.Navigation("Student");
+
+                    b.Navigation("StudentAcademicEnrollment");
                 });
 
             modelBuilder.Entity("System.Domain.Entities.Institue.clsInstitute", b =>
@@ -2105,6 +2509,25 @@ namespace System.Infrastructure.Migrations
                     b.Navigation("PrevStage");
                 });
 
+            modelBuilder.Entity("System.Domain.Entities.Progress.clsStageInfo", b =>
+                {
+                    b.HasOne("System.Domain.Entities.Progress.clsSession", "Matter")
+                        .WithMany("StageInfoMatters")
+                        .HasForeignKey("MatterID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("System.Domain.Entities.Progress.clsStage", "Stage")
+                        .WithMany("StageInfoItems")
+                        .HasForeignKey("StageID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Matter");
+
+                    b.Navigation("Stage");
+                });
+
             modelBuilder.Entity("System.Domain.Entities.clsAssignment", b =>
                 {
                     b.HasOne("System.Domain.Entities.clsAssignmentNomination", "AssignmentNomination")
@@ -2124,15 +2547,15 @@ namespace System.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("System.Domain.Entities.clsStudentEnrollment", "StudentEnrollment")
+                    b.HasOne("System.Domain.Entities.Enrollment.clsStudentAcademicEnrollment", "StudentAcademicEnrollment")
                         .WithMany()
-                        .HasForeignKey("StudentEnrollmentID")
+                        .HasForeignKey("StudentAcademicEnrollmentID")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("AssignmentScope");
 
-                    b.Navigation("StudentEnrollment");
+                    b.Navigation("StudentAcademicEnrollment");
                 });
 
             modelBuilder.Entity("System.Domain.Entities.clsAssignmentScope", b =>
@@ -2161,7 +2584,7 @@ namespace System.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("System.Domain.Entities.clsStageInfo", "StageInfo")
+                    b.HasOne("System.Domain.Entities.Progress.clsStageInfo", "StageInfo")
                         .WithMany()
                         .HasForeignKey("StageInfoID")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -2196,21 +2619,21 @@ namespace System.Infrastructure.Migrations
 
             modelBuilder.Entity("System.Domain.Entities.clsDailyEvaluation", b =>
                 {
-                    b.HasOne("System.Domain.Entities.clsStageInfo", "StageInfo")
+                    b.HasOne("System.Domain.Entities.Progress.clsStageInfo", "StageInfo")
                         .WithMany()
                         .HasForeignKey("StageInfoID")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("System.Domain.Entities.clsStudentEnrollment", "StudentEnrollment")
-                        .WithMany()
-                        .HasForeignKey("StudentEnrollmentID")
+                    b.HasOne("System.Domain.Entities.Enrollment.clsStudentAcademicEnrollment", "StudentAcademicEnrollment")
+                        .WithMany("DailyEvaluations")
+                        .HasForeignKey("StudentAcademicEnrollmentID")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("StageInfo");
 
-                    b.Navigation("StudentEnrollment");
+                    b.Navigation("StudentAcademicEnrollment");
                 });
 
             modelBuilder.Entity("System.Domain.Entities.clsDistrict", b =>
@@ -2284,30 +2707,17 @@ namespace System.Infrastructure.Migrations
                     b.Navigation("AssignmentScopeInfo");
                 });
 
-            modelBuilder.Entity("System.Domain.Entities.clsStageInfo", b =>
-                {
-                    b.HasOne("System.Domain.Entities.Progress.clsSession", "Matter")
-                        .WithMany("StageInfoMatters")
-                        .HasForeignKey("MatterID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("System.Domain.Entities.Progress.clsStage", "Stage")
-                        .WithMany("StageInfoItems")
-                        .HasForeignKey("StageID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Matter");
-
-                    b.Navigation("Stage");
-                });
-
             modelBuilder.Entity("System.Domain.Entities.clsStudentEnrollment", b =>
                 {
                     b.HasOne("System.Domain.Entities.clsGroup", "Group")
                         .WithMany()
                         .HasForeignKey("GroupID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("System.Domain.Entities.Enrollment.clsStudentAcademicEnrollment", "StudentAcademicEnrollment")
+                        .WithMany("GroupEnrollments")
+                        .HasForeignKey("StudentAcademicEnrollmentID")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -2320,25 +2730,27 @@ namespace System.Infrastructure.Migrations
                     b.Navigation("Group");
 
                     b.Navigation("Student");
+
+                    b.Navigation("StudentAcademicEnrollment");
                 });
 
             modelBuilder.Entity("System.Domain.Entities.clsStudentStage", b =>
                 {
-                    b.HasOne("System.Domain.Entities.clsStudentEnrollment", "StudentEnrollment")
-                        .WithMany("StudentStages")
-                        .HasForeignKey("EnrollmentStudentID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("System.Domain.Entities.Progress.clsStage", "Stage")
                         .WithMany("StudentStages")
                         .HasForeignKey("StageID")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("System.Domain.Entities.Enrollment.clsStudentAcademicEnrollment", "StudentAcademicEnrollment")
+                        .WithMany("StudentStages")
+                        .HasForeignKey("StudentAcademicEnrollmentID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("Stage");
 
-                    b.Navigation("StudentEnrollment");
+                    b.Navigation("StudentAcademicEnrollment");
                 });
 
             modelBuilder.Entity("System.Domain.Entities.clsTeacher", b =>
@@ -2379,9 +2791,30 @@ namespace System.Infrastructure.Migrations
                     b.Navigation("Teacher");
                 });
 
+            modelBuilder.Entity("System.Domain.Entities.AcademicPlan.clsAcademicPlan", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.Enrollment.clsStudentAcademicEnrollment", b =>
+                {
+                    b.Navigation("DailyEvaluations");
+
+                    b.Navigation("GroupEnrollments");
+
+                    b.Navigation("Items");
+
+                    b.Navigation("StudentStages");
+                });
+
             modelBuilder.Entity("System.Domain.Entities.Finance.clsFeeStructure", b =>
                 {
                     b.Navigation("StudentInvoices");
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.Finance.clsPayment", b =>
+                {
+                    b.Navigation("Reversal");
                 });
 
             modelBuilder.Entity("System.Domain.Entities.Finance.clsStudentInvoice", b =>
@@ -2402,11 +2835,6 @@ namespace System.Infrastructure.Migrations
 
                     b.Navigation("StageInfoItems");
 
-                    b.Navigation("StudentStages");
-                });
-
-            modelBuilder.Entity("System.Domain.Entities.clsStudentEnrollment", b =>
-                {
                     b.Navigation("StudentStages");
                 });
 #pragma warning restore 612, 618

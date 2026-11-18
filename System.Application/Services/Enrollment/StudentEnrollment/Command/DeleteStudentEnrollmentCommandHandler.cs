@@ -25,7 +25,10 @@ namespace System.Application.Services.Enrollment.StudentEnrollment.Command
             if (entity == null)
                 return TResult<string>.Fail(ApplicationExMsg.StudentEnrollmentNotFound);
 
-            entity.SetDeleted(_currentUserService.UserId.ToString());
+            if (_currentUserService.UserId is not Guid userID)
+                return TResult<string>.Fail("المستخدم الحالي غير صالح");
+
+            entity.SetDeleted(userID.ToString());
             await _repo.Update(entity);
 
             return TResult<string>.OK(string.Empty);

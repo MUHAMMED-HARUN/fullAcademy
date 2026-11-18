@@ -4,15 +4,19 @@
     <form @submit.prevent="onSubmit">
       <div class="form-group">
         <label>الطالب :</label>
-        <label>{{ studentEnrollmentName }}</label>
+        <label>{{ studentName }}</label>
         <ValidationError :messages="errors?.date" />
       </div>
       <div class="matter-card-wrapper">
         <label>نطاق اختبار</label>
-        <select v-model="formData.assignmentScopeID">
-          <option disabled selected>اختر نطاق</option>
+        <select
+          v-model="formData.assignmentScopeID"
+          required
+          :disabled="saving || !assignmentScopesData.length"
+        >
+          <option value="" disabled>اختر نطاقاً مستحقاً</option>
           <option
-            v-for="assigScope in AssigmentScopesData"
+            v-for="assigScope in assignmentScopesData"
             :key="assigScope.assignmentScopeID"
             :value="assigScope.assignmentScopeID"
           >
@@ -24,12 +28,21 @@
 
       <div class="form-group">
         <label>تاريخ :</label>
-        <input v-model="formData.date" type="date" />
+        <input v-model="formData.date" type="date" required />
         <ValidationError :messages="errors?.date" />
       </div>
 
       <div class="form-group">
-        <button type="submit">حفظ</button>
+        <button
+          type="submit"
+          :disabled="
+            saving ||
+            !formData.assignmentScopeID ||
+            !formData.studentAcademicEnrollmentID
+          "
+        >
+          {{ saving ? "جارٍ الحفظ…" : "حفظ" }}
+        </button>
       </div>
     </form>
   </div>
@@ -45,35 +58,36 @@ export default {
     ValidationError,
   },
   props: {
-    AssigmentScopesData: {
-      type: Object,
-      default: () => ({}),
+    assignmentScopesData: {
+      type: Array,
+      default: () => [],
     },
-    studentEnrollmentID: {
+    studentAcademicEnrollmentID: {
       type: String,
-      default: () => "",
+      default: "",
     },
-    studentEnrollmentName: {
+    studentName: {
       type: String,
-      default: () => "",
+      default: "",
     },
     errors: {
-      type: Object,
-      default: () => ({}),
+      type: [String, Array, Object],
+      default: null,
     },
+    saving: { type: Boolean, default: false },
   },
   data() {
     return {
       AssignmentNomination: useAssignmentNominationStore(),
       formData: {
         assignmentNominationID: "",
-        studentEnrollmentID: null,
-        assignmentScopeID: null,
-        date: "",
+        studentAcademicEnrollmentID: "",
+        assignmentScopeID: "",
+        date: new Date().toISOString().slice(0, 10),
       },
     };
   },
-  emits: ["onSubmit"],
+  emits: ["submit"],
   computed: {
     FormTitle() {
       return this.formData.assignmentNominationID ? "تعديل " : "إضافة ";
@@ -81,7 +95,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$emit("onSubmit", this.formData);
+      this.$emit("submit", { ...this.formData });
     },
 
     fillSelectedAssignmentNomination() {
@@ -90,15 +104,12 @@ export default {
         this.formData = {
           assignmentNominationID: entity.assignmentNominationID || "",
           assignmentScopeID: entity.assignmentScopeID || "",
-          studentEnrollmentID: entity.studentEnrollmentID || "",
+          studentAcademicEnrollmentID: entity.studentAcademicEnrollmentID || "",
           date: entity.date || 0,
         };
-      } else if (
-        this.studentEnrollmentID !== null ||
-        this.studentEnrollmentID !== ""
-      ) {
-        alert(this.studentEnrollmentID);
-        this.formData.studentEnrollmentID = this.studentEnrollmentID;
+      } else {
+        this.formData.studentAcademicEnrollmentID =
+          this.studentAcademicEnrollmentID;
       }
     },
   },

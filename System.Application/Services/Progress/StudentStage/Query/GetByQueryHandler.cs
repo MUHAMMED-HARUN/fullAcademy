@@ -17,7 +17,7 @@ namespace System.Application.Services.Progress.StudentStage.Query
         }
         public async Task<TResult<StudentStageInfo>> Handle(GetStudentStageByQuery request, CancellationToken cancellationToken)
         {
-            StudentStageInfo entityInfo = await _repo.GetBy(request.Param, request.ParamType);
+            StudentStageInfo? entityInfo = await _repo.GetBy(request.Param, request.ParamType);
             if (entityInfo == null) 
             return TResult<StudentStageInfo>.Fail(ApplicationExMsg.failToFindStudentStage);
 

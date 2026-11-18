@@ -31,6 +31,24 @@ class FeeStructureRepositories {
     );
   }
 
+  async getListFilter(params) {
+    return await clsUtil.FeachRequset(
+      `${baseUrl}/GetFeeStructureListFilter`,
+      enApiType.get,
+      { params },
+      "خطأ في الخادم أثناء البحث عن خطط الرسوم"
+    );
+  }
+
+  async getByAcademicPlan(academicPlanID) {
+    return await clsUtil.FeachRequset(
+      `${baseUrl}/GetFeeStructuresByAcademicPlan`,
+      enApiType.get,
+      { params: { AcademicPlanID: academicPlanID } },
+      "خطأ في الخادم أثناء جلب أسعار الخطة"
+    );
+  }
+
   async getBy(param) {
     return await clsUtil.FeachRequset(
       `${baseUrl}/GetFeeStructureBy`,

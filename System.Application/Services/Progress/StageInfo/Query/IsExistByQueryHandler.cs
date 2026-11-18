@@ -1,7 +1,6 @@
 ﻿using MediatR;
-using System.Application.Abstractions.Institute;
+using System.Application.Abstractions.Progress;
 using System.Application.Common;
-using System.Application.Exceptions;
 
 namespace System.Application.Services.Progress.StageInfo.Query
 {
@@ -15,9 +14,6 @@ namespace System.Application.Services.Progress.StageInfo.Query
         public async Task<TResult<bool>> Handle(IsExistStageInfoByQuery request, CancellationToken cancellationToken)
         {
             bool isExist = await _repo.IsExistBy(request.Param, request.ParamType);
-            if (!isExist) 
-            return TResult<bool>.Fail(ApplicationExMsg.failToFindStageInfo);
-
             return TResult<bool>.OK(isExist);
 
         }

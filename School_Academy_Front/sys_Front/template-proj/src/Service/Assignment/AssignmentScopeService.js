@@ -26,7 +26,9 @@ class AssignmentScopeService {
     return new TResult(null, false, rees.errors);
   }
   async GetCanNominateList(command) {
-    const rees = await AssignmentScope_repositories.GetCanNominateList(command);
+    const rees = await AssignmentScope_repositories.GetCanNominateList({
+      StudentAcademicEnrollmentID: command.studentAcademicEnrollmentID,
+    });
     var dto;
     if (rees.success) {
       dto = AssignmentScopeMapper.mapListApiToCanNomenate(rees.data);

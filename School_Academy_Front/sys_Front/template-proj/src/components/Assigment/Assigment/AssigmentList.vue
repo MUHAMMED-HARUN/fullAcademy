@@ -4,6 +4,7 @@
       <thead>
         <tr>
           <th>اسم الطالب</th>
+          <th>الخطة الأكاديمية</th>
           <th>نطاق الامتحان</th>
           <th>حالة الامتحان</th>
           <th>تاريخ التنفيذ</th>
@@ -15,16 +16,20 @@
       <tbody>
         <tr v-for="assig in Assigments" :key="assig.assignmentID">
           <td>{{ assig.studentName }}</td>
+          <td>{{ assig.academicPlanName }}</td>
           <td>{{ assig.assigmentScopeName }}</td>
           <td>{{ assig.assignmentState }}</td>
           <td>{{ assig.scheduledDate }}</td>
           <td>{{ assig.isPassed }}</td>
           <td>{{ assig.totalScore }}</td>
           <td>
-            <button @click="ShowInfo(assig)">معلومات</button>
-            <button @click="ShowUpdate(assig)">تحديث</button>
-            <button @click="ShowDelete(assig)">حذف</button>
-            <button v-if="assig.canAddResult" @click="showAddResult(assig)">
+            <button v-if="canRead" @click="ShowInfo(assig)">معلومات</button>
+            <button v-if="canUpdate" @click="ShowUpdate(assig)">تحديث</button>
+            <button v-if="canDelete" @click="ShowDelete(assig)">حذف</button>
+            <button
+              v-if="canAddResult && assig.canAddResult"
+              @click="showAddResult(assig)"
+            >
               اضافة نتيجة
             </button>
           </td>
@@ -41,21 +46,25 @@ export default {
       type: Array,
       required: true,
     },
+    canRead: { type: Boolean, default: false },
+    canUpdate: { type: Boolean, default: false },
+    canDelete: { type: Boolean, default: false },
+    canAddResult: { type: Boolean, default: false },
   },
-  emits: ["ShowUpdate", "ShowDelete", "ShowInfo", "ShowAddResult"],
+  emits: ["show-update", "show-delete", "show-info", "show-add-result"],
   methods: {
     async ShowUpdate(Data) {
-      this.$emit("ShowUpdate", Data);
+      this.$emit("show-update", Data);
     },
 
     async ShowDelete(Data) {
-      this.$emit("ShowDelete", Data);
+      this.$emit("show-delete", Data);
     },
     async ShowInfo(Data) {
-      this.$emit("ShowInfo", Data);
+      this.$emit("show-info", Data);
     },
     async showAddResult(Data) {
-      this.$emit("ShowAddResult", Data);
+      this.$emit("show-add-result", Data);
     },
   },
 };

@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using System.Application.Abstractions.Institute;
+using System.Application.Abstractions.Progress;
 using System.Application.Common;
 using System.Application.Services.Progress.StageInfo.DTO;
 
@@ -15,7 +15,8 @@ namespace System.Application.Services.Progress.StageInfo.Query
         }
         public async Task<TResult<List<StageInfoInfo>>> Handle(GetStudentStageInfoQuery request, CancellationToken cancellationToken)
         {
-            return TResult<List<StageInfoInfo>>.OK(await _repo.GetStudentStageInfo(request.enrollmentID));
+            return TResult<List<StageInfoInfo>>.OK(
+                await _repo.GetStudentStageInfo(request.StudentAcademicEnrollmentID));
         }
     }
 }

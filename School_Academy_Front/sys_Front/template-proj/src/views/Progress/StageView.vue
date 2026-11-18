@@ -219,7 +219,7 @@ export default {
   },
   mounted() {
     this.StageStore.clearSelectedStage();
-    this.StageStore.fetchStagePage();
+    this.StageStore.fetchStagePage({ Page: 1, Filter: "", OrderBy: "" });
     this.ClassStore.fetchClasses();
   },
 };

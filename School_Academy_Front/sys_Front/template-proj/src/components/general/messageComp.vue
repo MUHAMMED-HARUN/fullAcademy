@@ -17,7 +17,7 @@ import { ref, watch, onBeforeUnmount, computed } from "vue";
 
 const props = defineProps({
   msg: {
-    type: [String, Array],
+    type: [String, Array, Object],
     default: null,
   },
   isError: {
@@ -33,6 +33,14 @@ const GetErrors = computed(() => {
   if (!props.msg) return [];
   if (typeof props.msg === "string") return [props.msg];
   if (Array.isArray(props.msg)) return props.msg;
+  if (typeof props.msg === "object") {
+    return Object.entries(props.msg).flatMap(([field, value]) => {
+      const messages = Array.isArray(value) ? value : [value];
+      return messages
+        .filter((message) => typeof message === "string" && message.trim())
+        .map((message) => `${field}: ${message}`);
+    });
+  }
   return [];
 });
 

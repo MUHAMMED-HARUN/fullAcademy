@@ -11,6 +11,7 @@ export const InstituteLinks = [
     component: InstituteView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_Institute",
     },
   },
   {
@@ -19,6 +20,7 @@ export const InstituteLinks = [
     component: ProgramView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_Program",
     },
   },
   {
@@ -27,6 +29,7 @@ export const InstituteLinks = [
     component: ClassView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_Class",
     },
   },
   {
@@ -35,6 +38,7 @@ export const InstituteLinks = [
     component: InstituteClassView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_InstituteClass",
     },
   },
   {
@@ -43,6 +47,7 @@ export const InstituteLinks = [
     component: GroupView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_Group",
     },
   },
 ];

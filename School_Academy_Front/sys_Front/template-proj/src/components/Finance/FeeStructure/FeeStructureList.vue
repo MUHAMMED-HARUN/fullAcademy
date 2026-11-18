@@ -10,12 +10,12 @@
               @change="$emit('toggle-select-all', $event.target.checked)"
             />
           </th>
-          <th>اسم الخطة</th>
+          <th>اسم التعرفة</th>
           <th>نوع الرسوم</th>
           <th>المبلغ</th>
-          <th>البرنامج</th>
-          <th>الصف</th>
-          <th>المرحلة</th>
+          <th>المعهد المزوّد</th>
+          <th>النطاق الدراسي</th>
+          <th>الإصدار</th>
           <th>ملاحظات</th>
         </tr>
       </thead>
@@ -28,12 +28,15 @@
               @change="$emit('toggle-select-row', item)"
             />
           </td>
-          <td>{{ item.name }}</td>
+          <td>
+            {{ item.name
+            }}<small v-if="item.isUsed" class="ms-2">(مستخدمة)</small>
+          </td>
           <td>{{ getEnumLabel(feeTypeOptions, item.feeType) }}</td>
           <td>{{ item.amount }}</td>
-          <td>{{ item.programName }}</td>
-          <td>{{ item.className }}</td>
-          <td>{{ item.stageName }}</td>
+          <td>{{ item.providerInstituteName }}</td>
+          <td>{{ item.scopeName }}</td>
+          <td>{{ item.academicPlanVersion }}</td>
           <td>{{ item.notes }}</td>
         </tr>
       </tbody>

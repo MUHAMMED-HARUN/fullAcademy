@@ -14,12 +14,22 @@ namespace System.Infrastructure.Configurations.Finance
             builder.ToTable("StudentInvoices");
 
             builder.Property(x => x.IssueDate).IsRequired();
-            builder.Property(x => x.DueDate).IsRequired();
+            builder.Property(x => x.DueDate).IsRequired(false);
             builder.Property(x => x.OriginalAmount).IsRequired().HasColumnType("decimal(18,2)");
             builder.Property(x => x.DiscountAmount).IsRequired().HasColumnType("decimal(18,2)");
             builder.Property(x => x.RemainingAmount).IsRequired().HasColumnType("decimal(18,2)");
             builder.Property(x => x.Status).IsRequired();
             builder.Property(x => x.Notes).IsRequired(false);
+            builder.Property(x => x.StudentAcademicEnrollmentID).IsRequired(false);
+            builder.Property(x => x.AcademicPlanVersionSnapshot).IsRequired(false);
+            builder.Property(x => x.AcademicPlanNameSnapshot).HasMaxLength(200).IsRequired(false);
+            builder.Property(x => x.FeeStructureNameSnapshot).HasMaxLength(200).IsRequired(false);
+            builder.Property(x => x.BillingPeriodStart).IsRequired(false);
+            builder.Property(x => x.BillingPeriodEnd).IsRequired(false);
+            builder.HasIndex(x => x.StudentAcademicEnrollmentID);
+            builder.HasIndex(x => new { x.StudentAcademicEnrollmentID, x.FeeStructureID, x.BillingPeriodStart, x.BillingPeriodEnd })
+                .IsUnique()
+                .HasFilter("[DeletedAt] IS NULL AND [StudentAcademicEnrollmentID] IS NOT NULL AND [BillingPeriodStart] IS NOT NULL AND [BillingPeriodEnd] IS NOT NULL");
 
             builder.HasOne(x => x.Student)
                    .WithMany()
@@ -30,6 +40,12 @@ namespace System.Infrastructure.Configurations.Finance
                    .WithMany(f => f.StudentInvoices)
                    .HasForeignKey(x => x.FeeStructureID)
                    .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(x => x.StudentAcademicEnrollment)
+                   .WithMany()
+                   .HasForeignKey(x => x.StudentAcademicEnrollmentID)
+                   .OnDelete(DeleteBehavior.NoAction)
+                   .IsRequired(false);
         }
     }
 }

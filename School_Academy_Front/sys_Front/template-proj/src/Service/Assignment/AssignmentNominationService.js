@@ -5,16 +5,20 @@ import { AssignmentNominationSchema } from "@/validations/Assignment/AssignmentN
 import { validate1 } from "@/validations/validator";
 
 class AssignmentNominationinfoService {
-  async getAll() {
-    const rees = await AssignmentNominationRepositories.getList();
-    var dto;
-    if (rees.success) {
-      dto = AssignmentNominationMapper.mapListApiToAssignmentNomination(
-        rees.data
-      );
-      return new TResult(dto, rees.success, rees.errors);
-    }
-    return new TResult(null, false, rees.errors);
+  async getAll(params = {}) {
+    const response = await AssignmentNominationRepositories.getList(params);
+    if (!response.success) return new TResult(null, false, response.errors);
+    const paging = response.data || {};
+    return new TResult(
+      {
+        items: AssignmentNominationMapper.mapListApiToAssignmentNomination(
+          paging.Data ?? paging.data ?? []
+        ),
+        count: paging.Count ?? paging.count ?? 0,
+      },
+      true,
+      response.errors
+    );
   }
 
   async getBy(command) {
@@ -30,12 +34,9 @@ class AssignmentNominationinfoService {
   async create(data) {
     const validation = validate1(data, AssignmentNominationSchema);
     if (!validation.isValid) {
-      console.log("valid nomin", validation);
       return new TResult(null, validation.isValid, validation.errors);
     }
     const payload = AssignmentNominationMapper.mapUpsertToApi(data);
-    console.log("payload nomin", payload);
-
     return await AssignmentNominationRepositories.add(payload);
   }
 

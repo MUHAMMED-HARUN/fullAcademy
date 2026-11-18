@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using System.Application.Abstractions.Assignment;
+using System.Application.Abstractions.Auth;
 using System.Application.Common;
 using System.Application.Services.Assignment.AssignmentScopeInfo.DTO;
 using System.Domain.Entities;
+using System.Infrastructure.Extensions.Security;
 using System.Infrastructure.Persistence;
 
 namespace System.Infrastructure.Repositories.Assignment
@@ -11,11 +13,13 @@ namespace System.Infrastructure.Repositories.Assignment
     {
         private readonly AppDbContext _context;
         private readonly DbSet<clsAssignmentScopeinfo> _set;
+        private readonly ICurrentUserService _currentUser;
 
-        public AssignmentScopeInfoService(AppDbContext context)
+        public AssignmentScopeInfoService(AppDbContext context, ICurrentUserService currentUser)
         {
             _context = context;
             _set = _context.Set<clsAssignmentScopeinfo>();
+            _currentUser = currentUser;
         }
 
         public async Task<string> Add(clsAssignmentScopeinfo entity)
@@ -32,7 +36,10 @@ namespace System.Infrastructure.Repositories.Assignment
 
         public async Task<List<AssignmentScopeInfoInfo>> GetList()
         {
-            return await _set.Select(x => new AssignmentScopeInfoInfo
+            var query = _set.AsNoTracking()
+                .ApplyAssignmentScopeInfoReadScope(_currentUser, _context);
+
+            return await query.Select(x => new AssignmentScopeInfoInfo
             {
                 AssignmentScopeInfoID = x.Id.ToString(),
                 MaxScore = x.MaxScore,
@@ -49,13 +56,16 @@ namespace System.Infrastructure.Repositories.Assignment
         public async Task<List<AssignmentScopeInfoInfo>> GetListForAssigmet(Guid assimentID)
         {
             var scopeId = await _context.Assignments
+        .AsNoTracking()
+        .ApplyAssignmentReadScope(_currentUser, _context)
         .Where(a => a.Id == assimentID)
         .Select(a => a.AssignmentNomination.AssignmentScopeID)
         .FirstOrDefaultAsync();
 
-            return await _set
+            return await _set.AsNoTracking()
+           .ApplyAssignmentScopeInfoReadScope(_currentUser, _context)
            .Where(x => x.AssignmentScopeID == scopeId &&
-               // ?? ÅÖÇÝÉ ÚáÇãÉ ÇáäÝí (!) áÌáÈ ÇáäØÇÞÇÊ ÇáÊí áíÓ áåÇ äÊíÌÉ ãÓÌáÉ ãÚ åÐÇ ÇáÇãÊÍÇä ÈÚÏ
+               // ?? ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ (!) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
                !_context.Results.Any(r => r.AssignmentID == assimentID &&
                    r.AssignmentScopeInfoID == x.Id && r.IsActive == true)
            )
@@ -74,7 +84,9 @@ namespace System.Infrastructure.Repositories.Assignment
 
         public async Task<AssignmentScopeInfoInfo> GetBy(Guid id)
         {
-            return await _set.Where(x => x.Id == id)
+            return await _set.AsNoTracking()
+                .ApplyAssignmentScopeInfoReadScope(_currentUser, _context)
+                .Where(x => x.Id == id)
                 .Select(x => new AssignmentScopeInfoInfo
                 {
                     AssignmentScopeInfoID = x.Id.ToString(),
@@ -91,25 +103,33 @@ namespace System.Infrastructure.Repositories.Assignment
 
         public async Task<clsAssignmentScopeinfo> GetEntityBy(Guid id)
         {
-            return await _set.FirstOrDefaultAsync(x => x.Id == id);
+            return await _set.ApplyAssignmentScopeInfoReadScope(_currentUser, _context)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<bool> IsExistBy(Guid id)
         {
-            return await _set.AnyAsync(x => x.Id == id);
+            return await _set.AsNoTracking()
+                .ApplyAssignmentScopeInfoReadScope(_currentUser, _context)
+                .AnyAsync(x => x.Id == id);
         }
 
         public async Task<bool> HasAssignmentScopeInfo(Guid StageInfoID, Guid AssignmentScopeID)
         {
-            return await _set.AnyAsync(x => x.StageInfoID == StageInfoID && x.AssignmentScopeID == AssignmentScopeID);
+            return await _set.AsNoTracking()
+                .ApplyAssignmentScopeInfoReadScope(_currentUser, _context)
+                .AnyAsync(x => x.StageInfoID == StageInfoID && x.AssignmentScopeID == AssignmentScopeID);
         }
 
-      public  async Task<Dictionary<Guid, clsAssignmentScopeinfo>> GetList(Guid scopeInfoID)
+       public  async Task<Dictionary<Guid, clsAssignmentScopeinfo>> GetList(Guid scopeInfoID)
         {
-            Guid assigmentScopeID =await _set.Where(x => x.Id == scopeInfoID).Select(x => x.AssignmentScopeID).FirstOrDefaultAsync();
+            var scopedSet = _set.AsNoTracking()
+                .ApplyAssignmentScopeInfoReadScope(_currentUser, _context);
+            Guid assigmentScopeID = await scopedSet.Where(x => x.Id == scopeInfoID)
+                .Select(x => x.AssignmentScopeID).FirstOrDefaultAsync();
 
-            var filteredQuery = _set
-                   .Where(x => x.AssignmentScopeID == assigmentScopeID);
+            var filteredQuery = scopedSet
+                .Where(x => x.AssignmentScopeID == assigmentScopeID);
 
             return await filteredQuery.ToDictionaryAsync(x => x.Id);
         }

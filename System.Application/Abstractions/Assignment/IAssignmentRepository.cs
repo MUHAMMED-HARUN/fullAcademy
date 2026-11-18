@@ -1,4 +1,6 @@
 using System.Application.Services.Assignment.Assignment.DTO;
+using System.Application.Services.Assignment.Assignment.Query;
+using Gridify;
 using System.Domain.Entities;
 
 namespace System.Application.Abstractions.Assignment
@@ -7,10 +9,10 @@ namespace System.Application.Abstractions.Assignment
     {
         Task<string> Add(clsAssignment entity);
         Task<bool> Update(clsAssignment entity);
-        Task<List<AssignmentInfo>> GetList();
-        Task<AssignmentInfo> GetBy(Guid id);
-        Task<clsAssignment> GetEntityBy(Guid id);
-        Task<bool> IsExistBy(Guid id);
-        Task<bool> HasAssignment(Guid NominationID);
+        Task<AssignmentInfo?> GetBy(Guid id);
+        Task<AssignmentInfo?> GetForUpsert(Guid id);
+        Task<Paging<AssignmentInfo>> GetListFilter(GetAllAssignmentQuery request);
+        Task<clsAssignment?> GetEntityBy(Guid id);
+        Task<bool> HasAssignment(Guid nominationID);
     }
 }

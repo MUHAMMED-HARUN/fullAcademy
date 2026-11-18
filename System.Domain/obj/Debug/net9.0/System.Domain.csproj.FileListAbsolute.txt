@@ -56,3 +56,6 @@ C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2Build\System.Domain.pd
 C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\System.Domain.deps.json
 C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\System.Domain.dll
 C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\System.Domain.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\System.Domain.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\System.Domain.dll
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\System.Domain.pdb

@@ -9,6 +9,7 @@ export const FinanceLinks = [
     component: FeeStructureView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_FeeStructure",
     },
   },
   {
@@ -17,6 +18,7 @@ export const FinanceLinks = [
     component: StudentInvoiceView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_StudentInvoice",
     },
   },
   {
@@ -25,6 +27,7 @@ export const FinanceLinks = [
     component: PaymentView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_Payment",
     },
   },
 ];

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using System.Application.Common;
 using System.Application.Services.Progress.StageInfo.Command;
-using System.Domain.Entities;
+using System.Domain.Entities.Progress;
 
 namespace System.Application.Services.Progress.StageInfo.Mapper
 {

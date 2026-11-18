@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Application.Services.Enrollment.TeachingAssignment.Command;
 using System.Application.Services.Enrollment.TeachingAssignment.Query;
@@ -7,6 +8,7 @@ namespace School_Academy.Controllers.Enrollment
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TeachingAssignmentController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -17,6 +19,7 @@ namespace School_Academy.Controllers.Enrollment
         }
 
         [HttpPost("NewTeachingAssignment")]
+        [Authorize(Policy = "Can_Create_TeachingAssignment")]
         public async Task<IActionResult> Add([FromBody] NewTeachingAssignmentCommand command)
         {
             var result = await _mediator.Send(command);
@@ -30,6 +33,7 @@ namespace School_Academy.Controllers.Enrollment
         }
 
         [HttpPut("UpdateTeachingAssignment")]
+        [Authorize(Policy = "Can_Update_TeachingAssignment")]
         public async Task<IActionResult> Update([FromBody] UpdateTeachingAssignmentCommand command)
         {
             var result = await _mediator.Send(command);
@@ -43,6 +47,7 @@ namespace School_Academy.Controllers.Enrollment
         }
 
         [HttpDelete("DeleteTeachingAssignment")]
+        [Authorize(Policy = "Can_Delete_TeachingAssignment")]
         public async Task<IActionResult> Delete([FromBody] DeleteTeachingAssignmentCommand command)
         {
             var result = await _mediator.Send(command);
@@ -56,6 +61,7 @@ namespace School_Academy.Controllers.Enrollment
         }
 
         [HttpGet("GetTeachingAssignmentList")]
+        [Authorize(Policy = "Can_Read_TeachingAssignment")]
         public async Task<IActionResult> GetList([FromQuery] GetAllTeachingAssignmentQuery query)
         {
             var result = await _mediator.Send(query);
@@ -68,6 +74,7 @@ namespace School_Academy.Controllers.Enrollment
             return Ok(result);
         }
         [HttpGet("GetTeacherGroups")]
+        [Authorize(Policy = "Can_Read_TeachingAssignment")]
         public async Task<IActionResult> GetTeacherGroupList([FromQuery] GetTeacherGroupsQuery query)
         {
             var result = await _mediator.Send(query);
@@ -81,6 +88,7 @@ namespace School_Academy.Controllers.Enrollment
         }
 
         [HttpGet("GetTeachingAssignmentBy")]
+        [Authorize(Policy = "Can_Read_TeachingAssignment")]
         public async Task<IActionResult> GetBy([FromQuery] GetTeachingAssignmentByQuery query)
         {
             var result = await _mediator.Send(query);
@@ -94,6 +102,7 @@ namespace School_Academy.Controllers.Enrollment
         }
 
         [HttpGet("IsExistTeachingAssignmentBy")]
+        [Authorize(Policy = "Can_Read_TeachingAssignment")]
         public async Task<IActionResult> IsExistBy([FromQuery] IsExistTeachingAssignmentByQuery query)
         {
             var result = await _mediator.Send(query);

@@ -19,28 +19,12 @@ namespace System.Application.Services.Institute.InstituteClass.Query
         }
         public async Task<TResult<List<InstituteClassInfo>>> Handle(GetAllInstituteClassQuery request, CancellationToken cancellationToken)
         {
-            var readScope = CreateReadScope();
+            var readScope = InstituteClassReadScopeFactory.Create(_currentUser);
             if (readScope is null)
                 return TResult<List<InstituteClassInfo>>.Fail("غير مصرح بقراءة ربط الصفوف بالمعاهد");
 
             return TResult<List<InstituteClassInfo>>.OK(await _repo.GetList(readScope));
         }
 
-        private InstituteClassReadScope? CreateReadScope()
-        {
-            if (!_currentUser.IsAuthenticated)
-                return null;
-            if (_currentUser.IsAdmin)
-                return new InstituteClassReadScope { IsAdmin = true };
-            if (!_currentUser.HasPermission("Can_Read_InstituteClass"))
-                return null;
-            if (string.Equals(_currentUser.EntityType, "Teacher", StringComparison.OrdinalIgnoreCase) &&
-                _currentUser.EntityGuid is Guid teacherID && teacherID != Guid.Empty)
-                return new InstituteClassReadScope { TeacherID = teacherID };
-            if (string.Equals(_currentUser.EntityType, "Student", StringComparison.OrdinalIgnoreCase) &&
-                _currentUser.EntityGuid is Guid studentID && studentID != Guid.Empty)
-                return new InstituteClassReadScope { StudentID = studentID };
-            return null;
-        }
     }
 }

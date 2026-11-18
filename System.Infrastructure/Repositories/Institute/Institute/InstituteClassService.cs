@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Gridify;
+using Gridify.EntityFramework;
 using System.Application.Abstractions.Institute;
 using System.Application.Common;
 using System.Application.Services.Institute.InstituteClass.DTO;
+using System.Application.Services.Institute.InstituteClass.Query;
 using System.Application.Services.Institute.Program.DTO;
 using System.Domain.Entities;
 using System.Domain.Enums.Institute;
@@ -11,6 +14,11 @@ namespace System.Infrastructure.Repositories.Institute.Institute
 {
     public class InstituteClassService : IInstituteClassRepository
     {
+        private static readonly IGridifyMapper<InstituteClassInfo> InstituteClassFilterMapper =
+            new GridifyMapper<InstituteClassInfo>()
+                .AddMap(nameof(InstituteClassInfo.ClassName), item => item.ClassName)
+                .AddMap(nameof(InstituteClassInfo.InstituteName), item => item.InstituteName);
+
         private readonly AppDbContext _context;
         private readonly DbSet<clsInstituteClass> _dbSet;
 
@@ -89,6 +97,27 @@ namespace System.Infrastructure.Repositories.Institute.Institute
             }
 
             return (await GetAlreadyLinkedClassIDs(instituteID, new[] { classID })).Count > 0;
+        }
+
+        public async Task<Paging<InstituteClassInfo>> GetListFilter(
+            GetInstituteClassListFilterQuery request,
+            InstituteClassReadScope readScope)
+        {
+            request.Page = Math.Max(1, request.Page);
+            request.PageSize = Math.Clamp(request.PageSize, 1, 100);
+
+            var projected = ApplyReadScope(_dbSet.AsNoTracking(), readScope)
+                .Select(item => new InstituteClassInfo
+                {
+                    InstituteClassID = item.Id.ToString(),
+                    ClassID = item.ClassID.ToString(),
+                    InstituteID = item.InstituteID.ToString(),
+                    ClassName = item.Class.Name,
+                    InstituteName = item.Institute.Name,
+                    ClassLevel = item.Class.Level,
+                });
+
+            return await projected.GridifyAsync(request, InstituteClassFilterMapper);
         }
 
         public async Task<List<Guid>> GetAlreadyLinkedClassIDs(

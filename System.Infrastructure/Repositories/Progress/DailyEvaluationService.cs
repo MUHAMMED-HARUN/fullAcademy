@@ -1,216 +1,174 @@
-﻿using Gridify;
+using Gridify;
 using Gridify.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using System.Application.Abstractions.Auth;
 using System.Application.Abstractions.Progress;
 using System.Application.Common;
-using System.Application.Services.Enrollment.StudentEnrollment.DTO;
 using System.Application.Services.Progress.DailyEvaluation.DTO;
 using System.Application.Services.Progress.DailyEvaluation.Query;
 using System.Domain.Entities;
 using System.Domain.Enums.Person;
+using System.Infrastructure.Extensions.Security;
 using System.Infrastructure.Persistence;
 
 namespace System.Infrastructure.Repositories.Progress
 {
-    public class DailyEvaluationService : IDailyEvaluationRepository
+    public sealed class DailyEvaluationService : IDailyEvaluationRepository
     {
+        private static readonly IGridifyMapper<DailyEvaluationInfo> DailyEvaluationFilterMapper =
+            new GridifyMapper<DailyEvaluationInfo>()
+                .AddMap(nameof(DailyEvaluationInfo.StudentName), info => info.StudentName)
+                .AddMap(nameof(DailyEvaluationInfo.AcademicPlanName), info => info.AcademicPlanName)
+                .AddMap(nameof(DailyEvaluationInfo.StageInfoName), info => info.StageInfoName)
+                .AddMap(nameof(DailyEvaluationInfo.Date), info => info.Date)
+                .AddMap(nameof(DailyEvaluationInfo.LevelType), info => info.LevelType);
+
         private readonly AppDbContext _context;
         private readonly DbSet<clsDailyEvaluation> _set;
-      
-        public DailyEvaluationService(AppDbContext context)
+        private readonly ICurrentUserService _currentUser;
+
+        public DailyEvaluationService(AppDbContext context, ICurrentUserService currentUser)
         {
             _context = context;
-            _set = _context.Set<clsDailyEvaluation>();
+            _set = context.Set<clsDailyEvaluation>();
+            _currentUser = currentUser;
         }
-        private static string GetLevelType(enLevelType levelType)
-        {
-            switch (levelType)
-            {
-                case enLevelType.VeryBad:
-                    return"سيء جدا";
-                case enLevelType.Bad:
-                    return "سيء";
-                case enLevelType.Good:
-                    return "جبد";
-                case enLevelType.VeryGood:
-                    return"جيد جدا";
-                case enLevelType.Excilent:
-                    return "ممتاز";
-            }
-            return "سيئ خطا";
-        }
+
         public async Task<string> Add(clsDailyEvaluation entity)
         {
-          await _set.AddAsync(entity);
+            await _set.AddAsync(entity);
             return entity.Id.ToString();
         }
 
-        public async Task<DailyEvaluationInfo> GetBy(string param, enDailyEvaluationParamType paramType)
+        public async Task<DailyEvaluationInfo?> GetBy(string param, enDailyEvaluationParamType paramType)
         {
-            if (paramType == enDailyEvaluationParamType.ID)
-
-                return await _set.Where(x => x.Id == clsUtil.ToGuid(param)).
-                             Select(x => new DailyEvaluationInfo
-                             {
-                                 DailyEvaluationID = x.Id.ToString(),
-                                 StudentEnrollmentID = x.StudentEnrollmentID.ToString(),
-                                 StudentName = x.StudentEnrollment.Student.Person.FirstName + " " +
-                              x.StudentEnrollment.Student.Person.FatherName + " " + x.StudentEnrollment.Student.Person.LastName,
-                                 StageInfoID = x.StageInfoID.ToString(),
-                                 Date = x.Date,
-                                 From = x.From,
-                                 To = x.To,
-                                 GroupID = x.StudentEnrollment.GroupID.ToString(),
-                                 GroupName = x.StudentEnrollment.Group.GroupName,
-                                 LevelType = GetLevelType(x.LevelType)
-                             }
-                            ).FirstOrDefaultAsync();
-
+            var query = _set.AsNoTracking().ApplyDailyEvaluationReadScope(_currentUser, _context);
+            if (paramType == enDailyEvaluationParamType.ID && Guid.TryParse(param, out var evaluationID))
+                query = query.Where(evaluation => evaluation.Id == evaluationID);
+            else if (paramType == enDailyEvaluationParamType.StudentAcademicEnrollment && Guid.TryParse(param, out var enrollmentID))
+                query = query.Where(evaluation => evaluation.StudentAcademicEnrollmentID == enrollmentID);
             else
-    return await _set.Where(x => x.StudentEnrollmentID == clsUtil.ToGuid( param)).
-                                  Select(x => new DailyEvaluationInfo
-                                  {
-                                      DailyEvaluationID = x.Id.ToString(),
-                                      StudentEnrollmentID = x.StudentEnrollmentID.ToString(),
-                                      StudentName = x.StudentEnrollment.Student.Person.FirstName + " " +
-                              x.StudentEnrollment.Student.Person.FatherName + " " + x.StudentEnrollment.Student.Person.LastName,
-                                      StageInfoID = x.StageInfoID.ToString(),
-                                      Date = x.Date,
-                                      From = x.From,
-                                      To = x.To,
-                                      GroupID = x.StudentEnrollment.GroupID.ToString(),
-                                      GroupName = x.StudentEnrollment.Group.GroupName,
-                                      LevelType = GetLevelType(x.LevelType)
-                                  }
-                            ).FirstOrDefaultAsync();
+                return null;
+
+            return await ProjectDailyEvaluation(query)
+                .OrderByDescending(info => info.Date)
+                .ThenByDescending(info => info.To)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task<clsDailyEvaluation> GetEntityBy(string param, enDailyEvaluationParamType paramType)
+        public async Task<clsDailyEvaluation?> GetEntityBy(string param, enDailyEvaluationParamType paramType)
         {
-            if (paramType == enDailyEvaluationParamType.ID)
+            var query = _set.ApplyDailyEvaluationReadScope(_currentUser, _context);
+            if (paramType != enDailyEvaluationParamType.ID ||
+                !Guid.TryParse(param, out var evaluationID))
+                return null;
 
-                return await _set.Where(x => x.Id == clsUtil.ToGuid(param))
-                            .FirstOrDefaultAsync();
-
-            else
-                return await _set.Where(x => x.StudentEnrollmentID == clsUtil.ToGuid( param)).
-                                         FirstOrDefaultAsync();
+            return await query.FirstOrDefaultAsync(evaluation => evaluation.Id == evaluationID);
         }
 
         public async Task<List<DailyEvaluationInfo>> GetList()
         {
-            return await _set.Select(x => new DailyEvaluationInfo
+            var query = _set.AsNoTracking().ApplyDailyEvaluationReadScope(_currentUser, _context);
+            return await ProjectDailyEvaluation(query).ToListAsync();
+        }
+
+        public async Task<Paging<DailyEvaluationInfo>> GetAllFilter(GetAllDailyEvaluationQuery request)
+        {
+            request.Page = Math.Max(1, request.Page);
+            request.PageSize = Math.Clamp(request.PageSize, 1, 100);
+
+            var query = _set.AsNoTracking().ApplyDailyEvaluationReadScope(_currentUser, _context);
+            if (!string.IsNullOrWhiteSpace(request.StudentAcademicEnrollmentID))
             {
-                DailyEvaluationID = x.Id.ToString(),
-                StudentEnrollmentID = x.StudentEnrollmentID.ToString(),
-                StudentName = x.StudentEnrollment.Student.Person.FirstName + " " +
-                              x.StudentEnrollment.Student.Person.FatherName + " " + x.StudentEnrollment.Student.Person.LastName,
-                StageInfoID = x.StageInfoID.ToString(),
-                Date = x.Date,
-                From = x.From,
-                To = x.To,
-                GroupID = x.StudentEnrollment.GroupID.ToString(),
-                GroupName = x.StudentEnrollment.Group.GroupName,
-                LevelType = GetLevelType(x.LevelType)
+                if (!Guid.TryParse(request.StudentAcademicEnrollmentID, out var enrollmentID) || enrollmentID == Guid.Empty)
+                    return new Paging<DailyEvaluationInfo>();
+                query = query.Where(evaluation => evaluation.StudentAcademicEnrollmentID == enrollmentID);
             }
-                            ).ToListAsync();
+            return await ProjectDailyEvaluation(query)
+                .GridifyAsync(request, DailyEvaluationFilterMapper);
+        }
+
+        public async Task<DailyEvaluationInfo?> GetLastDailyEvaluationInfo(
+            string studentAcademicEnrollmentID,
+            string stageInfoID)
+        {
+            if (!Guid.TryParse(studentAcademicEnrollmentID, out var enrollmentGuid) ||
+                !Guid.TryParse(stageInfoID, out var stageInfoGuid))
+                return null;
+
+            var query = _set.AsNoTracking()
+                .ApplyDailyEvaluationReadScope(_currentUser, _context)
+                .Where(evaluation => evaluation.StudentAcademicEnrollmentID == enrollmentGuid &&
+                                     evaluation.StageInfoID == stageInfoGuid);
+
+            return await ProjectDailyEvaluation(query)
+                .OrderByDescending(info => info.Date)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<clsDailyEvaluation?> GetLastDailyEvaluation(
+            string studentAcademicEnrollmentID,
+            string stageInfoID,
+            string? excludeDailyEvaluationID = null)
+        {
+            if (!Guid.TryParse(studentAcademicEnrollmentID, out var enrollmentGuid) ||
+                !Guid.TryParse(stageInfoID, out var stageInfoGuid))
+                return null;
+
+            var query = _set.AsNoTracking()
+                .ApplyDailyEvaluationReadScope(_currentUser, _context)
+                .Where(evaluation => evaluation.StudentAcademicEnrollmentID == enrollmentGuid &&
+                                     evaluation.StageInfoID == stageInfoGuid);
+
+            if (Guid.TryParse(excludeDailyEvaluationID, out var excludedID))
+                query = query.Where(evaluation => evaluation.Id != excludedID);
+
+            return await query.OrderByDescending(evaluation => evaluation.To)
+                .ThenByDescending(evaluation => evaluation.Date)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<bool> IsExistBy(string param, enDailyEvaluationParamType paramType)
         {
-            if (paramType == enDailyEvaluationParamType.ID)
-
-                return await _set.AnyAsync(x => x.Id == clsUtil.ToGuid(param))
-                             ;
-
-            else
-                return await _set.AnyAsync(x => x.StudentEnrollmentID == clsUtil.ToGuid( param))
-                                        ;
+            var query = _set.AsNoTracking().ApplyDailyEvaluationReadScope(_currentUser, _context);
+            if (paramType == enDailyEvaluationParamType.ID && Guid.TryParse(param, out var evaluationID))
+                return await query.AnyAsync(evaluation => evaluation.Id == evaluationID);
+            if (paramType == enDailyEvaluationParamType.StudentAcademicEnrollment && Guid.TryParse(param, out var enrollmentID))
+                return await query.AnyAsync(evaluation => evaluation.StudentAcademicEnrollmentID == enrollmentID);
+            return false;
         }
 
-        public async Task<bool> Update(clsDailyEvaluation entity)
+        public Task<bool> Update(clsDailyEvaluation entity)
         {
             _set.Update(entity);
-            return true;
+            return Task.FromResult(true);
         }
 
-        public async Task<DailyEvaluationInfo> GetLastDailyEvaluationInfo(string enrollmentStudentIDs ,string stageInfoID)
+        private static IQueryable<DailyEvaluationInfo> ProjectDailyEvaluation(
+            IQueryable<clsDailyEvaluation> query)
         {
-         return await   _set.Where(x=>x.StudentEnrollmentID==clsUtil.ToGuid(enrollmentStudentIDs)
-         && x.StageInfoID==clsUtil.ToGuid( stageInfoID)).OrderByDescending(x=>x.To).Select(x => new DailyEvaluationInfo
+            return query.Select(evaluation => new DailyEvaluationInfo
             {
-                DailyEvaluationID = x.Id.ToString(),
-                StudentEnrollmentID = x.StudentEnrollmentID.ToString(),
-                StudentName = x.StudentEnrollment.Student.Person.FirstName + " " +
-       x.StudentEnrollment.Student.Person.FatherName + " " + x.StudentEnrollment.Student.Person.LastName,
-                StageInfoID = x.StageInfoID.ToString(),
-                Date = x.Date,
-                From = x.From,
-                To = x.To,
-                GroupID = x.StudentEnrollment.GroupID.ToString(),
-                GroupName = x.StudentEnrollment.Group.GroupName,
-                LevelType = GetLevelType(x.LevelType)
-            }
-     ).FirstOrDefaultAsync();
-        }
-
-        public async Task<clsDailyEvaluation> GetLastDailyEvaluation(string enrollmentStudentIDs)
-        {
-           return await _set.Where(x => x.StudentEnrollmentID == clsUtil.ToGuid(enrollmentStudentIDs)&& 
-           x.LevelType>enLevelType.Bad).OrderByDescending(x => x.To)
-.FirstOrDefaultAsync();
-        }
-
-        public async Task<clsDailyEvaluation> GetLastDailyEvaluation(string enrollmentStudentID, string outDailyEvaluationID)
-        {
-           return await _set.Where(x => x.StudentEnrollmentID == clsUtil.ToGuid(enrollmentStudentID)
-            && x.StudentEnrollmentID!= clsUtil.ToGuid( outDailyEvaluationID)).OrderByDescending(x => x.To)
-  .FirstOrDefaultAsync();
-        }
-
-        public async Task<Paging<DailyEvaluationInfo>> GetAllFilter(GetAllDailyEvaluationQuery requset, string TeacherID)
-        {
-
-                        var query = _set
-            .Join(_context.StudentEnrollments,
-            dayEv => dayEv.StudentEnrollmentID,
-            studentEnroll => studentEnroll.Id,
-            (dayEv, studentEnroll) => new { dayEv, studentEnroll })
-            .Join(_context.TeachingAssignments,
-            x => x.studentEnroll.GroupID,
-            teachingAssig => teachingAssig.GroupID,
-            (x, teachingAssig) => new { x.studentEnroll, x.dayEv, teachingAssig });
-
-
-            if (!string.IsNullOrEmpty(TeacherID))
-            {
-                var teacherGuid = clsUtil.ToGuid(TeacherID);
-                query = query.Where(x => x.teachingAssig.TeacherID == teacherGuid);
-            }
-            var resultQuery = query.Select(x => new DailyEvaluationInfo
-            {
-                DailyEvaluationID = x.dayEv.Id.ToString(),
-                StudentEnrollmentID = x.dayEv.StudentEnrollmentID.ToString(),
-                StudentName = x.dayEv.StudentEnrollment.Student.Person.FirstName + " " +
-       x.dayEv.StudentEnrollment.Student.Person.FatherName + " " + x.dayEv.StudentEnrollment.Student.Person.LastName,
-                StageInfoID = x.dayEv.StageInfoID.ToString(),
-                Date = x.dayEv.Date,
-                From = x.dayEv.From,
-                To = x.dayEv.To,
-                GroupID = x.dayEv.StudentEnrollment.GroupID.ToString(),
-                GroupName = x.dayEv.StudentEnrollment.Group.GroupName,
-                LevelType = x.dayEv.LevelType == enLevelType.VeryBad ? "سيء جدا" :
-                x.dayEv.LevelType == enLevelType.Bad ? "سيء" :
-                x.dayEv.LevelType == enLevelType.Good ? "جيد" :
-                x.dayEv.LevelType == enLevelType.VeryGood ? "جيد جدا" :
-                x.dayEv.LevelType == enLevelType.Excilent ? "ممتاز" : "غير معروف"
-            }
-     );
-
-            // 4. تطبيق التصفية والترقيم (Pagination) باستخدام Gridify
-            return await resultQuery.GridifyAsync(requset);
-
-
+                DailyEvaluationID = evaluation.Id.ToString(),
+                StudentAcademicEnrollmentID = evaluation.StudentAcademicEnrollmentID.ToString(),
+                StudentName = evaluation.StudentAcademicEnrollment.Student.Person.FirstName + " " +
+                              evaluation.StudentAcademicEnrollment.Student.Person.FatherName + " " +
+                              evaluation.StudentAcademicEnrollment.Student.Person.LastName,
+                AcademicPlanName = evaluation.StudentAcademicEnrollment.AcademicPlan.Name,
+                StageInfoID = evaluation.StageInfoID.ToString(),
+                StageInfoName = evaluation.StudentAcademicEnrollment.Items
+                    .Where(item => item.StageInfoID == evaluation.StageInfoID)
+                    .Select(item => item.StageName + " — " + item.MatterName)
+                    .FirstOrDefault() ?? string.Empty,
+                Date = evaluation.Date,
+                From = evaluation.From,
+                To = evaluation.To,
+                LevelType = evaluation.LevelType == enLevelType.VeryBad ? "سيء جدا" :
+                    evaluation.LevelType == enLevelType.Bad ? "سيء" :
+                    evaluation.LevelType == enLevelType.Good ? "جيد" :
+                    evaluation.LevelType == enLevelType.VeryGood ? "جيد جدا" :
+                    evaluation.LevelType == enLevelType.Excilent ? "ممتاز" : "غير معروف",
+            });
         }
     }
 }

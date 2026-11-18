@@ -7,7 +7,7 @@ namespace System.Application.Services.Progress.Stage.Query
 {
     public class IsExistStageByQuery : IRequest<TResult <bool>>, IQuery
     {
-        public string Param { get; set; }
+        public string Param { get; set; } = string.Empty;
         public enStageParamType ParamType { get; set; }
     }
 }

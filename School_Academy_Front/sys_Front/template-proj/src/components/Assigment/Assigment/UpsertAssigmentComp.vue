@@ -4,17 +4,41 @@
     <form @submit.prevent="onSubmit">
       <div class="form-group">
         <label>الطالب:</label>
-        <label>{{ NominationInfo?.studentName }}</label>
+        <label>{{
+          nominationInfo?.studentName ||
+          AssignmentStore.selectedassignments?.studentName
+        }}</label>
       </div>
       <div class="form-group">
         <label>نطاق الاختبار:</label>
-        <label>{{ NominationInfo?.assignmentScopeName }}</label>
+        <label>{{
+          nominationInfo?.assignmentScopeName ||
+          AssignmentStore.selectedassignments?.assigmentScopeName
+        }}</label>
       </div>
 
-      <!-- تضمين مكون العنوان الفرعي بربط v-model -->
+      <div class="form-group">
+        <label for="assignment-date">موعد الاختبار</label>
+        <input
+          id="assignment-date"
+          v-model="formData.scheduledDate"
+          type="date"
+          required
+        />
+        <ValidationError :messages="errors?.scheduledDate" />
+      </div>
 
       <div class="form-group">
-        <button type="submit">حفظ</button>
+        <button
+          type="submit"
+          :disabled="
+            saving ||
+            !formData.assignmentNominationID ||
+            !formData.scheduledDate
+          "
+        >
+          {{ saving ? "جارٍ الحفظ…" : "حفظ" }}
+        </button>
       </div>
     </form>
   </div>
@@ -22,45 +46,62 @@
 
 <script>
 import { useassignmentstore } from "@/store/Assignment/AssignmentStore";
+import ValidationError from "@/components/general/ValidationError.vue";
+
+const getLocalDate = () => {
+  const date = new Date();
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+    2,
+    "0"
+  )}-${String(date.getDate()).padStart(2, "0")}`;
+};
 
 export default {
   name: "UpsertAssigmentComp",
+  components: { ValidationError },
 
   props: {
-    NominationInfo: {
+    nominationInfo: {
       type: Object,
       default: () => ({}),
     },
+    errors: { type: [String, Array, Object], default: null },
+    saving: { type: Boolean, default: false },
   },
   data() {
     return {
-      assignmentstore: useassignmentstore(),
+      AssignmentStore: useassignmentstore(),
       formData: {
         assignmentID: "",
         assignmentNominationID: "",
+        scheduledDate: getLocalDate(),
       },
     };
   },
-  emits: ["onSubmit"],
+  emits: ["submit"],
   computed: {
     FormTitle() {
       return this.formData.assignmentID ? "تعديل " : "إضافة ";
     },
   },
   methods: {
+    localDate() {
+      return getLocalDate();
+    },
     onSubmit() {
-      this.$emit("onSubmit", this.formData);
+      this.$emit("submit", { ...this.formData });
     },
     fillAssigment() {
-      if (this.assignmentstore.selectedassignments) {
-        const entity = this.assignmentstore.selectedassignments;
+      if (this.AssignmentStore.selectedassignments) {
+        const entity = this.AssignmentStore.selectedassignments;
         this.formData = {
           assignmentID: entity.assignmentID || "",
           assignmentNominationID: entity.assignmentNominationID || "",
+          scheduledDate: entity.scheduledDate || this.localDate(),
         };
       } else {
         this.formData.assignmentNominationID =
-          this.NominationInfo?.assignmentNominationID;
+          this.nominationInfo?.assignmentNominationID || "";
       }
     },
   },

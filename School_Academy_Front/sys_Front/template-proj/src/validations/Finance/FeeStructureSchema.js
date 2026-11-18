@@ -9,9 +9,6 @@ export const FeeStructureSchema = z.object({
   amount: z.coerce.number({ message: "المبلغ مطلوب" }).min(0, {
     message: "المبلغ يجب أن يكون أكبر من أو يساوي 0",
   }),
-  programID: z.string().optional().nullable(),
-  classID: z.string().optional().nullable(),
-  stageID: z.string().optional().nullable(),
-  stageInfoID: z.string().optional().nullable(),
+  academicPlanID: z.string().uuid({ message: "الخطة الأكاديمية مطلوبة" }),
   notes: z.string().optional().nullable(),
 });

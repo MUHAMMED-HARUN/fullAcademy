@@ -54,12 +54,14 @@ namespace System.Domain.Exceptions
         public static DomainExceptionObj Stage_PrevStageDRequired { get; internal set; }
         public static DomainExceptionObj Stage_PrevClassIDRequired { get; internal set; }
         public static Exception StudentStage_StudentIDRequired { get; internal set; }
+        public static DomainExceptionObj StudentStage_StudentAcademicEnrollmentIDRequired { get; internal set; } = new DomainExceptionObj("StudentStage_StudentAcademicEnrollmentIDRequired", "Student academic enrollment ID is required.");
         public static DomainExceptionObj StageInfo_FromMustBePositive { get; internal set; }
         public static DomainExceptionObj StageInfo_ToMustBePositive { get; internal set; }
         public static DomainExceptionObj StageInfo_ToMustBeGreaterThanFrom { get; internal set; }
         public static DomainExceptionObj StageInfo_StageIDRequired { get; internal set; }
         public static DomainExceptionObj StageInfo_MatterIDRequired { get; internal set; }
         public static DomainExceptionObj DailyEvaluation_StudentIDRequired { get; internal set; }
+        public static DomainExceptionObj DailyEvaluation_StudentAcademicEnrollmentIDRequired { get; internal set; } = new DomainExceptionObj("DailyEvaluation_StudentAcademicEnrollmentIDRequired", "Student academic enrollment ID is required.");
         public static DomainExceptionObj DailyEvaluation_DateRequired { get; internal set; }
         public static DomainExceptionObj DailyEvaluation_FromInvalid { get; internal set; }
         public static DomainExceptionObj DailyEvaluation_ToInvalid { get; internal set; }
@@ -77,7 +79,7 @@ namespace System.Domain.Exceptions
         public static DomainExceptionObj AssignmentScopeInfo_WeightInvalid { get; internal set; }
         public static DomainExceptionObj AssignmentScopeInfo_MinPassScoreInvalid { get; internal set; }
         public static DomainExceptionObj AssignmentScopeInfo_MaxScoreInvalid { get; internal set; }
-        public static DomainExceptionObj AssignmentNomination_StudentEnrollmentIDRequired { get; internal set; }
+        public static DomainExceptionObj AssignmentNomination_StudentAcademicEnrollmentIDRequired { get; internal set; } = new DomainExceptionObj("AssignmentNomination_StudentAcademicEnrollmentIDRequired", "Student academic enrollment ID is required.");
         public static DomainExceptionObj AssignmentNomination_AssignmentScopeIDRequired { get; internal set; }
         public static DomainExceptionObj AssignmentNomination_NominatedByIDRequired { get; internal set; }
         public static DomainExceptionObj Attendance_DateRequired { get; internal set; }
@@ -99,10 +101,12 @@ namespace System.Domain.Exceptions
 
         // Finance
         public static DomainExceptionObj FeeStructure_NameRequired = new DomainExceptionObj("FeeStructure_NameRequired", "Fee structure name is required.");
+        public static DomainExceptionObj FeeStructure_AcademicPlanRequired = new DomainExceptionObj("FeeStructure_AcademicPlanRequired", "An academic plan is required for a fee structure.");
         public static DomainExceptionObj FeeStructure_AmountInvalid = new DomainExceptionObj("FeeStructure_AmountInvalid", "Fee structure amount must be greater than or equal to 0.");
 
         public static DomainExceptionObj StudentInvoice_StudentIDRequired = new DomainExceptionObj("StudentInvoice_StudentIDRequired", "Student ID is required.");
         public static DomainExceptionObj StudentInvoice_FeeStructureIDRequired = new DomainExceptionObj("StudentInvoice_FeeStructureIDRequired", "Fee structure ID is required.");
+        public static DomainExceptionObj StudentInvoice_EnrollmentSnapshotInvalid = new DomainExceptionObj("StudentInvoice_EnrollmentSnapshotInvalid", "Invoice enrollment, academic plan, fee, or billing period snapshot is invalid.");
         public static DomainExceptionObj StudentInvoice_DueDateRequired = new DomainExceptionObj("StudentInvoice_DueDateRequired", "Due date is required.");
         public static DomainExceptionObj StudentInvoice_DueDateBeforeIssueDate = new DomainExceptionObj("StudentInvoice_DueDateBeforeIssueDate", "Due date cannot be before issue date.");
         public static DomainExceptionObj StudentInvoice_OriginalAmountInvalid = new DomainExceptionObj("StudentInvoice_OriginalAmountInvalid", "Original amount must be greater than or equal to 0.");
@@ -112,7 +116,30 @@ namespace System.Domain.Exceptions
         public static DomainExceptionObj StudentInvoice_Cancelled = new DomainExceptionObj("StudentInvoice_Cancelled", "Cannot modify a cancelled invoice.");
 
         public static DomainExceptionObj Payment_StudentInvoiceIDRequired = new DomainExceptionObj("Payment_StudentInvoiceIDRequired", "Student invoice ID is required.");
+        public static DomainExceptionObj Payment_Immutable = new DomainExceptionObj("Payment_Immutable", "Recorded payments are immutable; post a reversal to correct one.");
+        public static DomainExceptionObj PaymentReversal_Invalid = new DomainExceptionObj("PaymentReversal_Invalid", "A payment reversal requires a valid payment, amount, reason and user.");
+        public static DomainExceptionObj PaymentReversal_Immutable = new DomainExceptionObj("PaymentReversal_Immutable", "Payment reversals are immutable audit records.");
         public static DomainExceptionObj Payment_AmountMustBePositive = new DomainExceptionObj("Payment_AmountMustBePositive", "Payment amount must be greater than 0.");
         public static DomainExceptionObj Payment_AmountExceedsRemaining = new DomainExceptionObj("Payment_AmountExceedsRemaining", "Payment amount cannot exceed the remaining amount.");
+
+        // AcademicPlan
+        public static DomainExceptionObj AcademicPlan_NameRequired = new DomainExceptionObj("AcademicPlan_NameRequired", "Academic plan name is required.");
+        public static DomainExceptionObj AcademicPlan_ProviderInstituteIDRequired = new DomainExceptionObj("AcademicPlan_ProviderInstituteIDRequired", "Provider institute ID is required.");
+        public static DomainExceptionObj AcademicPlan_ScopeMismatch = new DomainExceptionObj("AcademicPlan_ScopeMismatch", "Scope type must match exactly one scope reference.");
+        public static DomainExceptionObj AcademicPlan_EffectiveToBeforeFrom = new DomainExceptionObj("AcademicPlan_EffectiveToBeforeFrom", "Effective end date cannot be before the start date.");
+        public static DomainExceptionObj AcademicPlan_VersionInvalid = new DomainExceptionObj("AcademicPlan_VersionInvalid", "Academic plan version must be greater than 0.");
+        public static DomainExceptionObj AcademicPlan_ItemsRequired = new DomainExceptionObj("AcademicPlan_ItemsRequired", "Academic plan must contain at least one stage info item.");
+        public static DomainExceptionObj AcademicPlan_StageInfoScopeSingleItem = new DomainExceptionObj("AcademicPlan_StageInfoScopeSingleItem", "A stage info academic plan must contain exactly its own stage info.");
+        public static DomainExceptionObj AcademicPlan_NotDraft = new DomainExceptionObj("AcademicPlan_NotDraft", "Only draft academic plans can be modified.");
+        public static DomainExceptionObj AcademicPlan_ActivateOnlyDraft = new DomainExceptionObj("AcademicPlan_ActivateOnlyDraft", "Only draft academic plans can be activated.");
+        public static DomainExceptionObj AcademicPlan_VersionOnlyFromActive = new DomainExceptionObj("AcademicPlan_VersionOnlyFromActive", "A new version can only be created from an active academic plan.");
+        public static DomainExceptionObj AcademicPlan_ArchiveOnlyActive = new DomainExceptionObj("AcademicPlan_ArchiveOnlyActive", "Only active academic plans can be archived.");
+        public static DomainExceptionObj AcademicPlan_DeleteOnlyDraft = new DomainExceptionObj("AcademicPlan_DeleteOnlyDraft", "Only draft academic plans can be deleted.");
+        public static DomainExceptionObj AcademicPlanItem_StageInfoIDRequired = new DomainExceptionObj("AcademicPlanItem_StageInfoIDRequired", "Academic plan item stage info ID is required.");
+        public static DomainExceptionObj StudentAcademicEnrollment_ReferenceRequired = new DomainExceptionObj("StudentAcademicEnrollment_ReferenceRequired", "Student and academic plan references are required.");
+        public static DomainExceptionObj StudentAcademicEnrollment_ValidityInvalid = new DomainExceptionObj("StudentAcademicEnrollment_ValidityInvalid", "Student academic enrollment dates or plan version are invalid.");
+        public static DomainExceptionObj StudentAcademicEnrollment_ItemsRequired = new DomainExceptionObj("StudentAcademicEnrollment_ItemsRequired", "Student academic enrollment must contain at least one plan item.");
+        public static DomainExceptionObj StudentAcademicEnrollment_SnapshotInvalid = new DomainExceptionObj("StudentAcademicEnrollment_SnapshotInvalid", "Student academic enrollment snapshot is invalid.");
+        public static DomainExceptionObj StudentAcademicEnrollment_NotActive = new DomainExceptionObj("StudentAcademicEnrollment_NotActive", "Only active student academic enrollments can be completed.");
     }
 }

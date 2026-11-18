@@ -7,10 +7,10 @@ namespace System.Application.Services.Enrollment.TeachingAssignment.Command
 {
     public class UpdateTeachingAssignmentCommand : ICommand, IRequest<TResult<string>>
     {
-        public string EnrollmentID { get; set; }
-        public string TeacherID { get; set; }
-        public string GroupID { get; set; }
-        public string SubjectID { get; set; }
+        public string EnrollmentID { get; set; } = string.Empty;
+        public string TeacherID { get; set; } = string.Empty;
+        public string GroupID { get; set; } = string.Empty;
+        public string SubjectID { get; set; } = string.Empty;
         public DateOnly Date { get; set; }
     }
 }

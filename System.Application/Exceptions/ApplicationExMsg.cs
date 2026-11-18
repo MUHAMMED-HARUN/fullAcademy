@@ -63,7 +63,30 @@ namespace System.Application.Exceptions
         public static string NotFound { get; internal set; } = "Record not found";
         public static string AssignmentNotFound { get; internal set; }
         public static string FeeStructureExistByName { get; internal set; } = "A fee structure with this name already exists.";
+        public static string FeeStructureUsedCannotUpdate { get; internal set; } = "A fee structure already used by invoices cannot be changed or deleted. Create a new fee structure instead.";
         public static string InvoiceCancelled { get; internal set; } = "Cannot add a payment to a cancelled invoice.";
         public static string PaymentExceedsRemaining { get; internal set; } = "Payment amount cannot exceed the remaining amount.";
+        public static string AcademicPlanProviderInstituteNotFound { get; internal set; } = "Provider institute was not found.";
+        public static string AcademicPlanScopeNotFound { get; internal set; } = "Academic plan scope was not found.";
+        public static string AcademicPlanScopeHasNoStageInfo { get; internal set; } = "Academic plan scope has no stage info items.";
+        public static string AcademicPlanProviderMismatch { get; internal set; } = "Provider institute does not match the selected class.";
+        public static string AcademicPlanNotEditable { get; internal set; } = "Archived academic plans cannot be edited.";
+        public static string AcademicPlanActivateOnlyDraft { get; internal set; } = "Only draft academic plans can be activated.";
+        public static string AcademicPlanDeleteOnlyDraft { get; internal set; } = "Only draft academic plans can be deleted.";
+        public static string StudentAcademicEnrollmentStudentNotFound { get; internal set; } = "Student was not found.";
+        public static string StudentAcademicEnrollmentPlanUnavailable { get; internal set; } = "The academic plan is not active or is unavailable for enrollment.";
+        public static string StudentAcademicEnrollmentOutsidePlanValidity { get; internal set; } = "The enrollment validity period must be within the academic plan validity period.";
+        public static string StudentAcademicEnrollmentAlreadyExists { get; internal set; } = "The student already has an active enrollment in this academic plan.";
+        public static string StudentAcademicEnrollmentNotFound { get; internal set; } = "Student academic enrollment was not found.";
+        public static string StudentAcademicEnrollmentGroupNotEligible { get; internal set; } = "The selected group is outside the academic plan scope or the enrollment is not valid on the selected date.";
+        public static string StudentStage_PreviousStageNotIncluded { get; internal set; } = "The previous stage is not included in the student's academic enrollment snapshot.";
+        public static string StudentStage_PreviousStageNotCompleted { get; internal set; } = "The previous stage must be completed before starting this stage.";
+        public static string StudentAcademicEnrollmentNotActive { get; internal set; } = "The student academic enrollment is not active on the selected date.";
+        public static string StudentAcademicEnrollmentStageNotIncluded { get; internal set; } = "The stage is not included in this student's academic enrollment snapshot.";
+        public static string StudentAcademicEnrollmentStageInfoNotIncluded { get; internal set; } = "The stage info is not included in this student's academic enrollment snapshot.";
+        public static string AssignmentNominationScopeNotEligible { get; internal set; } = "The assignment scope is not eligible for this academic enrollment.";
+        public static string ResultScoreOutOfRange { get; internal set; } = "The result score is outside the allowed range for this scope info.";
+        public static string GroupInstituteClassNotFound { get; internal set; } = "The selected institute class was not found.";
+        public static string GroupHasActiveRelationships { get; internal set; } = "The group has active student memberships or teaching assignments and cannot be moved or deleted.";
     }
 }

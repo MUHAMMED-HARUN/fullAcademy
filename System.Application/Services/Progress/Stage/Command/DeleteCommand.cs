@@ -8,6 +8,6 @@ namespace System.Application.Services.Progress.Stage.Command
 {
     public class DeleteStageCommand : ICommand, IRequest<TResult<string>>
     {
-        public string StageID { get; set; }
+        public string StageID { get; set; } = string.Empty;
     }
 }

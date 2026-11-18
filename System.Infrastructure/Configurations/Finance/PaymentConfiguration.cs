@@ -23,6 +23,7 @@ namespace System.Infrastructure.Configurations.Finance
                    .WithMany(i => i.Payments)
                    .HasForeignKey(x => x.StudentInvoiceID)
                    .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

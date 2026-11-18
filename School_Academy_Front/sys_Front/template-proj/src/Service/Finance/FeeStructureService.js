@@ -14,6 +14,28 @@ class FeeStructureService {
     return new TResult(null, false, result.errors);
   }
 
+  async getAllFilter(params = {}) {
+    const result = await FeeStructureRepositories.getListFilter(params);
+    if (!result.success) return new TResult(null, false, result.errors);
+    return new TResult(
+      FeeStructureMapper.mapPagingApiToClass(result.data),
+      true,
+      result.errors
+    );
+  }
+
+  async getByAcademicPlan(academicPlanID) {
+    const result = await FeeStructureRepositories.getByAcademicPlan(
+      academicPlanID
+    );
+    if (!result.success) return new TResult(null, false, result.errors);
+    return new TResult(
+      FeeStructureMapper.mapListApiToClass(result.data),
+      true,
+      result.errors
+    );
+  }
+
   async getBy(command) {
     const result = await FeeStructureRepositories.getBy(command);
     if (result.success) {

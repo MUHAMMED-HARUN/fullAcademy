@@ -1,4 +1,4 @@
-export default class StageInfoMapperMapper {
+export default class StageInfoMapper {
   static mapUpsertToApi(dataSchema) {
     return {
       StageInfoID: dataSchema.stageInfoID,

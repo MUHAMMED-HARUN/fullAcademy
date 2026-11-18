@@ -13,6 +13,9 @@ export default class StudentMapper {
     return {
       studentID: DataReq.StudentID,
       personID: DataReq.PersonID,
+      displayName: [DataReq.FirstName, DataReq.FatherName, DataReq.LastName]
+        .filter(Boolean)
+        .join(" "),
       ...PersonMapper.MapFromApiDTO(DataReq),
     };
   }

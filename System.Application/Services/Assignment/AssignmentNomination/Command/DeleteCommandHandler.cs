@@ -1,14 +1,11 @@
 using MediatR;
 using System.Application.Abstractions.Assignment;
 using System.Application.Abstractions.Auth;
-using System.Application.Abstractions.Enrollment;
 using System.Application.Common;
 using System.Application.Exceptions;
-using System.Application.Services.Assignment.AssignmentNomination.Command;
 using System.Domain.Entities;
-using System.Domain.Enums.Enrollment;
 
-namespace System.Application.Services.Assignment.Assignment.Command
+namespace System.Application.Services.Assignment.AssignmentNomination.Command
 {
     public class DeleteAssignmentNominationCommandHandler : IRequestHandler<DeleteAssignmentNominationCommand, TResult<string>>
     {

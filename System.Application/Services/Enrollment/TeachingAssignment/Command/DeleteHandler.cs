@@ -21,11 +21,17 @@ namespace System.Application.Services.Enrollment.TeachingAssignment.Command
 
         public async Task<TResult<string>> Handle(DeleteTeachingAssignmentCommand request, CancellationToken cancellationToken)
         {
-            clsTeachingAssignment entity = await _repo.GetEntityBy(request.TeachingAssignmentID, enTeachingAssignmentType.ID);
+            var teachingAssignmentID = request.ResolveID();
+            clsTeachingAssignment? entity = await _repo.GetEntityBy(
+                teachingAssignmentID,
+                enTeachingAssignmentType.ID);
             if (entity == null)
-                return TResult<string>.Fail(ApplicationExMsg.TeachingAssignmentNotFound);
+                return TResult<string>.Fail(ApplicationExMsg.TeachingAssignmentNotFound ?? "Teaching assignment not found");
 
-            entity.SetDeleted(_currentUserService.UserId.ToString());
+            if (_currentUserService.UserId is not Guid userID)
+                return TResult<string>.Fail("المستخدم الحالي غير صالح");
+
+            entity.SetDeleted(userID.ToString());
             await _repo.Update(entity);
 
             return TResult<string>.OK(string.Empty);

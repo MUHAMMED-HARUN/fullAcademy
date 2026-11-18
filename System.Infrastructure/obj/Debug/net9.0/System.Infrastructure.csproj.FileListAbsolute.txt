@@ -78,3 +78,7 @@ C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\System.Infr
 C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\System.Infrastructure.runtimeconfig.json
 C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\System.Infrastructure.dll
 C:\Users\muham\AppData\Local\Temp\opencode\InstituteStage2FinalBuild\System.Infrastructure.pdb
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\System.Infrastructure.deps.json
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\System.Infrastructure.runtimeconfig.json
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\System.Infrastructure.dll
+C:\Users\muham\AppData\Local\Temp\opencode\School_Academy.InvoiceDueDate\System.Infrastructure.pdb

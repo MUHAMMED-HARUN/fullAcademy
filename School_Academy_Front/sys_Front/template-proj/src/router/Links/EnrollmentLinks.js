@@ -8,6 +8,7 @@ export const EnrollmentLinks = [
     component: StudentEnrollmentView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_StudentEnrollment",
     },
   },
   {
@@ -16,6 +17,7 @@ export const EnrollmentLinks = [
     component: TeachingAssignmentView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_TeachingAssignment",
     },
   },
 ];

@@ -1,4 +1,6 @@
 using System.Domain.Entities.BaseClass;
+using System.Domain.Entities.Enrollment;
+using System.Domain.Entities.Progress;
 using System.Domain.Enums.Person;
 using System.Domain.Exceptions;
 
@@ -6,13 +8,13 @@ namespace System.Domain.Entities
 {
     public class clsDailyEvaluation : clsBaseClass
     {
-        public Guid StudentEnrollmentID { get; private set; }
+        public Guid StudentAcademicEnrollmentID { get; private set; }
         public double From { get; private set; }
         public double To { get; private set; }
         public DateTime Date { get; private set; }
         public Guid StageInfoID{ get; private set; }
         public enLevelType LevelType { get; private set; }
-        public clsStudentEnrollment StudentEnrollment { get; private set; }
+        public clsStudentAcademicEnrollment StudentAcademicEnrollment { get; private set; }
         public clsStageInfo StageInfo{ get; private set; }
 
         // EF Core Constructor
@@ -21,7 +23,7 @@ namespace System.Domain.Entities
         }
 
         public clsDailyEvaluation(
-            Guid studentEnrollmentID,
+            Guid studentAcademicEnrollmentID,
             DateTime date,
             double from,
             double  to,
@@ -29,7 +31,7 @@ namespace System.Domain.Entities
             enLevelType levelType
           ) : base()
         {
-            SetStudentEnrollmentID(studentEnrollmentID);
+            SetStudentAcademicEnrollmentID(studentAcademicEnrollmentID);
             SetDate(date);
             SetFrom(from);
             SetTo(to);
@@ -39,11 +41,11 @@ namespace System.Domain.Entities
             SetCreated("system");
         }
 
-        public void SetStudentEnrollmentID(Guid studentEnrollmentID)
+        public void SetStudentAcademicEnrollmentID(Guid studentAcademicEnrollmentID)
         {
-            if (studentEnrollmentID == Guid.Empty)
-                throw new DomainException(DomainExMsg.DailyEvaluation_StudentIDRequired);
-            StudentEnrollmentID = studentEnrollmentID;
+            if (studentAcademicEnrollmentID == Guid.Empty)
+                throw new DomainException(DomainExMsg.DailyEvaluation_StudentAcademicEnrollmentIDRequired);
+            StudentAcademicEnrollmentID = studentAcademicEnrollmentID;
         }
 
         public void SetDate(DateTime date)

@@ -13,18 +13,27 @@
       <tbody>
         <tr
           v-for="assigNomin in AssignmentNominations"
-          :key="assigNomin.assignmentScopeInfoID"
+          :key="assigNomin.assignmentNominationID"
         >
           <td>{{ assigNomin.studentName }}</td>
           <td>{{ assigNomin.assignmentScopeName }}</td>
           <td>{{ assigNomin.date }}</td>
           <td>{{ assigNomin.nominationState }}</td>
           <td>
-            <button @click="ShowInfo(assigNomin)">معلومات</button>
-            <button @click="ShowUpdate(assigNomin)">تحديث</button>
-            <button @click="ShowDelete(assigNomin)">حذف</button>
+            <button v-if="canRead" @click="ShowInfo(assigNomin)">
+              معلومات
+            </button>
             <button
-              v-if="assigNomin.canStartAssigment"
+              v-if="canUpdate && assigNomin.nominationState === 'inProgress'"
+              @click="ShowUpdate(assigNomin)"
+            >
+              تحديث
+            </button>
+            <button v-if="canDelete" @click="ShowDelete(assigNomin)">
+              حذف
+            </button>
+            <button
+              v-if="canStartAssignment && assigNomin.canStartAssigment"
               @click="ShowNewAssignment(assigNomin)"
             >
               ابدا الاختبار
@@ -43,6 +52,10 @@ export default {
       type: Array,
       required: true,
     },
+    canRead: { type: Boolean, default: false },
+    canUpdate: { type: Boolean, default: false },
+    canDelete: { type: Boolean, default: false },
+    canStartAssignment: { type: Boolean, default: false },
   },
   emits: ["ShowUpdate", "ShowDelete", "ShowInfo", "ShowNewAssignment"],
   methods: {

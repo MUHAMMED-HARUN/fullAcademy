@@ -5,6 +5,6 @@ namespace System.Application.Services.Assignment.AssignmentScope.Query
 {
     public class GetCanNominateQuery : IRequest<TResult<List<DTO.AssignmentScopeInfo>>>
     {
-        public string studentEnrollmentID { get; set; }
+        public string StudentAcademicEnrollmentID { get; set; } = string.Empty;
     }
 }

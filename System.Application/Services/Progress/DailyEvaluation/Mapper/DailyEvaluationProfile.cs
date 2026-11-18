@@ -10,7 +10,7 @@ namespace System.Application.Services.Progress.DailyEvaluation.Mapper
         public DailyEvaluationProfile()
         {
             CreateMap<NewDailyEvaluationCommand, clsDailyEvaluation>()
-                  .ConstructUsing(src => new clsDailyEvaluation(clsUtil.ToGuid(src.StudentEnrollmentID),
+                  .ConstructUsing(src => new clsDailyEvaluation(clsUtil.ToGuid(src.StudentAcademicEnrollmentID),
                   src.Date, 0, src.To, clsUtil.ToGuid(src.StageInfoID), src.LevelType));
 
             var UpdateMap = CreateMap<UpdateDailyEvaluationCommand, clsDailyEvaluation>();

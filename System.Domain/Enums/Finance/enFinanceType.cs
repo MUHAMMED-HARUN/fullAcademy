@@ -27,7 +27,7 @@ namespace System.Domain.Enums.Finance
         Online = 5
     }
 
-    public enum enFeeStructureParamType { ID, Name, ProgramID, ClassID, StageID }
+    public enum enFeeStructureParamType { ID, Name }
     public enum enStudentInvoiceParamType { ID, StudentID, FeeStructureID, Status }
     public enum enPaymentParamType { ID, StudentInvoiceID, ReferenceNumber }
 }

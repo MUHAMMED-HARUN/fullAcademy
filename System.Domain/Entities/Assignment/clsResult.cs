@@ -24,7 +24,6 @@ namespace System.Domain.Entities
             SetNotes(notes);
        
             BaseSetCreated("System"); // Default, will be updated by Service
-            AddDomainEvent(new ResultCreatedEvent(Id, assignmentID, assignmentScopeInfoID,score));
         }
 
         public void SetAssignmentID(Guid assignmentID)

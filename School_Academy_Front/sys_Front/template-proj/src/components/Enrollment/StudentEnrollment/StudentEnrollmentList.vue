@@ -32,6 +32,7 @@
             <select
               class="attendance-select"
               :value="getAttendanceStatus(enroll.enrollmentID)"
+              :disabled="attendanceLoading"
               @change="
                 $emit('update-attendance', {
                   enrollmentID: enroll.enrollmentID,
@@ -73,6 +74,10 @@ export default {
       default: () => [],
     },
     showAttendance: {
+      type: Boolean,
+      default: false,
+    },
+    attendanceLoading: {
       type: Boolean,
       default: false,
     },

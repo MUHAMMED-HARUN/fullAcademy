@@ -3,6 +3,7 @@ using System.Application.Abstractions.Assignment;
 using System.Application.Common;
 using System.Application.Exceptions;
 using System.Application.Services.Assignment.Assignment.DTO;
+using Gridify;
 
 namespace System.Application.Services.Assignment.Assignment.Query
 {
@@ -25,7 +26,25 @@ namespace System.Application.Services.Assignment.Assignment.Query
         }
     }
 
-    public class GetAllAssignmentQueryHandler : IRequestHandler<GetAllAssignmentQuery, TResult<List<AssignmentInfo>>>
+    public sealed class GetAssignmentForUpsertQueryHandler : IRequestHandler<GetAssignmentForUpsertQuery, TResult<AssignmentInfo>>
+    {
+        private readonly IAssignmentRepository _repo;
+
+        public GetAssignmentForUpsertQueryHandler(IAssignmentRepository repo) => _repo = repo;
+
+        public async Task<TResult<AssignmentInfo>> Handle(GetAssignmentForUpsertQuery request, CancellationToken cancellationToken)
+        {
+            if (!Guid.TryParse(request.AssignmentID, out var assignmentID) || assignmentID == Guid.Empty)
+                return TResult<AssignmentInfo>.Fail(ApplicationExMsg.NotFound);
+
+            var result = await _repo.GetForUpsert(assignmentID);
+            return result is null
+                ? TResult<AssignmentInfo>.Fail(ApplicationExMsg.NotFound)
+                : TResult<AssignmentInfo>.OK(result);
+        }
+    }
+
+    public class GetAllAssignmentQueryHandler : IRequestHandler<GetAllAssignmentQuery, TResult<Paging<AssignmentInfo>>>
     {
         private readonly IAssignmentRepository _repo;
 
@@ -34,13 +53,9 @@ namespace System.Application.Services.Assignment.Assignment.Query
             _repo = repo;
         }
 
-        public async Task<TResult<List<AssignmentInfo>>> Handle(GetAllAssignmentQuery request, CancellationToken cancellationToken)
+        public async Task<TResult<Paging<AssignmentInfo>>> Handle(GetAllAssignmentQuery request, CancellationToken cancellationToken)
         {
-            var result = await _repo.GetList();
-            if (result == null || result.Count == 0)
-                return TResult<List<AssignmentInfo>>.Fail(ApplicationExMsg.NotFound);
-
-            return TResult<List<AssignmentInfo>>.OK(result);
+            return TResult<Paging<AssignmentInfo>>.OK(await _repo.GetListFilter(request));
         }
     }
 }

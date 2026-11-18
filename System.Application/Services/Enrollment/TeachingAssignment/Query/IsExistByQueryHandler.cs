@@ -15,7 +15,8 @@ namespace System.Application.Services.Enrollment.TeachingAssignment.Query
 
         public async Task<TResult<bool>> Handle(IsExistTeachingAssignmentByQuery request, CancellationToken cancellationToken)
         {
-            return TResult<bool>.OK(await _repo.IsExistBy(request.Param, request.ParamType));
+            var isExist = await _repo.IsExistBy(request.Param, request.ParamType);
+            return TResult<bool>.OK(isExist);
         }
     }
 }

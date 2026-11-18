@@ -20,5 +20,18 @@ export const StageSchema = z.object({
       (value) => value.toLowerCase() !== "00000000-0000-0000-0000-000000000000",
       { message: "يجب اختيار صف صالح" }
     ),
-  prevStageID: z.union([z.string().uuid(), z.literal(""), z.null()]).optional(),
+  prevStageID: z
+    .union([
+      z
+        .string()
+        .uuid()
+        .refine(
+          (value) =>
+            value.toLowerCase() !== "00000000-0000-0000-0000-000000000000",
+          { message: "اختر مرحلة سابقة صالحة" }
+        ),
+      z.literal(""),
+      z.null(),
+    ])
+    .optional(),
 });

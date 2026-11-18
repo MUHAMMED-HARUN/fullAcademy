@@ -17,7 +17,7 @@ namespace System.Application.Services.Enrollment.TeachingAssignment.Query
 
         public async Task<TResult<Paging<TeachingAssignmentInfo>>> Handle(GetAllTeachingAssignmentQuery request, CancellationToken cancellationToken)
         {
-            return TResult < Paging < TeachingAssignmentInfo >>.OK(await _repo.GetListFilter(request));
+            return TResult<Paging<TeachingAssignmentInfo>>.OK(await _repo.GetListFilter(request));
         }
     }
 }

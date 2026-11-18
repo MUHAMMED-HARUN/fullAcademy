@@ -27,6 +27,9 @@ namespace System.Application.Services.Finance.FeeStructure.Command
             if (entity == null)
                 return TResult<string>.Fail(ApplicationExMsg.NotFound);
 
+            if (await _repo.HasInvoices(entity.Id))
+                return TResult<string>.Fail(ApplicationExMsg.FeeStructureUsedCannotUpdate);
+
             entity.SetDeleted(_currentUserService.UserId.ToString());
             await _repo.Update(entity);
 

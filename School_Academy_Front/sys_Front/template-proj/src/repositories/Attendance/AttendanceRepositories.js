@@ -13,6 +13,14 @@ class AttendanceRepositories {
     );
     return response;
   }
+
+  async getGroupAttendance(params) {
+    return await clsUtil.FeachRequset(
+      `${baseUrl}/GetGroupAttendance`,
+      enApiType.get,
+      { params }
+    );
+  }
 }
 
 export default new AttendanceRepositories();

@@ -1,6 +1,7 @@
 using System.Domain.Entities.BaseClass;
 using System.Domain.Entities.Finance;
 using System.Domain.Entities.Person;
+using System.Domain.Entities.Enrollment;
 using System.Domain.Enums.Finance;
 using System.Domain.Exceptions;
 
@@ -10,8 +11,14 @@ namespace System.Domain.Entities.Finance
     {
         public Guid StudentID { get; private set; }
         public Guid FeeStructureID { get; private set; }
+        public Guid? StudentAcademicEnrollmentID { get; private set; }
+        public int? AcademicPlanVersionSnapshot { get; private set; }
+        public string? AcademicPlanNameSnapshot { get; private set; }
+        public string? FeeStructureNameSnapshot { get; private set; }
+        public DateOnly? BillingPeriodStart { get; private set; }
+        public DateOnly? BillingPeriodEnd { get; private set; }
         public DateOnly IssueDate { get; private set; }
-        public DateOnly DueDate { get; private set; }
+        public DateOnly? DueDate { get; private set; }
         public decimal OriginalAmount { get; private set; }
         public decimal DiscountAmount { get; private set; }
         public decimal RemainingAmount { get; private set; }
@@ -21,6 +28,7 @@ namespace System.Domain.Entities.Finance
         // Navigation properties
         public clsStudent Student { get; private set; }
         public clsFeeStructure FeeStructure { get; private set; }
+        public clsStudentAcademicEnrollment? StudentAcademicEnrollment { get; private set; }
         public ICollection<clsPayment> Payments { get; private set; } = new HashSet<clsPayment>();
 
         protected clsStudentInvoice() { }
@@ -29,7 +37,6 @@ namespace System.Domain.Entities.Finance
             Guid studentID,
             Guid feeStructureID,
             DateOnly issueDate,
-            DateOnly dueDate,
             decimal originalAmount,
             decimal discountAmount,
             string? notes)
@@ -37,7 +44,6 @@ namespace System.Domain.Entities.Finance
             SetStudentID(studentID);
             SetFeeStructureID(feeStructureID);
             SetIssueDate(issueDate);
-            SetDueDate(dueDate);
             SetOriginalAmount(originalAmount);
             SetDiscountAmount(discountAmount);
             SetNotes(notes);
@@ -58,21 +64,33 @@ namespace System.Domain.Entities.Finance
             FeeStructureID = feeStructureID;
         }
 
+        public void SetEnrollmentSnapshot(
+            Guid enrollmentID,
+            int academicPlanVersion,
+            string academicPlanName,
+            string feeStructureName,
+            DateOnly periodStart,
+            DateOnly periodEnd)
+        {
+            if (enrollmentID == Guid.Empty || academicPlanVersion <= 0 ||
+                string.IsNullOrWhiteSpace(academicPlanName) || string.IsNullOrWhiteSpace(feeStructureName) ||
+                periodStart == default || periodEnd < periodStart)
+                throw new DomainException(DomainExMsg.StudentInvoice_EnrollmentSnapshotInvalid);
+
+            StudentAcademicEnrollmentID = enrollmentID;
+            AcademicPlanVersionSnapshot = academicPlanVersion;
+            AcademicPlanNameSnapshot = academicPlanName;
+            FeeStructureNameSnapshot = feeStructureName;
+            BillingPeriodStart = periodStart;
+            BillingPeriodEnd = periodEnd;
+        }
+
         public void SetIssueDate(DateOnly issueDate)
         {
             if (issueDate == default)
                 IssueDate = DateOnly.FromDateTime(DateTime.Now);
             else
                 IssueDate = issueDate;
-        }
-
-        public void SetDueDate(DateOnly dueDate)
-        {
-            if (dueDate == default)
-                throw new DomainException(DomainExMsg.StudentInvoice_DueDateRequired);
-            if (dueDate < IssueDate)
-                throw new DomainException(DomainExMsg.StudentInvoice_DueDateBeforeIssueDate);
-            DueDate = dueDate;
         }
 
         public void SetOriginalAmount(decimal originalAmount)
@@ -97,25 +115,21 @@ namespace System.Domain.Entities.Finance
             RecalculateRemaining(paidAmount);
         }
 
-        public void SetStatus(enInvoiceStatus status)
-        {
-            Status = status;
-        }
-
         public void SetNotes(string? notes)
         {
             Notes = notes;
         }
 
-        public void ApplyPayment(decimal paidAmount)
+        public void ApplyPayment(decimal paidAmount, DateOnly paymentDate)
         {
             EnsureCanAcceptPayment();
             if (paidAmount <= 0)
                 throw new DomainException(DomainExMsg.Payment_AmountMustBePositive);
             if (paidAmount > RemainingAmount)
                 throw new DomainException(DomainExMsg.Payment_AmountExceedsRemaining);
-
             RecalculateRemaining(GetPaidAmount() + paidAmount);
+            if (Status == enInvoiceStatus.Paid)
+                DueDate = paymentDate;
         }
 
         public void ReversePayment(decimal paidAmount)
@@ -141,6 +155,8 @@ namespace System.Domain.Entities.Finance
             if (RemainingAmount < 0)
                 RemainingAmount = 0;
             RefreshStatus(paidAmount);
+            if (Status != enInvoiceStatus.Paid)
+                DueDate = null;
         }
 
         private void EnsureCanAcceptPayment()

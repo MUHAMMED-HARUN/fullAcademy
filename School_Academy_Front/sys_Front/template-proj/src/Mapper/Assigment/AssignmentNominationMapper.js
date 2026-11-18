@@ -2,12 +2,9 @@ export default class AssignmentNominationMapper {
   static mapUpsertToApi(dataSchema) {
     return {
       AssignmentNominationID: dataSchema.assignmentNominationID,
-      StudentEnrollmentID: dataSchema.studentEnrollmentID,
+      StudentAcademicEnrollmentID: dataSchema.studentAcademicEnrollmentID,
       AssignmentScopeID: dataSchema.assignmentScopeID,
       Date: dataSchema.date,
-      NominatedByID: dataSchema.nominatedByID,
-      NominatedByType: dataSchema.nominatedByType,
-      NominationState: dataSchema.nominationState,
     };
   }
 
@@ -15,8 +12,9 @@ export default class AssignmentNominationMapper {
     if (!DataReq) return null;
     return {
       assignmentNominationID: DataReq.AssignmentNominationID,
-      studentEnrollmentID: DataReq.StudentEnrollmentID,
+      studentAcademicEnrollmentID: DataReq.StudentAcademicEnrollmentID,
       studentName: DataReq.StudentName,
+      academicPlanName: DataReq.AcademicPlanName,
       assignmentScopeID: DataReq.AssignmentScopeID,
       assignmentScopeName: DataReq.AssignmentScopeName,
       nominationState: DataReq.NominationState,
@@ -29,8 +27,9 @@ export default class AssignmentNominationMapper {
     return dataList.map((list) => {
       return {
         assignmentNominationID: list.AssignmentNominationID,
-        studentEnrollmentID: list.StudentEnrollmentID,
+        studentAcademicEnrollmentID: list.StudentAcademicEnrollmentID,
         studentName: list.StudentName,
+        academicPlanName: list.AcademicPlanName,
         assignmentScopeID: list.AssignmentScopeID,
         assignmentScopeName: list.AssignmentScopeName,
         nominationState: list.NominationState,

@@ -8,7 +8,7 @@ namespace System.Application.Services.Enrollment.StudentEnrollment.Query
 {
     public class GetStudentEnrollmentByQuery : IRequest<TResult<StudentEnrollmentInfo>>, IQuery
     {
-        public string Param { get; set; }
+        public string Param { get; set; } = string.Empty;
         public enStudentEnrollmentType ParamType { get; set; }
     }
 }

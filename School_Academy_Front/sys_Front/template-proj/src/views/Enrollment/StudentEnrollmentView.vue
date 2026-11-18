@@ -7,16 +7,80 @@
       @reset="onFilterReset"
     />
 
+    <p
+      v-if="
+        AuthStore.hasPermission('Can_Create_Attendance') &&
+        !$route.query.groupID
+      "
+      class="rounded-lg border border-dashed border-[var(--border-color)] p-3 text-sm text-[var(--text-muted)]"
+      role="status"
+    >
+      ابدأ الحضور من مجموعة محددة؛ لا يُسجّل الحضور لاشتراك أكاديمي بلا عضوية
+      مجموعة.
+    </p>
+
+    <section
+      v-if="isAttendanceMode"
+      class="flex flex-wrap items-end gap-3 rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] p-4"
+      dir="rtl"
+    >
+      <div class="form-group min-w-52">
+        <label
+          >تاريخ حضور
+          {{
+            StudentEnrollmentStore.enrollments[0]?.groupName || "المجموعة"
+          }}</label
+        >
+        <input
+          v-model="attendanceDate"
+          type="date"
+          :disabled="AttendanceStore.loading"
+          @change="onAttendanceDateChange"
+        />
+      </div>
+      <p
+        v-if="AttendanceStore.loading"
+        class="text-sm text-[var(--text-muted)]"
+        role="status"
+      >
+        جارٍ تحميل حضور المجموعة…
+      </p>
+      <p v-else-if="AttendanceStore.error" class="alert-error" role="alert">
+        {{ formatError(AttendanceStore.error) }}
+      </p>
+    </section>
+    <p
+      v-if="
+        isAttendanceMode &&
+        !AttendanceStore.loading &&
+        !AttendanceStore.error &&
+        !AttendanceStore.records.length &&
+        StudentEnrollmentStore.enrollments.length
+      "
+      class="rounded-lg border border-dashed border-[var(--border-color)] p-3 text-sm text-[var(--text-muted)]"
+      role="status"
+    >
+      لا توجد سجلات حضور سابقة لهذا اليوم؛ تبدأ الحالات افتراضياً بالحضور.
+    </p>
+
     <!-- قائمة التسجيلات -->
     <StudentEnrollmentList
       :enrollments="StudentEnrollmentStore.enrollments"
       :selected-ids="selectedEnrollmentIds"
       :show-attendance="isAttendanceMode"
+      :attendance-loading="AttendanceStore.loading || !!AttendanceStore.error"
       :attendance-map="attendanceRecords"
       @toggle-select-all="onToggleSelectAll"
       @toggle-select-row="onToggleSelectRow"
       @update-attendance="onUpdateAttendance"
     />
+    <p
+      v-if="isAttendanceMode && !StudentEnrollmentStore.enrollments.length"
+      class="rounded-lg border border-dashed border-[var(--border-color)] p-6 text-center text-[var(--text-muted)]"
+      role="status"
+    >
+      لا توجد عضويات نشطة في المجموعة لهذا العرض.
+    </p>
     <!-- 🔹 3. أزرار العمليات المجمعة (توضع تماماً مثل التصميم أسفل الجدول) -->
     <GenericComboActions
       :actions="visibleEnrollmentActions"
@@ -35,18 +99,6 @@
     />
 
     <!-- النوافذ المنبثقة (Popups) -->
-    <PopapComp v-if="showUpsert" @close="onpopaClose">
-      <UpsertStudentEnrollmentComp
-        :errors="StudentEnrollmentStore.error"
-        :student-data="StudentStore.selectedStudent"
-        :group-data="GroupStore.selectedGroup"
-        :group-results="GroupStore.groups"
-        @on-submit="OnSubmitUpsert"
-        @on-search-student="onSearchStudent"
-        @on-search-group="onSearchGroup"
-      />
-    </PopapComp>
-
     <PopapComp v-if="showInfo" @close="onpopaClose">
       <StudentEnrollmentCard
         :-data-req="StudentEnrollmentStore.selectedEnrollment"
@@ -55,27 +107,33 @@
 
     <PopapComp v-if="showNewDailyEvaluation" @close="onpopaClose">
       <UpsertDailyEvaluationComp
-        :-student-stage-info-data="StageinfoStore.StageInfos"
-        :-last-daily-evaluation-data="
-          DailyEvaluationStore.selectedDailyEvaluation
-        "
+        :student-stage-info-data="StageinfoStore.StageInfos"
+        :last-daily-evaluation-data="DailyEvaluationStore.lastDailyEvaluation"
+        :selected-evaluation="null"
         :errors="DailyEvaluationStore.error"
-        @on-submit="OnSubmitNewDailyEvaluation"
-        :group-name="groupName"
+        @submit="OnSubmitNewDailyEvaluation"
+        :academic-plan-name="academicPlanName"
         :student-name="studentName"
-        :enrollment-i-d="EnrollmentID"
-        @on-stage-info-change="onStageInfoChange"
+        :student-academic-enrollment-i-d="StudentAcademicEnrollmentID"
+        @stage-info-change="onStageInfoChange"
+        :saving="
+          DailyEvaluationStore.loading ||
+          DailyEvaluationStore.lastEvaluationLoading
+        "
       />
     </PopapComp>
 
     <!-- ترشيح طالب -->
     <PopapComp v-if="showUpsertAssigNomin" @close="onpopaClose">
       <UpsertAssignmentNominationComp
+        :assignment-scopes-data="AssignmentScopeStore.AssignmentScopes"
+        :student-academic-enrollment-i-d="StudentAcademicEnrollmentID"
+        :student-name="studentName"
         :errors="AssignmentNominationStore.error"
-        :-assigment-scopes-data="AssignmentScopeStore.AssignmentScopes"
-        :student-enrollment-i-d="EnrollmentID"
-        :student-enrollment-name="studentName"
-        @on-submit="OnSubmitNewAssignmentNomination"
+        :saving="
+          AssignmentNominationStore.loading || AssignmentScopeStore.loading
+        "
+        @submit="OnSubmitNewAssignmentNomination"
       />
     </PopapComp>
 
@@ -84,17 +142,16 @@
       @close="showUpsertStudentStage = false"
     >
       <UpsertStudentStageComp
-        :stages="StageStore.stages"
+        :stage-options="eligibleStages"
         :errors="StudentStageStore.error"
-        :student-enrollment-i-d="EnrollmentID"
-        :student-enrollment-name="studentName"
-        @on-submit="NewStudentStageSubmit"
+        :student-academic-enrollment-i-d="StudentAcademicEnrollmentID"
+        :student-name="studentName"
+        :academic-plan-name="academicPlanName"
+        :saving="StudentStageStore.loading"
+        @submit="NewStudentStageSubmit"
       />
     </PopapComp>
 
-    <button class="btn-add" @click="OnUpsertEnrollment(null)">
-      تسجيل طالب جديد
-    </button>
     <MessageComp :is-error="resultType" :msg="resultMessage" />
   </div>
 </template>
@@ -102,10 +159,8 @@
 <script>
 import PopapComp from "@/components/general/popapComp.vue";
 import { useStudentEnrollmentStore } from "@/store/Enrollment/StudentEnrollmentStore";
-import { useStudentStore } from "@/store/Person/useStudentStore";
 import { useStageInfoStore } from "@/store/Progress/StageInfoStore";
 import { useStudentStageStore } from "@/store/Progress/StudentStageStore";
-import { useStageStore } from "@/store/Progress/StageStore";
 import { useDailyEvaluationStore } from "@/store/Progress/DailyEvaluationStore";
 import { useGroupStore } from "@/store/Institute/GroupStore";
 import MessageComp from "@/components/general/messageComp.vue";
@@ -114,8 +169,6 @@ import PaginationComp from "@/components/general/PaginationComp.vue";
 import GenericComboActions from "@/components/general/GenericComboActions.vue";
 import StudentEnrollmentCard from "@/components/Enrollment/StudentEnrollment/StudentEnrollmentCard.vue";
 import StudentEnrollmentList from "@/components/Enrollment/StudentEnrollment/StudentEnrollmentList.vue";
-import UpsertStudentEnrollmentComp from "@/components/Enrollment/StudentEnrollment/UpsertStudentEnrollmentComp.vue";
-import TResult from "@/Generic/TResult";
 import UpsertDailyEvaluationComp from "@/components/Progress/DailyEvaluation/UpsertDailyEvaluationComp.vue";
 import { useAuthStore } from "@/store/Auth/authStore";
 import UpsertAssignmentNominationComp from "@/components/Assigment/AssignmentNomination/UpsertAssignmentNominationComp.vue";
@@ -123,11 +176,8 @@ import { useAssignmentScopeStore } from "@/store/Assignment/AssignmentScopeStore
 import { useAssignmentNominationStore } from "@/store/Assignment/AssignmentNominationStore";
 import UpsertStudentStageComp from "@/components/Progress/StudentStage/UpsertStudentStageComp.vue";
 import { useAttendanceStore } from "@/store/Attendance/AttendanceStore";
-import {
-  AttendanceStatus,
-  AttendeeType,
-  ContextType,
-} from "@/Generic/AttendanceEnums";
+import TResult from "@/Generic/TResult";
+import { AttendanceStatus } from "@/Generic/AttendanceEnums";
 
 export default {
   name: "StudentEnrollmentView",
@@ -135,7 +185,6 @@ export default {
     GenericFilterComp,
     PaginationComp,
     StudentEnrollmentList,
-    UpsertStudentEnrollmentComp,
     UpsertAssignmentNominationComp,
     StudentEnrollmentCard,
     PopapComp,
@@ -148,9 +197,7 @@ export default {
     return {
       AuthStore: useAuthStore(),
       StudentEnrollmentStore: useStudentEnrollmentStore(),
-      StudentStore: useStudentStore(),
       StageinfoStore: useStageInfoStore(),
-      StageStore: useStageStore(),
       StudentStageStore: useStudentStageStore(),
       DailyEvaluationStore: useDailyEvaluationStore(),
       GroupStore: useGroupStore(),
@@ -160,11 +207,13 @@ export default {
 
       searchQuery: "",
       selectedPageSize: 10,
+      attendanceDate: new Date().toISOString().slice(0, 10),
 
-      groupName: "",
       studentName: "",
       EnrollmentID: "",
-      showUpsert: false,
+      StudentAcademicEnrollmentID: "",
+      academicPlanName: "",
+      eligibleStages: [],
       showInfo: false,
       showUpsertAssigNomin: false,
       resultMessage: null,
@@ -205,12 +254,6 @@ export default {
         {
           key: "info",
           label: "معلومات",
-          minSelection: 1,
-          maxSelection: 1, // تعمل على سجل واحد فقط
-        },
-        {
-          key: "update",
-          label: "تحديث",
           minSelection: 1,
           maxSelection: 1, // تعمل على سجل واحد فقط
         },
@@ -272,6 +315,53 @@ export default {
     },
     visibleEnrollmentActions() {
       return this.enrollmentActions.filter((action) => {
+        const requiredPermissions = {
+          info: "Can_Read_StudentEnrollment",
+          delete: "Can_Delete_StudentEnrollment",
+          nominate: "Can_Create_AssignmentNomination",
+          track: "Can_Create_DailyEvaluation",
+          stage: "Can_Create_StudentStage",
+        };
+        const requiredPermission = requiredPermissions[action.key];
+        if (
+          requiredPermission &&
+          !this.AuthStore.hasPermission(requiredPermission)
+        ) {
+          return false;
+        }
+        if (
+          action.key === "startAttendance" &&
+          (!this.AuthStore.hasPermission("Can_Create_Attendance") ||
+            !this.AuthStore.hasPermission("Can_Read_Attendance") ||
+            !this.$route.query.groupID)
+        ) {
+          return false;
+        }
+        if (
+          action.key === "confirmAttendance" &&
+          (!this.AuthStore.hasPermission("Can_Create_Attendance") ||
+            !this.AuthStore.hasPermission("Can_Read_Attendance") ||
+            !this.$route.query.groupID)
+        ) {
+          return false;
+        }
+        if (
+          action.key === "cancelAttendance" &&
+          !this.AuthStore.hasPermission("Can_Update_Attendance")
+        ) {
+          return false;
+        }
+        if (
+          action.key === "track" &&
+          !this.AuthStore.hasPermission("Can_Create_DailyEvaluation")
+        ) {
+          return false;
+        }
+        if (
+          action.key === "confirmAttendance" &&
+          (this.AttendanceStore.loading || this.AttendanceStore.error)
+        )
+          return false;
         if (this.isAttendanceMode) {
           return ["confirmAttendance", "cancelAttendance"].includes(action.key);
         } else {
@@ -283,6 +373,13 @@ export default {
     },
   },
   methods: {
+    formatError(value) {
+      if (typeof value === "string") return value;
+      if (Array.isArray(value)) return value.join("، ");
+      if (value && typeof value === "object")
+        return Object.values(value).flat().join("، ");
+      return "حدث خطأ أثناء تحميل حضور المجموعة";
+    },
     // 🔹 أحداث الفلترة والترقيم
     async onPageChange(newPage) {
       if (typeof this.StudentEnrollmentStore.setPage === "function") {
@@ -309,16 +406,28 @@ export default {
           : `EnrollmentID=${enrollmentID}`;
       }
 
+      const groupID = this.$route.query.groupID;
+      if (groupID) {
+        filterString = filterString
+          ? `${filterString},GroupID=${groupID}`
+          : `GroupID=${groupID}`;
+      }
+
       await this.StudentEnrollmentStore.fetchEnrollments({
-        filter: filterString,
-        orderBy: payload.orderBy,
+        Filter: filterString,
+        OrderBy: payload.orderBy,
       });
     },
     async onFilterReset() {
       if (this.$route.query.enrollmentID) {
-        this.$router.push({ query: {} });
+        const query = {};
+        if (this.$route.query.groupID)
+          query.groupID = this.$route.query.groupID;
+        if (this.$route.query.attendance)
+          query.attendance = this.$route.query.attendance;
+        this.$router.push({ query });
       }
-      await this.StudentEnrollmentStore.fetchEnrollments({});
+      await this.loadEnrollmentData(1);
     },
 
     // بناء استعلام الفلترة متوافق مع Gridify
@@ -345,7 +454,12 @@ export default {
     async resetFilter() {
       this.searchQuery = "";
       if (this.$route.query.enrollmentID) {
-        this.$router.push({ query: {} });
+        const query = {};
+        if (this.$route.query.groupID)
+          query.groupID = this.$route.query.groupID;
+        if (this.$route.query.attendance)
+          query.attendance = this.$route.query.attendance;
+        this.$router.push({ query });
       }
       await this.loadEnrollmentData(1);
     },
@@ -358,68 +472,6 @@ export default {
 
     async changePageSize() {
       await this.loadEnrollmentData(1);
-    },
-
-    async OnUpsertEnrollment(e) {
-      if (e) {
-        this.StudentEnrollmentStore.selectedEnrollment = e;
-        await this.onSearchStudent(
-          1,
-          this.StudentEnrollmentStore.selectedEnrollment.studentID
-        );
-        await this.onSearchGroup(
-          0,
-          this.StudentEnrollmentStore.selectedEnrollment.groupID
-        );
-      } else {
-        this.StudentEnrollmentStore.selectedEnrollment = null;
-        this.StudentStore.selectedStudent = null;
-        this.GroupStore.selectedGroup = null;
-      }
-      this.showUpsert = true;
-    },
-
-    async OnSubmitUpsert(e) {
-      var resVal = new TResult();
-      if (e.enrollmentID) {
-        resVal = await this.StudentEnrollmentStore.updateEnrollment(e);
-      } else if (Array.isArray(e.studentIDs) && e.studentIDs.length > 0) {
-        resVal = await this.StudentEnrollmentStore.enrollByRange({
-          StudentIDs: e.studentIDs,
-          GroupID: e.groupID,
-          Date: e.date,
-        });
-      } else {
-        resVal = await this.StudentEnrollmentStore.addEnrollment(e);
-      }
-      if (resVal.success) {
-        this.resultMessage = "تم الحفظ بنجاح";
-        this.resultType = false;
-        this.showUpsert = false;
-        await this.loadEnrollmentData(this.StudentEnrollmentStore.page);
-      } else {
-        this.resultMessage = resVal.errors;
-        this.resultType = true;
-      }
-    },
-
-    async onSearchStudent(type, val) {
-      await this.StudentStore.fetchStudentBy({
-        Param: val,
-        ParamType: type,
-      });
-    },
-
-    async onSearchGroup(type, val) {
-      let filter = "";
-      if (type === 1) filter = `GroupName=*${val}`;
-      else if (type === 2) filter = `Code=*${val}`;
-      else filter = `GroupID=${val}`;
-      await this.GroupStore.fetchGroups({ Filter: filter });
-      await this.GroupStore.fetchGroupBy({
-        Param: val,
-        ParamType: type,
-      });
     },
 
     async OnDelete(e) {
@@ -457,29 +509,57 @@ export default {
         this.resultType = true;
         return;
       }
-      await this.StageinfoStore.getStudentStageInfo(e.enrollmentID);
-      await this.DailyEvaluationStore.GetlastDailyEvaluation(e.enrollmentID);
+      this.DailyEvaluationStore.clearSelectedEvaluation();
+      this.DailyEvaluationStore.clearLastDailyEvaluation();
+      const stageInfoResult = await this.StageinfoStore.getStudentStageInfo(
+        e.studentAcademicEnrollmentID
+      );
+      if (
+        !stageInfoResult.success ||
+        this.StageinfoStore.StageInfos.length === 0
+      ) {
+        this.resultMessage = stageInfoResult.success
+          ? "لا توجد تفاصيل مرحلة مسندة لهذا التسجيل"
+          : stageInfoResult.errors;
+        this.resultType = true;
+        return;
+      }
       this.studentName = e.studentName;
-      this.groupName = e.groupName;
-      this.EnrollmentID = e.enrollmentID;
+      this.StudentAcademicEnrollmentID = e.studentAcademicEnrollmentID;
+      this.academicPlanName = e.academicPlanName || "";
       this.showNewDailyEvaluation = true;
     },
 
     async OnNewAssigmentNomination(e) {
-      await this.AssignmentScopeStore.fetchCanNominateList({
-        studentEnrollmentID: e.enrollmentID,
-      });
+      if (!e.studentAcademicEnrollmentID) {
+        this.resultMessage = "الاشتراك الأكاديمي غير متاح";
+        this.resultType = true;
+        return;
+      }
+      const scopesResult = await this.AssignmentScopeStore.fetchCanNominateList(
+        {
+          studentAcademicEnrollmentID: e.studentAcademicEnrollmentID,
+        }
+      );
+      if (
+        !scopesResult.success ||
+        !this.AssignmentScopeStore.AssignmentScopes.length
+      ) {
+        this.resultMessage = scopesResult.success
+          ? "لا توجد نطاقات اختبار مستحقة لهذا الاشتراك"
+          : scopesResult.errors;
+        this.resultType = true;
+        return;
+      }
       this.studentName = e.studentName;
-      this.EnrollmentID = e.enrollmentID;
+      this.StudentAcademicEnrollmentID = e.studentAcademicEnrollmentID;
+      this.AssignmentNominationStore.clearSelectedAssignmentNomination();
+      this.AssignmentNominationStore.error = null;
       this.showUpsertAssigNomin = true;
     },
     async OnSubmitNewDailyEvaluation(e) {
       var resVal = new TResult();
-      if (e.dailyEvaluationID !== "") {
-        return;
-      } else {
-        resVal = await this.DailyEvaluationStore.addEvaluation(e);
-      }
+      resVal = await this.DailyEvaluationStore.addEvaluation(e);
       if (resVal.success) {
         this.resultMessage = "تم الحفظ";
         this.resultType = false;
@@ -490,18 +570,13 @@ export default {
       }
     },
     async OnSubmitNewAssignmentNomination(e) {
-      var resVal = new TResult();
-      if (e.assignmentNominationID !== "") {
-        return;
-      } else {
-        resVal = await this.AssignmentNominationStore.addAssignmentNomination(
-          e
-        );
-      }
+      const resVal = e.assignmentNominationID
+        ? await this.AssignmentNominationStore.updateAssignmentNomination(e)
+        : await this.AssignmentNominationStore.addAssignmentNomination(e);
       if (resVal.success) {
         this.resultMessage = "تم الحفظ";
         this.resultType = false;
-        this.showNewDailyEvaluation = false;
+        this.showUpsertAssigNomin = false;
       } else {
         this.resultMessage = resVal.errors;
         this.resultType = true;
@@ -525,25 +600,52 @@ export default {
       }
     },
     async OnNewStudentStage(e) {
+      const studentAcademicEnrollmentID = e.studentAcademicEnrollmentID;
+      if (!studentAcademicEnrollmentID) {
+        this.resultMessage = "الاشتراك الأكاديمي غير متاح";
+        this.resultType = true;
+        return;
+      }
+      const result = await this.StageinfoStore.getStudentStageInfo(
+        studentAcademicEnrollmentID
+      );
+      if (!result.success || this.StageinfoStore.StageInfos.length === 0) {
+        this.resultMessage = result.success
+          ? "لا توجد مراحل مشمولة في لقطة الاشتراك"
+          : result.errors;
+        this.resultType = true;
+        return;
+      }
+
       this.studentName = e.studentName;
-      this.EnrollmentID = e.enrollmentID;
+      this.StudentAcademicEnrollmentID = studentAcademicEnrollmentID;
+      this.academicPlanName = e.academicPlanName || "";
+      this.eligibleStages = [
+        ...new Map(
+          this.StageinfoStore.StageInfos.map((info) => [
+            info.stageID,
+            { stageID: info.stageID, stageName: info.stageName },
+          ])
+        ).values(),
+      ];
       this.showUpsertStudentStage = true;
     },
     async onStageInfoChange(e) {
       await this.DailyEvaluationStore.GetlastDailyEvaluation(
-        e.studentEnrollmentID,
+        e.studentAcademicEnrollmentID,
         e.stageInfoID
       );
     },
 
     onpopaClose() {
-      this.showUpsert = false;
       this.showInfo = false;
       this.showNewDailyEvaluation = false;
       this.StudentEnrollmentStore.selectedEnrollment = null;
-      this.StudentStore.selectedStudent = null;
-      this.GroupStore.selectedGroup = null;
+      this.StudentAcademicEnrollmentID = "";
+      this.academicPlanName = "";
+      this.eligibleStages = [];
       this.DailyEvaluationStore.clearSelectedEvaluation();
+      this.DailyEvaluationStore.clearLastDailyEvaluation();
       this.showUpsertAssigNomin = false;
       this.AssignmentNominationStore.clearSelectedAssignmentNomination();
       this.showUpsertStudentStage = false;
@@ -552,14 +654,14 @@ export default {
 
     async loadEnrollmentData(page = 1) {
       if (this.AuthStore.UserRole === `Teacher`) {
-        this.GroupStore.GetGroupsByTeacherID(this.AuthStore.UserEntityID);
+        await this.GroupStore.fetchMyTeachingGroups();
       }
 
       const filterString = this.buildFilterQuery();
       await this.StudentEnrollmentStore.fetchEnrollments({
-        page: page,
-        pageSize: this.selectedPageSize,
-        filter: filterString,
+        Page: page,
+        PageSize: this.selectedPageSize,
+        Filter: filterString,
       });
     },
 
@@ -588,11 +690,8 @@ export default {
         case "info":
           await this.onShowInfo(singleItem);
           break;
-        case "update":
-          await this.OnUpsertEnrollment(singleItem);
-          break;
         case "startAttendance":
-          this.onStartAttendance();
+          await this.onStartAttendance();
           break;
         case "confirmAttendance":
           await this.onConfirmAttendance(selectedItems);
@@ -616,18 +715,73 @@ export default {
       }
     },
 
-    onStartAttendance() {
+    async onStartAttendance() {
+      if (
+        !this.AuthStore.hasPermission("Can_Create_Attendance") ||
+        !this.AuthStore.hasPermission("Can_Read_Attendance")
+      ) {
+        this.resultMessage = "ليس لديك صلاحية تسجيل حضور المجموعة";
+        this.resultType = true;
+        return;
+      }
+
+      const groupID = String(this.$route.query.groupID || "");
+      if (!groupID) {
+        this.resultMessage = "اختر مجموعة أولاً لبدء تسجيل الحضور";
+        this.resultType = true;
+        return;
+      }
+
       this.isAttendanceMode = true;
+      this.attendanceRecords = {};
+      const result = await this.AttendanceStore.fetchGroupAttendance(
+        groupID,
+        this.attendanceDate
+      );
+      if (!result.success) {
+        this.resultMessage = result.errors;
+        this.resultType = true;
+        this.isAttendanceMode = false;
+        return;
+      }
+
+      this.initializeAttendanceRecords();
+    },
+
+    initializeAttendanceRecords() {
       const initialMap = {};
+      const existingMap = Object.fromEntries(
+        this.AttendanceStore.records.map((record) => [
+          record.groupEnrollmentID,
+          record.status,
+        ])
+      );
       this.StudentEnrollmentStore.enrollments.forEach((enroll) => {
-        initialMap[enroll.enrollmentID] = AttendanceStatus.Present;
+        initialMap[enroll.enrollmentID] =
+          existingMap[enroll.enrollmentID] ?? AttendanceStatus.Present;
       });
       this.attendanceRecords = initialMap;
+    },
+
+    async onAttendanceDateChange() {
+      const groupID = String(this.$route.query.groupID || "");
+      if (!groupID) return;
+      const result = await this.AttendanceStore.fetchGroupAttendance(
+        groupID,
+        this.attendanceDate
+      );
+      if (result.success) this.initializeAttendanceRecords();
+      else {
+        this.attendanceRecords = {};
+        this.resultMessage = result.errors;
+        this.resultType = true;
+      }
     },
 
     onCancelAttendance() {
       this.isAttendanceMode = false;
       this.attendanceRecords = {};
+      this.AttendanceStore.clearGroupAttendance();
     },
 
     onUpdateAttendance({ enrollmentID, status }) {
@@ -650,20 +804,30 @@ export default {
         return;
       }
 
+      const groupID = String(this.$route.query.groupID || "");
+      if (
+        !groupID ||
+        targetEnrollments.some((enrollment) => enrollment.groupID !== groupID)
+      ) {
+        this.resultMessage =
+          "يجب أن تضم دفعة الحضور عضويات المجموعة المحددة فقط";
+        this.resultType = true;
+        return;
+      }
+
       const attendeesPayload = targetEnrollments.map((enroll) => ({
-        entityID: enroll.enrollmentID,
-        attendeeType: AttendeeType.Student, // Student
+        groupEnrollmentID: enroll.groupEnrollmentID,
+        groupID,
         status:
           this.attendanceRecords[enroll.enrollmentID] !== undefined
             ? this.attendanceRecords[enroll.enrollmentID]
             : AttendanceStatus.Present,
-        contextID: enroll.groupID || null,
-        contextType: ContextType.Group,
       }));
 
-      const resVal = await this.AttendanceStore.submitAttendance(
-        attendeesPayload
-      );
+      const resVal = await this.AttendanceStore.submitAttendance({
+        date: this.attendanceDate,
+        attendances: attendeesPayload,
+      });
 
       if (resVal.success) {
         this.resultMessage = "تم تأكيد وتسجيل التفقد بنجاح";
@@ -689,15 +853,18 @@ export default {
     },
   },
 
-  mounted() {
-    this.loadEnrollmentData();
-    this.StageStore.fetchStages();
+  async mounted() {
+    await this.loadEnrollmentData();
+    if (this.$route.query.attendance === "true") await this.onStartAttendance();
   },
 
   watch: {
     "$route.query.groupID": {
-      handler() {
-        this.loadEnrollmentData();
+      async handler() {
+        this.onCancelAttendance();
+        await this.loadEnrollmentData();
+        if (this.$route.query.attendance === "true")
+          await this.onStartAttendance();
       },
     },
   },

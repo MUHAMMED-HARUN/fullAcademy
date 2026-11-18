@@ -2,10 +2,10 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Domain.Entities;
+using System.Domain.Entities.Progress;
 using System.Infrastructure.Configurations.Base;
 
-namespace System.Infrastructure.Configurations.Address
+namespace System.Infrastructure.Configurations.Progress
 {
 
     public class StageInfoConfiguration : BaseEntityConfiguration<clsStageInfo>

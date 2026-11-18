@@ -8,6 +8,8 @@ namespace System.Application.Services.Enrollment.StudentEnrollment.DTO
         public Guid StudentID { get; set; }
         public string StudentName { get; set; }
         public Guid GroupID { get; set; }
+        public Guid StudentAcademicEnrollmentID { get; set; }
+        public string AcademicPlanName { get; set; }
         public string GroupName { get; set; }
         public DateOnly Date { get; set; }
         public bool CanTrack { get; set; }

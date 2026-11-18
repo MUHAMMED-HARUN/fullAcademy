@@ -1,261 +1,157 @@
 <template>
-  <div>
-    <h2>{{ FormTitle }}</h2>
-    <form @submit.prevent="onSubmit">
-      <div class="form-group">
-        <label>اسم الخطة:</label>
-        <input v-model="formData.name" type="text" />
-        <ValidationError :messages="errors?.name" />
-      </div>
-
-      <div class="form-group">
-        <label>نوع الرسوم:</label>
-        <select v-model.number="formData.feeType">
-          <option disabled value="">اختر النوع</option>
-          <option
-            v-for="opt in feeTypeOptions"
-            :key="opt.value"
-            :value="opt.value"
+  <section dir="rtl" class="space-y-4">
+    <h2>{{ formData.feeStructureID ? "تعديل التعرفة" : "إضافة تعرفة" }}</h2>
+    <form class="space-y-4" @submit.prevent="submit">
+      <fieldset :disabled="formData.planLocked" class="space-y-4">
+        <label class="block"
+          >اسم التعرفة
+          <input
+            v-model.trim="formData.name"
+            class="form-control"
+            required
+            maxlength="200"
+          />
+          <ValidationError :messages="errors?.name" />
+        </label>
+        <label class="block"
+          >نوع الرسوم
+          <select
+            v-model.number="formData.feeType"
+            class="form-select"
+            required
           >
-            {{ opt.label }}
-          </option>
-        </select>
-        <ValidationError :messages="errors?.feeType" />
-      </div>
-
-      <div class="form-group">
-        <label>المبلغ:</label>
-        <input
-          v-model.number="formData.amount"
-          type="number"
-          min="0"
-          step="0.01"
-        />
-        <ValidationError :messages="errors?.amount" />
-      </div>
-
-      <div class="form-filter mt-4">
-        <label>البحث عن برنامج:</label>
-        <select v-model="programSearchType">
-          <option :value="enProgramSearchType.Name">بحث باسم البرنامج</option>
-        </select>
-        <input v-model="programSearchValue" type="text" />
-        <button @click.prevent.stop="onSearchProgram">بحث عن برنامج</button>
-      </div>
-      <div class="class-card-wrapper">
-        <ProgramCard v-if="showProgramCard" :-data-req="programData" />
-      </div>
-
-      <div class="form-filter mt-4">
-        <label>البحث عن صف:</label>
-        <select v-model="classSearchType">
-          <option :value="enClassSearchType.Name">بحث باسم الصف</option>
-        </select>
-        <input v-model="classSearchValue" type="text" />
-        <button @click.prevent.stop="onSearchClass">بحث عن صف</button>
-      </div>
-      <div class="class-card-wrapper">
-        <ClassCard v-if="showClassCard" :-data-req="classData" />
-      </div>
-
-      <div class="form-filter mt-4">
-        <label>البحث عن مرحلة:</label>
-        <select v-model="stageSearchType">
-          <option :value="enStageSearchType.Name">بحث باسم المرحلة</option>
-        </select>
-        <input v-model="stageSearchValue" type="text" />
-        <button @click.prevent.stop="onSearchStage">بحث عن مرحلة</button>
-      </div>
-      <div class="class-card-wrapper">
-        <StageCard v-if="showStageCard" :-data-req="stageData" />
-      </div>
-
-      <div class="form-group">
-        <label>تفصيل المرحلة:</label>
-        <select v-model="formData.stageInfoID">
-          <option value="">بدون</option>
-          <option
-            v-for="info in filteredStageInfos"
-            :key="info.stageInfoID"
-            :value="info.stageInfoID"
+            <option
+              v-for="option in FeeTypeOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+          <ValidationError :messages="errors?.feeType" />
+        </label>
+        <label class="block"
+          >المبلغ
+          <input
+            v-model.number="formData.amount"
+            class="form-control"
+            type="number"
+            min="0"
+            step="0.01"
+            required
+          />
+          <ValidationError :messages="errors?.amount" />
+        </label>
+        <div>
+          <label class="mb-2 block"
+            >الخطة الأكاديمية (يجب أن تكون مفعّلة)</label
           >
-            {{ info.stageName }} - {{ info.matterName }} ({{ info.from }} -
-            {{ info.to }})
-          </option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>ملاحظات:</label>
-        <input v-model="formData.notes" type="text" />
-        <ValidationError :messages="errors?.notes" />
-      </div>
-
-      <div class="form-group">
-        <button type="submit">حفظ</button>
-      </div>
+          <GenericSearchByFilter
+            v-model="formData.academicPlanID"
+            v-model:name-value="academicPlanName"
+            :filter-types="[{ value: 1, label: 'اسم الخطة' }]"
+            :results="AcademicPlanStore.academicPlans"
+            :loading="AcademicPlanStore.loading"
+            :disabled="formData.planLocked"
+            :error="AcademicPlanStore.error"
+            id-field="academicPlanID"
+            name-field="displayName"
+            placeholder="ابحث عن خطة أكاديمية مفعّلة"
+            @search="searchPlans"
+            @select="onPlanSelected"
+            @clear="selectedPlan = null"
+          />
+          <div v-if="selectedPlan" class="mt-2 rounded border p-3 text-sm">
+            {{ selectedPlan.providerInstituteName }} ·
+            {{ selectedPlan.scopeName }} · إصدار {{ selectedPlan.version }}
+          </div>
+          <ValidationError :messages="errors?.academicPlanID" />
+        </div>
+        <label class="block"
+          >ملاحظات
+          <input v-model.trim="formData.notes" class="form-control" />
+        </label>
+      </fieldset>
+      <p v-if="formData.planLocked" class="text-sm text-amber-700">
+        لا يمكن تعديل تعرفة مرتبطة بفواتير سابقة؛ أنشئ تعرفة جديدة على إصدار
+        الخطة المناسب.
+      </p>
+      <button
+        class="btn btn-primary"
+        type="submit"
+        :disabled="!formData.academicPlanID || formData.planLocked"
+      >
+        حفظ
+      </button>
     </form>
-  </div>
+  </section>
 </template>
 
-<script>
+<script setup>
+import { reactive, ref, watch } from "vue";
 import ValidationError from "@/components/general/ValidationError.vue";
-import ProgramCard from "@/components/Institute/Program/ProgramCard.vue";
-import ClassCard from "@/components/Institute/Class/ClassCard.vue";
-import StageCard from "@/components/Progress/Stage/StageCard.vue";
-import { useFeeStructureStore } from "@/store/Finance/FeeStructureStore";
+import GenericSearchByFilter from "@/components/general/GenericSearchByFilter.vue";
 import { FeeType, FeeTypeOptions } from "@/Generic/FinanceEnums";
+import { useAcademicPlanStore } from "@/store/AcademicPlan/AcademicPlanStore";
 
-const enProgramSearchType = Object.freeze({ ID: 0, Name: 1 });
-const enClassSearchType = Object.freeze({ ID: 0, Name: 1 });
-const enStageSearchType = Object.freeze({ ID: 0, Name: 1 });
+const props = defineProps({
+  errors: { type: Object, default: () => ({}) },
+  initialFeeStructure: { type: Object, default: null },
+  planLocked: { type: Boolean, default: false },
+});
+const emit = defineEmits(["onSubmit"]);
+const AcademicPlanStore = useAcademicPlanStore();
+const academicPlanName = ref("");
+const selectedPlan = ref(null);
+const formData = reactive({
+  feeStructureID: "",
+  name: "",
+  feeType: FeeType.Tuition,
+  amount: 0,
+  academicPlanID: "",
+  notes: "",
+  planLocked: false,
+});
 
-export default {
-  name: "UpsertFeeStructureComp",
-  components: {
-    ValidationError,
-    ProgramCard,
-    ClassCard,
-    StageCard,
-  },
-  props: {
-    errors: {
-      type: Object,
-      default: () => ({}),
-    },
-    programData: {
-      type: Object,
-      default: () => ({}),
-    },
-    classData: {
-      type: Object,
-      default: () => ({}),
-    },
-    stageData: {
-      type: Object,
-      default: () => ({}),
-    },
-    stageInfos: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  data() {
-    return {
-      FeeStructureStore: useFeeStructureStore(),
-      feeTypeOptions: FeeTypeOptions,
-      enProgramSearchType,
-      enClassSearchType,
-      enStageSearchType,
-      programSearchType: enProgramSearchType.Name,
-      classSearchType: enClassSearchType.Name,
-      stageSearchType: enStageSearchType.Name,
-      programSearchValue: "",
-      classSearchValue: "",
-      stageSearchValue: "",
-      showProgramCard: false,
-      showClassCard: false,
-      showStageCard: false,
-      formData: {
-        feeStructureID: "",
-        name: "",
-        feeType: FeeType.Tuition,
-        amount: 0,
-        programID: "",
-        classID: "",
-        stageID: "",
-        stageInfoID: "",
-        notes: "",
-      },
-    };
-  },
-  emits: ["onSubmit", "onSearchProgram", "onSearchClass", "onSearchStage"],
-  computed: {
-    FormTitle() {
-      return this.formData.feeStructureID
-        ? "تعديل خطة الرسوم"
-        : "إضافة خطة رسوم";
-    },
-    filteredStageInfos() {
-      if (!this.formData.stageID) return this.stageInfos || [];
-      return (this.stageInfos || []).filter(
-        (info) => info.stageID === this.formData.stageID
-      );
-    },
-  },
-  methods: {
-    onSubmit() {
-      this.$emit("onSubmit", this.formData);
-    },
-    onSearchProgram() {
-      this.$emit(
-        "onSearchProgram",
-        this.programSearchType,
-        this.programSearchValue
-      );
-    },
-    onSearchClass() {
-      this.$emit("onSearchClass", this.classSearchType, this.classSearchValue);
-    },
-    onSearchStage() {
-      this.$emit("onSearchStage", this.stageSearchType, this.stageSearchValue);
-    },
-    fillSelected() {
-      const entity = this.FeeStructureStore.selectedFeeStructure;
-      if (!entity) return;
-      this.formData = {
-        feeStructureID: entity.feeStructureID || "",
-        name: entity.name || "",
-        feeType: entity.feeType || FeeType.Tuition,
-        amount: entity.amount || 0,
-        programID: entity.programID || "",
-        classID: entity.classID || "",
-        stageID: entity.stageID || "",
-        stageInfoID: entity.stageInfoID || "",
-        notes: entity.notes || "",
-      };
-    },
-  },
-  mounted() {
-    this.fillSelected();
-  },
-  watch: {
-    programData: {
-      handler(data) {
-        if (data && data.programID) {
-          this.formData.programID = data.programID;
-          this.showProgramCard = true;
-        } else {
-          this.showProgramCard = false;
+watch(
+  () => props.initialFeeStructure,
+  (item) => {
+    Object.assign(formData, {
+      feeStructureID: item?.feeStructureID || "",
+      name: item?.name || "",
+      feeType: item?.feeType ?? FeeType.Tuition,
+      amount: item?.amount ?? 0,
+      academicPlanID: item?.academicPlanID || "",
+      notes: item?.notes || "",
+      planLocked: props.planLocked || !!(item?.isUsed ?? item?.hasInvoices),
+    });
+    academicPlanName.value = item?.academicPlanName || "";
+    selectedPlan.value = item?.academicPlanID
+      ? {
+          academicPlanID: item.academicPlanID,
+          name: item.academicPlanName,
+          providerInstituteName: item.providerInstituteName,
+          scopeName: item.scopeName,
+          version: item.academicPlanVersion,
         }
-      },
-      immediate: true,
-      deep: true,
-    },
-    classData: {
-      handler(data) {
-        if (data && data.classID) {
-          this.formData.classID = data.classID;
-          this.showClassCard = true;
-        } else {
-          this.showClassCard = false;
-        }
-      },
-      immediate: true,
-      deep: true,
-    },
-    stageData: {
-      handler(data) {
-        if (data && data.stageID) {
-          this.formData.stageID = data.stageID;
-          this.showStageCard = true;
-        } else {
-          this.showStageCard = false;
-        }
-      },
-      immediate: true,
-      deep: true,
-    },
+      : null;
   },
-};
+  { immediate: true }
+);
+
+async function searchPlans({ value }) {
+  const search = value?.trim().replace(/[,*|]/g, " ");
+  await AcademicPlanStore.fetchAcademicPlans({
+    Page: 1,
+    PageSize: 10,
+    Filter: search ? `Name=*${search},Status=2` : "Status=2",
+  });
+}
+function onPlanSelected(plan) {
+  selectedPlan.value = plan;
+  academicPlanName.value = plan?.name || "";
+}
+function submit() {
+  emit("onSubmit", { ...formData });
+}
 </script>

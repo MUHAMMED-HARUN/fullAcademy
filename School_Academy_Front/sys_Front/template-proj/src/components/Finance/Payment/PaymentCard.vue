@@ -28,6 +28,18 @@
       <div class="item-name">ملاحظات:</div>
       <div class="item-value">{{ DataReq?.notes }}</div>
     </div>
+    <div class="card-item">
+      <div class="item-name">الحالة:</div>
+      <div class="item-value">{{ DataReq?.isReversed ? "معكوسة" : "سارية" }}</div>
+    </div>
+    <div v-if="DataReq?.isReversed" class="card-item">
+      <div class="item-name">سبب العكس:</div>
+      <div class="item-value">{{ DataReq?.reversalReason }}</div>
+    </div>
+    <div v-if="DataReq?.isReversed" class="card-item">
+      <div class="item-name">تاريخ العكس:</div>
+      <div class="item-value">{{ DataReq?.reversedAt }}</div>
+    </div>
   </div>
 </template>
 

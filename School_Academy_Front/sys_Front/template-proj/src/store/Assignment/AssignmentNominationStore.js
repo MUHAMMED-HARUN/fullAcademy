@@ -9,6 +9,11 @@ export const useAssignmentNominationStore = defineStore(
       selectedAssignmentNomination: null,
       loading: false,
       error: null,
+      page: 1,
+      pageSize: 10,
+      totalCount: 0,
+      filter: "",
+      orderBy: "",
     }),
 
     getters: {
@@ -19,74 +24,104 @@ export const useAssignmentNominationStore = defineStore(
     },
 
     actions: {
-      async fetchAssignmentNominations() {
+      async fetchAssignmentNominations(params = {}) {
         this.loading = true;
         this.error = null;
-
-        const result = await AssignmentNomination_service.getAll();
-        if (result.success) {
-          this.AssignmentNominations = result.data || [];
-        } else {
-          this.error = result.errors;
+        if (params.Page !== undefined)
+          this.page = Math.max(1, Number(params.Page) || 1);
+        if (params.PageSize !== undefined)
+          this.pageSize = Math.max(
+            1,
+            Math.min(100, Number(params.PageSize) || 10)
+          );
+        if (params.Filter !== undefined) this.filter = params.Filter || "";
+        if (params.OrderBy !== undefined) this.orderBy = params.OrderBy || "";
+        try {
+          const result = await AssignmentNomination_service.getAll({
+            Page: this.page,
+            PageSize: this.pageSize,
+            Filter: this.filter,
+            OrderBy: this.orderBy,
+          });
+          if (result.success) {
+            this.AssignmentNominations = result.data?.items || [];
+            this.totalCount = result.data?.count || 0;
+          } else {
+            this.AssignmentNominations = [];
+            this.totalCount = 0;
+            this.error = result.errors;
+          }
+          return result;
+        } finally {
+          this.loading = false;
         }
-        this.loading = false;
-        return result;
       },
 
       async fetchAssignmentNominationtBy(command) {
         this.loading = true;
         this.error = null;
-        const result = await AssignmentNomination_service.getBy(command);
-        if (result.success) {
-          this.selectedAssignmentNomination = result.data;
-        } else {
-          this.error = result.errors;
+        try {
+          const result = await AssignmentNomination_service.getBy(command);
+          if (result.success) this.selectedAssignmentNomination = result.data;
+          else {
+            this.selectedAssignmentNomination = null;
+            this.error = result.errors;
+          }
+          return result;
+        } finally {
+          this.loading = false;
         }
-        this.loading = false;
-        return result;
+      },
+
+      async setPage(page) {
+        return this.fetchAssignmentNominations({ Page: page });
+      },
+
+      async setPageSize(pageSize) {
+        return this.fetchAssignmentNominations({ Page: 1, PageSize: pageSize });
       },
 
       async addAssignmentNomination(payload) {
         this.loading = true;
         this.error = null;
 
-        const result = await AssignmentNomination_service.create(payload);
-        if (result.success) {
-          await this.fetchAssignmentNominations();
-        } else {
-          this.error = result.errors;
+        try {
+          const result = await AssignmentNomination_service.create(payload);
+          if (result.success)
+            await this.fetchAssignmentNominations({ Page: 1 });
+          else this.error = result.errors;
+          return result;
+        } finally {
+          this.loading = false;
         }
-
-        this.loading = false;
-        return result;
       },
 
       async updateAssignmentNomination(payload) {
         this.loading = true;
         this.error = null;
 
-        const result = await AssignmentNomination_service.update(payload);
-        if (result.success) {
-          await this.fetchAssignmentNominations();
-        } else {
-          this.error = result.errors;
+        try {
+          const result = await AssignmentNomination_service.update(payload);
+          if (result.success) await this.fetchAssignmentNominations();
+          else this.error = result.errors;
+          return result;
+        } finally {
+          this.loading = false;
         }
-        this.loading = false;
-        return result;
       },
 
       async DeleteAssignmentNomination(payload) {
         this.loading = true;
         this.error = null;
 
-        const result = await AssignmentNomination_service.delete(payload);
-        if (result.success) {
-          await this.fetchAssignmentNominations();
-        } else {
-          this.error = result.errors;
+        try {
+          const result = await AssignmentNomination_service.delete(payload);
+          if (result.success) await this.fetchAssignmentNominations();
+          else this.error = result.errors;
+          return result;
+        } finally {
+          this.loading = false;
         }
-        this.loading = false;
-        return result;
       },
       clearSelectedAssignmentNomination() {
         this.selectedAssignmentNomination = null;

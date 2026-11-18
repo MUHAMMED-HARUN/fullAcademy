@@ -11,6 +11,7 @@ export const ProgressLinks = [
     component: SessionView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_Session",
     },
   },
   {
@@ -19,6 +20,7 @@ export const ProgressLinks = [
     component: StageView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_Stage",
     },
   },
   {
@@ -27,6 +29,7 @@ export const ProgressLinks = [
     component: StageInfoView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_StageInfo",
     },
   },
   {
@@ -35,6 +38,7 @@ export const ProgressLinks = [
     component: DailyEvaluationView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_DailyEvaluation",
     },
   },
   {
@@ -43,6 +47,7 @@ export const ProgressLinks = [
     component: StudentStageView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_StudentStage",
     },
   },
 ];

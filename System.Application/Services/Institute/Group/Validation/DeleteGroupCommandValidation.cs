@@ -7,7 +7,9 @@ namespace System.Application.Services.Institute.Group.Validation
     {
         public DeleteGroupCommandValidation()
         {
-            RuleFor(x => x.GroupID).NotEmpty().WithMessage("GroupID must not be empty");
+            RuleFor(x => x.GroupID)
+                .Must(value => Guid.TryParse(value, out var id) && id != Guid.Empty)
+                .WithMessage("GroupID must be a valid GUID");
         }
     }
 }

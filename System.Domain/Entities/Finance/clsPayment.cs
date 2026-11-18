@@ -16,6 +16,7 @@ namespace System.Domain.Entities.Finance
 
         // Navigation properties
         public clsStudentInvoice StudentInvoice { get; private set; }
+        public clsPaymentReversal? Reversal { get; private set; }
 
         protected clsPayment() { }
 
@@ -36,21 +37,21 @@ namespace System.Domain.Entities.Finance
             BaseSetCreated("System");
         }
 
-        public void SetStudentInvoiceID(Guid studentInvoiceID)
+        private void SetStudentInvoiceID(Guid studentInvoiceID)
         {
             if (studentInvoiceID == Guid.Empty)
                 throw new DomainException(DomainExMsg.Payment_StudentInvoiceIDRequired);
             StudentInvoiceID = studentInvoiceID;
         }
 
-        public void SetAmount(decimal amount)
+        private void SetAmount(decimal amount)
         {
             if (amount <= 0)
                 throw new DomainException(DomainExMsg.Payment_AmountMustBePositive);
             Amount = amount;
         }
 
-        public void SetPaymentDate(DateTime paymentDate)
+        private void SetPaymentDate(DateTime paymentDate)
         {
             if (paymentDate == default)
                 PaymentDate = DateTime.Now;
@@ -58,19 +59,25 @@ namespace System.Domain.Entities.Finance
                 PaymentDate = paymentDate;
         }
 
-        public void SetPaymentMethod(enPaymentMethod paymentMethod)
+        private void SetPaymentMethod(enPaymentMethod paymentMethod)
         {
             PaymentMethod = paymentMethod;
         }
 
-        public void SetReferenceNumber(string? referenceNumber)
+        private void SetReferenceNumber(string? referenceNumber)
         {
             ReferenceNumber = referenceNumber;
         }
 
-        public void SetNotes(string? notes)
+        private void SetNotes(string? notes)
         {
             Notes = notes;
         }
+
+        public override void SetModified(string userId) =>
+            throw new DomainException(DomainExMsg.Payment_Immutable);
+
+        public override void SetDeleted(string userId) =>
+            throw new DomainException(DomainExMsg.Payment_Immutable);
     }
 }

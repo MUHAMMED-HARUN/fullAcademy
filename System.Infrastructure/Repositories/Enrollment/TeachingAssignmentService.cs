@@ -1,206 +1,220 @@
 using Gridify;
 using Gridify.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using System.Application.Abstractions.Auth;
 using System.Application.Abstractions.Enrollment;
 using System.Application.Common;
 using System.Application.Services.Enrollment.TeachingAssignment.DTO;
 using System.Application.Services.Enrollment.TeachingAssignment.Query;
 using System.Domain.Entities;
 using System.Domain.Enums.Enrollment;
+using System.Infrastructure.Extensions.Security;
 using System.Infrastructure.Persistence;
 
 namespace System.Infrastructure.Repositories.Enrollment
 {
-    public class TeachingAssignmentService : ITeachingAssignmentRepository
+    public sealed class TeachingAssignmentService : ITeachingAssignmentRepository
     {
-        private readonly AppDbContext _context;
-        private readonly DbSet<clsTeachingAssignment> _dbSet;
+        private static readonly IGridifyMapper<TeachingAssignmentInfo> TeachingAssignmentFilterMapper =
+            new GridifyMapper<TeachingAssignmentInfo>()
+                .AddMap(nameof(TeachingAssignmentInfo.TeacherName), info => info.TeacherName)
+                .AddMap(nameof(TeachingAssignmentInfo.GroupName), info => info.GroupName)
+                .AddMap(nameof(TeachingAssignmentInfo.SubjectName), info => info.SubjectName)
+                .AddMap(nameof(TeachingAssignmentInfo.EnrollmentDate), info => info.EnrollmentDate);
 
-        public TeachingAssignmentService(AppDbContext appDbContext)
+        private static readonly IGridifyMapper<TeacherGroupInfo> TeacherGroupFilterMapper =
+            new GridifyMapper<TeacherGroupInfo>()
+                .AddMap(nameof(TeacherGroupInfo.TeacherName), info => info.TeacherName)
+                .AddMap(nameof(TeacherGroupInfo.GroupName), info => info.GroupName)
+                .AddMap(nameof(TeacherGroupInfo.SubjectName), info => info.SubjectName)
+                .AddMap(nameof(TeacherGroupInfo.EnrollmentDate), info => info.EnrollmentDate);
+
+        private readonly AppDbContext _context;
+        private readonly DbSet<clsTeachingAssignment> _set;
+        private readonly ICurrentUserService _currentUser;
+
+        public TeachingAssignmentService(AppDbContext context, ICurrentUserService currentUser)
         {
-            _context = appDbContext;
-            _dbSet = _context.Set<clsTeachingAssignment>();
+            _context = context;
+            _set = context.Set<clsTeachingAssignment>();
+            _currentUser = currentUser;
         }
 
         public async Task<string> Add(clsTeachingAssignment entity)
         {
-            await _dbSet.AddAsync(entity);
+            await _set.AddAsync(entity);
             return entity.Id.ToString();
         }
 
-        public async Task<TeachingAssignmentInfo> GetBy(string param, enTeachingAssignmentType paramType)
+        public async Task<TeachingAssignmentInfo?> GetBy(string param, enTeachingAssignmentType paramType)
         {
-            if (paramType == enTeachingAssignmentType.ID)
+            var query = _set.AsNoTracking()
+                .ApplyTeachingAssignmentReadScope(_currentUser, _context);
+
+            query = paramType switch
             {
-                return await _dbSet.Where(i => i.Id == clsUtil.ToGuid(param))
-                    .Select(i => new TeachingAssignmentInfo
-                    {
-                        EnrollmentID = i.Id.ToString(),
-                        TeacherID = i.TeacherID.ToString(),
-                        TeacherName = i.Teacher.Person.FirstName + " " + i.Teacher.Person.FatherName + " " + i.Teacher.Person.LastName,
-                        GroupID = i.GroupID.ToString(),
-                        GroupName = i.Group.GroupName,
-                        SubjectID = i.SubjectID.ToString(),
-                        SubjectName = i.Subject.Name,
-                        EnrollmentDate = i.Date
-                    }).FirstOrDefaultAsync();
-            }
-            else if (paramType == enTeachingAssignmentType.TeacherID)
-            {
-                return await _dbSet.Where(i => i.TeacherID == clsUtil.ToGuid(param))
-                     .Select(i => new TeachingAssignmentInfo
-                     {
-                         EnrollmentID = i.Id.ToString(),
-                         TeacherID = i.TeacherID.ToString(),
-                         TeacherName = i.Teacher.Person.FirstName + " " + i.Teacher.Person.FatherName + " " + i.Teacher.Person.LastName,
-                         GroupID = i.GroupID.ToString(),
-                         GroupName = i.Group.GroupName,
-                         SubjectID = i.SubjectID.ToString(),
-                         SubjectName = i.Subject.Name,
-                         EnrollmentDate = i.Date
-                     }).FirstOrDefaultAsync();
-            }
-            else if (paramType == enTeachingAssignmentType.GroupID) // GroupID
-            {
-                return await _dbSet.Where(i => i.GroupID == clsUtil.ToGuid(param))
-                     .Select(i => new TeachingAssignmentInfo
-                     {
-                         EnrollmentID = i.Id.ToString(),
-                         TeacherID = i.TeacherID.ToString(),
-                         TeacherName = i.Teacher.Person.FirstName + " " + i.Teacher.Person.FatherName + " " + i.Teacher.Person.LastName,
-                         GroupID = i.GroupID.ToString(),
-                         GroupName = i.Group.GroupName,
-                         SubjectID = i.SubjectID.ToString(),
-                         SubjectName = i.Subject.Name,
-                         EnrollmentDate = i.Date
-                     }).FirstOrDefaultAsync();
-            }
-            else
-            {
-             return await _dbSet.Where(i => i.SubjectID == clsUtil.ToGuid(param))
-                                 .Select(i => new TeachingAssignmentInfo
-                                 {
-                                     EnrollmentID = i.Id.ToString(),
-                                     TeacherID = i.TeacherID.ToString(),
-                                     TeacherName = i.Teacher.Person.FirstName + " " + i.Teacher.Person.FatherName + " " + i.Teacher.Person.LastName,
-                                     GroupID = i.GroupID.ToString(),
-                                     GroupName = i.Group.GroupName,
-                                     SubjectID = i.SubjectID.ToString(),
-                                     SubjectName = i.Subject.Name,
-                                     EnrollmentDate = i.Date
-                                 }).FirstOrDefaultAsync();
-            }
+                enTeachingAssignmentType.ID => Guid.TryParse(param, out var id)
+                    ? query.Where(item => item.Id == id)
+                    : query.Where(_ => false),
+                enTeachingAssignmentType.TeacherID => Guid.TryParse(param, out var teacherID)
+                    ? query.Where(item => item.TeacherID == teacherID)
+                    : query.Where(_ => false),
+                enTeachingAssignmentType.GroupID => Guid.TryParse(param, out var groupID)
+                    ? query.Where(item => item.GroupID == groupID)
+                    : query.Where(_ => false),
+                enTeachingAssignmentType.SubjectID => Guid.TryParse(param, out var subjectID)
+                    ? query.Where(item => item.SubjectID == subjectID)
+                    : query.Where(_ => false),
+                _ => query.Where(_ => false),
+            };
+
+            return await ProjectTeachingAssignment(query)
+                .OrderByDescending(info => info.EnrollmentDate)
+                .ThenBy(info => info.TeacherName)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task<clsTeachingAssignment> GetEntityBy(string param, enTeachingAssignmentType paramType)
+        public async Task<clsTeachingAssignment?> GetEntityBy(string param, enTeachingAssignmentType paramType)
         {
-            if (paramType == enTeachingAssignmentType.ID)
+            var query = _set.ApplyTeachingAssignmentReadScope(_currentUser, _context);
+
+            query = paramType switch
             {
-                return await _dbSet.Where(i => i.Id == clsUtil.ToGuid(param))
-                   .FirstOrDefaultAsync();
-            }
-            else if (paramType == enTeachingAssignmentType.TeacherID)
-            {
-                return await _dbSet.Where(i => i.TeacherID == clsUtil.ToGuid(param))
-                    .FirstOrDefaultAsync();
-            }
-            else if (paramType == enTeachingAssignmentType.GroupID) // GroupID
-            {
-                return await _dbSet.Where(i => i.GroupID == clsUtil.ToGuid(param))
-                   .FirstOrDefaultAsync();
-            }
-            else
-            {
-                return await _dbSet.Where(i => i.SubjectID == clsUtil.ToGuid(param))
-                                    .FirstOrDefaultAsync();
-            }
+                enTeachingAssignmentType.ID => Guid.TryParse(param, out var id)
+                    ? query.Where(item => item.Id == id)
+                    : query.Where(_ => false),
+                enTeachingAssignmentType.TeacherID => Guid.TryParse(param, out var teacherID)
+                    ? query.Where(item => item.TeacherID == teacherID)
+                    : query.Where(_ => false),
+                enTeachingAssignmentType.GroupID => Guid.TryParse(param, out var groupID)
+                    ? query.Where(item => item.GroupID == groupID)
+                    : query.Where(_ => false),
+                enTeachingAssignmentType.SubjectID => Guid.TryParse(param, out var subjectID)
+                    ? query.Where(item => item.SubjectID == subjectID)
+                    : query.Where(_ => false),
+                _ => query.Where(_ => false),
+            };
+
+            return await query.FirstOrDefaultAsync();
         }
 
         public async Task<List<TeachingAssignmentInfo>> GetList()
         {
-            return await _dbSet.Where(i => i.DeletedAt == null)
-               .Select(i => new TeachingAssignmentInfo
-               {
-                   EnrollmentID = i.Id.ToString(),
-                   TeacherID = i.TeacherID.ToString(),
-                   TeacherName = i.Teacher.Person.FirstName + " " + i.Teacher.Person.FatherName + " " + i.Teacher.Person.LastName,
-                   GroupID = i.GroupID.ToString(),
-                   GroupName = i.Group.GroupName,
-                   SubjectID = i.SubjectID.ToString(),
-                   SubjectName = i.Subject.Name,
-                   EnrollmentDate = i.Date
-               }).ToListAsync();
+            var query = _set.AsNoTracking()
+                .ApplyTeachingAssignmentReadScope(_currentUser, _context);
+
+            return await ProjectTeachingAssignment(query).ToListAsync();
         }
 
-        public async Task<Paging<TeachingAssignmentInfo>> GetListFilter(GetAllTeachingAssignmentQuery requset)
+        public async Task<Paging<TeachingAssignmentInfo>> GetListFilter(GetAllTeachingAssignmentQuery request)
         {
-            return await _dbSet.Where(i => i.DeletedAt == null)
-                   .Select(i => new TeachingAssignmentInfo
-                   {
-                       EnrollmentID = i.Id.ToString(),
-                       TeacherID = i.TeacherID.ToString(),
-                       TeacherName = i.Teacher.Person.FirstName + " " + i.Teacher.Person.FatherName + " " + i.Teacher.Person.LastName,
-                       GroupID = i.GroupID.ToString(),
-                       GroupName = i.Group.GroupName,
-                       SubjectID = i.SubjectID.ToString(),
-                       SubjectName = i.Subject.Name,
-                       EnrollmentDate = i.Date
-                   }).GridifyAsync(requset);
+            request.Page = Math.Max(1, request.Page);
+            request.PageSize = Math.Clamp(request.PageSize, 1, 100);
+
+            var query = _set.AsNoTracking()
+                .ApplyTeachingAssignmentReadScope(_currentUser, _context);
+
+            return await ProjectTeachingAssignment(query)
+                .GridifyAsync(request, TeachingAssignmentFilterMapper);
         }
 
-        public async Task<Paging<TeacherGroupInfo>> GetTeacherGroups(GetTeacherGroupsQuery requset,string TeacherID)
+        public async Task<Paging<TeacherGroupInfo>> GetTeacherGroups(GetTeacherGroupsQuery request)
         {
-            return await _dbSet.Where(i => i.DeletedAt == null&& i.TeacherID == clsUtil.ToGuid( TeacherID))
-               .Select(i => new TeacherGroupInfo
-               {
-                   EnrollmentID = i.Id.ToString(),
-                   TeacherID = i.TeacherID.ToString(),
-                   TeacherName = i.Teacher.Person.FirstName + " " + i.Teacher.Person.FatherName + " " + i.Teacher.Person.LastName,
-                   GroupID = i.GroupID.ToString(),
-                   GroupName = i.Group.GroupName,
-                   SubjectID = i.SubjectID.ToString(),
-                   SubjectName = i.Subject.Name,
-                   EnrollmentDate = i.Date,
-                   CalssName = i.Group.InstituteClass.Class.Name,
-                   ClassLevel = i.Group.InstituteClass.Class.Level,
+            request.Page = Math.Max(1, request.Page);
+            request.PageSize = Math.Clamp(request.PageSize, 1, 100);
 
-               }).GridifyAsync(requset);
+            var query = _set.AsNoTracking()
+                .ApplyTeachingAssignmentReadScope(_currentUser, _context);
+
+            return await ProjectTeacherGroup(query)
+                .GridifyAsync(request, TeacherGroupFilterMapper);
         }
 
         public async Task<bool> IsExistBy(string param, enTeachingAssignmentType paramType)
         {
-            if (paramType == enTeachingAssignmentType.ID)
+            var query = _set.AsNoTracking()
+                .ApplyTeachingAssignmentReadScope(_currentUser, _context);
+
+            return paramType switch
             {
-                return await _dbSet.AnyAsync(i => i.Id == clsUtil.ToGuid(param));
-                  
-            }
-            else if (paramType == enTeachingAssignmentType.TeacherID)
-            {
-                return await _dbSet.AnyAsync(i => i.TeacherID == clsUtil.ToGuid(param))
-                    ;
-            }
-            else if (paramType == enTeachingAssignmentType.GroupID) // GroupID
-            {
-                return await _dbSet.AnyAsync(i => i.GroupID == clsUtil.ToGuid(param))
-                  ;
-            }
-            else
-            {
-                return await _dbSet.AnyAsync(i => i.SubjectID == clsUtil.ToGuid(param))
-                                    ;
-            }
+                enTeachingAssignmentType.ID => Guid.TryParse(param, out var id) &&
+                    await query.AnyAsync(item => item.Id == id),
+                enTeachingAssignmentType.TeacherID => Guid.TryParse(param, out var teacherID) &&
+                    await query.AnyAsync(item => item.TeacherID == teacherID),
+                enTeachingAssignmentType.GroupID => Guid.TryParse(param, out var groupID) &&
+                    await query.AnyAsync(item => item.GroupID == groupID),
+                enTeachingAssignmentType.SubjectID => Guid.TryParse(param, out var subjectID) &&
+                    await query.AnyAsync(item => item.SubjectID == subjectID),
+                _ => false,
+            };
         }
 
-        public async Task<bool> IsTeacherEnrolled(string teachetID, string groupID, string subjectID)
+        public async Task<bool> IsTeacherEnrolled(
+            string teacherID,
+            string groupID,
+            string subjectID,
+            string? excludeTeachingAssignmentID = null)
         {
-            return await _dbSet.AnyAsync(i => i.Id == clsUtil.ToGuid(teachetID) && i.GroupID == clsUtil.ToGuid(groupID)
-            && i.SubjectID == clsUtil.ToGuid(subjectID));
+            if (!Guid.TryParse(teacherID, out var teacherGuid) ||
+                !Guid.TryParse(groupID, out var groupGuid) ||
+                !Guid.TryParse(subjectID, out var subjectGuid))
+                return false;
+
+            var query = _set.AsNoTracking()
+                .ApplyTeachingAssignmentReadScope(_currentUser, _context)
+                .Where(item =>
+                    item.TeacherID == teacherGuid &&
+                    item.GroupID == groupGuid &&
+                    item.SubjectID == subjectGuid);
+
+            if (Guid.TryParse(excludeTeachingAssignmentID, out var excludedID))
+                query = query.Where(item => item.Id != excludedID);
+
+            return await query.AnyAsync();
         }
 
-        public async Task<bool> Update(clsTeachingAssignment entity)
+        public Task<bool> Update(clsTeachingAssignment entity)
         {
-            _dbSet.Update(entity);
-            return true;
+            _set.Update(entity);
+            return Task.FromResult(true);
+        }
+
+        private static IQueryable<TeachingAssignmentInfo> ProjectTeachingAssignment(
+            IQueryable<clsTeachingAssignment> query)
+        {
+            return query.Select(item => new TeachingAssignmentInfo
+            {
+                EnrollmentID = item.Id.ToString(),
+                TeacherID = item.TeacherID.ToString(),
+                TeacherName = item.Teacher.Person.FirstName + " " +
+                              item.Teacher.Person.FatherName + " " +
+                              item.Teacher.Person.LastName,
+                GroupID = item.GroupID.ToString(),
+                GroupName = item.Group.GroupName,
+                SubjectID = item.SubjectID.ToString(),
+                SubjectName = item.Subject.Name,
+                EnrollmentDate = item.Date,
+            });
+        }
+
+        private static IQueryable<TeacherGroupInfo> ProjectTeacherGroup(
+            IQueryable<clsTeachingAssignment> query)
+        {
+            return query.Select(item => new TeacherGroupInfo
+            {
+                EnrollmentID = item.Id.ToString(),
+                TeacherID = item.TeacherID.ToString(),
+                TeacherName = item.Teacher.Person.FirstName + " " +
+                              item.Teacher.Person.FatherName + " " +
+                              item.Teacher.Person.LastName,
+                GroupID = item.GroupID.ToString(),
+                GroupName = item.Group.GroupName,
+                SubjectID = item.SubjectID.ToString(),
+                SubjectName = item.Subject.Name,
+                ClassName = item.Group.InstituteClass.Class.Name,
+                ClassLevel = item.Group.InstituteClass.Class.Level,
+                EnrollmentDate = item.Date,
+            });
         }
     }
 }

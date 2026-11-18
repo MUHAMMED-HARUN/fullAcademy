@@ -4,18 +4,18 @@ namespace System.Application.Services.Finance.FeeStructure.DTO
 {
     public class FeeStructureInfo
     {
-        public string FeeStructureID { get; set; }
-        public string Name { get; set; }
+        public string FeeStructureID { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
         public enFeeType FeeType { get; set; }
         public decimal Amount { get; set; }
-        public string? ProgramID { get; set; }
-        public string? ProgramName { get; set; }
-        public string? ClassID { get; set; }
-        public string? ClassName { get; set; }
-        public string? StageID { get; set; }
-        public string? StageName { get; set; }
-        public string? StageInfoID { get; set; }
-        public string? StageInfoName { get; set; }
+        public string AcademicPlanID { get; set; } = string.Empty;
+        public string AcademicPlanName { get; set; } = string.Empty;
+        public int AcademicPlanVersion { get; set; }
+        public string ProviderInstituteName { get; set; } = string.Empty;
+        public string ScopeName { get; set; } = string.Empty;
+        public int PlanStatus { get; set; }
+        public bool HasInvoices { get; set; }
+        public bool IsUsed { get; set; }
         public string? Notes { get; set; }
     }
 }

@@ -1,12 +1,14 @@
 ﻿using Gridify;
 using Gridify.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using System.Application.Abstractions.Auth;
 using System.Application.Abstractions.Person;
 using System.Application.Common;
 using System.Application.Services.Person.Person.DTO;
 using System.Application.Services.Person.Person.Query;
 using System.Domain.Entities.Person;
 using System.Domain.Enums.Person;
+using System.Infrastructure.Extensions.Security;
 using System.Infrastructure.Persistence;
 
 namespace System.Infrastructure.Repositories.Person
@@ -22,11 +24,13 @@ namespace System.Infrastructure.Repositories.Person
 
         private readonly AppDbContext _context;
         private readonly DbSet<clsPerson> _dbSet;
+        private readonly ICurrentUserService _currentUser;
 
-        public PersonService(AppDbContext appDbContext )
+        public PersonService(AppDbContext appDbContext, ICurrentUserService currentUser)
         {
          _context = appDbContext;
             _dbSet = _context.Set<clsPerson>();
+            _currentUser = currentUser;
         }
 
         public async Task<string> Add(clsPerson entity)
@@ -37,7 +41,8 @@ namespace System.Infrastructure.Repositories.Person
 
         public async Task<PersonInfo> GetBy(string param, enPersonParamType paramType)
         {
-            var people = _dbSet.Where(person => person.DeletedBy == null);
+            var people = _dbSet.Where(person => person.DeletedBy == null)
+                .ApplyPersonReadScope(_currentUser, _context);
             if (paramType == enPersonParamType.ID)
                 people = people.Where(person => person.Id == clsUtil.ToGuid(param));
             else if (paramType == enPersonParamType.NationalNumber)
@@ -53,6 +58,7 @@ namespace System.Infrastructure.Repositories.Person
             return await _dbSet
                 .AsNoTracking()
                 .Where(person => person.Id == personID && person.DeletedBy == null)
+                .ApplyPersonReadScope(_currentUser, _context)
                 .Select(person => new PersonForUpsertDto
                 {
                     PersonID = person.Id.ToString(),
@@ -87,7 +93,8 @@ namespace System.Infrastructure.Repositories.Person
 
         public async Task<clsPerson> GetEntityBy(string param, enPersonParamType paramType)
         {
-            var people = _dbSet.Where(person => person.DeletedBy == null);
+            var people = _dbSet.Where(person => person.DeletedBy == null)
+                .ApplyPersonReadScope(_currentUser, _context);
             if (paramType == enPersonParamType.ID)
                 people = people.Where(person => person.Id == clsUtil.ToGuid(param));
             else if (paramType == enPersonParamType.NationalNumber)
@@ -127,7 +134,8 @@ namespace System.Infrastructure.Repositories.Person
 
         public async Task<List<PersonInfo>> GetList()
         {
-            return await ProjectPersonInfo(_dbSet.Where(person => person.DeletedBy == null))
+            return await ProjectPersonInfo(_dbSet.Where(person => person.DeletedBy == null)
+                .ApplyPersonReadScope(_currentUser, _context))
                 .ToListAsync();
         }
 
@@ -136,7 +144,8 @@ namespace System.Infrastructure.Repositories.Person
             request.Page = Math.Max(1, request.Page);
             request.PageSize = Math.Clamp(request.PageSize, 1, 100);
 
-            return await ProjectPersonInfo(_dbSet.Where(person => person.DeletedBy == null))
+            return await ProjectPersonInfo(_dbSet.Where(person => person.DeletedBy == null)
+                .ApplyPersonReadScope(_currentUser, _context))
                 .GridifyAsync(request, PersonFilterMapper);
         }
 

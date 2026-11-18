@@ -29,7 +29,7 @@ namespace System.Application.Services.Authentication.Register.Command
         }
         public async Task<TResult<string>> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            var entityExists = request.UserType switch
+                var entityExists = request.UserType switch
             {
                 enUserType.Admin =>
                     await _personRepository.GetEntityBy(request.EntityID, enPersonParamType.ID) is not null,

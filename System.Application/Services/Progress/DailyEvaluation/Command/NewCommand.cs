@@ -6,10 +6,10 @@ namespace System.Application.Services.Progress.DailyEvaluation.Command
 {
     public class NewDailyEvaluationCommand : ICommand, IRequest<TResult<string>>
     {
-        public string StudentEnrollmentID { get; set; }
+        public string StudentAcademicEnrollmentID { get; set; } = string.Empty;
         public double To { get;  set; }
         public DateTime Date { get;  set; }
-        public string StageInfoID { get;  set; }
+        public string StageInfoID { get;  set; } = string.Empty;
         public enLevelType LevelType { get;  set; }
     }
 }

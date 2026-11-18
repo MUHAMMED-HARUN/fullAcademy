@@ -11,12 +11,14 @@
             />
           </th>
           <th>الطالب</th>
-          <th>الخطة</th>
+          <th>الخطة والإصدار</th>
+          <th>التسجيل / فترة الفوترة</th>
           <th>تاريخ الإصدار</th>
-          <th>تاريخ الاستحقاق</th>
+          <th>تاريخ اكتمال السداد</th>
           <th>المبلغ الأصلي</th>
           <th>الخصم</th>
           <th>المتبقي</th>
+          <th>المدفوع</th>
           <th>الحالة</th>
         </tr>
       </thead>
@@ -30,12 +32,22 @@
             />
           </td>
           <td>{{ item.studentName }}</td>
-          <td>{{ item.feeStructureName }}</td>
+          <td>
+            {{ item.academicPlanName }} (v{{ item.academicPlanVersion }}) ·
+            {{ item.feeStructureName }}
+          </td>
+          <td>
+            {{ item.studentAcademicEnrollmentID }}<br />{{
+              item.billingPeriodStart || "—"
+            }}
+            — {{ item.billingPeriodEnd || "—" }}
+          </td>
           <td>{{ item.issueDate }}</td>
-          <td>{{ item.dueDate }}</td>
+          <td>{{ item.dueDate || "—" }}</td>
           <td>{{ item.originalAmount }}</td>
           <td>{{ item.discountAmount }}</td>
           <td>{{ item.remainingAmount }}</td>
+          <td>{{ item.paidAmount }}</td>
           <td>{{ getEnumLabel(statusOptions, item.status) }}</td>
         </tr>
       </tbody>

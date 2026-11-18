@@ -1,27 +1,28 @@
 import z from "zod";
 
-export const NewStudentInvoiceSchema = z.object({
-  studentID: z.string().nonempty({ message: "الطالب مطلوب" }),
-  feeStructureID: z.string().nonempty({ message: "خطة الرسوم مطلوبة" }),
-  issueDate: z.string().nonempty({ message: "تاريخ الإصدار مطلوب" }),
-  dueDate: z.string().nonempty({ message: "تاريخ الاستحقاق مطلوب" }),
-  originalAmount: z.coerce.number({ message: "المبلغ الأصلي مطلوب" }).min(0, {
-    message: "المبلغ الأصلي يجب أن يكون أكبر من أو يساوي 0",
-  }),
-  discountAmount: z.coerce.number().min(0, {
-    message: "الخصم يجب أن يكون أكبر من أو يساوي 0",
-  }),
-  notes: z.string().optional().nullable(),
+const dateOnly = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
+  message: "التاريخ غير صالح",
 });
 
+export const GenerateStudentInvoiceSchema = z
+  .object({
+    studentAcademicEnrollmentID: z
+      .string()
+      .uuid({ message: "التسجيل الأكاديمي مطلوب" }),
+    feeStructureID: z.string().uuid({ message: "التعرفة مطلوبة" }),
+    billingPeriodStart: dateOnly,
+    billingPeriodEnd: dateOnly,
+    notes: z.string().optional().nullable(),
+  })
+  .refine((data) => data.billingPeriodStart <= data.billingPeriodEnd, {
+    message: "نهاية فترة الفوترة يجب ألا تسبق بدايتها",
+    path: ["billingPeriodEnd"],
+  });
+
 export const UpdateStudentInvoiceSchema = z.object({
-  studentInvoiceID: z.string().nonempty({ message: "معرف الفاتورة مطلوب" }),
-  dueDate: z.string().nonempty({ message: "تاريخ الاستحقاق مطلوب" }),
+  studentInvoiceID: z.string().uuid({ message: "معرف الفاتورة غير صالح" }),
   discountAmount: z.coerce.number().min(0, {
     message: "الخصم يجب أن يكون أكبر من أو يساوي 0",
-  }),
-  status: z.coerce.number({ message: "الحالة مطلوبة" }).min(1, {
-    message: "الحالة مطلوبة",
   }),
   notes: z.string().optional().nullable(),
 });

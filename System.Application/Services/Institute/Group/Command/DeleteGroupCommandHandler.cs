@@ -25,7 +25,13 @@ namespace System.Application.Services.Institute.Group.Command
             if (entity == null)
                 return TResult<string>.Fail(ApplicationExMsg.GroupNotFound);
 
-            entity.SetDeleted(_currentUserService.UserId.ToString());
+            if (await _repo.HasActiveRelationships(entity.Id))
+                return TResult<string>.Fail(ApplicationExMsg.GroupHasActiveRelationships);
+
+            if (_currentUserService.UserId is not Guid userID)
+                return TResult<string>.Fail("المستخدم الحالي غير صالح");
+
+            entity.SetDeleted(userID.ToString());
             await _repo.Update(entity);
 
             return TResult<string>.OK(string.Empty);

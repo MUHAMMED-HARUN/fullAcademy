@@ -8,7 +8,7 @@ namespace System.Application.Services.Progress.DailyEvaluation.Query
 {
     public class GetDailyEvaluationByQuery : IRequest<TResult<DTO.DailyEvaluationInfo>>, IQuery
     {
-        public string Param { get; set; }
+        public string Param { get; set; } = string.Empty;
         public enDailyEvaluationParamType ParamType { get; set; }
     }
 }

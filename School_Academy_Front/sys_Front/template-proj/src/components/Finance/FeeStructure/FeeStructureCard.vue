@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="card-item">
-      <div class="item-name">اسم الخطة:</div>
+      <div class="item-name">اسم التعرفة:</div>
       <div class="item-value">{{ DataReq?.name }}</div>
     </div>
     <div class="card-item">
@@ -15,16 +15,19 @@
       <div class="item-value">{{ DataReq?.amount }}</div>
     </div>
     <div class="card-item">
-      <div class="item-name">البرنامج:</div>
-      <div class="item-value">{{ DataReq?.programName }}</div>
+      <div class="item-name">الخطة الأكاديمية:</div>
+      <div class="item-value">
+        {{ DataReq?.academicPlanName }} · إصدار
+        {{ DataReq?.academicPlanVersion }}
+      </div>
     </div>
     <div class="card-item">
-      <div class="item-name">الصف:</div>
-      <div class="item-value">{{ DataReq?.className }}</div>
+      <div class="item-name">المعهد المزوّد:</div>
+      <div class="item-value">{{ DataReq?.providerInstituteName }}</div>
     </div>
     <div class="card-item">
-      <div class="item-name">المرحلة:</div>
-      <div class="item-value">{{ DataReq?.stageName }}</div>
+      <div class="item-name">النطاق:</div>
+      <div class="item-value">{{ DataReq?.scopeName }}</div>
     </div>
     <div class="card-item">
       <div class="item-name">ملاحظات:</div>

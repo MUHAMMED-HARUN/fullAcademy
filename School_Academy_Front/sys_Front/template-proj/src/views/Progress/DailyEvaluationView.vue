@@ -1,21 +1,48 @@
 <template>
-  <div>
-    <!-- مكون الفلترة العامة -->
+  <div class="space-y-4" dir="rtl">
     <GenericFilterComp
       :fields="dailyEvaluationFilterSchema"
       @search="onFilterSearch"
       @reset="onFilterReset"
     />
+    <button
+      v-if="studentAcademicEnrollmentID && canCreateDailyEvaluation"
+      type="button"
+      class="btn btn-primary"
+      @click="onNewDailyEvaluation"
+    >
+      إضافة متابعة للاشتراك
+    </button>
 
-    <!-- قائمة التقييمات اليومية -->
+    <p
+      v-if="DailyEvaluationStore.loading"
+      class="text-sm text-[var(--text-muted)]"
+      role="status"
+    >
+      جارٍ تحميل المتابعات اليومية…
+    </p>
+    <p v-else-if="DailyEvaluationStore.error" class="alert-error" role="alert">
+      {{ DailyEvaluationStore.error }}
+    </p>
+    <p
+      v-else-if="DailyEvaluationStore.evaluations.length === 0"
+      class="rounded-lg border border-dashed border-[var(--border-color)] p-4 text-center text-[var(--text-muted)]"
+      role="status"
+    >
+      لا توجد متابعات يومية مطابقة.
+    </p>
+
     <DailyEvaluationList
-      @show-delete-daily-evaluation="OnDeleteDailyEvaluation"
-      @show-info-daily-evaluation="onShowInfoDailyEvaluation"
-      @show-update-daily-evaluation="OnUpsertDailyEvaluation"
-      :-daily-evaluations="DailyEvaluationStore.evaluations"
+      v-if="DailyEvaluationStore.evaluations.length > 0"
+      :daily-evaluations="DailyEvaluationStore.evaluations"
+      :can-read="canReadDailyEvaluation"
+      :can-update="canUpdateDailyEvaluation"
+      :can-delete="canDeleteDailyEvaluation"
+      @show-delete="onDeleteDailyEvaluation"
+      @show-info="onShowInfoDailyEvaluation"
+      @show-update="onUpsertDailyEvaluation"
     />
 
-    <!-- مكون التصفح (Pagination) -->
     <PaginationComp
       :current-page="DailyEvaluationStore.page"
       :page-size="DailyEvaluationStore.pageSize"
@@ -25,27 +52,41 @@
       @change-size="onPageSizeChange"
     />
 
-    <!-- نافذة الإضافة والتعديل -->
-    <PopapComp v-if="showUpsert" @close="onpopaClose">
+    <PopapComp v-if="showUpsert" @close="onPopupClose">
       <UpsertDailyEvaluationComp
+        :student-stage-info-data="StageInfoStore.StageInfos"
+        :last-daily-evaluation-data="DailyEvaluationStore.lastDailyEvaluation"
+        :selected-evaluation="DailyEvaluationStore.selectedEvaluation"
+        :student-name="
+          activeEnrollment?.studentName ||
+          DailyEvaluationStore.selectedEvaluation?.studentName ||
+          ''
+        "
+        :academic-plan-name="
+          activeEnrollment?.academicPlanName ||
+          DailyEvaluationStore.selectedEvaluation?.academicPlanName ||
+          ''
+        "
+        :student-academic-enrollment-id="
+          activeEnrollment?.studentAcademicEnrollmentID ||
+          DailyEvaluationStore.selectedEvaluation
+            ?.studentAcademicEnrollmentID ||
+          studentAcademicEnrollmentID
+        "
         :errors="DailyEvaluationStore.error"
-        :-student-stage-info-data="useStageInfoStore.StageInfos"
-        :-last-daily-evaluation-data="DailyEvaluationStore.selectedEvaluation"
-        @on-submit="OnSubmitUpsert"
+        :saving="
+          DailyEvaluationStore.loading ||
+          DailyEvaluationStore.lastEvaluationLoading
+        "
+        @submit="onSubmitUpsert"
+        @stage-info-change="onStageInfoChange"
       />
     </PopapComp>
 
-    <!-- نافذة عرض تفاصيل التقييم -->
-    <PopapComp v-if="showInfo" @close="onpopaClose">
-      <DailyEvaluationCard
-        :-data-req="DailyEvaluationStore.selectedEvaluation"
-      />
+    <PopapComp v-if="showInfo" @close="onPopupClose">
+      <DailyEvaluationCard :DataReq="DailyEvaluationStore.selectedEvaluation" />
     </PopapComp>
 
-    <!-- زر إضافة تقييم جديد -->
-    <button @click="showUpsert = true">إضافة تقييم يومي</button>
-
-    <!-- رسائل التنبيه والنتائج -->
     <MessageComp :is-error="resultType" :msg="resultMessage" />
   </div>
 </template>
@@ -55,14 +96,13 @@ import PopapComp from "@/components/general/popapComp.vue";
 import MessageComp from "@/components/general/messageComp.vue";
 import GenericFilterComp from "@/components/general/GenericFilterComp.vue";
 import PaginationComp from "@/components/general/PaginationComp.vue";
-
 import DailyEvaluationList from "@/components/Progress/DailyEvaluation/DailyEvaluationList.vue";
 import UpsertDailyEvaluationComp from "@/components/Progress/DailyEvaluation/UpsertDailyEvaluationComp.vue";
 import DailyEvaluationCard from "@/components/Progress/DailyEvaluation/DailyEvaluationCard.vue";
-
 import { useDailyEvaluationStore } from "@/store/Progress/DailyEvaluationStore";
 import { useStageInfoStore } from "@/store/Progress/StageInfoStore";
-import TResult from "@/Generic/TResult";
+import { useStudentAcademicEnrollmentStore } from "@/store/Enrollment/StudentAcademicEnrollmentStore";
+import { useAuthStore } from "@/store/Auth/authStore";
 
 export default {
   name: "DailyEvaluationView",
@@ -78,106 +118,208 @@ export default {
   data() {
     return {
       DailyEvaluationStore: useDailyEvaluationStore(),
-      useStageInfoStore: useStageInfoStore(),
+      StageInfoStore: useStageInfoStore(),
+      StudentAcademicEnrollmentStore: useStudentAcademicEnrollmentStore(),
+      AuthStore: useAuthStore(),
+      activeEnrollment: null,
       showUpsert: false,
       showInfo: false,
       resultMessage: null,
       resultType: false,
-
-      // مخطط الفلترة الخاص بالتقييمات اليومية المتوافق مع Gridify
       dailyEvaluationFilterSchema: [
         {
-          key: "studentName",
+          key: "StudentName",
           label: "اسم الطالب",
           type: "text",
           operator: "=*",
         },
         {
-          key: "date",
+          key: "Date",
           label: "من تاريخ التقييم",
           type: "date",
           operator: ">=",
         },
         {
-          key: "date",
-          label: "إلى تاريخ التقييم",
-          type: "date",
-          operator: "<=",
-        },
-        {
-          key: "levelType",
-          label: "التقييم",
+          key: "LevelType",
+          label: "مستوى التقييم",
           type: "select",
           options: [
-            { label: "ممتاز", value: "ممتاز" },
-            { label: "جيد جدا", value: "جيد جدا" },
-            { label: "جيد", value: "جيد" },
-            { label: "سيء", value: "سيء" },
             { label: "سيء جدا", value: "سيء جدا" },
+            { label: "سيء", value: "سيء" },
+            { label: "جيد", value: "جيد" },
+            { label: "جيد جدا", value: "جيد جدا" },
+            { label: "ممتاز", value: "ممتاز" },
           ],
         },
       ],
     };
   },
-  methods: {
-    async onPageChange(newPage) {
-      await this.DailyEvaluationStore.setPage(newPage);
+  computed: {
+    studentAcademicEnrollmentID() {
+      return String(this.$route.query.studentAcademicEnrollmentID || "");
     },
-    async onPageSizeChange(newSize) {
-      await this.DailyEvaluationStore.setPageSize(newSize);
+    canCreateDailyEvaluation() {
+      return this.AuthStore.hasPermission("Can_Create_DailyEvaluation");
+    },
+    canReadDailyEvaluation() {
+      return this.AuthStore.hasPermission("Can_Read_DailyEvaluation");
+    },
+    canUpdateDailyEvaluation() {
+      return this.AuthStore.hasPermission("Can_Update_DailyEvaluation");
+    },
+    canDeleteDailyEvaluation() {
+      return this.AuthStore.hasPermission("Can_Delete_DailyEvaluation");
+    },
+  },
+  methods: {
+    async onPageChange(page) {
+      await this.DailyEvaluationStore.setPage(page);
+    },
+    async onPageSizeChange(pageSize) {
+      await this.DailyEvaluationStore.setPageSize(pageSize);
     },
     async onFilterSearch(payload) {
       await this.DailyEvaluationStore.fetchEvaluations({
-        Filter: payload.filter,
-        OrderBy: payload.orderBy,
+        Page: 1,
+        Filter: payload.filter || "",
+        OrderBy: payload.orderBy || "",
+        StudentAcademicEnrollmentID: this.studentAcademicEnrollmentID,
       });
     },
     async onFilterReset() {
-      await this.DailyEvaluationStore.fetchDailyEvaluations();
+      await this.DailyEvaluationStore.fetchEvaluations({
+        Page: 1,
+        Filter: "",
+        OrderBy: "",
+        StudentAcademicEnrollmentID: this.studentAcademicEnrollmentID,
+      });
     },
-    async OnUpsertDailyEvaluation(e) {
-      if (e) {
-        this.DailyEvaluationStore.selectedEvaluation = e;
-        this.useStageInfoStore.getStudentStageInfo(e.studentEnrollmentID);
+    async loadEnrollmentContext(studentAcademicEnrollmentID) {
+      if (!studentAcademicEnrollmentID) {
+        this.activeEnrollment = null;
+        this.StageInfoStore.StageInfos = [];
+        return false;
       }
+      this.activeEnrollment = null;
+      this.StageInfoStore.StageInfos = [];
+      const result = await this.StudentAcademicEnrollmentStore.fetchForUpsert(
+        studentAcademicEnrollmentID
+      );
+      if (!result.success || !result.data) {
+        this.activeEnrollment = null;
+        this.resultMessage = result.errors || "تعذر تحميل الاشتراك الأكاديمي";
+        this.resultType = true;
+        return false;
+      }
+      this.activeEnrollment = result.data;
+      const stageInfoResult = await this.StageInfoStore.getStudentStageInfo(
+        studentAcademicEnrollmentID
+      );
+      if (
+        !stageInfoResult.success ||
+        this.StageInfoStore.StageInfos.length === 0
+      ) {
+        this.resultMessage = stageInfoResult.success
+          ? "لا توجد مواد مصرح بها في لقطة الاشتراك"
+          : stageInfoResult.errors;
+        this.resultType = true;
+        return false;
+      }
+      return true;
+    },
+    async onNewDailyEvaluation() {
+      const allowed = await this.loadEnrollmentContext(
+        this.studentAcademicEnrollmentID
+      );
+      if (!allowed) return;
+      this.DailyEvaluationStore.clearSelectedEvaluation();
+      this.DailyEvaluationStore.clearLastDailyEvaluation();
       this.showUpsert = true;
     },
-    async OnSubmitUpsert(e) {
-      var resVal = new TResult();
-      if (e.dailyEvaluationID) {
-        resVal = await this.DailyEvaluationStore.updateDailyEvaluation(e);
-      } else {
-        resVal.success = false;
-      }
-      if (resVal.success) {
-        this.resultMessage = "تم الحفظ";
-        this.resultType = false;
-        this.showUpsert = false;
-      } else {
-        this.resultMessage = resVal.errors;
+    async onStageInfoChange({ studentAcademicEnrollmentID, stageInfoID }) {
+      await this.DailyEvaluationStore.GetlastDailyEvaluation(
+        studentAcademicEnrollmentID,
+        stageInfoID
+      );
+    },
+    async onUpsertDailyEvaluation(evaluation) {
+      const result = await this.DailyEvaluationStore.fetchEvaluationBy({
+        Param: evaluation.dailyEvaluationID,
+        ParamType: 0,
+      });
+      if (!result.success || !this.DailyEvaluationStore.selectedEvaluation) {
+        this.resultMessage = result.errors || "تعذر تحميل بيانات المتابعة";
         this.resultType = true;
+        return;
       }
+
+      const enrollmentID =
+        this.DailyEvaluationStore.selectedEvaluation
+          .studentAcademicEnrollmentID;
+      const enrollmentLoaded = await this.loadEnrollmentContext(enrollmentID);
+      if (!enrollmentLoaded) {
+        this.DailyEvaluationStore.clearSelectedEvaluation();
+        return;
+      }
+      const hasSelectedStageInfo = this.StageInfoStore.StageInfos.some(
+        (stageInfo) =>
+          stageInfo.stageInfoID ===
+          this.DailyEvaluationStore.selectedEvaluation.stageInfoID
+      );
+      if (!hasSelectedStageInfo) {
+        this.resultMessage =
+          "تفاصيل المرحلة الخاصة بهذه المتابعة غير متاحة لهذا الاشتراك";
+        this.resultType = true;
+        this.DailyEvaluationStore.clearSelectedEvaluation();
+        return;
+      }
+
+      this.DailyEvaluationStore.clearLastDailyEvaluation();
+      this.showUpsert = true;
     },
-    async OnDeleteDailyEvaluation(e) {
-      this.DailyEvaluationStore.deleteEvaluation(e.dailyEvaluationID);
+    async onSubmitUpsert(payload) {
+      const result = payload.dailyEvaluationID
+        ? await this.DailyEvaluationStore.updateEvaluation(payload)
+        : await this.DailyEvaluationStore.addEvaluation(payload);
+
+      this.resultMessage = result.success ? "تم حفظ المتابعة" : result.errors;
+      this.resultType = !result.success;
+      if (result.success) this.onPopupClose();
     },
-    async onShowInfoDailyEvaluation(e) {
-      this.DailyEvaluationStore.selectedEvaluation =
-        this.DailyEvaluationStore.evaluations.find(
-          (i) => i.dailyEvaluationID === e.dailyEvaluationID
-        );
+    async onDeleteDailyEvaluation(evaluation) {
+      if (!window.confirm("هل أنت متأكد من حذف المتابعة اليومية؟")) return;
+      const result = await this.DailyEvaluationStore.deleteEvaluation(
+        evaluation.dailyEvaluationID
+      );
+      this.resultMessage = result.success ? "تم حذف المتابعة" : result.errors;
+      this.resultType = !result.success;
+    },
+    onShowInfoDailyEvaluation(evaluation) {
+      this.DailyEvaluationStore.selectedEvaluation = evaluation;
       this.showInfo = true;
     },
-    onpopaClose() {
+    onPopupClose() {
       this.showUpsert = false;
       this.showInfo = false;
-      this.DailyEvaluationStore.selectedEvaluation = null;
+      this.activeEnrollment = null;
+      this.DailyEvaluationStore.clearSelectedEvaluation();
+      this.DailyEvaluationStore.clearLastDailyEvaluation();
     },
   },
-  mounted() {
-    this.DailyEvaluationStore.fetchEvaluations({});
+  async mounted() {
+    await this.DailyEvaluationStore.fetchEvaluations({
+      Page: 1,
+      StudentAcademicEnrollmentID: this.studentAcademicEnrollmentID,
+    });
+  },
+  watch: {
+    studentAcademicEnrollmentID: async function (id) {
+      this.onPopupClose();
+      await this.DailyEvaluationStore.fetchEvaluations({
+        Page: 1,
+        StudentAcademicEnrollmentID: id,
+      });
+    },
   },
 };
 </script>
-
-<style scoped></style>

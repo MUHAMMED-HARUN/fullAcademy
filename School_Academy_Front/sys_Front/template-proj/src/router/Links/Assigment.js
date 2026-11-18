@@ -11,6 +11,7 @@ export const AssigmentsLinks = [
     component: AssignmentScopeView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_AssignmentScope",
     },
   },
   {
@@ -19,6 +20,7 @@ export const AssigmentsLinks = [
     component: AssignmentView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_Assignment",
     },
   },
   {
@@ -27,6 +29,7 @@ export const AssigmentsLinks = [
     component: AssignmentScopeInfoView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_AssignmentScopeInfo",
     },
   },
   {
@@ -35,6 +38,7 @@ export const AssigmentsLinks = [
     component: AssignmentNominationView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_AssignmentNomination",
     },
   },
   {
@@ -43,6 +47,7 @@ export const AssigmentsLinks = [
     component: ResultView,
     meta: {
       requiresAuth: true,
+      requiredPermission: "Can_Read_Result",
     },
   },
 ];

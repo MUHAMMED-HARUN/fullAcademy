@@ -12,7 +12,7 @@
           :id="`${listboxId}-type`"
           v-model="filterType"
           class="form-select"
-          :disabled="loading"
+          :disabled="loading || disabled"
         >
           <option
             v-for="type in filterTypes"
@@ -44,7 +44,7 @@
             :aria-expanded="showPopup"
             :aria-controls="listboxId"
             :aria-activedescendant="activeOptionId || undefined"
-            :disabled="loading"
+            :disabled="loading || disabled"
             @keydown="onInputKeydown"
           />
         </div>
@@ -52,7 +52,9 @@
         <button
           type="button"
           class="btn btn-primary min-w-24 self-end"
-          :disabled="loading || (!query.trim() && !hasInitialSuggestions)"
+          :disabled="
+            disabled || loading || (!query.trim() && !hasInitialSuggestions)
+          "
           :aria-busy="loading"
           @click="onSearch"
         >
@@ -88,6 +90,7 @@
         type="button"
         class="btn btn-sm btn-outline-danger shrink-0"
         aria-label="مسح الاختيار"
+        :disabled="disabled"
         @click="clearSelection"
       >
         مسح
@@ -156,6 +159,7 @@ const props = defineProps({
   nameField: { type: String, default: "name" },
   placeholder: { type: String, default: "أدخل قيمة البحث" },
   loading: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
   error: { type: [String, Array, Object], default: null },
   emptyMessage: { type: String, default: "لا توجد نتائج مطابقة" },
   initialSuggestions: { type: Boolean, default: false },

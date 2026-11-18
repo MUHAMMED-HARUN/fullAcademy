@@ -27,6 +27,8 @@ using System.Infrastructure.Repositories.Attendance;
 using System.Application.Abstractions.Finance;
 using System.Infrastructure.Repositories.Finance;
 using System.Application.Abstractions;
+using System.Application.Abstractions.AcademicPlan;
+using System.Infrastructure.Repositories.AcademicPlan;
 
 namespace System.Infrastructure
 {
@@ -79,6 +81,7 @@ namespace System.Infrastructure
                 services.AddScoped<IInstituteClassRepository, InstituteClassService>();
                 services.AddScoped<IGroupRepository, GroupService>();
                 services.AddScoped<IStudentEnrollmentRepository, StudentEnrollmentService>();
+                services.AddScoped<IStudentAcademicEnrollmentRepository, StudentAcademicEnrollmentService>();
                 services.AddScoped<ITeachingAssignmentRepository, TeachingAssignmentService>();
                 // Progress Service
                 services.AddScoped<ISessionRepository, SessionService>();
@@ -97,6 +100,9 @@ namespace System.Infrastructure
 
                 // Attendance Service 
                 services.AddScoped<IAttendanceRepository, AttendanceService>();
+
+                // AcademicPlan Service
+                services.AddScoped<IAcademicPlanRepository, AcademicPlanService>();
 
                 // Finance Service
                 services.AddScoped<IFeeStructureRepository, FeeStructureService>();

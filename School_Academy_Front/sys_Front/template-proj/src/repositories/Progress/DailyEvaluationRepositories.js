@@ -44,11 +44,11 @@ class DailyEvaluationRepositories {
     return response;
   }
 
-  async GetlastDailyEvaluation(StudentEnrollmentID, StageInfoID) {
+  async GetlastDailyEvaluation(StudentAcademicEnrollmentID, StageInfoID) {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/GetlastDailyEvaluation`,
       enApiType.get,
-      { params: { StudentEnrollmentID, StageInfoID } },
+      { params: { StudentAcademicEnrollmentID, StageInfoID } },
       "خطأ في الخادم أثناء جلب بيانات التقييم"
     );
     return response;
@@ -68,7 +68,7 @@ class DailyEvaluationRepositories {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/IsExistDailyEvaluationBy`,
       enApiType.get,
-      param,
+      { params: param },
       "خطأ في الخادم أثناء فحص وجود التقييم"
     );
     return response;

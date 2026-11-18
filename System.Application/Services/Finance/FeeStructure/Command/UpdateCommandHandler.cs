@@ -30,6 +30,12 @@ namespace System.Application.Services.Finance.FeeStructure.Command
             if (entity == null)
                 return TResult<string>.Fail(ApplicationExMsg.NotFound);
 
+            if (await _repo.HasInvoices(entity.Id))
+                return TResult<string>.Fail(ApplicationExMsg.FeeStructureUsedCannotUpdate);
+
+            if (!Guid.TryParse(request.AcademicPlanID, out var academicPlanID) || !await _repo.IsAcademicPlanActive(academicPlanID))
+                return TResult<string>.Fail("Only an active academic plan can be priced.");
+
             if (await _repo.IsExistBy(request.Name, enFeeStructureParamType.Name)
                 && entity.Name != request.Name)
                 return TResult<string>.Fail(ApplicationExMsg.FeeStructureExistByName);

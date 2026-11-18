@@ -11,7 +11,7 @@ namespace System.Application.Services.Progress.StudentStage.Mapper
         {
             CreateMap<NewStudentStageCommand, clsStudentStage>()
                   .ConstructUsing(src => new clsStudentStage(src.StudentStageState,
-                  clsUtil.ToGuid(src.EnrollmentStudentID), clsUtil.ToGuid(src.StageID)
+                  clsUtil.ToGuid(src.StudentAcademicEnrollmentID), clsUtil.ToGuid(src.StageID)
                   , src.StudentStageDate)
                   );
 
@@ -20,10 +20,7 @@ namespace System.Application.Services.Progress.StudentStage.Mapper
             UpdateMap
                 .AfterMap((src, dest) =>
             {
-                dest.SetID(clsUtil.ToGuid(src.StudentStageID));
-                dest.SetEnrollmentStudentID(clsUtil.ToGuid(src.EnrollmentStudentID));
-                dest.SetStageID(clsUtil.ToGuid(src.StageID));
-                dest.SetDate(src.StudentStageDate);
+                dest.SetState(src.StudentStageState);
                 dest.SetDate(src.StudentStageDate);
             }
                 );

@@ -17,9 +17,10 @@ namespace System.Application.Services.Enrollment.TeachingAssignment.Query
 
         public async Task<TResult<TeachingAssignmentInfo>> Handle(GetTeachingAssignmentByQuery request, CancellationToken cancellationToken)
         {
-            TeachingAssignmentInfo info = await _repo.GetBy(request.Param, request.ParamType);
+            TeachingAssignmentInfo? info = await _repo.GetBy(request.Param, request.ParamType);
             if (info == null)
-                return TResult<TeachingAssignmentInfo>.Fail(ApplicationExMsg.TeachingAssignmentNotFound);
+                return TResult<TeachingAssignmentInfo>.Fail(
+                    ApplicationExMsg.TeachingAssignmentNotFound ?? "Teaching assignment not found");
 
             return TResult<TeachingAssignmentInfo>.OK(info);
         }

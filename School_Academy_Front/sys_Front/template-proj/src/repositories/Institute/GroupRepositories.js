@@ -32,12 +32,11 @@ class GroupRepositories {
     return response;
   }
 
-  async GetGroupsByTeacherID(param) {
-    console.log("param", param);
+  async getMyTeachingGroups(params) {
     const response = await clsUtil.FeachRequset(
-      `${baseUrl}/GetGroupsByTeacherID`,
+      `${baseUrl}/GetMyTeachingGroups`,
       enApiType.get,
-      { params: param },
+      { params },
       "خطأ في الخادم أثناء جلب قائمة المجموعة"
     );
     return response;

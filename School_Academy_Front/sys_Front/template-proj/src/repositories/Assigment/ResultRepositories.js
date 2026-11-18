@@ -22,11 +22,11 @@ class ResultRepositories {
     return response;
   }
 
-  async getList() {
+  async getList(params = {}) {
     const response = await clsUtil.FeachRequset(
-      `${baseUrl}/GetResultList`,
+      `${baseUrl}/GetResultListFilter`,
       enApiType.get,
-      null,
+      { params },
       "خطأ في الخادم أثناء جلب قائمة التسجيل"
     );
     return response;
@@ -42,22 +42,21 @@ class ResultRepositories {
     return response;
   }
 
+  async getForUpsert(resultID) {
+    return await clsUtil.FeachRequset(
+      `${baseUrl}/GetResultForUpsert`,
+      enApiType.get,
+      { params: { ResultID: resultID } },
+      "تعذر تحميل النتيجة للتعديل"
+    );
+  }
+
   async Delete(param) {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/DeleteResult`,
       enApiType.delete,
       param,
       "خطأ في الخادم أثناء حذف التسجيل"
-    );
-    return response;
-  }
-
-  async IsExistBy(param) {
-    const response = await clsUtil.FeachRequset(
-      `${baseUrl}/IsExistResultBy`,
-      enApiType.get,
-      param,
-      "خطأ في الخادم أثناء جلب بيانات التسجيل"
     );
     return response;
   }

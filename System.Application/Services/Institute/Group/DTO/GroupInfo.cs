@@ -8,5 +8,6 @@ namespace System.Application.Services.Institute.Group.DTO
         public string InstituteClassID { get; set; }
         public string ClassName { get; set; }
         public string InstituteName { get; set; }
+        public bool HasActiveRelationships { get; set; }
     }
 }

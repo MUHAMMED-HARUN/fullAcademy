@@ -17,34 +17,13 @@ namespace System.Infrastructure.Configurations.Finance
             builder.Property(x => x.FeeType).IsRequired();
             builder.Property(x => x.Amount).IsRequired().HasColumnType("decimal(18,2)");
             builder.Property(x => x.Notes).IsRequired(false);
-
-            // Optional FK: ProgramID
-            builder.HasOne(x => x.Program)
+            builder.Property(x => x.AcademicPlanID).IsRequired();
+            builder.HasIndex(x => new { x.AcademicPlanID, x.FeeType });
+            builder.HasOne(x => x.AcademicPlan)
                    .WithMany()
-                   .HasForeignKey(x => x.ProgramID)
+                   .HasForeignKey(x => x.AcademicPlanID)
                    .OnDelete(DeleteBehavior.NoAction)
-                   .IsRequired(false);
-
-            // Optional FK: ClassID
-            builder.HasOne(x => x.Class)
-                   .WithMany()
-                   .HasForeignKey(x => x.ClassID)
-                   .OnDelete(DeleteBehavior.NoAction)
-                   .IsRequired(false);
-
-            // Optional FK: StageID
-            builder.HasOne(x => x.Stage)
-                   .WithMany()
-                   .HasForeignKey(x => x.StageID)
-                   .OnDelete(DeleteBehavior.NoAction)
-                   .IsRequired(false);
-
-            // Optional FK: StageInfoID
-            builder.HasOne(x => x.StageInfo)
-                   .WithMany()
-                   .HasForeignKey(x => x.StageInfoID)
-                   .OnDelete(DeleteBehavior.NoAction)
-                   .IsRequired(false);
+                   .IsRequired();
         }
     }
 }

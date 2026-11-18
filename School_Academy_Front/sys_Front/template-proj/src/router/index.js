@@ -9,6 +9,8 @@ import { EnrollmentLinks } from "./Links/EnrollmentLinks.js";
 import { ProgressLinks } from "./Links/Progress.js";
 import { AssigmentsLinks } from "./Links/Assigment.js";
 import { FinanceLinks } from "./Links/FinanceLinks.js";
+import { AcademicPlanLinks } from "./Links/AcademicPlanLinks.js";
+import { StudentAcademicEnrollmentLinks } from "./Links/StudentAcademicEnrollmentLinks.js";
 const routes = [
   {
     path: "/",
@@ -23,6 +25,8 @@ const routes = [
   ...ProgressLinks,
   ...AssigmentsLinks,
   ...FinanceLinks,
+  ...AcademicPlanLinks,
+  ...StudentAcademicEnrollmentLinks,
 ];
 
 const router = createRouter({

@@ -1,8 +1,22 @@
 export default class StudentEnrollmentMapper {
-  static mapUpsertToApi(dataSchema) {
+  static mapCreateToApi(dataSchema) {
     return {
-      EnrollmentID: dataSchema.enrollmentID,
-      StudentID: dataSchema.studentID,
+      StudentAcademicEnrollmentID: dataSchema.studentAcademicEnrollmentID,
+      GroupID: dataSchema.groupID,
+      Date: dataSchema.date,
+    };
+  }
+
+  static mapUpdateToApi(dataSchema) {
+    return {
+      EnrollmentID: dataSchema.groupEnrollmentID,
+      Date: dataSchema.date,
+    };
+  }
+
+  static mapRangeToApi(dataSchema) {
+    return {
+      StudentAcademicEnrollmentIDs: dataSchema.studentAcademicEnrollmentIDs,
       GroupID: dataSchema.groupID,
       Date: dataSchema.date,
     };
@@ -12,6 +26,9 @@ export default class StudentEnrollmentMapper {
     if (!DataReq) return null;
     return {
       enrollmentID: DataReq.EnrollmentID,
+      groupEnrollmentID: DataReq.EnrollmentID,
+      studentAcademicEnrollmentID: DataReq.StudentAcademicEnrollmentID,
+      academicPlanName: DataReq.AcademicPlanName,
       studentID: DataReq.StudentID,
       studentName: DataReq.StudentName,
       groupID: DataReq.GroupID,
@@ -31,6 +48,9 @@ export default class StudentEnrollmentMapper {
     return items.map((list) => {
       return {
         enrollmentID: list.EnrollmentID,
+        groupEnrollmentID: list.EnrollmentID,
+        studentAcademicEnrollmentID: list.StudentAcademicEnrollmentID,
+        academicPlanName: list.AcademicPlanName,
         studentID: list.StudentID,
         studentName: list.StudentName,
         groupID: list.GroupID,

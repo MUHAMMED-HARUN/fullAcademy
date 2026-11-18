@@ -9,7 +9,7 @@ namespace System.Application.Services.Progress.StageInfo.Query
 {
     public class GetStageInfoByQuery : IRequest<TResult<StageInfoInfo>>, IQuery
     {
-        public string Param { get; set; }
+        public string Param { get; set; } = string.Empty;
         public enStageInfoParamType ParamType { get; set; }
     }
 }

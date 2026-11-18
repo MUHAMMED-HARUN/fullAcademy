@@ -27,21 +27,29 @@ namespace System.Application.Services.Enrollment.StudentEnrollment.Command
             if (string.IsNullOrWhiteSpace(request.GroupID))
                 return TResult<List<string>>.Fail("GroupID is required");
 
-            if (request.StudentIDs == null || request.StudentIDs.Count == 0)
-                return TResult<List<string>>.Fail("StudentIDs is required");
+            if (request.StudentAcademicEnrollmentIDs == null || request.StudentAcademicEnrollmentIDs.Count == 0)
+                return TResult<List<string>>.Fail("StudentAcademicEnrollmentIDs is required");
 
             var enrolledIds = new List<string>();
-            var userId = _currentUserService.UserId.ToString();
+            if (_currentUserService.UserId is not Guid userID)
+                return TResult<List<string>>.Fail("المستخدم الحالي غير صالح");
 
-            foreach (var studentID in request.StudentIDs.Distinct())
+            var userId = userID.ToString();
+            var groupID = clsUtil.ToGuid(request.GroupID);
+            var date = request.Date == default ? DateOnly.FromDateTime(DateTime.Now) : request.Date;
+            foreach (var academicEnrollmentValue in request.StudentAcademicEnrollmentIDs.Distinct())
             {
-                if (await _repo.IsStudentEnrolled(studentID, request.GroupID))
+                if (!Guid.TryParse(academicEnrollmentValue, out var academicEnrollmentID) || academicEnrollmentID == Guid.Empty)
+                    continue;
+                var enrollmentContext = await _repo.GetEligibleAcademicEnrollmentForGroup(academicEnrollmentID, groupID, date);
+                if (enrollmentContext == null || await _repo.IsAcademicEnrollmentAlreadyInGroup(academicEnrollmentID, groupID))
                     continue;
 
                 var entity = new clsStudentEnrollment(
-                    clsUtil.ToGuid(studentID),
-                    clsUtil.ToGuid(request.GroupID),
-                    request.Date == default ? DateOnly.FromDateTime(DateTime.Now) : request.Date
+                    clsUtil.ToGuid(enrollmentContext.StudentID),
+                    groupID,
+                    academicEnrollmentID,
+                    date
                 );
                 entity.SetCreated(userId);
 

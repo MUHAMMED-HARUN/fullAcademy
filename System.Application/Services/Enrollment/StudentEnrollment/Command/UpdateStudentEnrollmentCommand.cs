@@ -7,9 +7,7 @@ namespace System.Application.Services.Enrollment.StudentEnrollment.Command
 {
     public class UpdateStudentEnrollmentCommand : ICommand, IRequest<TResult<string>>
     {
-        public string EnrollmentID { get; set; }
-        public string StudentID { get; set; }
-        public string GroupID { get; set; }
+        public string EnrollmentID { get; set; } = string.Empty;
         public DateOnly Date { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Application.Services.Progress.StudentStage.Query;
 using System.Application.Services.Progress.StudentStage.Command;
@@ -8,6 +9,7 @@ namespace School_Academy.Controllers.Progress
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class StudentStageController : ControllerBase
     {
 
@@ -17,6 +19,7 @@ namespace School_Academy.Controllers.Progress
             _mediator = mediator;
         }
         [HttpPost("NewStudentStage")]
+        [Authorize(Policy = "Can_Create_StudentStage")]
         public async Task<IActionResult> Add([FromBody] NewStudentStageCommand command)
         {
             var result = await _mediator.Send(command);
@@ -30,6 +33,7 @@ namespace School_Academy.Controllers.Progress
         }
 
         [HttpPut("UpdateStudentStage")]
+        [Authorize(Policy = "Can_Update_StudentStage")]
         public async Task<IActionResult> Update([FromBody] UpdateStudentStageCommand command)
         {
             var result = await _mediator.Send(command);
@@ -43,6 +47,7 @@ namespace School_Academy.Controllers.Progress
         }
 
         [HttpDelete("DeleteStudentStage")]
+        [Authorize(Policy = "Can_Delete_StudentStage")]
         public async Task<IActionResult> Delete([FromBody] DeleteStudentStageCommand command)
         {
             var result = await _mediator.Send(command);
@@ -55,10 +60,10 @@ namespace School_Academy.Controllers.Progress
             return Ok(result);
         }
 
-        [HttpGet("GetStudentStageList")]
-        public async Task<IActionResult> GetList()
+        [HttpGet("GetStudentStageListFilter")]
+        [Authorize(Policy = "Can_Read_StudentStage")]
+        public async Task<IActionResult> GetListFilter([FromQuery] GetAllStudentStageQuery query)
         {
-            var query = new GetAllStudentStageQuery();
             var result = await _mediator.Send(query);
 
             if (!result.IsSuccess)
@@ -70,6 +75,7 @@ namespace School_Academy.Controllers.Progress
         }
 
         [HttpGet("GetStudentStageBy")]
+        [Authorize(Policy = "Can_Read_StudentStage")]
         public async Task<IActionResult> GetBy([FromQuery]GetStudentStageByQuery query )
         {
                    
@@ -83,6 +89,7 @@ namespace School_Academy.Controllers.Progress
             return Ok(result);
         }
         [HttpGet("IsExistStudentStageeBy")]
+        [Authorize(Policy = "Can_Read_StudentStage")]
         public async Task<IActionResult> IsExistBy(IsExistStudentStageByQuery query)
         {
 

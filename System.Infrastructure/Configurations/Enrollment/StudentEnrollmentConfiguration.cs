@@ -15,6 +15,7 @@ namespace System.Infrastructure.Configurations.Enrollment
 
             builder.Property(x => x.StudentID).IsRequired();
             builder.Property(x => x.GroupID).IsRequired();
+            builder.Property(x => x.StudentAcademicEnrollmentID).IsRequired();
             builder.Property(x => x.Date).IsRequired();
 
             builder.HasOne(x => x.Student)
@@ -25,6 +26,11 @@ namespace System.Infrastructure.Configurations.Enrollment
             builder.HasOne(x => x.Group)
                    .WithMany()
                    .HasForeignKey(x => x.GroupID)
+                   .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(x => x.StudentAcademicEnrollment)
+                   .WithMany(x => x.GroupEnrollments)
+                   .HasForeignKey(x => x.StudentAcademicEnrollmentID)
                    .OnDelete(DeleteBehavior.NoAction);
         }
     }

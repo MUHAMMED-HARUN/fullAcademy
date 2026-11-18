@@ -4,6 +4,11 @@ import FeeStructureService from "@/Service/Finance/FeeStructureService";
 export const useFeeStructureStore = defineStore("feeStructures", {
   state: () => ({
     feeStructures: [],
+    totalCount: 0,
+    page: 1,
+    pageSize: 10,
+    currentFilter: "",
+    currentOrderBy: "",
     selectedFeeStructure: null,
     loading: false,
     error: null,
@@ -17,16 +22,52 @@ export const useFeeStructureStore = defineStore("feeStructures", {
 
   actions: {
     async fetchFeeStructures() {
+      return this.fetchFeeStructurePage();
+    },
+
+    async fetchFeeStructurePage(params = {}) {
       this.loading = true;
       this.error = null;
-      const result = await FeeStructureService.getAll();
-      if (result.success) {
-        this.feeStructures = result.data || [];
-      } else {
-        this.error = result.errors;
+      try {
+        const result = await FeeStructureService.getAllFilter({
+          Page: params.Page ?? this.page,
+          PageSize: params.PageSize ?? this.pageSize,
+          Filter: params.Filter ?? this.currentFilter,
+          OrderBy: params.OrderBy ?? this.currentOrderBy,
+        });
+        if (result.success) {
+          this.feeStructures = result.data?.items || [];
+          this.totalCount = result.data?.count || 0;
+          this.page = params.Page ?? this.page;
+          this.pageSize = params.PageSize ?? this.pageSize;
+          if (params.Filter !== undefined) this.currentFilter = params.Filter;
+          if (params.OrderBy !== undefined)
+            this.currentOrderBy = params.OrderBy;
+        } else {
+          this.error = result.errors;
+        }
+        return result;
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
-      return result;
+    },
+
+    async fetchByAcademicPlan(academicPlanID) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const result = await FeeStructureService.getByAcademicPlan(
+          academicPlanID
+        );
+        if (result.success) this.feeStructures = result.data || [];
+        else {
+          this.feeStructures = [];
+          this.error = result.errors;
+        }
+        return result;
+      } finally {
+        this.loading = false;
+      }
     },
 
     async fetchFeeStructureBy(command) {

@@ -20,9 +20,15 @@
           <td>{{ assigScope.notes }}</td>
 
           <td>
-            <button @click="ShowInfo(assigScope)">معلومات</button>
-            <button @click="ShowUpdate(assigScope)">تحديث</button>
-            <button @click="ShowDelete(assigScope)">حذف</button>
+            <button v-if="canRead" @click="ShowInfo(assigScope)">
+              معلومات
+            </button>
+            <button v-if="canUpdate" @click="ShowUpdate(assigScope)">
+              تحديث
+            </button>
+            <button v-if="canDelete" @click="ShowDelete(assigScope)">
+              حذف
+            </button>
           </td>
         </tr>
       </tbody>
@@ -37,6 +43,9 @@ export default {
       type: Array,
       required: true,
     },
+    canRead: { type: Boolean, default: false },
+    canUpdate: { type: Boolean, default: false },
+    canDelete: { type: Boolean, default: false },
   },
   emits: ["ShowUpdate", "ShowDelete", "ShowInfo"],
   methods: {

@@ -56,7 +56,7 @@ class StudentEnrollmentRepositories {
     const response = await clsUtil.FeachRequset(
       `${baseUrl}/DeleteStudentEnrollment`,
       enApiType.delete,
-      param,
+      { EnrollmentID: param },
       "error"
     );
     return response;

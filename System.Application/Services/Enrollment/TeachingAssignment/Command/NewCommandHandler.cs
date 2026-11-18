@@ -26,9 +26,11 @@ namespace System.Application.Services.Enrollment.TeachingAssignment.Command
             if (await _repo.IsTeacherEnrolled(request.TeacherID, request.GroupID,request.SubjectID))
                 return TResult<string>.Fail(ApplicationExMsg.TeacherAlreadyEnrolledInGroup);
 
-            clsTeachingAssignment entity = _mapper.Map<NewTeachingAssignmentCommand, clsTeachingAssignment>(request);
-            entity.SetCreated(_currentUserService.UserId.ToString());
+            if (_currentUserService.UserId is not Guid userID)
+                return TResult<string>.Fail("المستخدم الحالي غير صالح");
 
+            clsTeachingAssignment entity = _mapper.Map<NewTeachingAssignmentCommand, clsTeachingAssignment>(request);
+            entity.SetCreated(userID.ToString());
             string entityID = await _repo.Add(entity);
 
             if (string.IsNullOrEmpty(entityID))

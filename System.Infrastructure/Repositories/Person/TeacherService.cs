@@ -1,12 +1,14 @@
 using Gridify;
 using Gridify.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using System.Application.Abstractions.Auth;
 using System.Application.Abstractions.Person;
 using System.Application.Common;
 using System.Application.Services.Person.Teacher.DTO;
 using System.Application.Services.Person.Teacher.Query;
 using System.Domain.Entities;
 using System.Domain.Enums.Person;
+using System.Infrastructure.Extensions.Security;
 using System.Infrastructure.Persistence;
 
 namespace System.Infrastructure.Repositories.Person
@@ -20,10 +22,12 @@ namespace System.Infrastructure.Repositories.Person
                 .AddMap(nameof(TeacherInfo.NationalNumber), teacher => teacher.NationalNumber);
 
         private readonly DbSet<clsTeacher> _dbSet;
+        private readonly ICurrentUserService _currentUser;
 
-        public TeacherService(AppDbContext appDbContext)
+        public TeacherService(AppDbContext appDbContext, ICurrentUserService currentUser)
         {
             _dbSet = appDbContext.Set<clsTeacher>();
+            _currentUser = currentUser;
         }
 
         private static IQueryable<TeacherInfo> ProjectTeacherInfo(
@@ -57,7 +61,8 @@ namespace System.Infrastructure.Repositories.Person
 
         private IQueryable<TeacherInfo> ProjectActiveTeachers() =>
             ProjectTeacherInfo(_dbSet.Where(teacher =>
-                teacher.DeletedBy == null && teacher.Person.DeletedBy == null));
+                teacher.DeletedBy == null && teacher.Person.DeletedBy == null)
+                .ApplyTeacherReadScope(_currentUser));
 
         public async Task<string> Add(clsTeacher entity)
         {
@@ -77,7 +82,8 @@ namespace System.Infrastructure.Repositories.Person
         public async Task<TeacherInfo?> GetBy(string param, enTeacherParamType paramType)
         {
             var teachers = _dbSet.Where(teacher =>
-                teacher.DeletedBy == null && teacher.Person.DeletedBy == null);
+                teacher.DeletedBy == null && teacher.Person.DeletedBy == null)
+                .ApplyTeacherReadScope(_currentUser);
 
             switch (paramType)
             {
@@ -101,7 +107,8 @@ namespace System.Infrastructure.Repositories.Person
 
         public async Task<clsTeacher?> GetEntityBy(string param, enTeacherParamType paramType)
         {
-            var teachers = _dbSet.Where(teacher => teacher.DeletedBy == null);
+            var teachers = _dbSet.Where(teacher => teacher.DeletedBy == null)
+                .ApplyTeacherReadScope(_currentUser);
 
             switch (paramType)
             {

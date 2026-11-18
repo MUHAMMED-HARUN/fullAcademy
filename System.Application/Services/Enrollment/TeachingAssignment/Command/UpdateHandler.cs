@@ -28,16 +28,23 @@ namespace System.Application.Services.Enrollment.TeachingAssignment.Command
             if (entity == null)
                 return TResult<string>.Fail(ApplicationExMsg.TeachingAssignmentNotFound);
 
-            if ((await _repo.IsTeacherEnrolled(request.TeacherID, request.GroupID, request.SubjectID)) && 
-                (entity.TeacherID != clsUtil.ToGuid(request.TeacherID) || entity.GroupID != clsUtil.ToGuid(request.GroupID)
-                || entity.SubjectID != clsUtil.ToGuid(request.SubjectID)))
+            if (await _repo.IsTeacherEnrolled(
+                request.TeacherID,
+                request.GroupID,
+                request.SubjectID,
+                entity.Id.ToString()) &&
+                (entity.TeacherID != clsUtil.ToGuid(request.TeacherID) ||
+                 entity.GroupID != clsUtil.ToGuid(request.GroupID) ||
+                 entity.SubjectID != clsUtil.ToGuid(request.SubjectID)))
             {
                 return TResult<string>.Fail(ApplicationExMsg.TeacherAlreadyEnrolledInGroup);
             }
 
-            _mapper.Map<UpdateTeachingAssignmentCommand, clsTeachingAssignment>(request, entity);
-            entity.SetModified(_currentUserService.UserId.ToString());
+            if (_currentUserService.UserId is not Guid userID)
+                return TResult<string>.Fail("المستخدم الحالي غير صالح");
 
+            _mapper.Map<UpdateTeachingAssignmentCommand, clsTeachingAssignment>(request, entity);
+            entity.SetModified(userID.ToString());
             await _repo.Update(entity);
 
             return TResult<string>.OK(string.Empty);

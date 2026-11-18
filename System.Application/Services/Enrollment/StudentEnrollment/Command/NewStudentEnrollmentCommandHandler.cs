@@ -1,4 +1,3 @@
-using AutoMapper;
 using MediatR;
 using System.Application.Abstractions.Auth;
 using System.Application.Abstractions.Enrollment;
@@ -13,22 +12,32 @@ namespace System.Application.Services.Enrollment.StudentEnrollment.Command
     {
         private readonly IStudentEnrollmentRepository _repo;
         private readonly ICurrentUserService _currentUserService;
-        private readonly IMapper _mapper;
-
-        public NewStudentEnrollmentCommandHandler(IStudentEnrollmentRepository repo, ICurrentUserService currentUser, IMapper mapper)
+        public NewStudentEnrollmentCommandHandler(IStudentEnrollmentRepository repo, ICurrentUserService currentUser)
         {
             _repo = repo;
             _currentUserService = currentUser;
-            _mapper = mapper;
         }
 
         public async Task<TResult<string>> Handle(NewStudentEnrollmentCommand request, CancellationToken cancellationToken)
         {
-            if (await _repo.IsStudentEnrolled(request.StudentID, request.GroupID))
+            var academicEnrollmentID = clsUtil.ToGuid(request.StudentAcademicEnrollmentID);
+            var groupID = clsUtil.ToGuid(request.GroupID);
+            var enrollmentContext = await _repo.GetEligibleAcademicEnrollmentForGroup(academicEnrollmentID, groupID, request.Date);
+            if (enrollmentContext == null)
+                return TResult<string>.Fail(ApplicationExMsg.StudentAcademicEnrollmentGroupNotEligible);
+
+            if (await _repo.IsAcademicEnrollmentAlreadyInGroup(academicEnrollmentID, groupID))
                 return TResult<string>.Fail(ApplicationExMsg.StudentAlreadyEnrolledInGroup);
 
-            clsStudentEnrollment entity = _mapper.Map<NewStudentEnrollmentCommand, clsStudentEnrollment>(request);
-            entity.SetCreated(_currentUserService.UserId.ToString());
+            if (_currentUserService.UserId is not Guid userID)
+                return TResult<string>.Fail("المستخدم الحالي غير صالح");
+
+            var entity = new clsStudentEnrollment(
+                clsUtil.ToGuid(enrollmentContext.StudentID),
+                groupID,
+                academicEnrollmentID,
+                request.Date);
+            entity.SetCreated(userID.ToString());
 
             string entityID = await _repo.Add(entity);
 

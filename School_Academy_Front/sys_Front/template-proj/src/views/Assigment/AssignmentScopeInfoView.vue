@@ -1,6 +1,9 @@
 <template>
   <div>
     <AssignmentScopeInfoList
+      :can-read="AuthStore.hasPermission('Can_Read_AssignmentScopeInfo')"
+      :can-update="AuthStore.hasPermission('Can_Update_AssignmentScopeInfo')"
+      :can-delete="AuthStore.hasPermission('Can_Delete_AssignmentScopeInfo')"
       @show-delete="OnDelete"
       @show-info="onShowInfo"
       @show-update="OnUpsert"
@@ -20,7 +23,12 @@
         :-data-req="AssignmentScopeinfoStore.selectedAssignmentScopeinfo"
       />
     </PopapComp>
-    <button @click="showUpsert = true">اضافة</button>
+    <button
+      v-if="AuthStore.hasPermission('Can_Create_AssignmentScopeInfo')"
+      @click="showUpsert = true"
+    >
+      اضافة
+    </button>
     <MessageComp :is-error="resultType" :msg="resultMessage" />
   </div>
 </template>
@@ -28,6 +36,7 @@
 <script>
 import PopapComp from "@/components/general/popapComp.vue";
 import { useStageInfoStore } from "@/store/Progress/StageInfoStore";
+import { useAuthStore } from "@/store/Auth/authStore";
 import { useAssignmentScopeinfoStore } from "@/store/Assignment/AssignmentScopeInfoStore";
 import MessageComp from "@/components/general/messageComp.vue";
 import TResult from "@/Generic/TResult";
@@ -47,6 +56,7 @@ export default {
   },
   data() {
     return {
+      AuthStore: useAuthStore(),
       StageInfoStore: useStageInfoStore(),
       AssignmentScopeinfoStore: useAssignmentScopeinfoStore(),
       AssignmentScopeStore: useAssignmentScopeStore(),

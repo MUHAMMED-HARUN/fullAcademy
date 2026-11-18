@@ -1,34 +1,55 @@
 import { toDateTimeInput } from "@/Generic/FinanceEnums";
 
 export default class PaymentMapper {
-  static mapUpsertToApi(dataSchema) {
+  static mapNewToApi(data) {
     return {
-      PaymentID: dataSchema.paymentID || undefined,
-      StudentInvoiceID: dataSchema.studentInvoiceID,
-      Amount: Number(dataSchema.amount),
-      PaymentDate: dataSchema.paymentDate,
-      PaymentMethod: Number(dataSchema.paymentMethod),
-      ReferenceNumber: dataSchema.referenceNumber || null,
-      Notes: dataSchema.notes || null,
+      StudentInvoiceID: data.studentInvoiceID,
+      Amount: Number(data.amount),
+      PaymentDate: data.paymentDate,
+      PaymentMethod: Number(data.paymentMethod),
+      ReferenceNumber: data.referenceNumber || null,
+      Notes: data.notes || null,
     };
   }
 
-  static MapFromApiDTO(DataReq) {
-    if (!DataReq) return null;
+  static mapReverseToApi(data) {
     return {
-      paymentID: DataReq.PaymentID,
-      studentInvoiceID: DataReq.StudentInvoiceID,
-      amount: DataReq.Amount,
-      paymentDate: toDateTimeInput(DataReq.PaymentDate),
-      paymentMethod: DataReq.PaymentMethod,
-      referenceNumber: DataReq.ReferenceNumber,
-      notes: DataReq.Notes,
+      PaymentID: data.paymentID,
+      Reason: data.reason,
     };
   }
 
-  static mapListApiToClass(dataList) {
-    if (!dataList) return [];
-    const items = Array.isArray(dataList) ? dataList : [];
-    return items.map((item) => this.MapFromApiDTO(item));
+  static MapFromApiDTO(data) {
+    if (!data) return null;
+    return {
+      paymentID: data.PaymentID,
+      studentInvoiceID: data.StudentInvoiceID,
+      studentAcademicEnrollmentID: data.StudentAcademicEnrollmentID,
+      studentName: data.StudentName,
+      academicPlanName: data.AcademicPlanName,
+      feeStructureName: data.FeeStructureName,
+      invoiceLabel: data.InvoiceLabel,
+      amount: data.Amount,
+      paymentDate: toDateTimeInput(data.PaymentDate),
+      paymentMethod: data.PaymentMethod,
+      referenceNumber: data.ReferenceNumber,
+      notes: data.Notes,
+      isReversed: Boolean(data.IsReversed),
+      reversalReason: data.ReversalReason,
+      reversedAt: data.ReversedAt ? toDateTimeInput(data.ReversedAt) : null,
+      reversedBy: data.ReversedBy,
+    };
+  }
+
+  static mapListApiToClass(data) {
+    return Array.isArray(data) ? data.map((item) => this.MapFromApiDTO(item)) : [];
+  }
+
+  static mapPagingApiToClass(paging) {
+    const source = paging?.Data ?? paging?.data ?? paging?.Items ?? paging?.items ?? [];
+    return {
+      items: this.mapListApiToClass(source),
+      count: paging?.Count ?? paging?.count ?? paging?.TotalCount ?? paging?.totalCount ?? 0,
+    };
   }
 }

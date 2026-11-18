@@ -47,4 +47,21 @@ export default class InstituteClassMapper {
       };
     });
   }
+
+  static mapLookupListApiToInstituteClass(dataList) {
+    if (!dataList) return [];
+    return dataList.map((item) => {
+      const className = item.ClassName || "";
+      const instituteName = item.InstituteName || "";
+      return {
+        instituteClassID: item.InstituteClassID,
+        instituteID: item.InstituteID,
+        instituteName,
+        classID: item.ClassID,
+        className,
+        classLevel: item.ClassLevel,
+        displayName: `${className} — ${instituteName}`,
+      };
+    });
+  }
 }

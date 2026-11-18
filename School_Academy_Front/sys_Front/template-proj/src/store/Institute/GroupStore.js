@@ -12,6 +12,7 @@ export const useGroupStore = defineStore("groups", {
     page: 1,
     pageSize: 10,
     totalCount: 0,
+    filter: "",
   }),
 
   getters: {
@@ -27,23 +28,33 @@ export const useGroupStore = defineStore("groups", {
       this.loading = true;
       this.error = null;
 
-      if (filter.Page !== undefined) this.page = filter.Page;
-      if (filter.PageSize !== undefined) this.pageSize = filter.PageSize;
+      if (filter.Page !== undefined)
+        this.page = Math.max(1, Number(filter.Page) || 1);
+      if (filter.PageSize !== undefined)
+        this.pageSize = Math.max(
+          1,
+          Math.min(100, Number(filter.PageSize) || 10)
+        );
+      if (Object.hasOwn(filter, "Filter")) this.filter = filter.Filter || "";
 
-      const queryParams = {
-        Page: this.page,
-        PageSize: this.pageSize,
-        ...filter,
-      };
-      const result = await Group_service.getAll(queryParams);
-      if (result.success) {
-        this.groups = result.data?.items || [];
-        this.totalCount = result.data?.count || 0;
-      } else {
-        this.error = result.errors;
+      try {
+        const result = await Group_service.getAll({
+          Page: this.page,
+          PageSize: this.pageSize,
+          Filter: this.filter,
+        });
+        if (result.success) {
+          this.groups = result.data?.items || [];
+          this.totalCount = result.data?.count || 0;
+        } else {
+          this.groups = [];
+          this.totalCount = 0;
+          this.error = result.errors;
+        }
+        return result;
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
-      return result;
     },
 
     async setPage(newPage) {
@@ -63,72 +74,77 @@ export const useGroupStore = defineStore("groups", {
       this.loading = true;
       this.error = null;
 
-      const result = await Group_service.getBy(command);
-
-      if (result.success) {
-        this.selectedGroup = result.data;
-      } else {
-        this.error = result.errors;
+      try {
+        const result = await Group_service.getBy(command);
+        if (result.success) {
+          this.selectedGroup = result.data;
+        } else {
+          this.selectedGroup = null;
+          this.error = result.errors;
+        }
+        return result;
+      } finally {
+        this.loading = false;
       }
-
-      this.loading = false;
-      return result;
     },
-    async GetGroupsByTeacherID(teacherID) {
+    async fetchMyTeachingGroups() {
       this.loading = true;
       this.error = null;
-      const result = await Group_service.GetGroupsByTeacher(teacherID);
-
-      if (result.success) {
-        this.groups = result.data;
-      } else {
-        this.error = result.errors;
+      try {
+        const result = await Group_service.getMyTeachingGroups();
+        if (result.success) {
+          this.groups = result.data?.items || [];
+          this.totalCount = result.data?.count || 0;
+        } else {
+          this.groups = [];
+          this.totalCount = 0;
+          this.error = result.errors;
+        }
+        return result;
+      } finally {
+        this.loading = false;
       }
-
-      this.loading = false;
-      return result;
     },
     async addGroup(payload) {
       this.loading = true;
       this.error = null;
 
-      const result = await Group_service.create(payload);
-      if (result.success) {
-        await this.fetchGroups();
-      } else {
-        this.error = result.errors;
+      try {
+        const result = await Group_service.create(payload);
+        if (result.success) await this.fetchGroups();
+        else this.error = result.errors;
+        return result;
+      } finally {
+        this.loading = false;
       }
-
-      this.loading = false;
-      return result;
     },
 
     async updateGroup(payload) {
       this.loading = true;
       this.error = null;
 
-      const result = await Group_service.update(payload);
-      if (result.success) {
-        await this.fetchGroups();
-      } else {
-        this.error = result.errors;
+      try {
+        const result = await Group_service.update(payload);
+        if (result.success) await this.fetchGroups();
+        else this.error = result.errors;
+        return result;
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
-      return result;
     },
 
     async DeleteGroup(payload) {
       this.loading = true;
       this.error = null;
 
-      const result = await Group_service.delete(payload);
-      if (result.success) {
-        await this.fetchGroups();
-      } else {
-        this.error = result.errors;
+      try {
+        const result = await Group_service.delete(payload);
+        if (result.success) await this.fetchGroups();
+        else this.error = result.errors;
+        return result;
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
-      return result;
     },
     clearSelectedGroup() {
       this.selectedGroup = null;

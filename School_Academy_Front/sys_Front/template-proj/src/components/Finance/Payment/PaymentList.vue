@@ -14,6 +14,7 @@
           <th>المبلغ</th>
           <th>تاريخ الدفع</th>
           <th>طريقة الدفع</th>
+          <th>الحالة</th>
           <th>المرجع</th>
           <th>ملاحظات</th>
         </tr>
@@ -31,6 +32,10 @@
           <td>{{ item.amount }}</td>
           <td>{{ item.paymentDate }}</td>
           <td>{{ getEnumLabel(paymentMethodOptions, item.paymentMethod) }}</td>
+          <td>
+            <span v-if="item.isReversed" class="text-amber-700">معكوسة</span>
+            <span v-else>سارية</span>
+          </td>
           <td>{{ item.referenceNumber }}</td>
           <td>{{ item.notes }}</td>
         </tr>

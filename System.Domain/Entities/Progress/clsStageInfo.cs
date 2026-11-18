@@ -1,9 +1,8 @@
 using System.Domain.Entities.BaseClass;
-using System.Domain.Entities.Progress;
 using System.Domain.Enums.Person;
 using System.Domain.Exceptions;
 
-namespace System.Domain.Entities
+namespace System.Domain.Entities.Progress
 {
     public class clsStageInfo : clsBaseClass
     {

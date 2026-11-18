@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Application.Services.Assignment.AssignmentScope.DTO;
 using System.Application.Services.Enrollment.StudentEnrollment.DTO;
 using System.Domain.Entities;
+using System.Domain.Entities.AcademicPlan;
+using System.Domain.Entities.Enrollment;
 using System.Domain.Entities.Address;
 using System.Domain.Entities.Attendance;
 using System.Domain.Entities.BaseClass;
@@ -43,6 +45,8 @@ namespace System.Infrastructure.Persistence
         public DbSet<clsInstituteClass> InstituteClasses{ get; set; }
         public DbSet<clsGroup> Groups { get; set; }
         public DbSet<clsStudentEnrollment> StudentEnrollments { get; set; }
+        public DbSet<clsStudentAcademicEnrollment> StudentAcademicEnrollments { get; set; }
+        public DbSet<clsStudentAcademicEnrollmentItem> StudentAcademicEnrollmentItems { get; set; }
         public DbSet<clsTeachingAssignment> TeachingAssignments{ get; set; }
         public DbSet<clsSession> Sessions{ get; set; }
         public DbSet<clsStage> Stages{ get; set; }
@@ -58,10 +62,15 @@ namespace System.Infrastructure.Persistence
         // Attendance
                 public DbSet<clsAttendance> Attendances { get; set; }
 
+        // AcademicPlan
+        public DbSet<clsAcademicPlan> AcademicPlans { get; set; }
+        public DbSet<clsAcademicPlanItem> AcademicPlanItems { get; set; }
+
         // Finance
         public DbSet<clsFeeStructure> FeeStructures { get; set; }
         public DbSet<clsStudentInvoice> StudentInvoices { get; set; }
         public DbSet<clsPayment> Payments { get; set; }
+        public DbSet<clsPaymentReversal> PaymentReversals { get; set; }
 
         // views
         public DbSet<StudentEnrollmentInfoView> vw_StudentEnrollmentInfo { get; set; }

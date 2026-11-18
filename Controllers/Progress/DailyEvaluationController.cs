@@ -1,13 +1,15 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Application.Services.Progress.DailyEvaluation.Query;
 using System.Application.Services.Progress.DailyEvaluation.Command;
 
-namespace School_Academy.Controllers.Institute
+namespace School_Academy.Controllers.Progress
 {
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DailyEvaluationController : ControllerBase
     {
 
@@ -17,6 +19,7 @@ namespace School_Academy.Controllers.Institute
             _mediator = mediator;
         }
         [HttpPost("NewDailyEvaluation")]
+        [Authorize(Policy = "Can_Create_DailyEvaluation")]
         public async Task<IActionResult> Add([FromBody] NewDailyEvaluationCommand command)
         {
             var result = await _mediator.Send(command);
@@ -30,6 +33,7 @@ namespace School_Academy.Controllers.Institute
         }
 
         [HttpPut("UpdateDailyEvaluation")]
+        [Authorize(Policy = "Can_Update_DailyEvaluation")]
         public async Task<IActionResult> Update([FromBody] UpdateDailyEvaluationCommand command)
         {
             var result = await _mediator.Send(command);
@@ -43,6 +47,7 @@ namespace School_Academy.Controllers.Institute
         }
 
         [HttpDelete("DeleteDailyEvaluation")]
+        [Authorize(Policy = "Can_Delete_DailyEvaluation")]
         public async Task<IActionResult> Delete([FromBody] DeleteDailyEvaluationCommand command)
         {
             var result = await _mediator.Send(command);
@@ -56,6 +61,7 @@ namespace School_Academy.Controllers.Institute
         }
 
         [HttpGet("GetDailyEvaluationList")]
+        [Authorize(Policy = "Can_Read_DailyEvaluation")]
         public async Task<IActionResult> GetList([FromQuery] GetAllDailyEvaluationQuery query)
         {
             var result = await _mediator.Send(query);
@@ -69,6 +75,7 @@ namespace School_Academy.Controllers.Institute
         }
 
         [HttpGet("GetDailyEvaluationBy")]
+        [Authorize(Policy = "Can_Read_DailyEvaluation")]
         public async Task<IActionResult> GetBy([FromQuery]GetDailyEvaluationByQuery query )
         {
                    
@@ -82,6 +89,7 @@ namespace School_Academy.Controllers.Institute
             return Ok(result);
         }
         [HttpGet("GetlastDailyEvaluation")]
+        [Authorize(Policy = "Can_Read_DailyEvaluation")]
 
         public async Task<IActionResult> GetlastDailyEvaluation([FromQuery] GetlastDailyEvaluationQuery query)
         {
@@ -95,8 +103,10 @@ namespace School_Academy.Controllers.Institute
 
             return Ok(result);
         }
+        [HttpGet("IsExistDailyEvaluationBy")]
         [HttpGet("IsExistDailyEvaluationeBy")]
-        public async Task<IActionResult> IsExistBy(IsExistDailyEvaluationByQuery query)
+        [Authorize(Policy = "Can_Read_DailyEvaluation")]
+        public async Task<IActionResult> IsExistBy([FromQuery] IsExistDailyEvaluationByQuery query)
         {
 
             var result = await _mediator.Send(query);

@@ -1,9 +1,18 @@
 export default class StudentStageMapper {
-  static mapUpsertToApi(dataSchema) {
+  static mapCreateToApi(dataSchema) {
+    return {
+      StudentAcademicEnrollmentID: dataSchema.studentAcademicEnrollmentID,
+      StageID: dataSchema.stageID,
+      StudentStageState: Number(dataSchema.studentStageState),
+      StudentStageDate: dataSchema.studentStageDate,
+    };
+  }
+
+  static mapUpdateToApi(dataSchema) {
     return {
       StudentStageID: dataSchema.studentStageID,
-      StageID: dataSchema.stageID,
-      EnrollmentStudentID: dataSchema.enrollmentStudentID,
+      StudentStageState: Number(dataSchema.studentStageState),
+      StudentStageDate: dataSchema.studentStageDate,
     };
   }
 
@@ -13,10 +22,11 @@ export default class StudentStageMapper {
       studentStageID: DataReq.StudentStageID,
       stageID: DataReq.StageID,
       stageName: DataReq.StageName,
-      enrollmentStudentID: DataReq.EnrollmentStudentID,
+      studentAcademicEnrollmentID: DataReq.StudentAcademicEnrollmentID,
+      academicPlanName: DataReq.AcademicPlanName,
       studentName: DataReq.StudentName,
-      groupName: DataReq.GroupName,
       studentStageState: DataReq.StudentStageState,
+      studentStageStateValue: Number(DataReq.StudentStageStateValue),
       studentStageDate: DataReq.StudentStageDate,
     };
   }
@@ -28,10 +38,11 @@ export default class StudentStageMapper {
         studentStageID: list.StudentStageID,
         stageID: list.StageID,
         stageName: list.StageName,
-        enrollmentStudentID: list.EnrollmentStudentID,
+        studentAcademicEnrollmentID: list.StudentAcademicEnrollmentID,
+        academicPlanName: list.AcademicPlanName,
         studentName: list.StudentName,
-        groupName: list.GroupName,
         studentStageState: list.StudentStageState,
+        studentStageStateValue: Number(list.StudentStageStateValue),
         studentStageDate: list.StudentStageDate,
       };
     });

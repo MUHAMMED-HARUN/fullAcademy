@@ -26,6 +26,16 @@
               كود المجموعة
             </th>
             <th
+              class="px-5 py-3 text-start text-xs font-medium text-gray-500 dark:text-gray-400"
+            >
+              الصف
+            </th>
+            <th
+              class="px-5 py-3 text-start text-xs font-medium text-gray-500 dark:text-gray-400"
+            >
+              المعهد
+            </th>
+            <th
               class="px-5 py-3 text-end text-xs font-medium text-gray-500 dark:text-gray-400"
             >
               إجراءات
@@ -53,9 +63,16 @@
             <td class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">
               {{ group.code }}
             </td>
+            <td class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">
+              {{ group.className }}
+            </td>
+            <td class="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">
+              {{ group.instituteName }}
+            </td>
             <td class="py-3 pe-5 text-end">
               <div class="flex justify-end gap-1">
                 <button
+                  v-if="canRead"
                   type="button"
                   class="rounded-lg px-2.5 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5"
                   @click="$emit('show-info-group', group)"
@@ -63,6 +80,7 @@
                   معلومات
                 </button>
                 <button
+                  v-if="canUpdate"
                   type="button"
                   class="rounded-lg px-2.5 py-1.5 text-xs font-medium text-brand-500 transition-colors hover:bg-brand-50 dark:text-brand-400 dark:hover:bg-brand-500/10"
                   @click="$emit('show-update-group', group)"
@@ -70,8 +88,20 @@
                   تحديث
                 </button>
                 <button
+                  v-if="canDelete"
                   type="button"
+                  :disabled="group.hasActiveRelationships"
+                  :title="
+                    group.hasActiveRelationships
+                      ? 'لا يمكن حذف مجموعة مرتبطة بعضويات أو تكليفات نشطة'
+                      : 'حذف المجموعة'
+                  "
                   class="rounded-lg px-2.5 py-1.5 text-xs font-medium text-red-500 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10"
+                  :class="
+                    group.hasActiveRelationships
+                      ? 'cursor-not-allowed opacity-50'
+                      : ''
+                  "
                   @click="$emit('show-delete-group', group)"
                 >
                   حذف
@@ -96,6 +126,18 @@ const props = defineProps({
   selectedIds: {
     type: Array,
     default: () => [],
+  },
+  canRead: {
+    type: Boolean,
+    default: false,
+  },
+  canUpdate: {
+    type: Boolean,
+    default: false,
+  },
+  canDelete: {
+    type: Boolean,
+    default: false,
   },
 });
 

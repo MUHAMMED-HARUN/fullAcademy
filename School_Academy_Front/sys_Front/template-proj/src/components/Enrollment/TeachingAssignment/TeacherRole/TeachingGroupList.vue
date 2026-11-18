@@ -11,7 +11,7 @@
       </div>
       <div>
         <label>الصف</label>
-        <label>{{ enroll.calssName }}</label>
+        <label>{{ enroll.className }}</label>
       </div>
       <div>
         <label>المستوى</label>

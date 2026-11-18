@@ -8,7 +8,7 @@ namespace System.Application.Abstractions.Assignment
         Task<string> Add(clsAssignmentScope entity);
         Task<bool> Update(clsAssignmentScope entity);
         Task<List<AssignmentScopeInfo>> GetList();
-        Task<List<AssignmentScopeInfo>> GetCanNominate(string studentEnrollmentID);
+        Task<List<AssignmentScopeInfo>> GetCanNominate(string studentAcademicEnrollmentID);
         Task<AssignmentScopeInfo> GetBy(Guid id);
         Task<clsAssignmentScope> GetEntityBy(Guid id);
         Task<bool> IsExistBy(Guid id);

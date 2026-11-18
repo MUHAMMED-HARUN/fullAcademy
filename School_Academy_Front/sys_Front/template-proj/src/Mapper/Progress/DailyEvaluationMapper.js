@@ -1,10 +1,20 @@
-export default class DailyEvaluationMapperMapper {
+const levelTypeValues = Object.freeze({
+  "سيء جدا": 0,
+  "سيئ جدا": 0,
+  سيء: 1,
+  جيد: 2,
+  جبد: 2,
+  "جيد جدا": 3,
+  ممتاز: 4,
+});
+
+export default class DailyEvaluationMapper {
   static mapUpsertToApi(dataSchema) {
     return {
       DailyEvaluationID: dataSchema.dailyEvaluationID,
       To: dataSchema.to,
       StageInfoID: dataSchema.stageInfoID,
-      StudentEnrollmentID: dataSchema.studentEnrollmentID,
+      StudentAcademicEnrollmentID: dataSchema.studentAcademicEnrollmentID,
       Date: dataSchema.date,
       LevelType: dataSchema.levelType,
     };
@@ -14,15 +24,18 @@ export default class DailyEvaluationMapperMapper {
     if (!DataReq) return null;
     return {
       dailyEvaluationID: DataReq.DailyEvaluationID,
-      studentEnrollmentID: DataReq.StudentEnrollmentID,
+      studentAcademicEnrollmentID: DataReq.StudentAcademicEnrollmentID,
       studentName: DataReq.StudentName,
-      groupName: DataReq.GroupName,
-      groupID: DataReq.GroupID,
+      academicPlanName: DataReq.AcademicPlanName,
       from: DataReq.From,
       to: DataReq.To,
       date: DataReq.Date,
       stageInfoID: DataReq.StageInfoID,
-      levelType: DataReq.LevelType,
+      stageInfoName: DataReq.StageInfoName,
+      levelType: Number.isInteger(DataReq.LevelType)
+        ? DataReq.LevelType
+        : levelTypeValues[DataReq.LevelType] ?? 3,
+      levelTypeName: DataReq.LevelTypeName || DataReq.LevelType,
     };
   }
 
@@ -37,15 +50,18 @@ export default class DailyEvaluationMapperMapper {
     return items.map((list) => {
       return {
         dailyEvaluationID: list.DailyEvaluationID,
-        studentEnrollmentID: list.StudentEnrollmentID,
+        studentAcademicEnrollmentID: list.StudentAcademicEnrollmentID,
         studentName: list.StudentName,
-        groupName: list.GroupName,
-        groupID: list.GroupID,
+        academicPlanName: list.AcademicPlanName,
         from: list.From,
         to: list.To,
         date: list.Date,
         stageInfoID: list.StageInfoID,
-        levelType: list.LevelType,
+        stageInfoName: list.StageInfoName,
+        levelType: Number.isInteger(list.LevelType)
+          ? list.LevelType
+          : levelTypeValues[list.LevelType] ?? 3,
+        levelTypeName: list.LevelTypeName || list.LevelType,
       };
     });
   }

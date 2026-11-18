@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Application.Services.Institute.Institute.Command;
 using System.Application.Services.Institute.Institute.Query;
@@ -9,6 +10,7 @@ namespace School_Academy.Controllers.Institute
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProgramController : ControllerBase
     {
 
@@ -18,6 +20,7 @@ namespace School_Academy.Controllers.Institute
             _mediator = mediator;
         }
         [HttpPost("NewProgram")]
+        [Authorize(Policy = "Can_Create_Program")]
         public async Task<IActionResult> Add([FromBody] NewProgramCommand command)
         {
             var result = await _mediator.Send(command);
@@ -31,6 +34,7 @@ namespace School_Academy.Controllers.Institute
         }
 
         [HttpPut("UpdateProgram")]
+        [Authorize(Policy = "Can_Update_Program")]
         public async Task<IActionResult> Update([FromBody] UpdateProgramCommand command)
         {
             var result = await _mediator.Send(command);
@@ -44,6 +48,7 @@ namespace School_Academy.Controllers.Institute
         }
 
         [HttpDelete("DeleteProgram")]
+        [Authorize(Policy = "Can_Delete_Program")]
         public async Task<IActionResult> Delete([FromBody] DeleteProgramCommand command)
         {
             var result = await _mediator.Send(command);
@@ -57,6 +62,7 @@ namespace School_Academy.Controllers.Institute
         }
 
         [HttpGet("GetProgramList")]
+        [Authorize(Policy = "Can_Read_Program")]
         public async Task<IActionResult> GetList()
         {
             var query = new GetAllProgramQuery();
@@ -71,6 +77,7 @@ namespace School_Academy.Controllers.Institute
         }
 
         [HttpGet("GetProgramBy")]
+        [Authorize(Policy = "Can_Read_Program")]
         public async Task<IActionResult> GetBy([FromQuery]GetProgramByQuery query )
         {
                    
@@ -84,6 +91,7 @@ namespace School_Academy.Controllers.Institute
             return Ok(result);
         }
         [HttpGet("IsExistProgrameBy")]
+        [Authorize(Policy = "Can_Read_Program")]
         public async Task<IActionResult> IsExistBy(IsExistProgramByQuery query)
         {
 
